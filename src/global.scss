@@ -33,7 +33,6 @@ $colors: (
   dark:       #222
 );
 
-ion-menu{
-    --width: 100%;
-    --background: primary;
-  }
+ion-menu ion-content {
+  --background: var(--ion-item-background, var(--ion-background-color, #488aff));
+}

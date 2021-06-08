@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "id": "1",
+      "name": "Hay Uno Repetido",
+      "patient": "Cosme Fulanito",
+      "aciertos": "3"
+    },
+    {
+      "id": "2",
+      "name": "Hay Uno Repetido",
+      "patient": "Tatiana Delsoglio",
+      "aciertos": "0"
+    }
+  ]
+}
