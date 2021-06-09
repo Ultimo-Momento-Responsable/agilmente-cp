@@ -7,12 +7,20 @@
 <ion-content>
   <ion-card *ngFor="let result of results">
     <ion-card-header>
-      <ion-card-subtitle>{{result.name}}</ion-card-subtitle>
+      <ion-card-subtitle>{{result.date}}</ion-card-subtitle>
       <ion-card-title>{{result.patient}}</ion-card-title>
     </ion-card-header>
-  
     <ion-card-content>
-      Aciertos {{result.aciertos}}
+      <ion-label><p>Juego: {{result.name}}</p></ion-label>
+      <ion-label><p>Tiempo de juego: {{result.totalTime}}</p></ion-label>
+      <ion-chip color="success">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <ion-label>Aciertos: {{result.successes}}</ion-label>
+      </ion-chip>
+      <ion-chip color="danger">
+        <ion-icon name="close-circle"></ion-icon>
+        <ion-label>Errores: {{result.mistakes}}</ion-label>
+      </ion-chip>
     </ion-card-content>
   </ion-card>
 </ion-content>

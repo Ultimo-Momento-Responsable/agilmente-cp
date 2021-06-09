@@ -4,13 +4,21 @@
       "id": "1",
       "name": "Hay Uno Repetido",
       "patient": "Cosme Fulanito",
-      "aciertos": "3"
+      "successes": "3",
+      "mistakes": "4",
+      "timeBetweenSuccesses": ["3","4","5"],
+      "date": "19/05/2020 14:30:46",
+      "totalTime": "01:46"
     },
     {
       "id": "2",
       "name": "Hay Uno Repetido",
-      "patient": "Tatiana Delsoglio",
-      "aciertos": "0"
+      "patient": "Guy Incognito",
+      "successes": "3",
+      "mistakes": "4",
+      "timeBetweenSuccesses": ["3","4","5"],
+      "date": "19/05/2020 14:30:46",
+      "totalTime": "01:46"
     }
   ]
 }
