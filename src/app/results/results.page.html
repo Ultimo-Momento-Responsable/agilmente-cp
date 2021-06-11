@@ -11,6 +11,14 @@
       <ion-card-title>{{result.patient}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <ion-chip *ngIf="result.canceled==false" color="success">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <ion-label>Completo</ion-label>
+      </ion-chip>
+      <ion-chip *ngIf="result.canceled==true" color="danger">
+        <ion-icon name="close-circle"></ion-icon>
+        <ion-label>Abandonado</ion-label>
+      </ion-chip>
       <ion-label><p>Juego: {{result.name}}</p></ion-label>
       <ion-label><p>Tiempo de juego: {{result.totalTime}}</p></ion-label>
       <ion-chip color="success">

@@ -24,13 +24,19 @@ export class PatientsPage implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewWillEnter() {
+    // Guardamos los objetos obtenidos por getPatients() en nuestra variable patients
     this.getPatients().subscribe(res =>{
-        console.log("Res",res)
-        this.patients = res;
+      this.patients = res;
     });
   }
 
+  /**
+  * getPatients()
+  * @returns {Observable} - Lee los datos del JSON y devuelve los objetos bajo 'patients'
+  */
   getPatients(){
     return this.http
     .get("assets/patients.json")

@@ -8,8 +8,9 @@ export class AppComponent {
   public appPages = [
     { title: 'Mis Pacientes', url: '/patients', icon: 'body' },
     { title: 'Resultados', url: '/results', icon: 'clipboard' },
-    { title: 'Planes de Juegos', url: '/', icon: 'phone-portrait' },
+    { title: 'Planes de Juegos', url: '/plan', icon: 'phone-portrait' },
+    { title: 'Cerrar Sesión', url: '/logout', icon: 'log-out' }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  
   constructor() {}
 }

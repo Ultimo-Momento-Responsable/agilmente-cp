@@ -24,13 +24,19 @@ export class ResultsPage implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewWillEnter() {
+    // Guardamos los objetos obtenidos por getresults() en nuestra variable results
     this.getResults().subscribe(res =>{
-        console.log("Res",res)
-        this.results = res;
+      this.results = res;
     });
   }
 
+  /**
+  * getResults()
+  * @returns {Observable} - Lee los datos del JSON y devuelve los objetos bajo 'results'
+  */
   getResults(){
     return this.http
     .get("assets/results.json")
