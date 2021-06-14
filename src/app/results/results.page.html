@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color=primary>
+    <ion-title>Resultados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let result of results">
+    <ion-card-header>
+      <ion-card-subtitle>{{result.date}}</ion-card-subtitle>
+      <ion-card-title>{{result.patient}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-chip *ngIf="result.canceled==false" color="success">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <ion-label>Completo</ion-label>
+      </ion-chip>
+      <ion-chip *ngIf="result.canceled==true" color="danger">
+        <ion-icon name="close-circle"></ion-icon>
+        <ion-label>Abandonado</ion-label>
+      </ion-chip>
+      <ion-label><p>Juego: {{result.name}}</p></ion-label>
+      <ion-label><p>Tiempo de juego: {{result.totalTime}}</p></ion-label>
+      <ion-chip color="success">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <ion-label>Aciertos: {{result.successes}}</ion-label>
+      </ion-chip>
+      <ion-chip color="danger">
+        <ion-icon name="close-circle"></ion-icon>
+        <ion-label>Errores: {{result.mistakes}}</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

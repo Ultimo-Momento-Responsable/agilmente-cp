@@ -1,0 +1,28 @@
+{
+  "patients": [
+    {
+      "id": "1",
+      "name": "Cosme Fulanito",
+      "avatar": "default",
+      "domains": ["Atencional", "Ejecutivo", "Inteligencia"],
+      "age": "22",
+      "comment": "Paciente con problemas atencionales."
+    },
+    {
+      "id": "2",
+      "name": "Guy Incognito",
+      "avatar": "default",
+      "domains": ["Atencional", "Ejecutivo"],
+      "age": "48",
+      "comment": "Un buen muchacho."
+    },
+    {
+      "id": "3",
+      "name": "Pepe Pateatraseros",
+      "avatar": "default",
+      "domains": ["Atencional", "Ejecutivo"],
+      "age": "48",
+      "comment": "Un buen muchacho."
+    }
+  ]
+}  
