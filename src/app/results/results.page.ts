@@ -27,7 +27,6 @@ export class ResultsPage implements OnInit {
   ngOnInit() { }
 
   ionViewWillEnter() {
-    // Guardamos los objetos obtenidos por getresults() en nuestra variable results
     this.getResults().subscribe(res =>{
       this.results = res;
     });
