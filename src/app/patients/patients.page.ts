@@ -27,7 +27,6 @@ export class PatientsPage implements OnInit {
   ngOnInit() { }
 
   ionViewWillEnter() {
-    // Guardamos los objetos obtenidos por getPatients() en nuestra variable patients
     this.getPatients().subscribe(res =>{
       this.patients = res;
     });
