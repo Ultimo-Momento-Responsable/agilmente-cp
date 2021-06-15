@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ResultsPage
+  },  {
+    path: 'results-graphs',
+    loadChildren: () => import('./results-graphs/results-graphs.module').then( m => m.ResultsGraphsPageModule)
   }
+
 ];
 
 @NgModule({

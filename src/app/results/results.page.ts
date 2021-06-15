@@ -3,14 +3,20 @@ import { HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 export interface Result {
-  id: string;
-  name: string;
-  patient: string;
-  aciertos: string;
+  id: number,
+  name: string,
+  patient: string,
+  successes: number,
+  mistakes: number,
+  timeBetweenSuccesses: number[],
+  date: string,
+  totalTime: number,
+  canceled: boolean
 }
 
 export interface RootObject {
   results: Result[];
+
 }
 
 @Component({
@@ -20,8 +26,8 @@ export interface RootObject {
 })
 
 export class ResultsPage implements OnInit {
-  results: Array<any>;
 
+  results: Result[];
   constructor(private http: HttpClient) { }
 
   ngOnInit() { }
@@ -29,6 +35,9 @@ export class ResultsPage implements OnInit {
   ionViewWillEnter() {
     this.getResults().subscribe(res =>{
       this.results = res;
+      this.results.forEach(r => {
+        
+      })
     });
   }
 
