@@ -13,4 +13,8 @@ export class ResultsApiService {
   getResults(): Observable<any>{
     return this.http.get(`http://localhost:8080/${this.entity}`);
   }
+
+  getResultById(id: number): Observable<any>{
+    return this.http.get(`http://localhost:8080/${this.entity}/${id}`);
+  }
 }
