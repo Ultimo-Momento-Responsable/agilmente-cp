@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { ResultsApiService } from './services/results-api.service';
 
 export interface Result {
   id: number,
@@ -14,11 +15,6 @@ export interface Result {
   canceled: boolean
 }
 
-export interface RootObject {
-  results: Result[];
-
-}
-
 @Component({
   selector: 'app-results',
   templateUrl: './results.page.html',
@@ -27,31 +23,16 @@ export interface RootObject {
 
 export class ResultsPage implements OnInit {
 
-  results: Result[];
-  constructor(private http: HttpClient) { }
+  results: any[];
+  constructor(private http: HttpClient,
+    private resultsApiService: ResultsApiService) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
-    this.getResults().subscribe(res =>{
-      this.results = res;
-      this.results.forEach(r => {
-        
-      })
+    this.resultsApiService.getResults().subscribe(res =>{
+      this.results = res.content;
     });
   }
 
-  /**
-  * getResults()
-  * @returns {Observable} - Lee los datos del JSON y devuelve los objetos bajo 'results'
-  */
-  getResults(){
-    return this.http
-    .get("assets/results.json")
-    .pipe(
-      map((res:any) => {
-        return res.results;
-      })
-    )
-  }
 }
