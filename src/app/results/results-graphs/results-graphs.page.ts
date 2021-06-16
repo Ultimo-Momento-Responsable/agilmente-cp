@@ -27,23 +27,19 @@ export class ResultsGraphsPage {
     @ViewChild('lineTimeBetweenSuccessesCanvas') private lineTimeBetweenSuccessesCanvas: ElementRef;
     id: number = 1;
     result: any;
-    resultsSuccesses: number[];
-    resultsMistakes: number[];
-    resultsLabels: string[];
+    results: any;
     lineCumulative: any;
     lineTimeBetweenSuccesses: any;
     constructor(private resultsApiService: ResultsApiService) { }
 
     ionViewWillEnter() {
-        this.resultsApiService.getResultById(this.id).subscribe(res => {
-            this.result = res.content;
+        this.resultsApiService.getResults().subscribe(res => {
+            this.results = res.content;
             this.createLineCumulative();
         });
 
-        this.resultsApiService.getResults().subscribe(res => {
-            this.resultsSuccesses = res.content.map(r => r.successes);
-            this.resultsMistakes = res.content.map(r => r.mistakes);
-            this.resultsLabels = res.content.map((r, i) => `Partida ${i}`);
+        this.resultsApiService.getResultById(this.id).subscribe(res => {
+            this.result = res;
             this.createLineTimeBetweenSuccesses();
         });
     }
@@ -53,13 +49,11 @@ export class ResultsGraphsPage {
         this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
             type: 'line',
             data: {
-                labels: this.resultsLabels,
+                labels: this.results.map((r, i) => `Partida ${i + 1}`),
                 datasets: [{
                     label: ' Aciertos',
-                    fill: false,
                     backgroundColor: 'rgba(102, 195, 95, 0.4)',
                     borderColor: 'rgba(102, 195, 95, 1)',
-                    borderCapStyle: 'butt',
                     borderDash: [],
                     borderDashOffset: 0.0,
                     borderJoinStyle: 'miter',
@@ -72,11 +66,10 @@ export class ResultsGraphsPage {
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 10,
-                    data: this.resultsSuccesses,
+                    data: this.results.map(r => r.mistakes),
                     spanGaps: false,
                 }, {
                     label: 'Errores',
-                    fill: false,
                     backgroundColor: 'rgba(195, 95, 95, 0.4)',
                     borderColor: 'rgba(195, 95, 95, 1)',
                     borderCapStyle: 'butt',
@@ -92,7 +85,7 @@ export class ResultsGraphsPage {
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 10,
-                    data: this.resultsMistakes,
+                    data: this.results.map(r => r.successes),
                     spanGaps: false,
                 }
                 ]
@@ -104,7 +97,7 @@ export class ResultsGraphsPage {
         this.lineTimeBetweenSuccesses = new Chart(this.lineTimeBetweenSuccessesCanvas.nativeElement, {
             type: 'line',
             data: {
-                labels: this.result.map((r, i) => `Nivel ${i}`),
+                labels: this.result.timeBetweenSuccesses.map((r, i) => `Nivel ${i + 1}`),
                 datasets: [{
                     label: 'Tiempo (segundos)',
                     fill: false,
