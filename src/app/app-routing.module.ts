@@ -14,10 +14,6 @@ const routes: Routes = [
   {
     path: 'patients',
     loadChildren: () => import('./patients/patients.module').then( m => m.PatientsPageModule)
-  },
-  {
-    path: 'results-graphs',
-    loadChildren: () => import('./results/results-graphs/results-graphs.module').then( m => m.ResultsGraphsPageModule)
   }
 
 ];

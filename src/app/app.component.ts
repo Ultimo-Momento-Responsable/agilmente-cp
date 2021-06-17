@@ -9,8 +9,7 @@ export class AppComponent {
     { title: 'Mis Pacientes', url: '/patients', icon: 'body' },
     { title: 'Resultados', url: '/results', icon: 'clipboard' },
     { title: 'Planes de Juegos', url: '/plan', icon: 'phone-portrait' },
-    { title: 'Cerrar Sesión', url: '/logout', icon: 'log-out' },
-    { title: 'Resultados (Graph)', url: '/results/results-graphs', icon: 'clipboard'}
+    { title: 'Cerrar Sesión', url: '/logout', icon: 'log-out' }
   ];
   
   constructor() {}
