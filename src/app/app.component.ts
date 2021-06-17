@@ -7,10 +7,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   public appPages = [
     { title: 'Mis Pacientes', url: '/patients', icon: 'body' },
-    { title: 'Resultados', url: '/results', icon: 'clipboard',
-    subpages: [{
-      title: 'Resultados (Graph)', url: '/results/results-graphs', icon: 'clipboard'}]
-    },
+    { title: 'Resultados', url: '/results', icon: 'clipboard'},
     { title: 'Planes de Juegos', url: '/plan', icon: 'phone-portrait' },
     { title: 'Cerrar Sesión', url: '/logout', icon: 'log-out' }
   ];
