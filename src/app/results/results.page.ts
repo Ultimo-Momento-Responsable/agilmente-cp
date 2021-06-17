@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { ResultsApiService } from './services/results-api.service';
 
 export interface Result {
-  id: string;
-  name: string;
-  patient: string;
-  aciertos: string;
-}
-
-export interface RootObject {
-  results: Result[];
+  id: number,
+  name: string,
+  patient: string,
+  successes: number,
+  mistakes: number,
+  timeBetweenSuccesses: number[],
+  date: string,
+  totalTime: number,
+  canceled: boolean
 }
 
 @Component({
@@ -20,29 +22,17 @@ export interface RootObject {
 })
 
 export class ResultsPage implements OnInit {
-  results: Array<any>;
 
-  constructor(private http: HttpClient) { }
+  results: any[];
+  constructor(private http: HttpClient,
+    private resultsApiService: ResultsApiService) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
-    this.getResults().subscribe(res =>{
-      this.results = res;
+    this.resultsApiService.getResults().subscribe(res =>{
+      this.results = res.content;
     });
   }
 
-  /**
-  * getResults()
-  * @returns {Observable} - Lee los datos del JSON y devuelve los objetos bajo 'results'
-  */
-  getResults(){
-    return this.http
-    .get("assets/results.json")
-    .pipe(
-      map((res:any) => {
-        return res.results;
-      })
-    )
-  }
 }
