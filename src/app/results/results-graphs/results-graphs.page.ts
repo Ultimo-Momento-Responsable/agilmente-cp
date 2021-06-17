@@ -20,8 +20,6 @@ export interface RootObject {
     styleUrls: ['./results-graphs.page.scss'],
 })
 
-
-
 export class ResultsGraphsPage {
     @ViewChild('lineCumulativeCanvas') private lineCumulativeCanvas: ElementRef;
     @ViewChild('lineTimeBetweenSuccessesCanvas') private lineTimeBetweenSuccessesCanvas: ElementRef;
@@ -30,6 +28,7 @@ export class ResultsGraphsPage {
     results: any;
     lineCumulative: any;
     lineTimeBetweenSuccesses: any;
+
     constructor(private resultsApiService: ResultsApiService) { }
 
     ionViewWillEnter() {
@@ -44,7 +43,9 @@ export class ResultsGraphsPage {
         });
     }
 
-
+    /**
+     * Crea el gráfico de cantidad de aciertos y errores por partida.
+     */
     createLineCumulative() {
         this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
             type: 'line',
@@ -93,6 +94,9 @@ export class ResultsGraphsPage {
         });
     }
 
+    /**
+     * Crea el gráfico de el tiempo entre aciertos.
+     */
     createLineTimeBetweenSuccesses() {
         this.lineTimeBetweenSuccesses = new Chart(this.lineTimeBetweenSuccessesCanvas.nativeElement, {
             type: 'line',
