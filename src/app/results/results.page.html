@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
+  <div>
   <ion-card *ngFor="let result of results">
     <ion-card-header>
       <ion-card-subtitle>{{result.dateTime}}</ion-card-subtitle>
@@ -32,4 +33,16 @@
       </ion-chip>
     </ion-card-content>
   </ion-card>
+  </div>
+
+  <div *ngIf="!results || results.length === 0">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>¡No hay resultados para mostrar!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label><p>¡Vaya! Al parecer nadie ha jugado aun...</p></ion-label>
+      </ion-card-content>
+    </ion-card>
+</div>
 </ion-content>
