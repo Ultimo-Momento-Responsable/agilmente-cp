@@ -3,18 +3,27 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ResultsApiService {
-  entity: string = 'hay-uno-repetido';
+    entity: string = 'hay-uno-repetido';
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-  getResults(): Observable<any>{
-    return this.http.get(`http://localhost:8080/${this.entity}`);
-  }
+    /**
+     * Obtiene todos los resultados de HayUnoRepetido.
+     * @return Una página de resultados.
+     */
+    getResults(): Observable<any> {
+        return this.http.get(`http://localhost:8080/${this.entity}`);
+    }
 
-  getResultById(id: number): Observable<any>{
-    return this.http.get(`http://localhost:8080/${this.entity}/${id}`);
-  }
+    /**
+     * Obtiene un resultado a partir del id.
+     * @param id Id del resultado.
+     * @returns Observable del resultado.
+     */
+    getResultById(id: number): Observable<any> {
+        return this.http.get(`http://localhost:8080/${this.entity}/${id}`);
+    }
 }
