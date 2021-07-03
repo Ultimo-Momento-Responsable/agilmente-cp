@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: PatientsPage
+  },  {
+    path: 'new-patient',
+    loadChildren: () => import('./new-patient/new-patient.module').then( m => m.NewPatientPageModule)
   }
+
 ];
 
 @NgModule({

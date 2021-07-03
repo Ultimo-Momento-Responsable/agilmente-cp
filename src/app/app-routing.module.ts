@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'results-graphs',
     loadChildren: () => import('./results/results-graphs/results-graphs.module').then( m => m.ResultsGraphsPageModule)
+  },
+  {
+    path: 'new-patient',
+    loadChildren: () => import('./patients/new-patient/new-patient.module').then( m => m.NewPatientPageModule)
   }
 
 ];

@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
 
 import { HttpClientModule } from '@angular/common/http';
 

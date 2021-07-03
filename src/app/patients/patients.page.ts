@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { PatientsApiService } from './services/patients-api.service';
 
 export interface Patient {
-  id: string;
-  name: string;
-  avatar: string;
-  comment: string;
-}
-
-export interface RootObject {
-  patients: Patient[];
+  id: number,
+  firstName: string,
+  lastName: string,
+  description: string,
+  age: number,
+  city: string
 }
 
 @Component({
@@ -20,29 +17,31 @@ export interface RootObject {
 })
 
 export class PatientsPage implements OnInit {
-  patients: Array<any>;
 
-  constructor(private http: HttpClient) { }
+  patients: any[];
+  formatedPatients: Patient[] = [];
+  auxPatient: Patient;
+  constructor(private patientsApiService: PatientsApiService) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
-    this.getPatients().subscribe(res =>{
-      this.patients = res;
-    });
-  }
-
-  /**
-  * getPatients()
-  * @returns {Observable} - Lee los datos del JSON y devuelve los objetos bajo 'patients'
-  */
-  getPatients(){
-    return this.http
-    .get("assets/patients.json")
-    .pipe(
-      map((res:any) => {
-        return res.patients;
+    this.patientsApiService.getPatients().subscribe(res =>{
+      this.patients = res.content;
+      this.patients.forEach(p => {
+        const bdate = new Date(p.bornDate);
+        const timeDiff = Math.abs(Date.now() - bdate.getTime());
+        const calculatedAge = (Math.floor((timeDiff / (1000 * 3600 * 24)) / 365));
+        this.auxPatient = {
+          "id": p.id,
+          "firstName": p.firstName,
+          "lastName": p.lastName,
+          "description": p.description,
+          "age": calculatedAge,
+          "city": p.city
+        }
+        this.formatedPatients.push(this.auxPatient);
       })
-    )
+    });
   }
 }

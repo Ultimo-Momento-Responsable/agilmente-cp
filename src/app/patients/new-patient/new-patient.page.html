@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color=primary>
+    <ion-title>Agilmente - Cargar nuevo paciente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="2"></ion-col>
+    <ion-col>
+      <ion-title class="ion-padding ion-margin">
+        Nuevo Paciente
+      </ion-title>
+      <div class="ion-padding ion-margin" id="container">
+        <form [formGroup]="myForm" (ngSubmit)="save(myForm)">
+          <ion-row>
+            <ion-col size=6>
+              <ion-item id="rounded">
+                <ion-label position="stacked" fixed="" color="primary">Nombre</ion-label>
+                <ion-input formControlName="firstName" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size=6>
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">Apellido</ion-label>
+                <ion-input formControlName="lastName" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size=6 style="float: left;">
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">Fecha de nacimiento</ion-label>
+                <ion-input readonly
+                    [liIonic4Datepicker]="datePickerObj"
+                    (ionchange)="myFunction()"
+                    formControlName="bornDate">
+                </ion-input>
+                <ion-icon name="calendar-outline" slot="end" position=""></ion-icon>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">Localidad</ion-label>
+                <ion-input formControlName="city" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">Descripción</ion-label>
+                <ion-textarea rows="6" formControlName="description" type="text"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-button type="submit" expand="block" class="ion-text-uppercase ion-margin-top">Cargar Paciente
+          </ion-button>
+        </form>
+      </div>
+    </ion-col>
+    <ion-col size="2"></ion-col>
+  </ion-row>
+  
+  
+</ion-content>

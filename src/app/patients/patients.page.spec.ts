@@ -4,8 +4,6 @@
 
   import { PatientsPage } from './patients.page';
 
-  import { RouterTestingModule } from '@angular/router/testing';
-
   describe('PatientsPage', () => {
     let component: PatientsPage;
     let fixture: ComponentFixture<PatientsPage>;
