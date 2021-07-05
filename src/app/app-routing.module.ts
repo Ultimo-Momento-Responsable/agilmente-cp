@@ -18,7 +18,12 @@ const routes: Routes = [
   {
     path: 'results-graphs',
     loadChildren: () => import('./results/results-graphs/results-graphs.module').then( m => m.ResultsGraphsPageModule)
+  },
+  {
+    path: 'subresults/:id',
+    loadChildren: () => import('./results/subresults/subresults.module').then( m => m.SubresultsPageModule)
   }
+
 
 ];
 

@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>subresults</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Paciente: Julian Marquez</ion-card-title>
+        <ion-card-subtitle>Fecha de la partida: {{dateTime}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-chip *ngIf="canceled==false" color="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-label>Completo</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="canceled==true" color="danger">
+          <ion-icon name="close-circle"></ion-icon>
+          <ion-label>Abandonado</ion-label>
+        </ion-chip>
+        <ion-label><p>Juego: {{name}}</p></ion-label>
+        <ion-label><p>Tiempo de juego: {{totalTime}}</p></ion-label>
+        <ion-chip color="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-label>Aciertos: {{successes}}</ion-label>
+        </ion-chip>
+        <ion-chip color="danger">
+          <ion-icon name="close-circle"></ion-icon>
+          <ion-label>Errores: {{mistakes}}</ion-label>
+        </ion-chip>
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+
+  <div class="ion-padding">
+    <ion-grid class="ion-margin">
+      <ion-row>
+        <ion-col><ion-grid class="ion-margin">
+          <ion-row style="background:#168bda">
+            <ion-col><b>Nivel</b></ion-col>
+            <ion-col><b>Tiempo</b></ion-col>
+          </ion-row>
+          <ion-row *ngFor="let time of timeBetweenSuccesses; index as i">
+            <ion-col>{{ i + 1 }}</ion-col>
+            <ion-col>{{time}}</ion-col>
+          </ion-row>
+        </ion-grid></ion-col>
+
+        <ion-col><ion-card>
+          <ion-card-header>
+            Tiempo entre aciertos
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #lineTimeBetweenSuccessesCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+          </ion-card-content>
+        </ion-card></ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

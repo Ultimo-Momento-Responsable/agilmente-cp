@@ -6,7 +6,7 @@
 
 <ion-content>
   <div>
-  <ion-card *ngFor="let result of results">
+  <ion-card *ngFor="let result of results" (click)="goToSubresults(result.id)">
     <ion-card-header>
       <ion-card-subtitle>{{result.dateTime}}</ion-card-subtitle>
       <ion-card-title>Jorgelina Cordero</ion-card-title>
