@@ -23,9 +23,9 @@ export class NewPatientPage implements OnInit {
     public alertController: AlertController,
     private router: Router
   ) { 
-    const currentYear = new Date().getFullYear();
+    const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);
-    this.maxDate = new Date(currentYear - 10, 0, 1);
+    this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDay());
   };
 
   ngOnInit() {
@@ -45,6 +45,9 @@ export class NewPatientPage implements OnInit {
       dateFormat: 'DD-MM-YYYY',
       clearButton : false,
       monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      fromDate: this.minDate,
+      toDate: this.maxDate,
+      inputDate: this.maxDate
     };
   }
 
