@@ -28,13 +28,26 @@ export class PatientsPage implements OnInit {
     this.getPatients();
   }
 
+  calculateAge(day:number, month:number, year:number) : number{
+    const currentDate = new Date();
+    let difYear = currentDate.getFullYear() - year;
+    let difMonth = (currentDate.getMonth()+1) - month;
+    let difDay = currentDate.getDate() - day;
+    if (difDay<0){
+      difMonth--;
+    }
+    if (difMonth<0){
+      difYear--;
+    }
+    return difYear
+  }
+
   getPatients() {
     this.patientsApiService.getPatients(this.pageNumber).subscribe(res =>{
       this.patients = res.content;
       this.patients.forEach(p => {
-        const bdate = new Date(p.bornDate);
-        const timeDiff = Math.abs(Date.now() - bdate.getTime());
-        const calculatedAge = (Math.floor((timeDiff / (1000 * 3600 * 24)) / 365));
+        const textDate = p.bornDate.split('-');
+        const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
         this.auxPatient = {
           "id": p.id,
           "firstName": p.firstName,
