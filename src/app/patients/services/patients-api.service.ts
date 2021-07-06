@@ -37,15 +37,20 @@ export class PatientsApiService {
   }
   
   /**
-   * 
-   * @param patient 
-   * @param id 
-   * @returns 
+   * Modifica un paciente
+   * @param patient Paciente a modificar
+   * @param id El id del paciente
+   * @returns El paciente modificado
    */
   putPatient(patient: any,id: any) {
     return this.http.put(`http://localhost:8080/${this.entity}/${id}`, patient);
   }
 
+  /**
+   * Elimina un paciente
+   * @param id El id del paciente
+   * @returns Respuesta http.
+   */
   deletePatient(id:any) {
     return this.http.delete(`http://localhost:8080/${this.entity}/${id}`);
   }

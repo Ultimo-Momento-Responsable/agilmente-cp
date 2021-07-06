@@ -15,35 +15,46 @@ export class EditPatientPage implements OnInit {
   myForm: FormGroup;
   id: any
   datePickerObj: any = {};
+  minDate: Date;
+  maxDate: Date;
   patient: any = {};
 
   constructor(private patientsApiService: PatientsApiService, 
     private route: ActivatedRoute,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router) { }
+    private router: Router) 
+  {
+    const currentDate = new Date();
+    this.minDate = new Date(1900, 0, 1);
+    this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDay());
+  }
 
-  
   ngOnInit() {
     this.myForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
-      bornDate: new FormControl('', Validators.required),
+      birthDate: new FormControl('', Validators.required),
       description: new FormControl(),
       city: new FormControl('', Validators.required)
     });
+
+    // Recibe el id del paciente seleccionado, para que se edite ese en específico
     this.route.params.subscribe(params => {
       this.id = +params['id']; 
     });
+
+    // Obtiene los valores del paciente para rellenar los campos del formulario
     this.patientsApiService.getPatientById(this.id).subscribe(res => {
       this.myForm.setValue({
         firstName: res.firstName,
         lastName: res.lastName,
-        bornDate: res.bornDate,
+        birthDate: res.bornDate,
         description: res.description,
         city: res.city
       }) 
     });
+
     this.datePickerObj = {
       showTodayButton: false,
       closeOnSelect: true,
@@ -53,11 +64,13 @@ export class EditPatientPage implements OnInit {
       dateFormat: 'DD-MM-YYYY',
       clearButton : false,
       monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      weeksList: ["D", "L", "M", "X", "J", "V", "S"],
+      fromDate: this.minDate,
+      toDate: this.maxDate,
+      inputDate: this.maxDate
     };
   }
 
-  ionViewWillEnter() {    
-  }
   async openDatePicker() {
     const datePickerModal = await this.modalCtrl.create({
       component: Ionic4DatepickerModalComponent,
@@ -68,16 +81,19 @@ export class EditPatientPage implements OnInit {
     });
     await datePickerModal.present();
   }
+
+  // Guarda el paciente editado
   save(myForm: FormGroup){
     if (myForm.valid){
       let patient: any = {
         firstName: myForm.value.firstName,
         lastName: myForm.value.lastName,
-        bornDate: myForm.value.bornDate,
+        bornDate: myForm.value.birthDate,
         city: myForm.value.city,
         description: myForm.value.description,
         id: this.id
       }
+
       this.patientsApiService.putPatient(patient,this.id).subscribe(res => {
         this.presentAlert('¡Paciente editado!','El paciente ha sido editado correctamente.', true, 'alertSuccess');
       }, (err) => {
@@ -85,6 +101,7 @@ export class EditPatientPage implements OnInit {
       });
     }
   }
+
   async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
     const alert = await this.alertController.create({
       message: message,
@@ -95,8 +112,8 @@ export class EditPatientPage implements OnInit {
         text: 'OK',
         cssClass: css
       }],
-      
     });
+
     await alert.present(); 
     if (await alert.onDidDismiss()){
       if (reset){
