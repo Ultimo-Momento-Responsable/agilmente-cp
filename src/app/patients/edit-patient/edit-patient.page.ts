@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
@@ -6,28 +7,23 @@ import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepic
 import { PatientsApiService } from '../services/patients-api.service';
 
 @Component({
-  selector: 'app-new-patient',
-  templateUrl: './new-patient.page.html',
-  styleUrls: ['./new-patient.page.scss'],
+  selector: 'app-edit-patient',
+  templateUrl: './edit-patient.page.html',
+  styleUrls: ['./edit-patient.page.scss'],
 })
-
-export class NewPatientPage implements OnInit {
-  
+export class EditPatientPage implements OnInit {
   myForm: FormGroup;
-  minDate: Date;
-  maxDate: Date;
+  id: any
   datePickerObj: any = {};
+  patient: any = {};
 
   constructor(private patientsApiService: PatientsApiService, 
+    private route: ActivatedRoute,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router
-  ) { 
-    const currentYear = new Date().getFullYear();
-    this.minDate = new Date(1900, 0, 1);
-    this.maxDate = new Date(currentYear - 10, 0, 1);
-  };
+    private router: Router) { }
 
+  
   ngOnInit() {
     this.myForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
@@ -35,6 +31,18 @@ export class NewPatientPage implements OnInit {
       bornDate: new FormControl('', Validators.required),
       description: new FormControl(),
       city: new FormControl('', Validators.required)
+    });
+    this.route.params.subscribe(params => {
+      this.id = +params['id']; 
+    });
+    this.patientsApiService.getPatientById(this.id).subscribe(res => {
+      this.myForm.setValue({
+        firstName: res.firstName,
+        lastName: res.lastName,
+        bornDate: res.bornDate,
+        description: res.description,
+        city: res.city
+      }) 
     });
     this.datePickerObj = {
       showTodayButton: false,
@@ -48,7 +56,8 @@ export class NewPatientPage implements OnInit {
     };
   }
 
-
+  ionViewWillEnter() {    
+  }
   async openDatePicker() {
     const datePickerModal = await this.modalCtrl.create({
       component: Ionic4DatepickerModalComponent,
@@ -66,21 +75,20 @@ export class NewPatientPage implements OnInit {
         lastName: myForm.value.lastName,
         bornDate: myForm.value.bornDate,
         city: myForm.value.city,
-        description: myForm.value.description
+        description: myForm.value.description,
+        id: this.id
       }
-      this.patientsApiService.postPatient(patient).subscribe(res => {
-        this.presentAlert('¡Paciente creado!','El paciente ha sido registrado correctamente.', true, 'alertSuccess');
-        
+      this.patientsApiService.putPatient(patient,this.id).subscribe(res => {
+        this.presentAlert('¡Paciente editado!','El paciente ha sido editado correctamente.', true, 'alertSuccess');
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
       });
     }
   }
-
   async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
     const alert = await this.alertController.create({
       message: message,
-      header: 'Cargar Paciente',
+      header: 'Editar Paciente',
       subHeader: subHeader,
       cssClass: css,
       buttons: [{

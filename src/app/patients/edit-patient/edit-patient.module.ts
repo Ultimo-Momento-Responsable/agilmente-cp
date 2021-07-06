@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { NewPatientPageRoutingModule } from './new-patient-routing.module';
-import { NewPatientPage } from './new-patient.page';
+
+import { EditPatientPageRoutingModule } from './edit-patient-routing.module';
+
+import { EditPatientPage } from './edit-patient.page';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
 
 @NgModule({
@@ -14,8 +16,8 @@ import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
     FormsModule,
     Ionic4DatepickerModule,
     IonicModule,
-    NewPatientPageRoutingModule,
+    EditPatientPageRoutingModule
   ],
-  declarations: [NewPatientPage]
+  declarations: [EditPatientPage]
 })
-export class NewPatientPageModule {}
+export class EditPatientPageModule {}

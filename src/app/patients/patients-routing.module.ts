@@ -7,9 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: PatientsPage
-  },  {
+  },
+  {
     path: 'new-patient',
     loadChildren: () => import('./new-patient/new-patient.module').then( m => m.NewPatientPageModule)
+  },
+  {
+    path: 'edit-patient/:id',
+    loadChildren: () => import('./edit-patient/edit-patient.module').then( m => m.EditPatientPageModule)
   }
 
 ];

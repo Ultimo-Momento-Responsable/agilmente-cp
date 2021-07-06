@@ -7,7 +7,7 @@ import { NewPatientPage } from './new-patient.page';
 describe('NewPatientPage', () => {
   let component: NewPatientPage;
   let fixture: ComponentFixture<NewPatientPage>;
-
+  
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NewPatientPage ],
