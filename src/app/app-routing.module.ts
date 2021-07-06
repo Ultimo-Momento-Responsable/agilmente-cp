@@ -23,8 +23,6 @@ const routes: Routes = [
     path: 'subresults/:id',
     loadChildren: () => import('./results/subresults/subresults.module').then( m => m.SubresultsPageModule)
   }
-
-
 ];
 
 @NgModule({
