@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { ViewChild, ElementRef } from '@angular/core';
 import { ResultsApiService } from '../services/results-api.service';
@@ -6,18 +6,6 @@ import { ResultsApiService } from '../services/results-api.service';
 import { ActivatedRoute } from "@angular/router";
 
 Chart.register(...registerables);
-
-export interface Result {
-  id: number,
-  name: string,
-  patient: string,
-  successes: number,
-  mistakes: number,
-  timeBetweenSuccesses: number[],
-  date: string,
-  totalTime: number,
-  canceled: boolean
-}
 
 @Component({
   selector: 'app-subresults',
