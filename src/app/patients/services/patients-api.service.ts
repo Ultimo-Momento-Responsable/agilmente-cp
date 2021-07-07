@@ -32,7 +32,7 @@ export class PatientsApiService {
    * @param patient Paciente a guardar
    * @returns El paciente guardado
    */
-  postPatient(patient: any) {
+  postPatient(patient: any): Observable<any> {
     return this.http.post(`http://localhost:8080/${this.entity}`, patient);
   }
   
@@ -42,7 +42,7 @@ export class PatientsApiService {
    * @param id El id del paciente
    * @returns El paciente modificado
    */
-  putPatient(patient: any,id: any) {
+  putPatient(patient: any, id: number): Observable<any> {
     return this.http.put(`http://localhost:8080/${this.entity}/${id}`, patient);
   }
 
@@ -51,7 +51,7 @@ export class PatientsApiService {
    * @param id El id del paciente
    * @returns Respuesta http.
    */
-  deletePatient(id:any) {
+  deletePatient(id: number): Observable<any> {
     return this.http.delete(`http://localhost:8080/${this.entity}/${id}`);
   }
 }
