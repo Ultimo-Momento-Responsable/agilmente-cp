@@ -4,28 +4,55 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="horizontal-cards">
-  <ion-card *ngFor="let patient of patients">
-    <ion-card-header>
-      <ion-item>
-        <ion-avatar slot="start">
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-        </ion-avatar>
-        <ion-label>
-          <h3>{{patient.name}}</h3>
-          <p>Edad: {{patient.age}}</p>
-        </ion-label>
-      </ion-item>
-      
-      <ion-chip *ngFor="let domain of patient.domains">
-        <ion-label>{{domain}}</ion-label>
-      </ion-chip>
-    </ion-card-header>
+<ion-content
+  [scrollEvents]="true"
+  (ionScroll)="logScrolling($event)">
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col>
+      <div class="horizontal-cards ion-padding ion-margin">
+        <ion-button [routerLink]="['./new-patient']">
+          <ion-icon name="person-add-outline"></ion-icon>
+          <p class="ion-margin">Nuevo Paciente</p>
+        </ion-button>
+      </div>
+      <div class="horizontal-cards ion-margin">
+        <ion-card *ngFor="let patient of formatedPatients">
+          <ion-card-header>
+            <ion-row>
+              <ion-col size="3">
+                <div>
+                  <ion-avatar slot="start" style="max-width: fit-content;">
+                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                  </ion-avatar>
+                </div>
+              </ion-col>
+              <ion-col size="7">
+                <h2>{{patient.firstName}} {{patient.lastName}}</h2>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button
+                  color="light" 
+                  style="--border-radius: 20px;"
+                  [routerLink]="['./edit-patient',patient.id]">
+                  <ion-icon name="pencil-outline" item-right></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-label>
+              Edad: {{patient.age}} <br><br>
+            </ion-label>
+            <ion-label>
+              {{patient.description}}
+            </ion-label>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-col>
+    <ion-col size="1"></ion-col>
+  </ion-row>
   
-    <ion-card-content>
-      {{patient.comment}}
-    </ion-card-content>
-  </ion-card>
-</div>
+  
 </ion-content>
