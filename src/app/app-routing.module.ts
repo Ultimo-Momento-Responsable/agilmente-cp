@@ -12,16 +12,16 @@ const routes: Routes = [
     loadChildren: () => import('./results/results.module').then( m => m.ResultsPageModule)
   },
   {
+    path: 'subresults/:id',
+    loadChildren: () => import('./results/subresults/subresults.module').then( m => m.SubresultsPageModule)
+  },
+  {
     path: 'patients',
     loadChildren: () => import('./patients/patients.module').then( m => m.PatientsPageModule)
   },
   {
     path: 'results-graphs',
     loadChildren: () => import('./results/results-graphs/results-graphs.module').then( m => m.ResultsGraphsPageModule)
-  },
-  {
-    path: 'subresults/:id',
-    loadChildren: () => import('./results/subresults/subresults.module').then( m => m.SubresultsPageModule)
   }
 ];
 
