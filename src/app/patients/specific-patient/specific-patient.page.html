@@ -80,6 +80,26 @@
             </ion-card-content>
           </ion-card>
         </div>
+        <ion-grid class="ion-justify-content-center">
+          <ion-row>
+            <ion-col>
+              <ion-grid class="grid-full">
+                <ion-row>
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px"><b>Partida</b></ion-col>
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px"><b>Aciertos</b></ion-col>
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px"><b>Errores</b></ion-col>
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px"><b>Tiempo Total</b></ion-col>
+                </ion-row>
+                <ion-row *ngFor="let result of results; index as i">
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px">{{ i + 1 }}</ion-col>
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px">{{result.successes}}</ion-col>
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px">{{result.mistakes}}</ion-col>
+                  <ion-col style="box-shadow: 0px 3px 3px 0px grey;margin: 3px">{{result.totalTime}}</ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
     </ion-col>
     <ion-col size="2"></ion-col>

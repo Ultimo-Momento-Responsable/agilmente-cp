@@ -63,7 +63,7 @@ export class SpecificPatientPage implements OnInit {
       data: {
           labels: this.results.map((r, i) => `Partida ${i + 1}`),
           datasets: [{
-              label: ' Aciertos',
+              label: 'Aciertos',
               backgroundColor: 'rgba(102, 195, 95, 0.4)',
               borderColor: 'rgba(102, 195, 95, 1)',
               borderDash: [],
@@ -78,7 +78,7 @@ export class SpecificPatientPage implements OnInit {
               pointHoverBorderWidth: 2,
               pointRadius: 1,
               pointHitRadius: 10,
-              data: this.results.map(r => r.mistakes),
+              data: this.results.map(r => r.successes),
               spanGaps: false,
           }, {
               label: 'Errores',
@@ -97,7 +97,7 @@ export class SpecificPatientPage implements OnInit {
               pointHoverBorderWidth: 2,
               pointRadius: 1,
               pointHitRadius: 10,
-              data: this.results.map(r => r.successes),
+              data: this.results.map(r => r.mistakes),
               spanGaps: false,
           }
           ]
