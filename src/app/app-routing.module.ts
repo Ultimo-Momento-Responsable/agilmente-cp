@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: () => import('./results/results.module').then( m => m.ResultsPageModule)
   },
   {
+    path: 'subresults/:id',
+    loadChildren: () => import('./results/subresults/subresults.module').then( m => m.SubresultsPageModule)
+  },
+  {
     path: 'patients',
     loadChildren: () => import('./patients/patients.module').then( m => m.PatientsPageModule)
   },
@@ -27,7 +31,6 @@ const routes: Routes = [
     path: 'edit-patient/:id',
     loadChildren: () => import('./patients/edit-patient/edit-patient.module').then( m => m.EditPatientPageModule)
   }
-
 ];
 
 @NgModule({

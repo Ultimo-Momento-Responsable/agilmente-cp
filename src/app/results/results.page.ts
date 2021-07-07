@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ResultsApiService } from './services/results-api.service';
+import { Router } from '@angular/router';
 
 export interface Result {
     id: number,
@@ -22,9 +23,13 @@ export interface Result {
 export class ResultsPage implements OnInit {
 
     results: any[];
-    constructor(private resultsApiService: ResultsApiService) { }
-
+    constructor(private resultsApiService: ResultsApiService, private router: Router) { }
+    
     ngOnInit() { }
+
+    goToSubresults(id) {
+        this.router.navigate(['/subresults', id]);
+    }
 
     ionViewWillEnter() {
         this.resultsApiService.getResults().subscribe(res => {
