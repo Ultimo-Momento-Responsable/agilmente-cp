@@ -45,8 +45,12 @@
               Edad: {{patient.age}} <br><br>
             </ion-label>
             <ion-label>
-              {{patient.description}}
+              {{patient.description}} <br><br>
             </ion-label>
+            <ion-button horizontal="end" color="light" fill="clear" [routerLink]="['./',patient.id]">
+              <ion-icon name="add-outline" color="primary"></ion-icon>
+              <ion-label class="ion-margin" color="primary">Ver más</ion-label>
+            </ion-button>
           </ion-card-content>
         </ion-card>
       </div>

@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar color=primary>
+    <ion-title>Agilmente - Detalle de Paciente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="2"></ion-col>
+    <ion-col>
+      <ion-title class="ion-padding-top ion-margin-top">
+        Datos Personales
+      </ion-title>
+      <div class="ion-padding ion-margin" id="container">
+        <form [formGroup]="myForm">
+          <ion-row>
+            <ion-col size=6>
+              <ion-item id="rounded">
+                <ion-label position="stacked" fixed="" color="primary">Nombre</ion-label>
+                <ion-input disabled readonly formControlName="firstName" type="text"></ion-input>
+              </ion-item>
+            </ion-col>  
+            <ion-col size=6>
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">Apellido</ion-label>
+                <ion-input disabled readonly formControlName="lastName" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size=6>
+              <ion-item id="rounded" button>
+                <ion-label position="stacked" color="primary">Fecha de nacimiento</ion-label>
+                <ion-input disabled readonly formControlName="birthDate"></ion-input>
+                <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item id="rounded">
+                <ion-label 
+                  position="stacked" 
+                  color="primary">
+                  Localidad
+                </ion-label>
+                <ion-input
+                  formControlName="city" 
+                  readonly 
+                  disabled
+                  type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item id="rounded">
+                <ion-label 
+                  position="stacked" 
+                  color="primary">
+                  Descripción
+                </ion-label>
+                <ion-textarea 
+                  disabled
+                  rows="6" 
+                  formControlName="description" 
+                  type="text">
+                </ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <br>
+          <br>
+        </form>
+        <div class="ion-padding">
+          <ion-card>
+            <ion-card-header>
+              Desempeño General
+            </ion-card-header>
+            <ion-card-content>
+              <canvas #lineCumulativeCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </ion-col>
+    <ion-col size="2"></ion-col>
+  </ion-row>
+  
+</ion-content>

@@ -13,7 +13,7 @@ import { PatientsApiService } from '../services/patients-api.service';
 })
 export class EditPatientPage implements OnInit {
   myForm: FormGroup;
-  id: any
+  id: any;
   datePickerObj: any = {};
   minDate: Date;
   maxDate: Date;
