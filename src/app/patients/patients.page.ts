@@ -24,7 +24,10 @@ export class PatientsPage implements OnInit {
   auxPatient: Patient;
   constructor(private patientsApiService: PatientsApiService) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewDidEnter(){
+    this.formatedPatients = [];
     this.getPatients();
   }
 
