@@ -54,13 +54,12 @@ export class SpecificPatientPage implements OnInit {
       }) 
     }); 
     this.resultsApiService.getResults().subscribe(res => {
-      this.results = res.content;
+      this.results = res.content.reverse();
       this.createLineCumulative();
     });
   }
 
   deletePatient(){
-    console.log("MORLA")
     this.patientsApiService.deletePatient(this.id).subscribe(()=>{
       this.router.navigateByUrl('/patients')
     });

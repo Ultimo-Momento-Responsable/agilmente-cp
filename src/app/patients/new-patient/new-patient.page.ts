@@ -26,7 +26,7 @@ export class NewPatientPage implements OnInit {
   { 
     const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);
-    this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDay());
+    this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDate());
   };
 
   ngOnInit() {
@@ -68,8 +68,8 @@ export class NewPatientPage implements OnInit {
   }
 
   // Guarda el Paciente rellenado en el formulario
-  save(myForm: FormGroup){
-    if (myForm.valid){
+  save(myForm: FormGroup) {
+    if (myForm.valid) {
       let patient: any = {
         firstName: myForm.value.firstName,
         lastName: myForm.value.lastName,
