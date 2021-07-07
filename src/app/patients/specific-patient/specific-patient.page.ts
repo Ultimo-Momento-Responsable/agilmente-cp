@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { ResultsApiService } from 'src/app/results/services/results-api.service';
 import { PatientsApiService } from '../services/patients-api.service';
@@ -30,7 +30,8 @@ export class SpecificPatientPage implements OnInit {
   constructor(
     private patientsApiService: PatientsApiService, 
     private resultsApiService: ResultsApiService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
     this.myForm = new FormGroup({
@@ -57,6 +58,15 @@ export class SpecificPatientPage implements OnInit {
       this.createLineCumulative();
     });
   }
+
+  deletePatient(){
+    console.log("MORLA")
+    this.patientsApiService.deletePatient(this.id).subscribe(()=>{
+      this.router.navigateByUrl('/patients')
+    });
+  }
+
+  // Dibuja el gráfico histórico
   createLineCumulative() {
     this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
       type: 'line',
