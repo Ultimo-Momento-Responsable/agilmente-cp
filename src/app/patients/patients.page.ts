@@ -27,6 +27,7 @@ export class PatientsPage implements OnInit {
   ngOnInit() {}
 
   ionViewDidEnter(){
+    this.pageNumber = 0;
     this.formattedPatients = [];
     this.getPatients();
   }
@@ -64,9 +65,12 @@ export class PatientsPage implements OnInit {
           "id": p.id,
           "firstName": p.firstName,
           "lastName": p.lastName,
-          "description": p.description,
+          "description": p.description.substring(0,45),
           "age": calculatedAge,
           "city": p.city
+        }
+        if (this.auxPatient.description.length == 45) {
+          this.auxPatient.description += '...'
         }
         this.formattedPatients.push(this.auxPatient);
       })
