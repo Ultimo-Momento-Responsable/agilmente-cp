@@ -53,7 +53,11 @@
                             </ion-label>
                             <ion-label>
                                 {{patient.description}}
-                            </ion-label>
+                            </ion-label> <br> <br>
+                            <ion-button style="float:right;" color="light" fill="clear" [routerLink]="['./',patient.id]">
+                              <ion-icon name="add-outline" color="primary"></ion-icon>
+                              <ion-label class="ion-margin" color="primary">Ver más</ion-label>
+                            </ion-button>
                         </ion-card-content>
                     </ion-card>
                 </div>
