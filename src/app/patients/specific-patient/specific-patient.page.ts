@@ -59,13 +59,18 @@ export class SpecificPatientPage implements OnInit {
     });
   }
 
+  /**
+   * Borra el paciente (cuando clickea el botón de eliminar).
+   */
   deletePatient(){
     this.patientsApiService.deletePatient(this.id).subscribe(()=>{
       this.router.navigateByUrl('/patients')
     });
   }
 
-  // Dibuja el gráfico histórico
+  /**
+   * Dibuja el gráfico de resultados históricos del paciente.
+   */
   createLineCumulative() {
     this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
       type: 'line',
