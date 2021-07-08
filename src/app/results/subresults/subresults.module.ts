@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 
 import { SubresultsPageRoutingModule } from './subresults-routing.module';
-import { ResultsGraphsPageRoutingModule } from '../results-graphs/results-graphs-routing.module';
 
 import { SubresultsPage } from './subresults.page';
 
@@ -18,7 +17,6 @@ import { SubresultsPage } from './subresults.page';
     FormsModule,
     IonicModule,
     SubresultsPageRoutingModule,
-    ResultsGraphsPageRoutingModule,
     RouterModule,
     HttpClientModule
   ],
