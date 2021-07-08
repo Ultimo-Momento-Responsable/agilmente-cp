@@ -5,8 +5,6 @@ import { ResultsApiService } from '../services/results-api.service';
 
 import { ActivatedRoute } from "@angular/router";
 
-Chart.register(...registerables);
-
 @Component({
   selector: 'app-subresults',
   templateUrl: './subresults.page.html',
@@ -53,6 +51,7 @@ export class SubresultsPage {
   }
 
   createLineTimeBetweenSuccesses() {
+    Chart.register(...registerables);
     this.lineTimeBetweenSuccesses = new Chart(this.lineTimeBetweenSuccessesCanvas.nativeElement, {
         type: 'line',
         data: {

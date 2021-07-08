@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Chart } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import { ResultsApiService } from 'src/app/results/services/results-api.service';
 import { PatientsApiService } from '../services/patients-api.service';
 
@@ -26,7 +26,7 @@ export class SpecificPatientPage implements OnInit {
   patient: Patient;
   lineCumulative: any;
   results: any;
-
+  
   constructor(
     private patientsApiService: PatientsApiService, 
     private resultsApiService: ResultsApiService,
@@ -72,6 +72,7 @@ export class SpecificPatientPage implements OnInit {
    * Dibuja el gráfico de resultados históricos del paciente.
    */
   createLineCumulative() {
+    Chart.register(...registerables);
     this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
       type: 'line',
       data: {
@@ -94,7 +95,7 @@ export class SpecificPatientPage implements OnInit {
               pointHitRadius: 10,
               data: this.results.map(r => r.successes),
               spanGaps: false,
-          }, {
+            }, {
               label: 'Errores',
               backgroundColor: 'rgba(195, 95, 95, 0.4)',
               borderColor: 'rgba(195, 95, 95, 1)',
@@ -113,10 +114,10 @@ export class SpecificPatientPage implements OnInit {
               pointHitRadius: 10,
               data: this.results.map(r => r.mistakes),
               spanGaps: false,
-          }
+            }
           ]
+        }
       }
-  });
+    );
   }
-
 }
