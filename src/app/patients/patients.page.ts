@@ -19,15 +19,15 @@ export interface Patient {
 export class PatientsPage implements OnInit {
   scrollDepthTriggered = false;
   pageNumber = 0;
-  patients: any[];
-  formatedPatients: Patient[] = [];
+  formattedPatients: Patient[] = [];
   auxPatient: Patient;
+
   constructor(private patientsApiService: PatientsApiService) { }
 
   ngOnInit() {}
 
   ionViewDidEnter(){
-    this.formatedPatients = [];
+    this.formattedPatients = [];
     this.getPatients();
   }
 
@@ -57,8 +57,7 @@ export class PatientsPage implements OnInit {
    */
   getPatients() {
     this.patientsApiService.getPatients(this.pageNumber).subscribe(res =>{
-      this.patients = res.content;
-      this.patients.forEach(p => {
+      res.content.forEach(p => {
         const textDate = p.bornDate.split('-');
         const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
         this.auxPatient = {
@@ -69,7 +68,7 @@ export class PatientsPage implements OnInit {
           "age": calculatedAge,
           "city": p.city
         }
-        this.formatedPatients.push(this.auxPatient);
+        this.formattedPatients.push(this.auxPatient);
       })
     });
     this.scrollDepthTriggered = false;
