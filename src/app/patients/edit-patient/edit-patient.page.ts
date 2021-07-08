@@ -13,7 +13,7 @@ import { PatientsApiService } from '../services/patients-api.service';
 })
 export class EditPatientPage implements OnInit {
   myForm: FormGroup;
-  id: any
+  id: any;
   datePickerObj: any = {};
   minDate: Date;
   maxDate: Date;
@@ -27,7 +27,7 @@ export class EditPatientPage implements OnInit {
   {
     const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);
-    this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDay());
+    this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDate());
   }
 
   ngOnInit() {

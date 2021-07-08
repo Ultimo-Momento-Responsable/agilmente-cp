@@ -31,9 +31,16 @@ export class PatientsPage implements OnInit {
     this.getPatients();
   }
 
+  /**
+   * Función que calcula la edad del paciente
+   * @param day Día en que nació
+   * @param month Mes en el que nació
+   * @param year Año en el que nació
+   * @returns Edad del paciente
+   */
   calculateAge(day:number, month:number, year:number) : number{
     const currentDate = new Date();
-    let difYear = currentDate.getFullYear() - year;
+    let difYear = currentDate.getFullYear() - year; 
     let difMonth = (currentDate.getMonth()+1) - month;
     let difDay = currentDate.getDate() - day;
     if (difDay<0){
@@ -45,6 +52,9 @@ export class PatientsPage implements OnInit {
     return difYear
   }
 
+  /**
+   * Obtiene los pacientes de una página específica
+   */
   getPatients() {
     this.patientsApiService.getPatients(this.pageNumber).subscribe(res =>{
       res.content.forEach(p => {
@@ -71,15 +81,11 @@ export class PatientsPage implements OnInit {
     }
 
     if($event.target.localName != "ion-content") {
-      // not sure if this is required, just playing it safe
       return;
     }
 
     const scrollElement = await $event.target.getScrollElement();
 
-    // minus clientHeight because trigger is scrollTop
-    // otherwise you hit the bottom of the page before 
-    // the top screen can get to 80% total document height
     const scrollHeight = scrollElement.scrollHeight - scrollElement.clientHeight;
 
     const currentScrollDepth = $event.detail.scrollTop;
@@ -89,9 +95,7 @@ export class PatientsPage implements OnInit {
     let triggerDepth = ((scrollHeight / 100) * targetPercent);
 
     if(currentScrollDepth > triggerDepth) {
-      // this ensures that the event only triggers once
       this.scrollDepthTriggered = true;
-      // do your analytics tracking here
       this.pageNumber++;
       this.getPatients();
     }
