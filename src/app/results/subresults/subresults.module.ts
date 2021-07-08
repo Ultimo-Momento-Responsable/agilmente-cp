@@ -2,23 +2,26 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+
 import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule } from '@ionic/angular';
-import { ResultsPageRoutingModule } from './results-routing.module';
-import { ResultsPage } from './results.page';
+
+import { SubresultsPageRoutingModule } from './subresults-routing.module';
+import { ResultsGraphsPageRoutingModule } from '../results-graphs/results-graphs-routing.module';
+
+import { SubresultsPage } from './subresults.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ResultsPageRoutingModule,
+    SubresultsPageRoutingModule,
+    ResultsGraphsPageRoutingModule,
     RouterModule,
     HttpClientModule
   ],
-  exports: [RouterModule],
-  providers: [],
-  declarations: [ResultsPage]
+  declarations: [SubresultsPage]
 })
-export class ResultsPageModule {}
+export class SubresultsPageModule {}
