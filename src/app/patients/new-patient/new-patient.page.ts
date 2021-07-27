@@ -105,7 +105,7 @@ export class NewPatientPage implements OnInit {
       message: message,
       header: 'Cargar Paciente',
       subHeader: subHeader,
-      cssClass: css,
+      cssClass: 'centerh3',
       buttons: [{
         text: 'OK',
         cssClass: css
