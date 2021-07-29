@@ -20,8 +20,13 @@
             <ion-col size=6>
               <ion-item id="rounded">
                 <ion-label position="stacked" fixed="" color="primary">Nombre *</ion-label>
-                <ion-input formControlName="firstName" type="text" minlength=2 maxlength=20></ion-input>
+                <ion-input [(ngModel)]="firstName" class="form-control" formControlName="firstName" required minlength=2 maxlength=20></ion-input>
               </ion-item>
+  
+              <div *ngIf="invalidField('firstName')" class="alert">
+                Este campo es requerido
+              </div>
+
             </ion-col>
             <ion-col size=6>
               <ion-item id="rounded">
@@ -82,7 +87,7 @@
             [disabled]="!myForm.valid"
             expand="block" 
             class="ion-text-uppercase ion-margin-top">
-            Cargar Paciente
+            Actualizar Paciente
           </ion-button>
         </form>
       </div>

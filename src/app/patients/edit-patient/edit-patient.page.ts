@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
@@ -11,6 +11,7 @@ import { PatientsApiService } from '../services/patients-api.service';
   templateUrl: './edit-patient.page.html',
   styleUrls: ['./edit-patient.page.scss'],
 })
+
 export class EditPatientPage implements OnInit {
   myForm: FormGroup;
   id: any;
@@ -19,24 +20,52 @@ export class EditPatientPage implements OnInit {
   maxDate: Date;
   patient: any = {};
 
+  //Verifica si el campo es invalido
+  invalidField(field: string) {
+    return this.myForm.get(field).invalid && this.myForm.get(field).touched;
+  }  
+
   constructor(private patientsApiService: PatientsApiService, 
     private route: ActivatedRoute,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router) 
+    private router: Router,
+    private formBuilder: FormBuilder)
   {
     const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);
     this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDate());
   }
 
+  form: FormGroup = this.formBuilder.group({
+    alias: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(23)
+      ],
+    ],
+    api_key: ['', [Validators.required]],
+    secret_key: ['', [Validators.required]],
+  });
+
   ngOnInit() {
+    /*
     this.myForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       birthDate: new FormControl('', Validators.required),
       description: new FormControl(),
       city: new FormControl('', Validators.required)
+    });
+    */
+    
+    this.myForm = this.formBuilder.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      birthDate: ['', [Validators.required]],
+      description: [''],
+      city: ['', [Validators.required]]
     });
 
     // Recibe el id del paciente seleccionado, para que se edite ese en específico
@@ -101,6 +130,12 @@ export class EditPatientPage implements OnInit {
       });
     }
   }
+
+  public errorMessages = {
+      'firstName': [
+        { type: 'required', message: 'Name is required.' }
+      ]
+    };
 
   async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
     const alert = await this.alertController.create({
