@@ -81,6 +81,9 @@ export class SpecificPatientPage implements OnInit {
     });
   }
 
+  /**
+   * Desvincula el paciente y genera un código nuevo.
+   */
   resetCode(){
     let code = Math.floor(Math.random() * (1000000));
     let codeString = code.toString()
