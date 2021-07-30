@@ -82,7 +82,18 @@ export class SpecificPatientPage implements OnInit {
   }
 
   /**
-   * Desvincula el paciente y genera un código nuevo.
+   * Desvincula el paciente.
+   */
+  unlinkPatient(){
+    this.patient.logged=false;
+    this.patient.loginCode=null;
+    this.patientsApiService.putPatient(this.patient,this.id).subscribe(res => {
+      window.location.reload();
+    });
+  }
+
+  /**
+   * Genera un código nuevo para el paciente desvinculado.
    */
   resetCode(){
     let code = Math.floor(Math.random() * (1000000));
@@ -90,7 +101,6 @@ export class SpecificPatientPage implements OnInit {
     while (codeString.length < 6) {
       codeString = '0' + codeString;
     }
-    this.patient.logged=false;
     this.patient.loginCode=codeString;
     this.patientsApiService.putPatient(this.patient,this.id).subscribe(res => {});
   }

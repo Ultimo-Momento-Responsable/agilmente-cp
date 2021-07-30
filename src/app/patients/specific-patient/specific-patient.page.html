@@ -38,15 +38,26 @@
                 Código de Ingreso: {{this.patient.loginCode}} 
               </h5>
             </div>
-            <div *ngIf="this.patient?.loginCode.length!=6" style="float: right; margin-right: 5%;">
+            <div *ngIf="this.patient?.loginCode.length!=6 && this.patient?.logged" style="float: right; margin-right: 5%;">
               <h5 style="float: right;margin-right: 5%;margin-top: -0.5%;">
                 Paciente Vinculado
               </h5>
               <ion-button 
                 style="float: right;"
-                (click)="this.resetCode()">
+                (click)="this.unlinkPatient()">
                 <ion-icon name="log-out-outline"></ion-icon>
                 <p class="ion-padding">Desvincular</p>
+              </ion-button>
+            </div>
+            <div *ngIf="this.patient?.loginCode.length!=6 && !this.patient?.logged" style="float: right; margin-right: 5%;">
+              <h5 style="float: right;margin-right: 5%;margin-top: -0.5%;">
+                Paciente Desvinculado
+              </h5>
+              <ion-button 
+                style="float: right;"
+                (click)="this.resetCode()">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <p class="ion-padding">Generar Código</p>
               </ion-button>
             </div>
           </ion-col>
