@@ -131,12 +131,6 @@ export class EditPatientPage implements OnInit {
     }
   }
 
-  public errorMessages = {
-      'firstName': [
-        { type: 'required', message: 'Name is required.' }
-      ]
-    };
-
   async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
     const alert = await this.alertController.create({
       message: message,
