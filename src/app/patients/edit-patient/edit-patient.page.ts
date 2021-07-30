@@ -11,6 +11,7 @@ import { PatientsApiService } from '../services/patients-api.service';
   templateUrl: './edit-patient.page.html',
   styleUrls: ['./edit-patient.page.scss'],
 })
+
 export class EditPatientPage implements OnInit {
   myForm: FormGroup;
   id: any;
@@ -19,11 +20,16 @@ export class EditPatientPage implements OnInit {
   maxDate: Date;
   patient: any = {};
 
+  //Verifica si el campo es invalido
+  invalidField(field: string) {
+    return this.myForm.get(field).invalid && this.myForm.get(field).touched;
+  }  
+
   constructor(private patientsApiService: PatientsApiService, 
     private route: ActivatedRoute,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router) 
+    private router: Router)
   {
     const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);

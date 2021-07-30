@@ -18,6 +18,11 @@ export class NewPatientPage implements OnInit {
   maxDate: Date;
   datePickerObj: any = {};
 
+  //Verifica si el campo es invalido
+  invalidField(field: string) {
+    return this.myForm.get(field).invalid && this.myForm.get(field).touched;
+  } 
+
   constructor(
     private patientsApiService: PatientsApiService, 
     public modalCtrl: ModalController,

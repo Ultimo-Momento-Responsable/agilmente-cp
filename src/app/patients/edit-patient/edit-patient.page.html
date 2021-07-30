@@ -20,14 +20,24 @@
             <ion-col size=6>
               <ion-item id="rounded">
                 <ion-label position="stacked" fixed="" color="primary">Nombre *</ion-label>
-                <ion-input formControlName="firstName" type="text" minlength=2 maxlength=20></ion-input>
+                <ion-input class="form-control" formControlName="firstName" required minlength=2 maxlength=20></ion-input>
               </ion-item>
+  
+              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('firstName')" class="alert">
+                Este campo es requerido
+              </div>
+
             </ion-col>
             <ion-col size=6>
               <ion-item id="rounded">
                 <ion-label position="stacked" color="primary">Apellido *</ion-label>
                 <ion-input formControlName="lastName" type="text" minlength=2 maxlength=20></ion-input>
               </ion-item>
+
+              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('lastName')" class="alert">
+                Este campo es requerido
+              </div>
+
             </ion-col>
           </ion-row>
           <ion-row>
@@ -40,6 +50,11 @@
                 </ion-input>
                 <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
               </ion-item>
+
+              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('birthDate')" class="alert">
+                Este campo es requerido
+              </div>
+
             </ion-col>
             <ion-col>
               <ion-item id="rounded">
@@ -55,6 +70,11 @@
                   maxlength=20>
                 </ion-input>
               </ion-item>
+
+              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('city')" class="alert">
+                Este campo es requerido
+              </div>
+
             </ion-col>
           </ion-row>
           <ion-row>
@@ -82,7 +102,7 @@
             [disabled]="!myForm.valid"
             expand="block" 
             class="ion-text-uppercase ion-margin-top">
-            Cargar Paciente
+            Actualizar Paciente
           </ion-button>
         </form>
       </div>
