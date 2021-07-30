@@ -70,20 +70,33 @@ export class NewPatientPage implements OnInit {
   // Guarda el Paciente rellenado en el formulario
   save(myForm: FormGroup) {
     if (myForm.valid) {
+      let code = this.createLoginCode()
       let patient: any = {
         firstName: myForm.value.firstName,
         lastName: myForm.value.lastName,
         bornDate: myForm.value.birthDate,
         city: myForm.value.city,
-        description: myForm.value.description
+        description: myForm.value.description,
+        loginCode: code,
+        isLogged: false
       }
 
       this.patientsApiService.postPatient(patient).subscribe(res => {
-        this.presentAlert('¡Paciente creado!','El paciente ha sido registrado correctamente.', true, 'alertSuccess'); 
+        this.presentAlert('¡Paciente creado!','<p>El paciente ha sido registrado correctamente. \n' +
+        'Muéstrale este código a tu paciente para que pueda ingresar a la app. \n</p><h3>' + code + '</h3>', true, 'alertSuccess'); 
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
       });
     }
+  }
+
+  createLoginCode() : string {
+    let code = Math.floor(Math.random() * (1000000));
+    let codeString = code.toString()
+    while (codeString.length < 6) {
+      codeString = '0' + codeString;
+    }
+    return codeString
   }
 
   // Muestra la alerta.
@@ -92,7 +105,7 @@ export class NewPatientPage implements OnInit {
       message: message,
       header: 'Cargar Paciente',
       subHeader: subHeader,
-      cssClass: css,
+      cssClass: 'centerh3',
       buttons: [{
         text: 'OK',
         cssClass: css

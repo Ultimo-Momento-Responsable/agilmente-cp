@@ -12,12 +12,12 @@
     <ion-col>
       <div class="ion-padding-top ion-margin-top">
         <ion-row>
-          <ion-col size=5>
+          <ion-col size=3>
             <ion-title>
               Datos Personales
             </ion-title>
           </ion-col>
-          <ion-col size=7>
+          <ion-col size=9>
             <ion-button 
               style="float: right;"
               color="danger"  
@@ -33,7 +33,33 @@
               <ion-icon name="pencil-outline" item-right></ion-icon>
               <p class="ion-margin">Editar</p>
             </ion-button>
-            
+            <div *ngIf="this.patient?.loginCode && this.patient?.loginCode.length==6" style="float: right; margin-right: 5%; margin-top: -0.5%;">
+              <h5>
+                Código de Ingreso: {{this.patient.loginCode}} 
+              </h5>
+            </div>
+            <div *ngIf="this.patient?.loginCode.length!=6 && this.patient?.logged" style="float: right; margin-right: 5%;">
+              <h5 style="float: right;margin-right: 5%;margin-top: -0.5%;">
+                Paciente Vinculado
+              </h5>
+              <ion-button 
+                style="float: right;"
+                (click)="this.unlinkPatient()">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <p class="ion-padding">Desvincular</p>
+              </ion-button>
+            </div>
+            <div *ngIf="this.patient?.loginCode.length!=6 && !this.patient?.logged" style="float: right; margin-right: 5%;">
+              <h5 style="float: right;margin-right: 5%;margin-top: -0.5%;">
+                Paciente Desvinculado
+              </h5>
+              <ion-button 
+                style="float: right;"
+                (click)="this.resetCode()">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <p class="ion-padding">Generar Código</p>
+              </ion-button>
+            </div>
           </ion-col>
         </ion-row>
       </div>

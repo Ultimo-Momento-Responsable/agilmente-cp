@@ -10,8 +10,10 @@ export interface Patient {
   firstName: string,
   lastName: string,
   description: string,
-  birthDate: Date,
-  city: string
+  bornDate: Date,
+  city: string,
+  loginCode: string,
+  logged: boolean
 }
 
 @Component({
@@ -26,6 +28,7 @@ export class SpecificPatientPage implements OnInit {
   patient: Patient;
   lineCumulative: any;
   results: any;
+  
   
   constructor(
     private patientsApiService: PatientsApiService, 
@@ -50,8 +53,18 @@ export class SpecificPatientPage implements OnInit {
         lastName: res.lastName,
         birthDate: res.bornDate,
         description: res.description,
-        city: res.city
-      }) 
+        city: res.city,
+      });
+      this.patient = {
+        id: this.id,
+        firstName: res.firstName,
+        lastName: res.lastName,
+        bornDate: res.bornDate,
+        description: res.description,
+        city: res.city,
+        loginCode: res.loginCode,
+        logged: res.logged
+      }
     }); 
     this.resultsApiService.getResults().subscribe(res => {
       this.results = res.content.reverse();
@@ -66,6 +79,30 @@ export class SpecificPatientPage implements OnInit {
     this.patientsApiService.deletePatient(this.id).subscribe(()=>{
       this.router.navigateByUrl('/patients')
     });
+  }
+
+  /**
+   * Desvincula el paciente.
+   */
+  unlinkPatient(){
+    this.patient.logged=false;
+    this.patient.loginCode=null;
+    this.patientsApiService.putPatient(this.patient,this.id).subscribe(res => {
+      window.location.reload();
+    });
+  }
+
+  /**
+   * Genera un código nuevo para el paciente desvinculado.
+   */
+  resetCode(){
+    let code = Math.floor(Math.random() * (1000000));
+    let codeString = code.toString()
+    while (codeString.length < 6) {
+      codeString = '0' + codeString;
+    }
+    this.patient.loginCode=codeString;
+    this.patientsApiService.putPatient(this.patient,this.id).subscribe(res => {});
   }
 
   /**

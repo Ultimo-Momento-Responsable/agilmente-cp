@@ -61,17 +61,23 @@ export class PatientsPage implements OnInit {
       res.content.forEach(p => {
         const textDate = p.bornDate.split('-');
         const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
+        let description = p.description
+        if (description){
+          description = p.description.substring(0,45)
+          if (description.length == 45) {
+            this.auxPatient.description += '...'
+          }
+        }
+        
         this.auxPatient = {
           "id": p.id,
           "firstName": p.firstName,
           "lastName": p.lastName,
-          "description": p.description.substring(0,45),
+          "description": description,
           "age": calculatedAge,
           "city": p.city
         }
-        if (this.auxPatient.description.length == 45) {
-          this.auxPatient.description += '...'
-        }
+
         this.formattedPatients.push(this.auxPatient);
       })
     });

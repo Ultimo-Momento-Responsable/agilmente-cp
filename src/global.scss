@@ -37,15 +37,13 @@ ion-menu ion-content {
   --background: var(--ion-item-background, var(--ion-background-color, #488aff));
 }
 .alertError{
-    color: #f53d3d !important;
-    button.alertButton{
-      background-color: #f53d3d !important;
-      color: #f4f4f4 !important;
-    }
- }
- .alertSuccess{
+  color: #f53d3d !important;
+}
+.alertSuccess{
   color: #32db64 !important;
-  button.alertButton{
-    color: #32db64 !important;
+}
+.centerh3{
+  h3{
+    text-align: center;
   }
- }
+}
