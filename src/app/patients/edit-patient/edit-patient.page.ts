@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
@@ -29,43 +29,20 @@ export class EditPatientPage implements OnInit {
     private route: ActivatedRoute,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router,
-    private formBuilder: FormBuilder)
+    private router: Router)
   {
     const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);
     this.maxDate = new Date(currentDate.getFullYear() - 10, currentDate.getMonth(), currentDate.getDate());
   }
 
-  form: FormGroup = this.formBuilder.group({
-    alias: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(23)
-      ],
-    ],
-    api_key: ['', [Validators.required]],
-    secret_key: ['', [Validators.required]],
-  });
-
   ngOnInit() {
-    /*
     this.myForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       birthDate: new FormControl('', Validators.required),
       description: new FormControl(),
       city: new FormControl('', Validators.required)
-    });
-    */
-    
-    this.myForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      birthDate: ['', [Validators.required]],
-      description: [''],
-      city: ['', [Validators.required]]
     });
 
     // Recibe el id del paciente seleccionado, para que se edite ese en específico
