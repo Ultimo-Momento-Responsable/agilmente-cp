@@ -20,7 +20,7 @@
             <ion-col size=6>
               <ion-item id="rounded">
                 <ion-label position="stacked" fixed="" color="primary">Nombre *</ion-label>
-                <ion-input formControlName="firstName" type="text" minlength=2 maxlength=20></ion-input>
+                <ion-input formControlName="firstName" type="text" maxlength=20></ion-input>
               </ion-item>
 
               <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('firstName')" class="alert">
@@ -31,7 +31,7 @@
             <ion-col size=6>
               <ion-item id="rounded">
                 <ion-label position="stacked" color="primary">Apellido *</ion-label>
-                <ion-input formControlName="lastName" type="text" minlength=2 maxlength=20></ion-input>
+                <ion-input formControlName="lastName" type="text" maxlength=20></ion-input>
               </ion-item>
 
               <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('lastName')" class="alert">
@@ -58,16 +58,11 @@
             </ion-col>
             <ion-col>
               <ion-item id="rounded">
-                <ion-label 
-                  position="stacked" 
-                  color="primary">
+                <ion-label position="stacked" color="primary">
                   Localidad *
                 </ion-label>
-                <ion-input 
-                  formControlName="city" 
-                  type="text"
-                  minlength=2>
-                </ion-input>
+
+                <ion-input formControlName="city" type="text"></ion-input>
               </ion-item>
 
               <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('city')" class="alert">

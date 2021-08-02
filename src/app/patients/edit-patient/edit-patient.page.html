@@ -20,7 +20,7 @@
             <ion-col size=6>
               <ion-item id="rounded">
                 <ion-label position="stacked" fixed="" color="primary">Nombre *</ion-label>
-                <ion-input class="form-control" formControlName="firstName" required minlength=2 maxlength=20></ion-input>
+                <ion-input class="form-control" formControlName="firstName" required maxlength=20></ion-input>
               </ion-item>
   
               <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('firstName')" class="alert">
@@ -31,7 +31,7 @@
             <ion-col size=6>
               <ion-item id="rounded">
                 <ion-label position="stacked" color="primary">Apellido *</ion-label>
-                <ion-input formControlName="lastName" type="text" minlength=2 maxlength=20></ion-input>
+                <ion-input formControlName="lastName" type="text" maxlength=20></ion-input>
               </ion-item>
 
               <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('lastName')" class="alert">
@@ -58,17 +58,10 @@
             </ion-col>
             <ion-col>
               <ion-item id="rounded">
-                <ion-label 
-                  position="stacked" 
-                  color="primary">
+                <ion-label position="stacked" color="primary">
                   Localidad *
                 </ion-label>
-                <ion-input 
-                  formControlName="city" 
-                  type="text"
-                  minlength=2
-                  maxlength=20>
-                </ion-input>
+                <ion-input formControlName="city" type="text" maxlength=20></ion-input>
               </ion-item>
 
               <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('city')" class="alert">
@@ -80,16 +73,10 @@
           <ion-row>
             <ion-col>
               <ion-item id="rounded">
-                <ion-label 
-                  position="stacked" 
-                  color="primary">
+                <ion-label position="stacked" color="primary">
                   Descripción
                 </ion-label>
-                <ion-textarea rows="6" 
-                  formControlName="description" 
-                  type="text"
-                  maxlength=240>
-                </ion-textarea>
+                <ion-textarea rows="6" formControlName="description" type="text" maxlength=240></ion-textarea>
               </ion-item>
             </ion-col>
           </ion-row>
