@@ -26,7 +26,7 @@ export class NewPlanningPage implements OnInit {
   datePickerObj: any = {};
   myForm: FormGroup;
   assignedGames: any [] = [];
-  games: any [];
+  games: any [] = [];
   gamesSearch: any [];
   isAdding: boolean = false;
 
@@ -34,8 +34,17 @@ export class NewPlanningPage implements OnInit {
     this.patientsApiService.getPatientsListed().subscribe(res=>{
       this.patients = res;
     });
-
-    this.games = this.gamesApiService.getGames();
+    let i = 0;
+    this.gamesApiService.getGames().forEach(g=>{
+      this.games.push(g);
+      this.games[i].params.forEach(p => {
+        p.isActive = false;
+      });
+      this.games[i].isSettingValueType0 = false;
+      i++;
+    });
+    // this.games = this.gamesApiService.getGames();
+    // this.games.forEach()
     // this.gamesApiService.getGames().subscribe(res=>{
     //   this.games = res;
     // })
@@ -55,7 +64,13 @@ export class NewPlanningPage implements OnInit {
     this.myForm = new FormGroup({
       patient: new FormControl('', Validators.required),
       startDate: new FormControl('', Validators.required),
-      finishDate: new FormControl('', Validators.required)
+      finishDate: new FormControl('', Validators.required),
+      params: new FormGroup({
+        name: new FormControl(),
+        isActive: new FormControl()
+      })
+        
+
     });
   }
 
@@ -106,21 +121,28 @@ export class NewPlanningPage implements OnInit {
   addGame(game: any) {
     this.gamesSearch = [];
     this.assignedGames.push(game);
+    this.assignedGames[this.assignedGames.length - 1].accordion = true;
     this.isAdding = false;
   }
 
   //
-  async changeMode(pm: any, p: any){
-    p.mode.forEach(paramMode => {
-      if (paramMode.isActive){
-        if (pm==paramMode){
-          console.log("ASD");
-          paramMode.isActive = true
-        }else{
-          paramMode.isActive = false;
-        }
+  setActiveParam(game: any, p: any){
+    this.games.forEach(g=>{
+      if (g.id == game.id){
+        g.params.forEach(param => {
+          if (param.id == p.id) {
+            param.isActive = !param.isActive;
+          } else {
+            param.isActive = false;
+          }
+        });
       }
-    });
+    })
+  }
+
+  //
+  changeValue(game:any,p: any,evt){
+    this.games[this.games.indexOf(game)].params[this.games[this.games.indexOf(game)].params.indexOf(p)].value = evt.srcElement.value
   }
 
   //
