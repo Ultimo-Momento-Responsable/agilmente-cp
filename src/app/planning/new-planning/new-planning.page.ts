@@ -174,16 +174,31 @@ export class NewPlanningPage implements OnInit {
         patientId = p.id;
       }
     })
-    
+    let gamesPost: any[];
+    let i = 0;
+    this.assignedGames.forEach(g => {
+      gamesPost.push();
+      gamesPost[i].gameId = g.id;
+      if (g.hasLimit){
+        gamesPost[i].maxNumberOfSessions = g.maxNumberOfSessions;
+      } else{
+        gamesPost[i].maxNumberOfSessions = -1;
+      }
+      
+      gamesPost[i].params.
+
+      gamesPost[i].params = {
+        
+      }
+    })
     if (myForm.valid) {
       let jsonPost = {
         patientId: patientId,
         professionalId: 5,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
-        games: {
+        games: gamesPost,
 
-        }
       //   {
       //     "patientId": 1,
       //     "professionalId": 5,
