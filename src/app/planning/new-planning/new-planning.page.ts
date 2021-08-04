@@ -38,20 +38,21 @@ export class NewPlanningPage implements OnInit {
     });
     let i = 0;
     this.gamesApiService.getGames().subscribe(res=>{
-      res.forEach(g=>{
+      res.forEach(g => {
         this.games.push(g);
         this.games[i].params.forEach(p => {
           p.isActive = false;
         });
         this.games[i].maxNumberOfSessions = 5;
         this.games[i].hasLimit = false;
+        this.games[i].index = null;
+        this.games[i].done = false;
         i++;
       });
-    })
+    });
+      
+    //})
 
-    // this.gamesApiService.getGames().subscribe(res=>{
-    //   this.games = res;
-    // })
 
     this.datePickerObj = {
       showTodayButton: false,
@@ -121,8 +122,9 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
-  setActiveParam(game, p){
+  setActiveParam(game, p, index){
     this.assignedGames.forEach(g=>{
+      g.index = index;
       if (g.id == game.id){
         g.params.forEach(param => {
           if (param.id == p.id) {
@@ -165,7 +167,7 @@ export class NewPlanningPage implements OnInit {
   // Cuando el juego se haya cargado, da como válido el formulario
   gameAdded(game) {
     game.accordion = false;
-    this.myForm.patchValue({"games": "ok"});
+    game.done = true;
   }
 
   // Muestra la alerta.
@@ -214,7 +216,7 @@ export class NewPlanningPage implements OnInit {
       });
       gamePost.params = params;
       gamesPost.push(gamePost);
-      
+
     })
     if (myForm.valid) {
       let jsonPost = {
@@ -230,6 +232,17 @@ export class NewPlanningPage implements OnInit {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
       })
     }
-
+  }
+  submitDisabled(){
+    let gamesAreDone = true;
+    this.assignedGames.forEach(g => {
+      if (!g.done){
+        gamesAreDone = false;
+      }
+    })
+    if (gamesAreDone){
+      this.myForm.patchValue({"games": "ok"});
+    }
+    return !this.myForm.valid
   }
 }

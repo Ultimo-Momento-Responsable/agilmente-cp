@@ -14,7 +14,6 @@ export class GamesApiService {
   * @return una lista de juegos.
   */
   getGames(): Observable<any> {
-    return this.http.get(`http://localhost:8080/${this.entity}`);
     // let games = 
     // [
     //   {
@@ -54,7 +53,7 @@ export class GamesApiService {
     //     ]
     //   }
     // ]
-    //return games;
+    return this.http.get(`http://localhost:8080/${this.entity}`);
   }
 
   /**

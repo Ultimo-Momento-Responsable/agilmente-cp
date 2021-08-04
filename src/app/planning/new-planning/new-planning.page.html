@@ -80,7 +80,7 @@
                         <ion-icon *ngIf="!game.accordion" name="chevron-down-outline" color="light"></ion-icon>
                         <ion-icon *ngIf="game.accordion" name="chevron-up-outline" color="light"></ion-icon>
                     </ion-button>
-                    <ion-button fill="clear" color="danger" style="float: right;"
+                    <ion-button color="danger" style="float: right;--border-radius: 20px;"
                         (click)="assignedGames.splice(assignedGames.indexOf(game))">
                         <ion-icon name="trash-outline"></ion-icon>
                     </ion-button>
@@ -94,12 +94,12 @@
                       Límite
                     </ion-label>
                   </ion-list-header>
-                  <ion-radio-group>
-                    <div *ngFor="let p of game.params;">
+                  <ion-radio-group [value]="game.index">
+                    <div *ngFor="let p of game.params; let i = index">
                       <div *ngIf="p.type==0">
                         <ion-item>
                           <ion-label>{{ p.name }}</ion-label>
-                          <ion-radio (click)="setActiveParam(game,p)"></ion-radio>
+                          <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
                         </ion-item>
                         <ion-item disabled="{{!p.isActive}}">
                           <ion-label position="stacked" color="primary">Valor</ion-label>
@@ -157,7 +157,7 @@
           </ion-col>
         </ion-row>
         <ion-button type="submit" 
-          [disabled]="!myForm.valid"
+          [disabled]="submitDisabled()"
           expand="block" 
           class="ion-text-uppercase ion-margin-top">
           Cargar Planificación
