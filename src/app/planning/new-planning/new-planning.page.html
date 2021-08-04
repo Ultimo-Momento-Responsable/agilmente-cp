@@ -67,18 +67,22 @@
         <ion-row>
           <ion-col>
             <ion-card *ngFor="let game of assignedGames">
-              <ion-card-header>
+              <ion-card-header color="primary">
                 <ion-row>
                   <ion-col>
                     <h4>
                       {{ game.name }}
                     </h4>
                   </ion-col>
-                  <ion-col size="2">
-                    <ion-button color="light" fill="clear" style="float: right;"
+                  <ion-col size="3">
+                    <ion-button fill="clear" style="float: right;"
                         (click)="game.accordion = !game.accordion">
-                        <ion-icon *ngIf="!game.accordion" name="chevron-down-outline" color="primary"></ion-icon>
-                        <ion-icon *ngIf="game.accordion" name="chevron-up-outline" color="primary"></ion-icon>
+                        <ion-icon *ngIf="!game.accordion" name="chevron-down-outline" color="light"></ion-icon>
+                        <ion-icon *ngIf="game.accordion" name="chevron-up-outline" color="light"></ion-icon>
+                    </ion-button>
+                    <ion-button fill="clear" color="danger" style="float: right;"
+                        (click)="assignedGames.splice(assignedGames.indexOf(game))">
+                        <ion-icon name="trash-outline"></ion-icon>
                     </ion-button>
                   </ion-col>
                 </ion-row>                
@@ -90,24 +94,37 @@
                       Límite
                     </ion-label>
                   </ion-list-header>
-                  <ion-row>
-                    <ion-col>
-                      <ion-radio-group>
-                        <div *ngFor="let p of game.params">
-                          <div *ngIf="p.type==0">
-                            <ion-item>
-                              <ion-label>{{ p.name }}</ion-label>
-                              <ion-radio (click)="setActiveParam(game,p)"></ion-radio>
-                            </ion-item>
-                            <ion-item *ngIf="p.isActive">
-                              <ion-input type="number" (ionChange)="changeValue(game,p,$event)"></ion-input>
-                            </ion-item>
-                          </div>
-                        </div>
-                      </ion-radio-group>
-                    </ion-col>
-                  </ion-row>
+                  <ion-radio-group>
+                    <div *ngFor="let p of game.params;">
+                      <div *ngIf="p.type==0">
+                        <ion-item>
+                          <ion-label>{{ p.name }}</ion-label>
+                          <ion-radio (click)="setActiveParam(game,p)"></ion-radio>
+                        </ion-item>
+                        <ion-item disabled="{{!p.isActive}}">
+                          <ion-label position="stacked" color="primary">Valor</ion-label>
+                          <ion-input type="number" value="{{ p.value }}" (ionChange)="changeParamValue(game,p,$event)"></ion-input>
+                        </ion-item>
+                      </div>
+                    </div>
+                  </ion-radio-group>
+                  <!-- en todos los juegos -->
+                  <ion-item>
+                    <ion-label>¿Repeticiones limitadas?</ion-label>
+                    <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
+                    <ion-item disabled="{{!game.hasLimit}}">
+                      <ion-label position="stacked" color="primary">Cantidad</ion-label>
+                      <ion-input value="{{ game.maxNumberOfSessions }}" (ionChange)="changeLimitGamesValue(game,$event)"> </ion-input>
+                    </ion-item>
+                  </ion-item>
                 </ion-list>
+                <ion-button
+                  [disabled]="!checkIfCorrect(game)"
+                  expand="block" 
+                  class="ion-text-uppercase ion-margin-top"
+                  (click)="gameAdded(game)">
+                  Listo
+                </ion-button>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -133,11 +150,17 @@
                 </ion-item>
               </ion-list>
             </div>
+            <ion-button *ngIf="!isAdding" (click)="isAdding = true" style="float: right;">
+              <ion-icon name="add-outline"></ion-icon>
+              <ion-label class="ion-margin">Añadir Juego</ion-label>
+            </ion-button>
           </ion-col>
         </ion-row>
-        <ion-button *ngIf="!isAdding" (click)="isAdding = true">
-          <ion-icon name="add-outline"></ion-icon>
-          <ion-label class="ion-margin">Añadir Juego</ion-label>
+        <ion-button type="submit" 
+          [disabled]="!myForm.valid"
+          expand="block" 
+          class="ion-text-uppercase ion-margin-top">
+          Cargar Planificación
         </ion-button>
       </form>
     </ion-col>

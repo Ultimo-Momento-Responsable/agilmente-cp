@@ -40,7 +40,8 @@ export class NewPlanningPage implements OnInit {
       this.games[i].params.forEach(p => {
         p.isActive = false;
       });
-      this.games[i].isSettingValueType0 = false;
+      this.games[i].maxNumberOfSessions = 5;
+      this.games[i].hasLimit = false;
       i++;
     });
     // this.games = this.gamesApiService.getGames();
@@ -65,12 +66,7 @@ export class NewPlanningPage implements OnInit {
       patient: new FormControl('', Validators.required),
       startDate: new FormControl('', Validators.required),
       finishDate: new FormControl('', Validators.required),
-      params: new FormGroup({
-        name: new FormControl(),
-        isActive: new FormControl()
-      })
-        
-
+      games: new FormControl('', Validators.required)
     });
   }
 
@@ -106,32 +102,30 @@ export class NewPlanningPage implements OnInit {
     await datePickerModal.present();
   }
 
-  save(myForm: FormGroup) {
-    if (myForm.valid) {
-    }
-  }
-
   // llena el campo del paciente cuando clickeas el que deseas en la lista
   fillSearchBar(name: string) {
     this.myForm.patchValue({"patient": name})
     this.patientsSearch = null
   }
 
-  // añade el juego seleccionado a la lista de juegos asignados.
-  addGame(game: any) {
+  // Añade el juego seleccionado a la lista de juegos asignados.
+  addGame(game) {
     this.gamesSearch = [];
     this.assignedGames.push(game);
     this.assignedGames[this.assignedGames.length - 1].accordion = true;
     this.isAdding = false;
+    this.myForm.patchValue({"games": null});
   }
 
-  //
-  setActiveParam(game: any, p: any){
-    this.games.forEach(g=>{
+  // Para los params tipo 0, activa uno, en caso de que se haya tildado
+  setActiveParam(game, p){
+    this.assignedGames.forEach(g=>{
       if (g.id == game.id){
         g.params.forEach(param => {
           if (param.id == p.id) {
-            param.isActive = !param.isActive;
+            if (!param.isActive) {
+              param.isActive = true;
+            }
           } else {
             param.isActive = false;
           }
@@ -140,13 +134,72 @@ export class NewPlanningPage implements OnInit {
     })
   }
 
-  //
-  changeValue(game:any,p: any,evt){
-    this.games[this.games.indexOf(game)].params[this.games[this.games.indexOf(game)].params.indexOf(p)].value = evt.srcElement.value
+  // Actualiza el valor del Param
+  changeParamValue(game,p,evt){
+    this.assignedGames[this.assignedGames.indexOf(game)].params[this.assignedGames[this.assignedGames.indexOf(game)].params.indexOf(p)].value = evt.srcElement.value;
   }
 
-  //
-  async setParamValue(evt,pm){
-    pm.value = evt.srcElement.value
+  // Setea el número máximo de sesiones de juego
+  changeLimitGamesValue(game,evt){
+    this.assignedGames[this.assignedGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
+  }
+
+  // Checkea que el juego esté correctamente cargado
+  checkIfCorrect(game) : boolean{
+    let band = false;
+    game.params.forEach(p => {
+      if (p.type == 0){
+        if (p.isActive){
+          if (p.value){
+            band = true;
+          }
+        }
+      }
+    });
+    return band
+  }
+
+  // Cuando el juego se haya cargado, da como válido el formulario
+  gameAdded(game) {
+    game.accordion = false;
+    this.myForm.patchValue({"games": "ok"});
+    console.log(this.assignedGames);
+  }
+
+
+  save(myForm: FormGroup) {
+    let patientId: number;
+    this.patients.forEach(p=>{
+      if (p.name == this.myForm.value.patient){
+        patientId = p.id;
+      }
+    })
+    
+    if (myForm.valid) {
+      let jsonPost = {
+        patientId: patientId,
+        professionalId: 5,
+        startDate: myForm.value.startDate,
+        dueDate: myForm.value.finishDate,
+        games: {
+
+        }
+      //   {
+      //     "patientId": 1,
+      //     "professionalId": 5,
+      //     "startDate": "01-08-2021",
+      //     "dueDate": "08-08-2021",
+      //     "games": [
+      //         {
+      //             "gameId": 2,
+      //             "maxNumberOfSessions": 5,
+      //             "params": {
+      //                 "FigureQuantity": "12"
+      //             }
+      //         }
+      //     ]
+      // }
+      }
+    }
   }
 }
