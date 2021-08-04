@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsApiService } from '../../patients/services/patients-api.service';
 import { GamesApiService } from 'src/app/games/services/games-api.service';
+import { PlanningApiService } from '../services/planning-api.service';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -17,6 +18,7 @@ export class NewPlanningPage implements OnInit {
   constructor(
     private patientsApiService: PatientsApiService,
     private gamesApiService: GamesApiService,
+    private planningApiService: PlanningApiService,
     public modalCtrl: ModalController,
     public alertController: AlertController,
     private router: Router) { }
@@ -35,17 +37,18 @@ export class NewPlanningPage implements OnInit {
       this.patients = res;
     });
     let i = 0;
-    this.gamesApiService.getGames().forEach(g=>{
-      this.games.push(g);
-      this.games[i].params.forEach(p => {
-        p.isActive = false;
+    this.gamesApiService.getGames().subscribe(res=>{
+      res.forEach(g=>{
+        this.games.push(g);
+        this.games[i].params.forEach(p => {
+          p.isActive = false;
+        });
+        this.games[i].maxNumberOfSessions = 5;
+        this.games[i].hasLimit = false;
+        i++;
       });
-      this.games[i].maxNumberOfSessions = 5;
-      this.games[i].hasLimit = false;
-      i++;
-    });
-    // this.games = this.gamesApiService.getGames();
-    // this.games.forEach()
+    })
+
     // this.gamesApiService.getGames().subscribe(res=>{
     //   this.games = res;
     // })
@@ -163,58 +166,70 @@ export class NewPlanningPage implements OnInit {
   gameAdded(game) {
     game.accordion = false;
     this.myForm.patchValue({"games": "ok"});
-    console.log(this.assignedGames);
   }
 
+  // Muestra la alerta.
+  async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
+    const alert = await this.alertController.create({
+      message: message,
+      header: 'Cargar Paciente',
+      subHeader: subHeader,
+      cssClass: 'centerh3',
+      buttons: [{
+        text: 'OK',
+        cssClass: css
+      }],
+    });
+
+    await alert.present(); 
+    if (await alert.onDidDismiss()){
+      if (reset){
+        this.router.navigateByUrl('/patients')
+      }
+    }
+  }
 
   save(myForm: FormGroup) {
     let patientId: number;
     this.patients.forEach(p=>{
-      if (p.name == this.myForm.value.patient){
+      if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()) == this.myForm.value.patient.toLowerCase()){
         patientId = p.id;
       }
     })
-    let gamesPost: any[];
-    let i = 0;
+    let gamesPost: any[] = [];
     this.assignedGames.forEach(g => {
-      gamesPost.push();
-      gamesPost[i].gameId = g.id;
-      if (g.hasLimit){
-        gamesPost[i].maxNumberOfSessions = g.maxNumberOfSessions;
-      } else{
-        gamesPost[i].maxNumberOfSessions = -1;
-      }
+      let gamePost = {
+        gameId: g.id,
+        maxNumberOfSessions: g.hasLimit?g.maxNumberOfSessions:-1,
+        params: undefined
+      };
       
-      gamesPost[i].params.
+      let params: any = {};
 
-      gamesPost[i].params = {
-        
-      }
+      g.params.forEach(p => {
+        if (p.isActive) {
+          let newParam = {[p.className]: p.value}
+          params = {...params,...newParam}
+        }
+      });
+      gamePost.params = params;
+      gamesPost.push(gamePost);
+      
     })
     if (myForm.valid) {
       let jsonPost = {
         patientId: patientId,
-        professionalId: 5,
+        professionalId: 4,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
-        games: gamesPost,
-
-      //   {
-      //     "patientId": 1,
-      //     "professionalId": 5,
-      //     "startDate": "01-08-2021",
-      //     "dueDate": "08-08-2021",
-      //     "games": [
-      //         {
-      //             "gameId": 2,
-      //             "maxNumberOfSessions": 5,
-      //             "params": {
-      //                 "FigureQuantity": "12"
-      //             }
-      //         }
-      //     ]
-      // }
+        games: gamesPost
       }
+      this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
+        this.presentAlert('Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
+      }, (err) => {
+        this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+      })
     }
+
   }
 }

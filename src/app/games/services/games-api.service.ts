@@ -13,47 +13,48 @@ export class GamesApiService {
   * Obtiene todos los juegos cargados.
   * @return una lista de juegos.
   */
-  getGames(): any[] {
-    let games = 
-    [
-      {
-        id: 0,
-        name: "Encuentra el Repetido",
-        params: [
-          { 
-            id: 0,
-            name: "Cantidad de Figuras",
-            className: "FigureQuantity",
-            type: 0
-          },
-          {
-            id: 1,
-            name: "Tiempo Máximo",
-            className: "MaximumTime",
-            type: 0
-          }
-        ]
-      },
-      {
-        id: 1,
-        name: "Encuentra al nuevo",
-        params: [
-          { 
-            id: 0,
-            name: "Cantidad de Figuras",
-            className: "FigureQuantity",
-            type: 0
-          },
-          {
-            id: 1,
-            name: "Tiempo Máximo",
-            className: "MaximumTime",
-            type: 0
-          }
-        ]
-      }
-    ]
-    return games//this.http.get(`http://localhost:8080/${this.entity}`);
+  getGames(): Observable<any> {
+    return this.http.get(`http://localhost:8080/${this.entity}`);
+    // let games = 
+    // [
+    //   {
+    //     id: 0,
+    //     name: "Encuentra el Repetido",
+    //     params: [
+    //       { 
+    //         id: 0,
+    //         name: "Cantidad de Figuras",
+    //         className: "FigureQuantity",
+    //         type: 0
+    //       },
+    //       {
+    //         id: 1,
+    //         name: "Tiempo Máximo",
+    //         className: "MaximumTime",
+    //         type: 0
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     id: 1,
+    //     name: "Encuentra al nuevo",
+    //     params: [
+    //       { 
+    //         id: 0,
+    //         name: "Cantidad de Figuras",
+    //         className: "FigureQuantity",
+    //         type: 0
+    //       },
+    //       {
+    //         id: 1,
+    //         name: "Tiempo Máximo",
+    //         className: "MaximumTime",
+    //         type: 0
+    //       }
+    //     ]
+    //   }
+    // ]
+    //return games;
   }
 
   /**
