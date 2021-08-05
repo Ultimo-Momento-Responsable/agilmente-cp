@@ -272,7 +272,7 @@ export class NewPlanningPage implements OnInit {
       }
       
       this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
-        this.presentAlert('Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
+        this.presentAlert('¡Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
       })
