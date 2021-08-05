@@ -116,7 +116,7 @@
                     <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
                     <ion-item disabled="{{!game.hasLimit}}">
                       <ion-label position="stacked" color="primary">Cantidad</ion-label>
-                      <ion-input value="{{ game.maxNumberOfSessions }}" (ionChange)="changeLimitGamesValue(game,$event)" type="number" min=1 (ionBlur)="checkMNoSLimit(game)"> </ion-input>
+                      <ion-input disabled="{{!game.hasLimit}}" value="{{ game.maxNumberOfSessions }}" (ionChange)="changeLimitGamesValue(game,$event)" type="number" min=1 (ionBlur)="checkMNoSLimit(game)"> </ion-input>
                     </ion-item>
                   </ion-item>
                 </ion-list>
