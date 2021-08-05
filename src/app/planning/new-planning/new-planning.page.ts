@@ -25,7 +25,8 @@ export class NewPlanningPage implements OnInit {
 
   patients: any [];
   patientsSearch: any [];
-  datePickerObj: any = {};
+  datePickerStart: any = {};
+  datePickerFinish: any = {};
   myForm: FormGroup;
   assignedGames: any [] = [];
   games: any [] = [];
@@ -40,7 +41,7 @@ export class NewPlanningPage implements OnInit {
     this.gamesApiService.getGames().subscribe(res=>{
       res.forEach(g => {
         this.games.push(g);
-        this.games[i].params.forEach(p => {
+        this.games[i].param.forEach(p => {
           p.isActive = false;
         });
         this.games[i].maxNumberOfSessions = 5;
@@ -51,10 +52,19 @@ export class NewPlanningPage implements OnInit {
       });
     });
       
-    //})
-
-
-    this.datePickerObj = {
+    this.datePickerStart = {
+      showTodayButton: false,
+      closeOnSelect: true,
+      setLabel: 'Ok',
+      closeLabel: 'Cerrar',
+      titleLabel: 'Selecciona una fecha', 
+      dateFormat: 'DD-MM-YYYY',
+      clearButton : false,
+      monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      weeksList: ["D", "L", "M", "X", "J", "V", "S"],
+      fromDate: new Date()
+    };
+    this.datePickerFinish = {
       showTodayButton: false,
       closeOnSelect: true,
       setLabel: 'Ok',
@@ -65,6 +75,7 @@ export class NewPlanningPage implements OnInit {
       monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
       weeksList: ["D", "L", "M", "X", "J", "V", "S"]
     };
+    
 
     this.myForm = new FormGroup({
       patient: new FormControl('', Validators.required),
@@ -72,8 +83,15 @@ export class NewPlanningPage implements OnInit {
       finishDate: new FormControl('', Validators.required),
       games: new FormControl('', Validators.required)
     });
+    this.myForm.patchValue({"games": null});
   }
 
+  // Cambia el valor mínimo que puede tener el datepicker del fin de la planning  
+  setFinishMinDate(){
+    var dateSplit = this.myForm.value.startDate.split('-');
+    let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
+    this.datePickerFinish.fromDate = date;
+  }
   // Filtra pacientes según la búsqueda
   async filterPatient(evt){
     const search = evt.srcElement.value;
@@ -98,10 +116,7 @@ export class NewPlanningPage implements OnInit {
   async openDatePicker() {
     const datePickerModal = await this.modalCtrl.create({
       component: Ionic4DatepickerModalComponent,
-      cssClass: 'li-ionic4-datePicker',
-      componentProps: { 
-         'objConfig': this.datePickerObj
-      }
+      cssClass: 'li-ionic4-datePicker'
     });
     await datePickerModal.present();
   }
@@ -126,7 +141,7 @@ export class NewPlanningPage implements OnInit {
     this.assignedGames.forEach(g=>{
       g.index = index;
       if (g.id == game.id){
-        g.params.forEach(param => {
+        g.param.forEach(param => {
           if (param.id == p.id) {
             if (!param.isActive) {
               param.isActive = true;
@@ -141,7 +156,7 @@ export class NewPlanningPage implements OnInit {
 
   // Actualiza el valor del Param
   changeParamValue(game,p,evt){
-    this.assignedGames[this.assignedGames.indexOf(game)].params[this.assignedGames[this.assignedGames.indexOf(game)].params.indexOf(p)].value = evt.srcElement.value;
+    this.assignedGames[this.assignedGames.indexOf(game)].param[this.assignedGames[this.assignedGames.indexOf(game)].param.indexOf(p)].value = evt.srcElement.value;
   }
 
   // Setea el número máximo de sesiones de juego
@@ -152,7 +167,7 @@ export class NewPlanningPage implements OnInit {
   // Checkea que el juego esté correctamente cargado
   checkIfCorrect(game) : boolean{
     let band = false;
-    game.params.forEach(p => {
+    game.param.forEach(p => {
       if (p.type == 0){
         if (p.isActive){
           if (p.value){
@@ -208,7 +223,7 @@ export class NewPlanningPage implements OnInit {
       
       let params: any = {};
 
-      g.params.forEach(p => {
+      g.param.forEach(p => {
         if (p.isActive) {
           let newParam = {[p.className]: p.value}
           params = {...params,...newParam}
@@ -221,11 +236,12 @@ export class NewPlanningPage implements OnInit {
     if (myForm.valid) {
       let jsonPost = {
         patientId: patientId,
-        professionalId: 4,
+        professionalId: 6,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
         games: gamesPost
       }
+      
       this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
         this.presentAlert('Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
       }, (err) => {
@@ -233,8 +249,13 @@ export class NewPlanningPage implements OnInit {
       })
     }
   }
+
+  // habilita o desabilita el botón de submit
   submitDisabled(){
     let gamesAreDone = true;
+    if (this.assignedGames.length == 0){
+      gamesAreDone = false;
+    }
     this.assignedGames.forEach(g => {
       if (!g.done){
         gamesAreDone = false;
@@ -242,6 +263,8 @@ export class NewPlanningPage implements OnInit {
     })
     if (gamesAreDone){
       this.myForm.patchValue({"games": "ok"});
+    } else {
+      this.myForm.patchValue({"games": null});
     }
     return !this.myForm.valid
   }
