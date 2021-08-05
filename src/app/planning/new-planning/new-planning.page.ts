@@ -32,6 +32,7 @@ export class NewPlanningPage implements OnInit {
   games: any [] = [];
   gamesSearch: any [];
   isAdding: boolean = false;
+  patientBlur=false;
 
   ngOnInit() {
     this.patientsApiService.getPatientsListed().subscribe(res=>{
@@ -62,7 +63,8 @@ export class NewPlanningPage implements OnInit {
       clearButton : false,
       monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
       weeksList: ["D", "L", "M", "X", "J", "V", "S"],
-      fromDate: new Date()
+      fromDate: new Date(),
+      inputDate: new Date()
     };
     this.datePickerFinish = {
       showTodayButton: false,
@@ -86,11 +88,23 @@ export class NewPlanningPage implements OnInit {
     this.myForm.patchValue({"games": null});
   }
 
+  // 
+  patientExists(){
+    let flag = false;
+    this.patients?.forEach(p => {
+      if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase())==this.myForm.value.patient.toLowerCase()){
+        flag = true;
+      }
+    });
+    return flag
+  }
+
   // Cambia el valor mínimo que puede tener el datepicker del fin de la planning  
   setFinishMinDate(){
     var dateSplit = this.myForm.value.startDate.split('-');
     let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
     this.datePickerFinish.fromDate = date;
+    this.datePickerFinish.inputDate = date;
   }
   // Filtra pacientes según la búsqueda
   async filterPatient(evt){
@@ -179,6 +193,20 @@ export class NewPlanningPage implements OnInit {
     return band
   }
 
+  // Asegura que el param ingresado es mayor que 0
+  checkParamLimit(p){
+    if (parseInt(p.value) < 1) {
+      p.value = "1";
+    }
+  }
+
+  // Asegura que MaxNumberOfSessions ingresado es mayor que 0
+  checkMNoSLimit(game){
+    if (parseInt(game.maxNumberOfSessions) < 1) {
+      game.maxNumberOfSessions = "1";
+    }
+  }
+
   // Cuando el juego se haya cargado, da como válido el formulario
   gameAdded(game) {
     game.accordion = false;
@@ -189,7 +217,7 @@ export class NewPlanningPage implements OnInit {
   async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
     const alert = await this.alertController.create({
       message: message,
-      header: 'Cargar Paciente',
+      header: 'Cargar Planificación',
       subHeader: subHeader,
       cssClass: 'centerh3',
       buttons: [{
@@ -267,6 +295,6 @@ export class NewPlanningPage implements OnInit {
     } else {
       this.myForm.patchValue({"games": null});
     }
-    return !this.myForm.valid
+    return !this.myForm.valid || !this.patientExists()
   }
 }
