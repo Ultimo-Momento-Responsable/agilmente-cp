@@ -14,8 +14,16 @@ export class PatientsApiService {
   * Obtiene todos los Pacientes cargados.
   * @return Una página de pacientes.
   */
-  getPatients(page: number): Observable<any> {
+   getPatients(page: number): Observable<any> {
     return this.http.get(`http://localhost:8080/${this.entity}?page=${page}`);
+  }
+
+  /**
+  * Obtiene todos los Pacientes cargados.
+  * @return Una página de pacientes.
+  */
+   getPatientsListed(): Observable<any> {
+    return this.http.get(`http://localhost:8080/${this.entity}/listed`);
   }
 
   /**

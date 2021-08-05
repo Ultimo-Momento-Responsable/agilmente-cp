@@ -30,6 +30,7 @@
     "@mobiscroll/cli": "^1.6.0",
     "angular-material": "^1.2.2",
     "chart.js": "^3.3.2",
+    "ionic-angular": "^3.9.10",
     "moment": "^2.29.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

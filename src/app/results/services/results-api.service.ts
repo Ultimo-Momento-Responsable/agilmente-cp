@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class ResultsApiService {
-    entity: string = 'hay-uno-repetido';
+    entity: string = 'results';
 
     constructor(private http: HttpClient) { }
 
