@@ -206,6 +206,7 @@ export class NewPlanningPage implements OnInit {
     }
   }
 
+  // Se formatea y se envía la planificación al back
   save(myForm: FormGroup) {
     let patientId: number;
     this.patients.forEach(p=>{
