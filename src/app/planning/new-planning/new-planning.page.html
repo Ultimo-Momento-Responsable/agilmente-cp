@@ -19,9 +19,9 @@
             animated 
             placeholder="Selecciona un paciente" 
             formControlName="patient"
-            autocomplete
-            autocorrect
-            (ionInput)="filterPatient($event)">
+            (ionInput)="filterPatient($event)"
+            (ionFocus)="patientBlur=false"
+            (ionBlur)="patientBlur=true">
           </ion-searchbar>
           <ion-list lines="none">
             <ion-item *ngFor="let p of patientsSearch">
@@ -33,7 +33,7 @@
             </ion-item>
           </ion-list>
         </ion-item>
-
+        <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
         <ion-row>
           <ion-col>
             <ion-item id="rounded" button>
@@ -105,7 +105,7 @@
                         </ion-item>
                         <ion-item disabled="{{!p.isActive}}">
                           <ion-label position="stacked" color="primary">Valor</ion-label>
-                          <ion-input type="number" value="{{ p.value }}" (ionChange)="changeParamValue(game,p,$event)"></ion-input>
+                          <ion-input type="number" value="{{ p.value }}" (ionChange)="changeParamValue(game,p,$event)" type="number" min=1 (ionBlur)="checkParamLimit(p)"></ion-input>
                         </ion-item>
                       </div>
                     </div>
@@ -116,7 +116,7 @@
                     <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
                     <ion-item disabled="{{!game.hasLimit}}">
                       <ion-label position="stacked" color="primary">Cantidad</ion-label>
-                      <ion-input value="{{ game.maxNumberOfSessions }}" (ionChange)="changeLimitGamesValue(game,$event)"> </ion-input>
+                      <ion-input disabled="{{!game.hasLimit}}" value="{{ game.maxNumberOfSessions }}" (ionChange)="changeLimitGamesValue(game,$event)" type="number" min=1 (ionBlur)="checkMNoSLimit(game)"> </ion-input>
                     </ion-item>
                   </ion-item>
                 </ion-list>

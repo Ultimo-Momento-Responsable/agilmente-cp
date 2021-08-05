@@ -52,12 +52,13 @@ export class EditPatientPage implements OnInit {
 
     // Obtiene los valores del paciente para rellenar los campos del formulario
     this.patientsApiService.getPatientById(this.id).subscribe(res => {
+      this.patient = res
       this.myForm.setValue({
-        firstName: res.firstName,
-        lastName: res.lastName,
-        birthDate: res.bornDate,
-        description: res.description,
-        city: res.city
+        firstName: this.patient.firstName,
+        lastName: this.patient.lastName,
+        birthDate: this.patient.bornDate,
+        description: this.patient.description,
+        city: this.patient.city
       }) 
     });
 
@@ -97,7 +98,9 @@ export class EditPatientPage implements OnInit {
         bornDate: myForm.value.birthDate,
         city: myForm.value.city,
         description: myForm.value.description,
-        id: this.id
+        id: this.id,
+        isLogged: this.patient.isLogged,
+        loginCode: this.patient.loginCode
       }
 
       this.patientsApiService.putPatient(patient,this.id).subscribe(res => {
