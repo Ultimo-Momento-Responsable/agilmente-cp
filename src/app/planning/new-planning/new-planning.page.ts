@@ -193,14 +193,28 @@ export class NewPlanningPage implements OnInit {
     return band
   }
 
-  // Asegura que el param ingresado es mayor que 0
-  checkParamLimit(p){
-    if (parseInt(p.value) < 1) {
-      p.value = "1";
+  // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, se 
+  checkMaxValue(p) : number {
+    if (p.maxValue <= -1){
+      return undefined
+    } else{
+      return p.maxValue
     }
   }
 
-  // Asegura que MaxNumberOfSessions ingresado es mayor que 0
+  // Asegura que el param ingresado respeta los valores mínimos y máximos y si no es así lo cambia
+  checkParamLimit(p){
+    if (parseInt(p.value) < p.minValue) {
+      p.value = p.minValue.toString();
+    }
+    if (p.maxValue != -1) {
+      if (parseInt(p.value) > p.maxValue) {
+        p.value = p.maxValue.toString();
+      }
+    }
+  }
+
+  // Asegura que maxNumberOfSessions ingresado es mayor que 0
   checkMNoSLimit(game){
     if (parseInt(game.maxNumberOfSessions) < 1) {
       game.maxNumberOfSessions = "1";
@@ -275,8 +289,8 @@ export class NewPlanningPage implements OnInit {
         this.presentAlert('Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
-      })
-    }
+      });
+    };
   }
 
   // habilita o desabilita el botón de submit
