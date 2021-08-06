@@ -105,7 +105,7 @@
                         </ion-item>
                         <ion-item disabled="{{!p.isActive}}">
                           <ion-label position="stacked" color="primary">Valor</ion-label>
-                          <ion-input type="number" value="{{ p.value }}" (ionChange)="changeParamValue(game,p,$event)" type="number" [min]="p.minValue" [max]="checkMaxValue(p)" (ionBlur)="checkParamLimit(p)"></ion-input>
+                          <ion-input disabled="{{!p.isActive}}" type="number" value="{{ p.value }}" (ionChange)="changeParamValue(game,p,$event)" type="number" [min]="p.minValue" [max]="checkMaxValue(p)" (ionBlur)="checkParamLimit(p)"></ion-input>
                         </ion-item>
                       </div>
                     </div>
