@@ -279,7 +279,7 @@ export class NewPlanningPage implements OnInit {
     if (myForm.valid) {
       let jsonPost = {
         patientId: patientId,
-        professionalId: 6,
+        professionalId: 1,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
         games: gamesPost
