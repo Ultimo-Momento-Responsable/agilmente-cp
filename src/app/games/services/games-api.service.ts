@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class GamesApiService {
   * @return una lista de juegos.
   */
   getGames(): Observable<any> {
-    return this.http.get(`http://localhost:8080/${this.entity}`);
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}`);
   }
 
   /**
@@ -23,6 +24,6 @@ export class GamesApiService {
   * @returns Observable del juego.
   */
    getGameById(id: number): Observable<any> {
-    return this.http.get(`http://localhost:8080/${this.entity}/${id}`);
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
   }
 }
