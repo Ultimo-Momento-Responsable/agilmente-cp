@@ -1,24 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-
-import { IonicModule } from '@ionic/angular';
-import { ResultsPageRoutingModule } from './results-routing.module';
-import { ResultsPage } from './results.page';
+import { ResultsRoutingModule } from './results-routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ResultsPageRoutingModule,
-    RouterModule,
-    HttpClientModule
-  ],
-  exports: [RouterModule],
-  providers: [],
-  declarations: [ResultsPage]
+  declarations: [],
+  imports: [ResultsRoutingModule],
 })
-export class ResultsPageModule {}
+export class ResultsModule {}

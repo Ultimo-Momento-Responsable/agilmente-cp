@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ResultsModule } from './results/results.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -17,9 +19,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   entryComponents: [],
   imports: [
     BrowserAnimationsModule,
+    BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule,
+    ResultsModule,
+    SharedModule,
     RouterModule.forRoot([])
   ],
   exports: [RouterModule],

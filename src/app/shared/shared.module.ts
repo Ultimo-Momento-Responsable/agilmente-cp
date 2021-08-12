@@ -1,18 +1,20 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UxDatepickerComponent } from './components/ux-datepicker/ux-datepicker.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
-
-
+import { IonicModule } from '@ionic/angular';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomDatePipe } from './pipes/custom-date.pipe';
 
 @NgModule({
-  declarations: [UxDatepickerComponent],
-  imports: [
-    CommonModule
+  declarations: [UxDatepickerComponent, CustomDatePipe],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule],
+  exports: [
+    UxDatepickerComponent,
+    CommonModule,
+    ReactiveFormsModule,
+    IonicModule,
+    CustomDatePipe
   ],
-  exports: [UxDatepickerComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedModule { 
-
-}
+export class SharedModule {}
