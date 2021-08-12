@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular/providers/modal-controller';
+import { ModalController } from '@ionic/angular';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 
 @Component({
