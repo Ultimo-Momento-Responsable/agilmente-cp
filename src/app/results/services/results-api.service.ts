@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +16,7 @@ export class ResultsApiService {
      * @return Una página de resultados.
      */
     getResults(): Observable<any> {
-        return this.http.get(`http://localhost:8080/${this.entity}`);
+        return this.http.get(`http://${environment.ip}:8080/${this.entity}`);
     }
 
     /**
@@ -24,6 +25,6 @@ export class ResultsApiService {
      * @returns Observable del resultado.
      */
     getResultById(id: number): Observable<any> {
-        return this.http.get(`http://localhost:8080/${this.entity}/${id}`);
+        return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
     }
 }

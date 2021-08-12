@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class PatientsApiService {
   * @return Una página de pacientes.
   */
    getPatients(page: number): Observable<any> {
-    return this.http.get(`http://localhost:8080/${this.entity}?page=${page}`);
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}?page=${page}`);
   }
 
   /**
@@ -23,7 +24,7 @@ export class PatientsApiService {
   * @return Una página de pacientes.
   */
    getPatientsListed(): Observable<any> {
-    return this.http.get(`http://localhost:8080/${this.entity}/listed`);
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listed`);
   }
 
   /**
@@ -32,7 +33,7 @@ export class PatientsApiService {
   * @returns Observable del paciente.
   */
   getPatientById(id: number): Observable<any> {
-    return this.http.get(`http://localhost:8080/${this.entity}/${id}`);
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
   }
 
   /**
@@ -41,7 +42,7 @@ export class PatientsApiService {
    * @returns El paciente guardado
    */
   postPatient(patient: any): Observable<any> {
-    return this.http.post(`http://localhost:8080/${this.entity}`, patient);
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}`, patient);
   }
   
   /**
@@ -51,7 +52,7 @@ export class PatientsApiService {
    * @returns El paciente modificado
    */
   putPatient(patient: any, id: number): Observable<any> {
-    return this.http.put(`http://localhost:8080/${this.entity}/${id}`, patient);
+    return this.http.put(`http://${environment.ip}:8080/${this.entity}/${id}`, patient);
   }
 
   /**
@@ -60,6 +61,6 @@ export class PatientsApiService {
    * @returns Respuesta http.
    */
   deletePatient(id: number): Observable<any> {
-    return this.http.delete(`http://localhost:8080/${this.entity}/${id}`);
+    return this.http.delete(`http://${environment.ip}:8080/${this.entity}/${id}`);
   }
 }
