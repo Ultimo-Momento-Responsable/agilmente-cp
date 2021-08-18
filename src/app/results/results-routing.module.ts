@@ -8,7 +8,7 @@ const routes: Routes = [
         import('./results/results.module').then((m) => m.ResultsPageModule),
     },
     {
-    path: 'results/:id',
+    path: 'results/:gameRoute/:id',
     loadChildren: () =>
         import('./subresults/subresults.module').then(
         (m) => m.SubresultsPageModule

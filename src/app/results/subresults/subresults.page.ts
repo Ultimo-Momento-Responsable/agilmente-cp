@@ -15,6 +15,7 @@ export class SubresultsPage {
   @ViewChild('lineTimeBetweenSuccessesCanvas')
   private lineTimeBetweenSuccessesCanvas: ElementRef;
   resultId: number;
+  gameRoute: string;
   result: any;
 
   constructor(
@@ -26,11 +27,12 @@ export class SubresultsPage {
   ngOnInit() {
     this.route.params.subscribe((params) => {
         this.resultId = params['id'];
+        this.gameRoute = params['gameRoute'];
     });
   }
 
   ionViewWillEnter() {
-    this.resultsApiService.getResultById(this.resultId).subscribe((res) => {
+    this.resultsApiService.getResultById(this.resultId, this.gameRoute).subscribe((res) => {
       this.result = res;
       this.changeDetector.detectChanges();
       this.createLineTimeBetweenSuccesses();

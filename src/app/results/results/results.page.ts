@@ -18,7 +18,7 @@ export class ResultsPage implements OnInit {
 
   ionViewWillEnter() {
     this.resultsApiService.getResults().subscribe((res) => {
-      this.results = res.content;
+      this.results = res;
     });
   }
 
@@ -27,7 +27,11 @@ export class ResultsPage implements OnInit {
    * del resultado.
    * @param id Id del resultado.
    */
-  goToSubresults(id: number) {
-    this.navController.navigateForward(['results/', id]);
+  goToSubresults(result: any) {
+    this.navController.navigateForward([`results/${this.formatGameRoute(result.game)}/${result.id}`]);
+  }
+
+  formatGameRoute(gameName: string): string {
+    return gameName.toLowerCase().replace(' ', '-');
   }
 }

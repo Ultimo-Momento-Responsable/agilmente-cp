@@ -52,9 +52,9 @@ export class ResultsApiService {
    * @return Una página de resultados.
    */
   getResults(): Observable<any> {
-    return new Observable<any>((observer) => {
-      observer.next({ content: results });
-    });
+    // return new Observable<any>((observer) => {
+    //   observer.next({ content: results });
+    // });
     return this.http.get(`http://localhost:8080/${this.entity}`);
   }
 
@@ -63,10 +63,10 @@ export class ResultsApiService {
    * @param id Id del resultado.
    * @returns Observable del resultado.
    */
-  getResultById(id: number): Observable<any> {
-    return new Observable<any>((observer) => {
-        observer.next(results[0]);
-      });
-    return this.http.get(`http://localhost:8080/${this.entity}/${id}`);
+  getResultById(id: number, game: string): Observable<any> {
+    // return new Observable<any>((observer) => {
+    //     observer.next(results[0]);
+    //   });
+    return this.http.get(`http://localhost:8080/${this.entity}/${game}/${id}`);
   }
 }

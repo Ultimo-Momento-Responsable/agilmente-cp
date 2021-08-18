@@ -7,7 +7,7 @@
 <ion-content>
   <app-result-card
     *ngFor="let result of this.results"
-    (click)="this.goToSubresults(result.id)"
+    (click)="this.goToSubresults(result)"
     [result]="result"
   ></app-result-card>
 
