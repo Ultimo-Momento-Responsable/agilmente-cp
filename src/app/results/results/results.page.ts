@@ -18,7 +18,7 @@ export class ResultsPage implements OnInit {
 
   ionViewWillEnter() {
     this.resultsApiService.getResults().subscribe((res) => {
-      this.results = res;
+      this.results = res.content;
     });
   }
 
@@ -32,6 +32,6 @@ export class ResultsPage implements OnInit {
   }
 
   formatGameRoute(gameName: string): string {
-    return gameName.toLowerCase().replace(' ', '-');
+    return gameName.toLowerCase().replace(/\s/g, '-');;
   }
 }

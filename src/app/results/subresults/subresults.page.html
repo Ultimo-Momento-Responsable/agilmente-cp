@@ -46,31 +46,25 @@
   </div>
 
   <div class="ion-padding">
+      <h1>Parámetros</h1>
+      <app-results-detail-params-card *ngFor="let param of this.result.params" [param]="param"></app-results-detail-params-card>
+  </div>
+
+  <div class="ion-padding" *ngIf="!!this.result.timeBetweenSuccesses && !!this.result.timeBetweenSuccesses.length">
     <ion-grid class="ion-justify-content-center">
       <ion-row>
-        <ion-col
-          ><ion-grid class="grid-full">
-            <ion-row>
-              <ion-col class="table-cell"><b>Nivel</b></ion-col>
-              <ion-col class="table-cell"><b>Tiempo (segundos)</b></ion-col>
-            </ion-row>
-            <ion-row
-              *ngFor="let time of this.result.timeBetweenSuccesses; index as i"
-            >
-              <ion-col class="table-cell">{{ i + 1 }}</ion-col>
-              <ion-col class="table-cell">{{ time }}</ion-col>
-            </ion-row>
-          </ion-grid></ion-col
-        >
+        <ion-col>
+            <app-table-results [result]="this.result"></app-table-results>
+        </ion-col>
 
-        <ion-col
-          ><ion-card>
-            <ion-card-header> Tiempo entre aciertos </ion-card-header>
-            <ion-card-content>
-              <canvas #lineTimeBetweenSuccessesCanvas class="graph"></canvas>
-            </ion-card-content> </ion-card
-        ></ion-col>
+        <ion-col>
+            <app-graph-results [result]="this.result"></app-graph-results>
+        </ion-col>
       </ion-row>
     </ion-grid>
+  </div>
+
+  <div *ngIf="!(!!this.result.timeBetweenSuccesses && !!this.result.timeBetweenSuccesses.length)">
+    <ion-card class="ion-padding">No hay datos de juego.</ion-card>
   </div>
 </ion-content>
