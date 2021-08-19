@@ -8,14 +8,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'results',
-    loadChildren: () => import('./results/results.module').then( m => m.ResultsPageModule)
-  },
-  {
-    path: 'subresults/:id',
-    loadChildren: () => import('./results/subresults/subresults.module').then( m => m.SubresultsPageModule)
-  },
-  {
     path: 'patients',
     loadChildren: () => import('./patients/patients.module').then( m => m.PatientsPageModule)
   },
@@ -30,7 +22,8 @@ const routes: Routes = [
   {
     path: 'patients/:id',
     loadChildren: () => import('./patients/specific-patient/specific-patient.module').then( m => m.SpecificPatientPageModule)
-  },  {
+  },
+  {
     path: 'planning',
     loadChildren: () => import('./planning/planning.module').then( m => m.PlanningPageModule)
   }

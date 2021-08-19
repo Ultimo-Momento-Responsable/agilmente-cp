@@ -1,0 +1,30 @@
+<ion-card button="true">
+  <ion-card-header>
+    <ion-card-subtitle>{{ this.result.completeDatetime | customDate : 'dd/MM/yy HH:mm' }}</ion-card-subtitle>
+    <ion-card-title>{{ this.result.patient }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-chip *ngIf="this.result.canceled === false" color="success">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <ion-label>Completo</ion-label>
+    </ion-chip>
+    <ion-chip *ngIf="this.result.canceled === true" color="danger">
+      <ion-icon name="close-circle"></ion-icon>
+      <ion-label>Abandonado</ion-label>
+    </ion-chip>
+    <ion-label
+      ><p>Juego: {{ this.result.game }}</p></ion-label
+    >
+    <ion-label
+      ><p>Tiempo de juego: {{ this.result.totalTime }} segundos</p></ion-label
+    >
+    <ion-chip color="success">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <ion-label>Aciertos: {{ this.result.successes }}</ion-label>
+    </ion-chip>
+    <ion-chip color="danger">
+      <ion-icon name="close-circle"></ion-icon>
+      <ion-label>Errores: {{ this.result.mistakes }}</ion-label>
+    </ion-chip>
+  </ion-card-content>
+</ion-card>

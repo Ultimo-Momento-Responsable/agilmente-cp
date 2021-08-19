@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { SharedResultsModule } from '../shared-results/shared-results.module';
-import { SubresultsPage } from './subresults.page';
+import { ResultsPage } from './results.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SubresultsPage,
+    component: ResultsPage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedResultsModule],
-  declarations: [SubresultsPage],
+  declarations: [ResultsPage],
 })
-export class SubresultsPageModule {}
+export class ResultsPageModule {}
