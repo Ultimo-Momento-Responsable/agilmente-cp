@@ -15,6 +15,7 @@ describe('ResultsDetailParamsCardComponent', () => {
 
     fixture = TestBed.createComponent(ResultsDetailParamsCardComponent);
     component = fixture.componentInstance;
+    component.param = { name: "", value: "" };
     fixture.detectChanges();
   }));
 

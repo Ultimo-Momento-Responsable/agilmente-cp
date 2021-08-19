@@ -15,6 +15,7 @@ describe('TableResultsComponent', () => {
 
     fixture = TestBed.createComponent(TableResultsComponent);
     component = fixture.componentInstance;
+    component.result = { timeBetweenSuccesses: [1, 2, 3, 4] };
     fixture.detectChanges();
   }));
 
