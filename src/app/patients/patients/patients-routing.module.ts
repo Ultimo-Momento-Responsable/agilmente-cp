@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { SharedPatientsModule } from '../shared-patients/shared-patients.module';
-import { SpecificPatientPage } from './specific-patient.page';
+
+import { PatientsPage } from './patients.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SpecificPatientPage,
+    component: PatientsPage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedPatientsModule],
-  declarations: [SpecificPatientPage],
+  exports: [RouterModule],
 })
-export class SpecificPatientPageModule {}
+export class PatientsPageRoutingModule {}
