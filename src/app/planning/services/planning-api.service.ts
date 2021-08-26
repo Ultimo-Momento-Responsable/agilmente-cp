@@ -11,6 +11,14 @@ export class PlanningApiService {
   constructor(private http: HttpClient) { }
 
   /**
+   * Obtiene todas las planificaciones vigentes sin juegos.
+   * @returns Una pagina de planificaciones sin juegos.
+   */
+  getPlanningsOverview(): Observable<any> {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/planningOverview`);
+  }
+
+  /**
    * Guarda una planificación.
    * @param planning Paciente a guardar
    * @returns La planificación guardada

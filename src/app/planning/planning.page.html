@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-row>
+  <ion-row *ngIf="this.plannings?.length === 0">
     <ion-col size="1"></ion-col>
     <ion-card class="ion-padding">
       <ion-text>
