@@ -279,6 +279,7 @@ export class NewPlanningPage implements OnInit {
     if (myForm.valid) {
       let jsonPost = {
         patientId: patientId,
+        stateId: 1,
         professionalId: 1,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
