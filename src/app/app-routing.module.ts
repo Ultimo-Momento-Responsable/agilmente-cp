@@ -3,15 +3,21 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'patients',
+    pathMatch: 'full',
+  },
+  {
     path: 'planning',
-    loadChildren: () => import('./planning/planning.module').then( m => m.PlanningPageModule)
-  }
+    loadChildren: () =>
+      import('./planning/planning.module').then((m) => m.PlanningPageModule),
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

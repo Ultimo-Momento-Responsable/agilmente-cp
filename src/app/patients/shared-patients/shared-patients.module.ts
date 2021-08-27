@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CardGameResultComponent } from './components/card-game-result/card-game-result.component';
+import { CardHayUnoRepetidoResultComponent } from './components/card-hay-uno-repetido-result/card-hay-uno-repetido-result.component';
 
 @NgModule({
   imports: [SharedModule],
-  declarations: [CardGameResultComponent],
-  exports: [SharedModule, CardGameResultComponent],
+  declarations: [CardHayUnoRepetidoResultComponent],
+  exports: [SharedModule, CardHayUnoRepetidoResultComponent],
 })
 export class SharedPatientsModule {}

@@ -39,52 +39,58 @@ export class ResultsApiService {
    */
   getResultsByPatient(id: number): Observable<any> {
     return new Observable<any>((observer) => {
-        observer.next({
-            hayUnoRepetido: [
-                {
-                    successes: 21,
-                    mistakes: 1,
-                    totalTime: 25
-                },
-                {
-                    successes: 22,
-                    mistakes: 2,
-                    totalTime: 25
-                },
-                {
-                    successes: 23,
-                    mistakes: 3,
-                    totalTime: 25
-                },
-                {
-                    successes: 20,
-                    mistakes: 0,
-                    totalTime: 25
-                },
-            ],
-            encuentraAlNuevo: [
-                {
-                    successes: 15,
-                    mistakes: 3,
-                    totalTime: 15.3
-                },
-                {
-                    successes: 15,
-                    mistakes: 3,
-                    totalTime: 15.7
-                },
-                {
-                    successes: 15,
-                    mistakes: 6,
-                    totalTime: 23.2
-                },
-                {
-                    successes: 15,
-                    mistakes: 5,
-                    totalTime: 16.1
-                },
-            ]
-        });
+      observer.next({
+        hayUnoRepetido: {
+          endCondition: 'TotalTime',
+          results: [
+            {
+              successes: 21,
+              mistakes: 1,
+              totalTime: 25,
+            },
+            {
+              successes: 22,
+              mistakes: 2,
+              totalTime: 25,
+            },
+            {
+              successes: 23,
+              mistakes: 3,
+              totalTime: 25,
+            },
+            {
+              successes: 20,
+              mistakes: 0,
+              totalTime: 25,
+            },
+          ],
+        },
+        encuentraAlNuevo: {
+          endCondition: 'FigureQuantity',
+          results: [
+            {
+              successes: 15,
+              mistakes: 3,
+              totalTime: 15.3,
+            },
+            {
+              successes: 15,
+              mistakes: 3,
+              totalTime: 15.7,
+            },
+            {
+              successes: 15,
+              mistakes: 6,
+              totalTime: 23.2,
+            },
+            {
+              successes: 15,
+              mistakes: 5,
+              totalTime: 16.1,
+            },
+          ],
+        },
+      });
     });
     return this.http.get(
       `http://${environment.ip}:8080/${this.entity}/by-patient/${id}`

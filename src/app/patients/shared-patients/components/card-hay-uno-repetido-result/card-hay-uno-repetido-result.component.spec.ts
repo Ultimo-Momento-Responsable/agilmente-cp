@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { CardHayUnoRepetidoResultComponent } from './card-hay-uno-repetido-result.component';
 
-import { CardGameResultComponent } from './card-game-result.component';
 
 describe('CardGameResultComponent', () => {
-  let component: CardGameResultComponent;
-  let fixture: ComponentFixture<CardGameResultComponent>;
+  let component: CardHayUnoRepetidoResultComponent;
+  let fixture: ComponentFixture<CardHayUnoRepetidoResultComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardGameResultComponent ],
+      declarations: [ CardHayUnoRepetidoResultComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CardGameResultComponent);
+    fixture = TestBed.createComponent(CardHayUnoRepetidoResultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
