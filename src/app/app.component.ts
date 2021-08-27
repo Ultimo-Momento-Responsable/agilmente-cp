@@ -9,7 +9,6 @@ export class AppComponent {
     { title: 'Mis Pacientes', url: '/patients', icon: 'body' },
     { title: 'Resultados', url: '/results', icon: 'clipboard'},
     { title: 'Planes de Juegos', url: '/planning', icon: 'phone-portrait' },
-    // { title: 'Planes de Juegos', url: '/planning/new-planning', icon: 'phone-portrait' },
     { title: 'Cerrar Sesión', url: '/logout', icon: 'log-out' }
   ];
   
