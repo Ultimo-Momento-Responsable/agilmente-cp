@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { PlanningApiService } from './services/planning-api.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class PlanningPage implements OnInit {
 
   constructor(
     private planningApiService: PlanningApiService,
+    private navController: NavController
   ) { }
 
   ngOnInit() {
@@ -19,8 +21,16 @@ export class PlanningPage implements OnInit {
   ionViewWillEnter() {
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
       this.plannings = res.content;
-      console.log('Las planning obtenidas son: ',this.plannings)
     });
+  }
+
+  /**
+   * Redirige al usuario a la página del detalle
+   * de la planificacion.
+   * @param planning Id de la planificacion.
+   */
+  goToPlanningDetail(planning: any) {
+    this.navController.navigateForward([`planning/planningDetail/${planning.id}`]);
   }
 
 }

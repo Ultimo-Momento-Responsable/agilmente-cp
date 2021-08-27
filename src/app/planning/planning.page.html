@@ -5,24 +5,37 @@
 </ion-header>
 
 <ion-content>
-  <ion-row *ngIf="this.plannings?.length === 0">
+  <ion-row>
     <ion-col size="1"></ion-col>
-    <ion-card class="ion-padding">
+    <ion-col>
+    <ion-card class="ion-padding" *ngIf="this.plannings?.length === 0">
       <ion-text>
         <h2>No se encontró ningúna planificacion. ¿Quieres cargar uno?</h2>
       </ion-text>
       <ion-button [routerLink]="['./new-planning']">
         <ion-icon name="phone-portrait-outline"></ion-icon>
-        <p class="ion-margin">Crear planificacion</p>
+        <p class="ion-margin">Nueva planificacion</p>
       </ion-button>
     </ion-card>
-  </ion-row>
-  <!-- TODO: Generar card de planificacion y mostrar en este iterable -->
-    <app-planning-card
-      *ngFor="let planning of this.plannings"
-      (click)="this.goToSubresults(planning)"
-      [planning]="planning"
-    ></app-planning-card>
+    <div *ngIf="this.plannings?.length !== 0">
+        <div class="horizontal-cards ion-padding ion-margin">
+            <ion-button [routerLink]="['./new-planning']">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+                <p class="ion-margin">Nueva planificacion</p>
+            </ion-button>
+        </div>
+        <div class="horizontal-cards ion-margin">
+            <!-- TODO: Generar card de planificacion y mostrar en este iterable -->
+            <app-planning-card
+            *ngFor="let planning of this.plannings"
+            (click)="this.goToPlanningDetail(planning)"
+            [planning]="planning"
+            ></app-planning-card>
+        </div>
+    </div>
+</ion-col>
+<ion-col size="1"></ion-col>
+</ion-row>
 </ion-content>
 
 
