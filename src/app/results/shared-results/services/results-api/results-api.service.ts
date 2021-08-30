@@ -26,6 +26,20 @@ export class ResultsApiService {
    * @returns Observable del resultado.
    */
   getResultById(id: number, game: string): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${game}/${id}`);
+    return this.http.get(
+      `http://${environment.ip}:8080/${this.entity}/${game}/${id}`
+    );
+  }
+
+  /**
+   * Obtiene una lista de resultados a partir del id
+   * del paciente.
+   * @param id Id del paciente.
+   * @returns Lista de resultados.
+   */
+  getResultsByPatient(id: number): Observable<any> {
+    return this.http.get(
+      `http://${environment.ip}:8080/${this.entity}/by-patient/${id}`
+    );
   }
 }

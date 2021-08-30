@@ -27,7 +27,6 @@ export class SubresultsPage {
 
   ionViewWillEnter() {
     this.resultsApiService.getResultById(this.resultId, this.gameRoute).subscribe((res) => {
-        res.timeBetweenSuccesses = [12, 24, 25, 23, 23, 12];
       this.result = res;
       this.changeDetector.detectChanges();
     });

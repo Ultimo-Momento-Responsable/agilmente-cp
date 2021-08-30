@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResultsModule } from './results/results.module';
 import { SharedModule } from './shared/shared.module';
+import { PatientsModule } from './patients/patients.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { SharedModule } from './shared/shared.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     ResultsModule,
+    PatientsModule,
     SharedModule,
     RouterModule.forRoot([])
   ],
