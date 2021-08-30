@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EditPatientPageRoutingModule } from './edit-patient-routing.module';
 
 import { EditPatientPage } from './edit-patient.page';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
@@ -16,7 +15,6 @@ import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
     FormsModule,
     Ionic4DatepickerModule,
     IonicModule,
-    EditPatientPageRoutingModule
   ],
   declarations: [EditPatientPage]
 })

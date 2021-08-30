@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Chart, registerables } from 'chart.js';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
