@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar color=primary>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
     <ion-title>Detalles de planificación</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -57,7 +60,14 @@
             </ion-item>
           </ion-col>
         </ion-row>
-
+        <ion-chip *ngIf="this.state === 'Vigente'" color="dark">
+          <ion-icon color="success" name="checkmark-circle"></ion-icon>
+          <ion-label color="dark">{{ this.state }}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="this.state === 'Pendiente'" color="warning">
+          <ion-icon name="close-circle"></ion-icon>
+          <ion-label>{{this.state}}</ion-label>
+        </ion-chip>
         <ion-item id="rounded">
           <ion-row>
             <ion-col>
@@ -65,6 +75,21 @@
             </ion-col>
           </ion-row>
         </ion-item>
+        <ion-card *ngFor="let detail of planningList" class="horizontal-cards" button="true">
+          <ion-card-header>
+            <ion-row>
+            <ion-card-title style="margin-top: 0.8%;" color="primary">{{detail.game}}</ion-card-title>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content>
+            <p><b>Sesiones: </b>{{detail.numberOfSession}}</p>
+            <ion-label *ngFor="let params of detail.parameters">
+              
+              <p><b>{{ params.name }}: </b>{{params.value}}</p>
+            </ion-label>
+        
+          </ion-card-content>
+        </ion-card>
         <ion-row>
           <ion-col>
             <ion-card *ngFor="let game of assignedGames">
@@ -161,7 +186,7 @@
           [disabled]="submitDisabled()"
           expand="block" 
           class="ion-text-uppercase ion-margin-top">
-          Cargar Planificación
+          Actualizar Planificación
         </ion-button>
       </form>
     </ion-col>

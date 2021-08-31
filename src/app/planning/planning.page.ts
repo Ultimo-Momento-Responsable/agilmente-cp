@@ -21,6 +21,7 @@ export class PlanningPage implements OnInit {
   ionViewWillEnter() {
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
       this.plannings = res.content;
+      console.log(res);
     });
   }
 
@@ -30,7 +31,7 @@ export class PlanningPage implements OnInit {
    * @param planning Id de la planificacion.
    */
   goToPlanningDetail(planning: any) {
-    this.navController.navigateForward([`planning/planningDetail/${planning.id}`]);
+    this.navController.navigateForward([`planning/${planning.planningId}`]);
   }
 
 }

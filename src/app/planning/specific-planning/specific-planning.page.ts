@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientsApiService } from '../../patients/services/patients-api.service';
+import { PatientsApiService } from '../../patients/shared-patients/services/patients-api/patients-api.service';
 import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
@@ -8,7 +8,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface Planning {
-  id: number
+  id: number;
+  patientId: number;
+  patientFirstName: string;
+  patientLastName: string;
+  professionalId: number;
+  professionalFirstName: string;
+  professionalLastName: string;
+  state: string;
+  startDate: string;
+  dueDate: string;
+  planningList: any[];
 }
 
 @Component({
@@ -30,6 +40,8 @@ export class SpecificPlanningPage implements OnInit {
   isAdding: boolean = false;
   patientBlur=false;
   editMode: boolean = false;
+  state: string;
+  planningList: any[];
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -331,6 +343,8 @@ export class SpecificPlanningPage implements OnInit {
   loadPlanning(){
     this.planningApiService.getPlanningById(this.id).subscribe(res => {
       this.patientId = res.patientId;
+      this.state = res.state;
+      this.planningList = res.planningList;
 
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
