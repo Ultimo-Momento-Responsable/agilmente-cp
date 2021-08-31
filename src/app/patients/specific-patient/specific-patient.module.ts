@@ -1,21 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { IonicModule } from '@ionic/angular';
-
-import { SpecificPatientPageRoutingModule } from './specific-patient-routing.module';
-
+import { RouterModule, Routes } from '@angular/router';
+import { SharedPatientsModule } from '../shared-patients/shared-patients.module';
 import { SpecificPatientPage } from './specific-patient.page';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: SpecificPatientPage,
+  },
+];
+
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    SpecificPatientPageRoutingModule
-  ],
-  declarations: [SpecificPatientPage]
+  imports: [RouterModule.forChild(routes), SharedPatientsModule],
+  declarations: [SpecificPatientPage],
 })
 export class SpecificPatientPageModule {}

@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
-import { PatientsApiService } from '../services/patients-api.service';
+import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
 @Component({
   selector: 'app-edit-patient',

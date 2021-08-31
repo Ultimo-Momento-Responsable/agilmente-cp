@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientsApiService } from './services/patients-api.service';
+import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
 export interface Patient {
   id: number,

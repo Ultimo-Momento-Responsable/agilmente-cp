@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientsApiService } from '../../patients/services/patients-api.service';
+import { PatientsApiService } from '../../patients/shared-patients/services/patients-api/patients-api.service';
 import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
