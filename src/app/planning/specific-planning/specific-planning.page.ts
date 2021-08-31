@@ -114,7 +114,6 @@ export class SpecificPlanningPage implements OnInit {
     this.loadPlanning();
   }
 
-  // 
   patientExists(){
     let flag = false;
     this.patients?.forEach(p => {

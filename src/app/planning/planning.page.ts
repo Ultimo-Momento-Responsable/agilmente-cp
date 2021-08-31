@@ -21,7 +21,6 @@ export class PlanningPage implements OnInit {
   ionViewWillEnter() {
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
       this.plannings = res.content;
-      console.log(res);
     });
   }
 
