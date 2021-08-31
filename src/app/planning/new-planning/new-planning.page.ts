@@ -283,8 +283,7 @@ export class NewPlanningPage implements OnInit {
         professionalId: 1,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
-        games: gamesPost,
-        stateId: 1,
+        games: gamesPost
       }
       
       this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
