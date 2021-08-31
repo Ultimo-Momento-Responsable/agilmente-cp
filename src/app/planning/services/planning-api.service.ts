@@ -26,4 +26,13 @@ export class PlanningApiService {
   postPlanning(planning: any): Observable<any> {
     return this.http.post(`http://${environment.ip}:8080/${this.entity}`, planning);
   }
+
+  /**
+   * Busca un detalle de planificación
+   * @param id ID de la planificación que se buscaba
+   * @returns Un objeto PlanningData
+   */
+  getPlanningById(id : number): Observable<any> {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+  }
 }
