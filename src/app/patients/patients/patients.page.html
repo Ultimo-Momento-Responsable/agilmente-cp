@@ -12,14 +12,14 @@
                 <ion-text>
                     <h2>No se encontró ningún paciente. ¿Quieres cargar uno?</h2>
                 </ion-text>
-                <ion-button [routerLink]="['./new-patient']">
+                <ion-button [routerLink]="['../new-patient']">
                     <ion-icon name="person-add-outline"></ion-icon>
                     <p class="ion-margin">Crear paciente</p>
                 </ion-button>
             </ion-card>
             <div *ngIf="this.formattedPatients.length !== 0">
                 <div class="horizontal-cards ion-padding ion-margin">
-                    <ion-button [routerLink]="['./new-patient']">
+                    <ion-button [routerLink]="['../new-patient']">
                         <ion-icon name="person-add-outline"></ion-icon>
                         <p class="ion-margin">Nuevo Paciente</p>
                     </ion-button>
