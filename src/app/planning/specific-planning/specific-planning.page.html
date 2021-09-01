@@ -82,10 +82,10 @@
             </ion-row>
           </ion-card-header>
           <ion-card-content>
-            <p><b>Sesiones: </b>{{detail.numberOfSession}}</p>
+            <p *ngIf="detail.numberOfSession != -1"><b>Sesiones: </b>{{detail.numberOfSession}}</p>
+            <p *ngIf="detail.numberOfSession == -1"><b>Sesiones: </b>Sin límite de sesiones.</p>
             <ion-label *ngFor="let params of detail.parameters">
-              
-              <p><b>{{ params.name }}: </b>{{params.value}}</p>
+              <p><b>{{ params.spanishName }}: </b>{{params.value}}</p>
             </ion-label>
         
           </ion-card-content>
