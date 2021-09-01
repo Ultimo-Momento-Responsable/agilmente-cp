@@ -344,7 +344,6 @@ export class SpecificPlanningPage implements OnInit {
       this.patientId = res.patientId;
       this.state = res.state;
       this.planningList = res.planningList;
-
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
         startDate: res.startDate,
