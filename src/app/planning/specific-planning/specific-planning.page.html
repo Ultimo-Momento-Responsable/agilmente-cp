@@ -75,7 +75,7 @@
             </ion-col>
           </ion-row>
         </ion-item>
-        <ion-card *ngFor="let detail of planningList" class="horizontal-cards" button="true">
+        <ion-card *ngFor="let detail of planningList" class="horizontal-cards" >
           <ion-card-header>
             <ion-row>
             <ion-card-title style="margin-top: 0.8%;" color="primary">{{detail.game}}</ion-card-title>
@@ -87,7 +87,6 @@
             <ion-label *ngFor="let params of detail.parameters">
               <p><b>{{ params.spanishName }}: </b>{{params.value}}</p>
             </ion-label>
-        
           </ion-card-content>
         </ion-card>
         <ion-row>

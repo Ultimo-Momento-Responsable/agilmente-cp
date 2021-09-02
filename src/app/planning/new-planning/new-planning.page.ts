@@ -153,8 +153,8 @@ export class NewPlanningPage implements OnInit {
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
   setActiveParam(game, p, index){
     this.assignedGames.forEach(g=>{
-      g.index = index;
       if (g.id == game.id){
+        g.index = index;
         g.param.forEach(param => {
           if (param.id == p.id) {
             if (!param.isActive) {
@@ -170,7 +170,10 @@ export class NewPlanningPage implements OnInit {
 
   // Actualiza el valor del Param
   changeParamValue(game,p,evt){
-    this.assignedGames[this.assignedGames.indexOf(game)].param[this.assignedGames[this.assignedGames.indexOf(game)].param.indexOf(p)].value = evt.srcElement.value;
+    let gameChanged = this.assignedGames[this.assignedGames.indexOf(game)];
+    if (gameChanged.param[gameChanged.param.indexOf(p)].isActive) {
+      gameChanged.param[gameChanged.param.indexOf(p)].value = evt.srcElement.value;
+    }
   }
 
   // Setea el número máximo de sesiones de juego
@@ -285,7 +288,6 @@ export class NewPlanningPage implements OnInit {
         dueDate: myForm.value.finishDate,
         games: gamesPost
       }
-      
       this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
         this.presentAlert('¡Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
       }, (err) => {
