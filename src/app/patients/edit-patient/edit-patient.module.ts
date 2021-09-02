@@ -7,6 +7,15 @@ import { IonicModule } from '@ionic/angular';
 
 import { EditPatientPage } from './edit-patient.page';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
+import { RouterModule, Routes } from '@angular/router';
+import { SharedPatientsModule } from '../shared-patients/shared-patients.module';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: EditPatientPage,
+  },
+];
 
 @NgModule({
   imports: [
@@ -15,6 +24,8 @@ import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
     FormsModule,
     Ionic4DatepickerModule,
     IonicModule,
+    RouterModule.forChild(routes), 
+    SharedPatientsModule
   ],
   declarations: [EditPatientPage]
 })
