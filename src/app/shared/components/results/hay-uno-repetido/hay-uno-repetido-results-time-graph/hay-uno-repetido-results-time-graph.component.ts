@@ -52,7 +52,7 @@ export class HayUnoRepetidoResultsTimeGraphComponent implements AfterViewInit {
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: this.results.map((r) => r.totalTime),
+                data: this.results.map((r) => r.totalTime.toFixed(2)),
                 spanGaps: false,
               },
         ],

@@ -24,7 +24,7 @@ export class SpecificPatientPage implements OnInit {
   myForm: FormGroup = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
-    birthDate: new FormControl(),
+    bornDate: new FormControl(),
     description: new FormControl(),
     city: new FormControl(),
   });
