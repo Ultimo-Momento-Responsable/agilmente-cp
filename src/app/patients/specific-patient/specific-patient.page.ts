@@ -31,6 +31,7 @@ export class SpecificPatientPage implements OnInit {
   id: any;
   patient: Patient;
   results: any;
+  showResults: boolean = true;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -52,6 +53,9 @@ export class SpecificPatientPage implements OnInit {
 
       this.resultsApiService.getResultsByPatient(this.id).subscribe((res) => {
         this.results = res;
+        if (this.results.hayUnoRepetido.results?.length==0){
+          this.showResults=false;
+        }
       });
     });
   }
