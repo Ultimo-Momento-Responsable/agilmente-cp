@@ -246,7 +246,7 @@ export class NewPlanningPage implements OnInit {
     await alert.present(); 
     if (await alert.onDidDismiss()){
       if (reset){
-        this.router.navigateByUrl('/patients')
+        this.router.navigateByUrl('/planning')
       }
     }
   }
