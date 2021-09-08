@@ -206,6 +206,7 @@ export class NewPlanningPage implements OnInit {
     return flag
   }
 
+  // borra un juego de la lista de los juegos planificados hasta el momento
   deleteGame(game) {
     this.planningGames.splice(this.planningGames.indexOf(game));
     this.assignedGames.splice(this.assignedGames.indexOf(game));
