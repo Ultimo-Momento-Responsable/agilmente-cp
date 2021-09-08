@@ -121,7 +121,7 @@ export class NewPlanningPage implements OnInit {
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
       if (search && this.gamesSearch){
-        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 && this.assignedGames.indexOf(g) == -1)
+        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
       }
     })
   }
