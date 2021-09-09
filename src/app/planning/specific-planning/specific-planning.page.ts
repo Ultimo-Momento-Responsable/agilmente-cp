@@ -358,4 +358,11 @@ export class SpecificPlanningPage implements OnInit {
       this.submitDisabled();
     })
   }
+
+  // Cancela la planning actual
+  cancelPlanning(){
+    this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
+      this.router.navigateByUrl('/planning');
+    });
+  }
 }

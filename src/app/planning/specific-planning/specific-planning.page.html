@@ -13,6 +13,15 @@
     <ion-col>
       <ion-title class="ion-padding ion-margin">
         Detalles
+        <ion-button
+      style="float: right"
+      color="danger"
+      fill="clear"
+      (click)="this.cancelPlanning()"
+    >
+      <ion-icon name="trash-outline"></ion-icon>
+      <p class="ion-margin">Eliminar</p>
+    </ion-button>
       </ion-title>
       <form [formGroup]="myForm" (ngSubmit)="save(myForm)">
 
