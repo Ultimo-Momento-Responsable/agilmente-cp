@@ -71,7 +71,7 @@
         </ion-item>
         <ion-row>
           <ion-col>
-            <ion-card *ngFor="let game of assignedGames">
+            <ion-card *ngFor="let game of planningGames">
               <ion-card-header color="primary">
                 <ion-row>
                   <ion-col>
@@ -86,7 +86,7 @@
                         <ion-icon *ngIf="game.accordion" name="chevron-up-outline" color="light"></ion-icon>
                     </ion-button>
                     <ion-button color="danger" style="float: right;--border-radius: 20px;"
-                        (click)="assignedGames.splice(assignedGames.indexOf(game))">
+                        (click)="deleteGame(game)">
                         <ion-icon name="trash-outline"></ion-icon>
                     </ion-button>
                   </ion-col>

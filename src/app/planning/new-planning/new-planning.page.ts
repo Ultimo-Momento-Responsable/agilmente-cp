@@ -29,6 +29,7 @@ export class NewPlanningPage implements OnInit {
   datePickerFinish: any = {};
   myForm: FormGroup;
   assignedGames: any [] = [];
+  planningGames: any [] = [];
   games: any [] = [];
   gamesSearch: any [];
   isAdding: boolean = false;
@@ -52,7 +53,6 @@ export class NewPlanningPage implements OnInit {
         i++;
       });
     });
-      
     this.datePickerStart = {
       showTodayButton: false,
       closeOnSelect: true,
@@ -88,7 +88,7 @@ export class NewPlanningPage implements OnInit {
     this.myForm.patchValue({"games": null});
   }
 
-  // 
+  // Chequea que el paciente que se está buscando existe
   patientExists(){
     let flag = false;
     this.patients?.forEach(p => {
@@ -121,7 +121,7 @@ export class NewPlanningPage implements OnInit {
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
       if (search && this.gamesSearch){
-        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 && this.assignedGames.indexOf(g) == -1)
+        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
       }
     })
   }
@@ -144,15 +144,15 @@ export class NewPlanningPage implements OnInit {
   // Añade el juego seleccionado a la lista de juegos asignados.
   addGame(game) {
     this.gamesSearch = [];
-    this.assignedGames.push(game);
-    this.assignedGames[this.assignedGames.length - 1].accordion = true;
+    this.planningGames.push(JSON.parse(JSON.stringify(game)));
+    this.planningGames[this.planningGames.length - 1].accordion = true;
     this.isAdding = false;
     this.myForm.patchValue({"games": null});
   }
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
   setActiveParam(game, p, index){
-    this.assignedGames.forEach(g=>{
+    this.planningGames.forEach(g=>{
       if (g.id == game.id){
         g.index = index;
         g.param.forEach(param => {
@@ -170,7 +170,7 @@ export class NewPlanningPage implements OnInit {
 
   // Actualiza el valor del Param
   changeParamValue(game,p,evt){
-    let gameChanged = this.assignedGames[this.assignedGames.indexOf(game)];
+    let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
     if (gameChanged.param[gameChanged.param.indexOf(p)].isActive) {
       gameChanged.param[gameChanged.param.indexOf(p)].value = evt.srcElement.value;
     }
@@ -178,22 +178,38 @@ export class NewPlanningPage implements OnInit {
 
   // Setea el número máximo de sesiones de juego
   changeLimitGamesValue(game,evt){
-    this.assignedGames[this.assignedGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
+    this.planningGames[this.planningGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
   }
 
   // Checkea que el juego esté correctamente cargado
   checkIfCorrect(game) : boolean{
-    let band = false;
+    let flag = false;
     game.param.forEach(p => {
       if (p.type == 0){
         if (p.isActive){
           if (p.value){
-            band = true;
+            flag = true;
           }
         }
       }
     });
-    return band
+    if (flag){
+      this.assignedGames.forEach(g => {
+        if (JSON.stringify(g.param) == JSON.stringify(game.param) 
+              && g.name == game.name
+              && game.hasLimit == g.hasLimit 
+              && game.maxNumberOfSessions == g.maxNumberOfSessions) {
+          flag = false;
+        }
+      })
+    }
+    return flag
+  }
+
+  // borra un juego de la lista de los juegos planificados hasta el momento
+  deleteGame(game) {
+    this.planningGames.splice(this.planningGames.indexOf(game));
+    this.assignedGames.splice(this.assignedGames.indexOf(game));
   }
 
   // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, se 
@@ -228,6 +244,7 @@ export class NewPlanningPage implements OnInit {
   gameAdded(game) {
     game.accordion = false;
     game.done = true;
+    this.assignedGames.push(JSON.parse(JSON.stringify(game)));
   }
 
   // Muestra la alerta.
@@ -299,10 +316,10 @@ export class NewPlanningPage implements OnInit {
   // habilita o desabilita el botón de submit
   submitDisabled(){
     let gamesAreDone = true;
-    if (this.assignedGames.length == 0){
+    if (this.planningGames.length == 0){
       gamesAreDone = false;
     }
-    this.assignedGames.forEach(g => {
+    this.planningGames.forEach(g => {
       if (!g.done){
         gamesAreDone = false;
       }
