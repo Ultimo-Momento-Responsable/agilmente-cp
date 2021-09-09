@@ -56,11 +56,21 @@ export class PatientsApiService {
   }
 
   /**
-   * Elimina un paciente
+   * Deshabilita un paciente, cambiando su estado a "Deshabilitado".
+   * @param patient Paciente a eliminar
    * @param id El id del paciente
-   * @returns Respuesta http.
+   * @returns El paciente con su estado en "Deshabilitado"
    */
   deletePatient(id: number): Observable<any> {
-    return this.http.delete(`http://${environment.ip}:8080/${this.entity}/${id}`);
+    return this.http.put(`http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`, {})
   }
+
+  // /**
+  //  * Elimina un paciente
+  //  * @param id El id del paciente
+  //  * @returns Respuesta http.
+  //  */
+  // deletePatient(id: number): Observable<any> {
+  //   return this.http.delete(`http://${environment.ip}:8080/${this.entity}/${id}`);
+  // }
 }
