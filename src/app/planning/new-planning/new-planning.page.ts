@@ -88,7 +88,7 @@ export class NewPlanningPage implements OnInit {
     this.myForm.patchValue({"games": null});
   }
 
-  // 
+  // Chequea que el paciente que se está buscando existe
   patientExists(){
     let flag = false;
     this.patients?.forEach(p => {
