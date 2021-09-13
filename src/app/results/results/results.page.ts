@@ -19,6 +19,15 @@ export class ResultsPage implements OnInit {
   ionViewWillEnter() {
     this.resultsApiService.getResults().subscribe((res) => {
       this.results = res.content;
+      this.results.sort(function (a, b) {
+        if (a.completeDatetime < b.completeDatetime) {
+          return 1;
+        }
+        if (a.completeDatetime > b.completeDatetime) {
+          return -1;
+        }
+        return 0;
+      })
     });
   }
 
