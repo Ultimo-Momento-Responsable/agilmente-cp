@@ -7,6 +7,7 @@ import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { HayUnoRepetidoResultsGeneralTableComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-general-table/hay-uno-repetido-results-general-table.component';
 import { HayUnoRepetidoResultsPerformanceGraphComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-performance-graph/hay-uno-repetido-results-performance-graph.component';
 import { HayUnoRepetidoResultsTimeGraphComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-time-graph/hay-uno-repetido-results-time-graph.component';
+import { DialogsComponent } from './components/dialogs/dialogs.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { HayUnoRepetidoResultsTimeGraphComponent } from './components/results/ha
     HayUnoRepetidoResultsGeneralTableComponent,
     HayUnoRepetidoResultsPerformanceGraphComponent,
     HayUnoRepetidoResultsTimeGraphComponent,
+    DialogsComponent
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule],
   exports: [
@@ -28,7 +30,9 @@ import { HayUnoRepetidoResultsTimeGraphComponent } from './components/results/ha
     HayUnoRepetidoResultsGeneralTableComponent,
     HayUnoRepetidoResultsPerformanceGraphComponent,
     HayUnoRepetidoResultsTimeGraphComponent,
+    DialogsComponent
   ],
+  providers: [DialogsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {}

@@ -6,6 +6,7 @@ import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepic
 import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 
 export interface Planning {
   id: number;
@@ -50,7 +51,8 @@ export class SpecificPlanningPage implements OnInit {
     public modalCtrl: ModalController,
     public alertController: AlertController,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialogsComponent: DialogsComponent
   ) { }
   
   ngOnInit() {
@@ -357,5 +359,17 @@ export class SpecificPlanningPage implements OnInit {
       this.myForm.controls['games'].disable();
       this.submitDisabled();
     })
+  }
+
+  // Cancela la planning actual
+  async cancelPlanning(){
+    const confirm = await this.dialogsComponent.presentAlertConfirm('Planificación',
+    '¿Desea cancelar la planificación? Esta acción no puede deshacerse')
+    
+    if (confirm) {
+      this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
+        this.router.navigateByUrl('/planning');
+      });
+    }
   }
 }
