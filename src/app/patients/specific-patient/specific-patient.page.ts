@@ -72,6 +72,7 @@ export class SpecificPatientPage implements OnInit {
     '¿Desea eliminar al paciente? Esta acción no puede deshacerse')
       
     if (confirm) {
+    this.unlinkPatient();
     this.patientsApiService.deletePatient(this.id).subscribe(() => {
         this.router.navigateByUrl('/patients');
       });
