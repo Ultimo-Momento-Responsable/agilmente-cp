@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
@@ -37,7 +38,8 @@ export class SpecificPatientPage implements OnInit {
     private patientsApiService: PatientsApiService,
     private resultsApiService: ResultsApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public alertController: AlertController
   ) {}
 
   ngOnInit() {}
@@ -63,11 +65,16 @@ export class SpecificPatientPage implements OnInit {
   /**
    * Borra el paciente (cuando clickea el botón de eliminar).
    */
-  deletePatient() {
+  async deletePatient() {
+    const confirm = await this.presentAlert('¿Esta seguro?','Esta accion es irreversible',true,'alertError')
+      
+    if (confirm) {
     this.patientsApiService.deletePatient(this.id).subscribe(() => {
-      this.router.navigateByUrl('/patients');
-    });
+        this.router.navigateByUrl('/patients');
+      });
+    }
   }
+
 
   /**
    * Desvincula el paciente.
@@ -97,5 +104,46 @@ export class SpecificPatientPage implements OnInit {
       .subscribe((res) => {});
   }
 
-  
+  /**
+   * 
+   * @param subHeader 
+   * @param message 
+   * @param reset 
+   * @param css
+   * @returns 
+   */
+
+  async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
+    return new Promise(async (confirm) => {
+      const alert = await this.alertController.create({
+        message: message,
+        header: 'Eliminar paciente',
+        subHeader: subHeader,
+        cssClass: 'centerh3',
+        buttons: [
+          {
+            text: 'Cancelar',
+            handler: () => {
+              return confirm(false);
+            },
+            cssClass: css
+          },
+          {
+            text: 'Aceptar',
+            handler: () => {
+              return confirm(true);
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+      if (await alert.onDidDismiss()){
+        if (reset){
+          this.router.navigateByUrl('/patients');
+        }
+      }
+    });
+  }
+
 }
