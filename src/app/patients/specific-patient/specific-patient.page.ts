@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
+import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
 export interface Patient {
@@ -39,7 +40,8 @@ export class SpecificPatientPage implements OnInit {
     private resultsApiService: ResultsApiService,
     private route: ActivatedRoute,
     private router: Router,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private dialogsComponent: DialogsComponent
   ) {}
 
   ngOnInit() {}
@@ -66,7 +68,8 @@ export class SpecificPatientPage implements OnInit {
    * Borra el paciente (cuando clickea el botón de eliminar).
    */
   async deletePatient() {
-    const confirm = await this.presentAlert('¿Esta seguro?','Esta accion es irreversible',true,'alertError')
+    const confirm = await this.dialogsComponent.presentAlertConfirm('Paciente',
+    '¿Desea eliminar al paciente? Esta acción no puede deshacerse')
       
     if (confirm) {
     this.patientsApiService.deletePatient(this.id).subscribe(() => {
@@ -102,48 +105,6 @@ export class SpecificPatientPage implements OnInit {
     this.patientsApiService
       .putPatient(this.patient, this.id)
       .subscribe((res) => {});
-  }
-
-  /**
-   * 
-   * @param subHeader 
-   * @param message 
-   * @param reset 
-   * @param css
-   * @returns 
-   */
-
-  async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
-    return new Promise(async (confirm) => {
-      const alert = await this.alertController.create({
-        message: message,
-        header: 'Eliminar paciente',
-        subHeader: subHeader,
-        cssClass: 'centerh3',
-        buttons: [
-          {
-            text: 'Cancelar',
-            handler: () => {
-              return confirm(false);
-            },
-            cssClass: css
-          },
-          {
-            text: 'Aceptar',
-            handler: () => {
-              return confirm(true);
-            }
-          }
-        ]
-      });
-
-      await alert.present();
-      if (await alert.onDidDismiss()){
-        if (reset){
-          this.router.navigateByUrl('/patients');
-        }
-      }
-    });
   }
 
 }

@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { IonicModule} from '@ionic/angular';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dialogs',
