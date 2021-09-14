@@ -65,16 +65,17 @@ export class SpecificPatientPage implements OnInit {
   }
 
   /**
-   * Borra el paciente (cuando clickea el botón de eliminar).
+   * Borra y desvincula el paciente (cuando clickea el botón de eliminar).
    */
   async deletePatient() {
-    const confirm = await this.dialogsComponent.presentAlertConfirm('Paciente',
+    const confirm = await this.dialogsComponent.presentAlertConfirm('Eliminar paciente',
     '¿Desea eliminar al paciente? Esta acción no puede deshacerse')
       
     if (confirm) {
-    this.unlinkPatient();
-    this.patientsApiService.deletePatient(this.id).subscribe(() => {
-        this.router.navigateByUrl('/patients');
+      this.patientsApiService.deletePatient(this.id).subscribe(() => {
+        this.dialogsComponent.presentAlert('Paciente eliminado','','<p>El paciente ha sido eliminado correctamente.','/patients');
+      }, (err) => {
+        this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','/patients');
       });
     }
   }
