@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dialogs',
@@ -8,23 +8,37 @@ import { AlertController } from '@ionic/angular';
 })
 export class DialogsComponent implements OnInit {
 
-  constructor(public alertController: AlertController) {}
+  constructor(public alertController: AlertController,
+              public router: NavController) {}
   dialogComponentObj: any = {};
 
-  async presentAlert(header: string, subHeader: string, message: string) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: header,
-      subHeader: subHeader,
-      message: message,
-      buttons: ['OK']
-    });
+  async presentAlert(header: string, subHeader: string, message: string, url: string) {
+    return new Promise(async (confirm) => {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: header,
+        subHeader: subHeader,
+        message: message,
+        buttons:     
+          [
+            {
+              text: 'OK',
+              handler: () => {
+                return confirm(true);
+              }
+            }
+          ]
+        }
+      );
 
-    await alert.present();
+      await alert.present();
 
-    const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+      if (await alert.onDidDismiss()){
+        this.router.navigateForward(url)
+      }
+    })
   }
+
 
   async presentAlertConfirm(header: string, message: string) {
     return new Promise(async (confirm) => {

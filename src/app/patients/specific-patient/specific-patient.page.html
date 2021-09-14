@@ -32,6 +32,7 @@
               <p class="ion-margin">Eliminar</p>
             </ion-button>
             <ion-button
+              [disabled]="this.patient?.enabled == false"
               style="float: right"
               fill="clear"
               [routerLink]="['../../edit-patient',id]"
