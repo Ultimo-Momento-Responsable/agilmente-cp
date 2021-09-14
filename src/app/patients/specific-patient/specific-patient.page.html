@@ -35,6 +35,7 @@
               style="float: right"
               fill="clear"
               [routerLink]="['../../edit-patient',id]"
+              [disabled]="this.patient?.enabled == false"
             >
               <ion-icon name="pencil-outline" item-right></ion-icon>
               <p class="ion-margin">Editar</p>
@@ -64,7 +65,8 @@
               <h5 style="float: right; margin-right: 5%; margin-top: -0.5%">
                 Paciente Desvinculado
               </h5>
-              <ion-button style="float: right" (click)="this.resetCode()">
+              <ion-button style="float: right" (click)="this.resetCode()" [disabled]="this.patient?.enabled == false"
+              >
                 <ion-icon name="log-out-outline"></ion-icon>
                 <p class="ion-padding">Generar Código</p>
               </ion-button>
