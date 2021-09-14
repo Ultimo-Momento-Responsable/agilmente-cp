@@ -368,7 +368,9 @@ export class SpecificPlanningPage implements OnInit {
     
     if (confirm) {
       this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
-        this.router.navigateByUrl('/planning');
+        this.dialogsComponent.presentAlert('Planificación eliminada','','<p>La planificación ha sido eliminado correctamente.','/planning');
+      }, (err) => {
+        this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','/planning');
       });
     }
   }
