@@ -65,7 +65,7 @@ export class PatientsPage implements OnInit {
         if (description){
           description = p.description.substring(0,45)
           if (description.length == 45) {
-            this.auxPatient.description += '...'
+            description += '...'
           }
         }
         
