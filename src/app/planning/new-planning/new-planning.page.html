@@ -71,7 +71,7 @@
         </ion-item>
         <ion-row>
           <ion-col>
-            <ion-card *ngFor="let game of planningGames">
+            <ion-card *ngFor="let game of planningGames; let j = index">
               <ion-card-header color="primary">
                 <ion-row>
                   <ion-col>
@@ -127,7 +127,7 @@
                   [disabled]="!checkIfCorrect(game)"
                   expand="block" 
                   class="ion-text-uppercase ion-margin-top"
-                  (click)="gameAdded(game)">
+                  (click)="gameAdded(game,j)">
                   Listo
                 </ion-button>
               </ion-card-content>

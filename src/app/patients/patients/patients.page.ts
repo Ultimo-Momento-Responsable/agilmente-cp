@@ -77,7 +77,7 @@ export class PatientsPage implements OnInit {
           "age": calculatedAge,
           "city": p.city
         }
-
+        
         this.formattedPatients.push(this.auxPatient);
       })
     });
