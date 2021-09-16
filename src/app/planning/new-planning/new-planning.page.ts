@@ -241,10 +241,16 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Cuando el juego se haya cargado, da como válido el formulario
-  gameAdded(game) {
+  gameAdded(game,j) {
     game.accordion = false;
-    game.done = true;
-    this.assignedGames.push(JSON.parse(JSON.stringify(game)));
+    console.log(game.done);
+    if (game.done){
+      console.log(j);
+      this.assignedGames[j] = JSON.parse(JSON.stringify(game));
+    } else {
+      game.done = true;
+      this.assignedGames.push(JSON.parse(JSON.stringify(game)));
+    } 
   }
 
   // Muestra la alerta.
