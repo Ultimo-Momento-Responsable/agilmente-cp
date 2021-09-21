@@ -181,6 +181,12 @@ export class NewPlanningPage implements OnInit {
     this.planningGames[this.planningGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
   }
 
+  // Setea el número máximo de sesiones de juego
+  changeParamsType1(game,p,evt) {
+    let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
+    gameChanged.param[gameChanged.param.indexOf(p)].value = !gameChanged.param[gameChanged.param.indexOf(p)].value;
+  }
+
   // Checkea que el juego esté correctamente cargado
   checkIfCorrect(game) : boolean{
     let flag = false;
@@ -191,6 +197,8 @@ export class NewPlanningPage implements OnInit {
             flag = true;
           }
         }
+      } else{
+        p.isActive = true;
       }
     });
     if (flag){
@@ -243,7 +251,7 @@ export class NewPlanningPage implements OnInit {
   // Cuando el juego se haya cargado, da como válido el formulario
   gameAdded(game,j) {
     game.accordion = false;
-    console.log(game.done);
+    console.log(game);
     if (game.done){
       console.log(j);
       this.assignedGames[j] = JSON.parse(JSON.stringify(game));
