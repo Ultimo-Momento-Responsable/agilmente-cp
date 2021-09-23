@@ -100,7 +100,7 @@
                     </ion-label>
                   </ion-list-header>
                   <ion-radio-group [value]="game.index">
-                    <div *ngFor="let p of game.param; let i = index">
+                    <div *ngFor="let p of game.params; let i = index">
                       <div *ngIf="p.type==0">
                         <ion-item>
                           <ion-label>{{ p.name }}</ion-label>
@@ -118,7 +118,7 @@
                       Activables
                     </ion-label>
                   </ion-list-header>
-                  <div *ngFor="let p of game.param; let i = index">
+                  <div *ngFor="let p of game.params; let i = index">
                     <div *ngIf="p.type==1">
                       <ion-item>
                         <ion-label>{{ p.name }}</ion-label>
