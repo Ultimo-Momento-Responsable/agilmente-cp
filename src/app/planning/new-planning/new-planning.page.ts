@@ -43,7 +43,7 @@ export class NewPlanningPage implements OnInit {
     this.gamesApiService.getGames().subscribe(res=>{
       res.forEach(g => {
         this.games.push(g);
-        this.games[i].params.forEach(p => {
+        this.games[i].gameParam.forEach(p => {
           p.isActive = false;
         });
         this.games[i].maxNumberOfSessions = 5;
@@ -150,12 +150,12 @@ export class NewPlanningPage implements OnInit {
     this.myForm.patchValue({"games": null});
   }
 
-  // Para los paramss tipo 0, activa uno, en caso de que se haya tildado
+  // Para los params tipo 0, activa uno, en caso de que se haya tildado
   setActiveParam(game, p, index){
     this.planningGames.forEach(g=>{
       if (g.id == game.id){
         g.index = index;
-        g.params.forEach(param => {
+        g.gameParam.forEach(param => {
           if (param.id == p.id) {
             if (!param.isActive) {
               param.isActive = true;
@@ -171,8 +171,8 @@ export class NewPlanningPage implements OnInit {
   // Actualiza el valor del Param
   changeParamValue(game,p,evt){
     let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
-    if (gameChanged.params[gameChanged.params.indexOf(p)].isActive) {
-      gameChanged.params[gameChanged.params.indexOf(p)].value = evt.srcElement.value;
+    if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
+      gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = evt.srcElement.value;
     }
   }
 
@@ -184,14 +184,14 @@ export class NewPlanningPage implements OnInit {
   // Setea el número máximo de sesiones de juego
   changeParamsType1(game,p,evt) {
     let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
-    gameChanged.params[gameChanged.params.indexOf(p)].value = !gameChanged.params[gameChanged.params.indexOf(p)].value;
+    gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = !gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value;
   }
 
   // Checkea que el juego esté correctamente cargado
   checkIfCorrect(game) : boolean{
     let flag = false;
-    game.params.forEach(p => {
-      if (p.type == 0){
+    game.gameParam.forEach(p => {
+      if (p.param.type == 0){
         if (p.isActive){
           if (p.value){
             flag = true;
@@ -203,7 +203,7 @@ export class NewPlanningPage implements OnInit {
     });
     if (flag){
       this.assignedGames.forEach(g => {
-        if (JSON.stringify(g.params) == JSON.stringify(game.params) 
+        if (JSON.stringify(g.gameParam) == JSON.stringify(game.gameParam) 
               && g.name == game.name
               && game.hasLimit == g.hasLimit 
               && game.maxNumberOfSessions == g.maxNumberOfSessions) {
@@ -279,7 +279,7 @@ export class NewPlanningPage implements OnInit {
       }
     }
   }
-
+  
   // Se formatea y se envía la planificación al back
   save(myForm: FormGroup) {
     let patientId: number;
@@ -298,9 +298,9 @@ export class NewPlanningPage implements OnInit {
       
       let params: any = {};
 
-      g.params.forEach(p => {
+      g.gameParam.forEach(p => {
         if (p.isActive) {
-          let newParam = {[p.className]: p.value}
+          let newParam = {[p.param.className]: p.value}
           params = {...params,...newParam}
         }
       });
