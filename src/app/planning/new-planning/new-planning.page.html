@@ -113,13 +113,13 @@
                       </div>
                     </div>
                   </ion-radio-group>
+                  <ion-list-header>
+                    <ion-label>
+                      Activables
+                    </ion-label>
+                  </ion-list-header>
                   <div *ngFor="let p of game.gameParam; let i = index">
                     <div *ngIf="p.param.type==1">
-                      <ion-list-header>
-                        <ion-label>
-                          Activables
-                        </ion-label>
-                      </ion-list-header>
                       <ion-item>
                         <ion-label>{{ p.param.name }}</ion-label>
                         <ion-toggle (click)="changeParamsType1(game,p,$event)"></ion-toggle>
@@ -132,17 +132,16 @@
                         </ion-label>
                       </ion-list-header>
                       <ion-radio-group>
-                        <div *ngFor="let spriteSet of p.spriteSetContent; let i = index">
+                        <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
                           <ion-item>
-                            <ion-label>{{ spriteSet.name }}</ion-label>
-                            <ion-radio [value]="i" (click)="p.value=spriteSet.id"></ion-radio>
+                            <ion-label>{{ paramType2.name }}</ion-label>
+                            <ion-radio [value]="j" (click)="p.value=paramType2.id"></ion-radio>
                           </ion-item>
                         </div>
                       </ion-radio-group>
                     </div>
                   </div>
                   
-
                   <!-- en todos los juegos -->
                   <ion-item>
                     <ion-label>¿Repeticiones limitadas?</ion-label>
