@@ -48,6 +48,9 @@ export class NewPlanningPage implements OnInit {
           if (p.param.type == 1) {
             p.value=false;
           }
+          if (p.param.type == 2) {
+            p.value=1;
+          }
         });
         this.games[i].maxNumberOfSessions = 5;
         this.games[i].hasLimit = false;
@@ -214,7 +217,7 @@ export class NewPlanningPage implements OnInit {
         }
       })
     }
-    return flag
+    return flag;
   }
 
   // borra un juego de la lista de los juegos planificados hasta el momento

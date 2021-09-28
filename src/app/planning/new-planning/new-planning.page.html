@@ -131,7 +131,7 @@
                           {{ p.param.name }}
                         </ion-label>
                       </ion-list-header>
-                      <ion-radio-group>
+                      <ion-radio-group [value]="p.value - 1"> 
                         <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
                           <ion-item>
                             <ion-label>{{ paramType2.name }}</ion-label>
