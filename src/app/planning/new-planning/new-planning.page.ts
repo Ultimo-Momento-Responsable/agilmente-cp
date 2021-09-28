@@ -45,6 +45,9 @@ export class NewPlanningPage implements OnInit {
         this.games.push(g);
         this.games[i].gameParam.forEach(p => {
           p.isActive = false;
+          if (p.param.type == 1) {
+            p.value=false;
+          }
         });
         this.games[i].maxNumberOfSessions = 5;
         this.games[i].hasLimit = false;
