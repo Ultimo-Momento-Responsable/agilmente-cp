@@ -100,10 +100,10 @@
                     </ion-label>
                   </ion-list-header>
                   <ion-radio-group [value]="game.index">
-                    <div *ngFor="let p of game.params; let i = index">
-                      <div *ngIf="p.type==0">
+                    <div *ngFor="let p of game.gameParam; let i = index">
+                      <div *ngIf="p.param.type==0">
                         <ion-item>
-                          <ion-label>{{ p.name }}</ion-label>
+                          <ion-label>{{ p.param.name }}</ion-label>
                           <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
                         </ion-item>
                         <ion-item disabled="{{!p.isActive}}">
@@ -118,14 +118,30 @@
                       Activables
                     </ion-label>
                   </ion-list-header>
-                  <div *ngFor="let p of game.params; let i = index">
-                    <div *ngIf="p.type==1">
+                  <div *ngFor="let p of game.gameParam; let i = index">
+                    <div *ngIf="p.param.type==1">
                       <ion-item>
-                        <ion-label>{{ p.name }}</ion-label>
+                        <ion-label>{{ p.param.name }}</ion-label>
                         <ion-toggle (click)="changeParamsType1(game,p,$event)"></ion-toggle>
                       </ion-item>
                     </div>
+                    <div *ngIf="p.param.type==2">
+                      <ion-list-header>
+                        <ion-label>
+                          {{ p.param.name }}
+                        </ion-label>
+                      </ion-list-header>
+                      <ion-radio-group>
+                        <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
+                          <ion-item>
+                            <ion-label>{{ paramType2.name }}</ion-label>
+                            <ion-radio [value]="j" (click)="p.value=paramType2.id"></ion-radio>
+                          </ion-item>
+                        </div>
+                      </ion-radio-group>
+                    </div>
                   </div>
+                  
                   <!-- en todos los juegos -->
                   <ion-item>
                     <ion-label>¿Repeticiones limitadas?</ion-label>
