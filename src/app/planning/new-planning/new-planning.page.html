@@ -122,7 +122,7 @@
                     <div *ngIf="p.param.type==1">
                       <ion-item>
                         <ion-label>{{ p.param.name }}</ion-label>
-                        <ion-toggle (click)="changeParamsType1(game,p,$event)"></ion-toggle>
+                        <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
                       </ion-item>
                     </div>
                     <div *ngIf="p.param.type==2">
