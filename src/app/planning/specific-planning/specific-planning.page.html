@@ -102,7 +102,17 @@
                   <p><b>{{ param?.spanishName }}: </b>No</p>
                 </div>
                 <div *ngSwitchDefault>
-                  <p><b>{{ param?.spanishName }}: </b>{{param?.value}}</p>
+                  <div *ngIf="param?.name=='spriteSet';else notSpriteSet">
+                    <div *ngIf="param?.value=='1'">
+                      <p><b>{{ param?.spanishName }}: </b>Flores</p>
+                    </div>
+                    <div *ngIf="param?.value=='2'">
+                      <p><b>{{ param?.spanishName }}: </b>Frutas</p>
+                    </div>
+                  </div>
+                  <ng-template #notSpriteSet>
+                    <p><b>{{ param?.spanishName }}: </b>{{param?.value}}</p>
+                  </ng-template>
                 </div>
               </div>
             </ion-label>
