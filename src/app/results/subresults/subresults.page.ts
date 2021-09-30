@@ -28,6 +28,10 @@ export class SubresultsPage {
   ionViewWillEnter() {
     this.resultsApiService.getResultById(this.resultId, this.gameRoute).subscribe((res) => {
       this.result = res;
+      this.result.totalTime = this.result.totalTime.toFixed(2);
+      this.result.timeBetweenSuccesses = this.result.timeBetweenSuccesses.map(function(r){
+        return Number(r.toFixed(2));
+      });
       this.changeDetector.detectChanges();
     });
   }
