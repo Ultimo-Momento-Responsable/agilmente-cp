@@ -223,7 +223,9 @@ export class NewPlanningPage implements OnInit {
   // borra un juego de la lista de los juegos planificados hasta el momento
   deleteGame(game) {
     this.planningGames.splice(this.planningGames.indexOf(game),1);
-    this.assignedGames.splice(this.assignedGames.indexOf(game),1);
+    if (game.done){
+      this.assignedGames.splice(this.assignedGames.indexOf(game),1);
+    }
   }
 
   // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, se 
