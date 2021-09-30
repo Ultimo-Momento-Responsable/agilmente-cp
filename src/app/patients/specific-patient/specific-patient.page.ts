@@ -57,9 +57,13 @@ export class SpecificPatientPage implements OnInit {
 
       this.resultsApiService.getResultsByPatient(this.id).subscribe((res) => {
         this.results = res;
+        this.results.hayUnoRepetido.results.forEach(r => {
+          r.totalTime = r.totalTime.toFixed(2);
+        });
         if (this.results.hayUnoRepetido.results?.length==0){
           this.showResults=false;
         }
+        
       });
     });
   }

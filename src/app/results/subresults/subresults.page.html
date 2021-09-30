@@ -46,19 +46,62 @@
   </div>
 
   <div class="ion-padding">
-      <h1>Parámetros</h1>
-      <app-results-detail-params-card *ngFor="let param of this.result.params" [param]="param"></app-results-detail-params-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title style="margin-top: 0.8%;" color="primary">Parámetros</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label *ngFor="let param of this.result.params">
+          <div [ngSwitch]="param?.value">
+            <div *ngSwitchCase="'true'">
+              <p><b>{{ param?.spanishName }}: </b>Si</p>
+            </div>
+            <div *ngSwitchCase="'false'">
+              <p><b>{{ param?.spanishName }}: </b>No</p>
+            </div>
+            <div *ngSwitchDefault>
+              <div *ngIf="param?.name=='spriteSet';else notSpriteSet">
+                <div *ngIf="param?.value=='1'">
+                  <p><b>{{ param?.spanishName }}: </b>Flores</p>
+                </div>
+                <div *ngIf="param?.value=='2'">
+                  <p><b>{{ param?.spanishName }}: </b>Frutas</p>
+                </div>
+              </div>
+              <ng-template #notSpriteSet>
+                <p><b>{{ param?.spanishName }}: </b>{{param?.value}}</p>
+              </ng-template>
+            </div>
+          </div>
+        </ion-label>
+      </ion-card-content>
+    </ion-card>
   </div>
 
   <div class="ion-padding" *ngIf="!!this.result.timeBetweenSuccesses && !!this.result.timeBetweenSuccesses.length">
     <ion-grid class="ion-justify-content-center">
       <ion-row>
         <ion-col>
-            <app-table-results [result]="this.result"></app-table-results>
-        </ion-col>
-
-        <ion-col>
-            <app-graph-results [result]="this.result"></app-graph-results>
+          <ion-card class="table">
+            <ion-item-group>
+              <ion-item class="header-row ion-no-padding">
+                <ion-col class="column">
+                  Nivel
+                </ion-col>
+                <ion-col class="column">
+                  Tiempo (segundos)
+                </ion-col>
+              </ion-item>
+              <ion-item class="row ion-no-padding" *ngFor="let r of this.result.timeBetweenSuccesses; index as index">
+                <ion-col class="column">
+                  {{ index + 1 }}
+                </ion-col>
+                <ion-col class="column">
+                  {{ r }}
+                </ion-col>
+              </ion-item>
+            </ion-item-group>
+            </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
