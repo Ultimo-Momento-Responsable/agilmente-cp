@@ -96,7 +96,7 @@
                 <ion-list>
                   <ion-list-header>
                     <ion-label>
-                      Límite
+                      Condición de Parada
                     </ion-label>
                   </ion-list-header>
                   <ion-radio-group [value]="game.index">
@@ -108,7 +108,14 @@
                         </ion-item>
                         <ion-item disabled="{{!p.isActive}}">
                           <ion-label position="stacked" color="primary">Valor</ion-label>
-                          <ion-input disabled="{{!p.isActive}}" type="number" value="{{ p.value }}" (ionChange)="changeParamValue(game,p,$event)" type="number" [min]="p.minValue" [max]="checkMaxValue(p)" (ionBlur)="checkParamLimit(p)"></ion-input>
+                          <ion-input disabled="{{!p.isActive}}" 
+                            type="number" 
+                            value="{{ p.value }}" 
+                            (ionChange)="changeParamValue(game,p,$event)" 
+                            type="number" [min]="p.minValue" 
+                            [max]="checkMaxValue(p)" 
+                            (ionBlur)="checkParamLimit(p)">
+                          </ion-input>
                         </ion-item>
                       </div>
                     </div>
@@ -140,6 +147,20 @@
                         </div>
                       </ion-radio-group>
                     </div>
+                    <div *ngIf="p.param.type==3">
+                      <ion-item>
+                        <ion-label>{{ p.param.name }}</ion-label>
+                        <ion-input 
+                          style="margin-left: 10%;border-radius: 1px;"
+                          type="number" 
+                          value="{{ p.value }}" 
+                          (ionChange)="changeParamValue(game,p,$event)" 
+                          type="number" [min]="p.minValue" 
+                          [max]="checkMaxValue(p)" 
+                          (ionBlur)="checkParamLimit(p)">
+                        </ion-input>
+                      </ion-item>
+                    </div>
                   </div>
                   
                   <!-- en todos los juegos -->
@@ -148,7 +169,13 @@
                     <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
                     <ion-item disabled="{{!game.hasLimit}}">
                       <ion-label position="stacked" color="primary">Cantidad</ion-label>
-                      <ion-input disabled="{{!game.hasLimit}}" value="{{ game.maxNumberOfSessions }}" (ionChange)="changeLimitGamesValue(game,$event)" type="number" min=1 (ionBlur)="checkMNoSLimit(game)"> </ion-input>
+                      <ion-input disabled="{{!game.hasLimit}}" 
+                        value="{{ game.maxNumberOfSessions }}" 
+                        (ionChange)="changeLimitGamesValue(game,$event)" 
+                        type="number" 
+                        min=1 
+                        (ionBlur)="checkMNoSLimit(game)"> 
+                      </ion-input>
                     </ion-item>
                   </ion-item>
                 </ion-list>
