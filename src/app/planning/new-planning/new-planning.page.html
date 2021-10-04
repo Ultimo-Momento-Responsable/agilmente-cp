@@ -118,6 +118,23 @@
                           </ion-input>
                         </ion-item>
                       </div>
+                      <div *ngIf="p.param.type==3">
+                        <ion-item>
+                          <ion-text>{{ p.param.name }}</ion-text>
+                          <ion-item 
+                            style="margin-left: 5%; border-bottom: solid 1px rgb(56, 128, 255);">
+                            <ion-input 
+                              slot="end"
+                              type="number" 
+                              value="{{ p.value }}" 
+                              (ionChange)="changeParamValue(game,p,$event)" 
+                              type="number" [min]="p.minValue" 
+                              [max]="checkMaxValue(p)" 
+                              (ionBlur)="checkParamLimit(p)">
+                            </ion-input>
+                          </ion-item>
+                        </ion-item>
+                      </div>
                     </div>
                   </ion-radio-group>
                   <ion-list-header>
@@ -147,22 +164,8 @@
                         </div>
                       </ion-radio-group>
                     </div>
-                    <div *ngIf="p.param.type==3">
-                      <ion-item>
-                        <ion-label>{{ p.param.name }}</ion-label>
-                        <ion-input 
-                          style="margin-left: 10%;border-radius: 1px;"
-                          type="number" 
-                          value="{{ p.value }}" 
-                          (ionChange)="changeParamValue(game,p,$event)" 
-                          type="number" [min]="p.minValue" 
-                          [max]="checkMaxValue(p)" 
-                          (ionBlur)="checkParamLimit(p)">
-                        </ion-input>
-                      </ion-item>
-                    </div>
                   </div>
-                  
+
                   <!-- en todos los juegos -->
                   <ion-item>
                     <ion-label>¿Repeticiones limitadas?</ion-label>

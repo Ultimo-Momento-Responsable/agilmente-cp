@@ -52,7 +52,7 @@ export class NewPlanningPage implements OnInit {
             p.value=1;
           }
           if (p.param.type == 3) {
-            p.value=p.minValue;
+            p.value=(p.minValue + p.maxValue) / 2;
           }
         });
         this.games[i].maxNumberOfSessions = 5;
