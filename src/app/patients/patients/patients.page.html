@@ -33,14 +33,6 @@
                         (ionInput)="filterPatientCard($event)"
                         >
                     </ion-searchbar>
-                <!-- <ion-searchbar 
-                    animated 
-                    placeholder="Nombre o apellido" 
-                    formControlName="patient"
-                    (ionInput)="filterPatient($event)"
-                    (ionFocus)="patientBlur=false"
-                    (ionBlur)="patientBlur=true">
-                </ion-searchbar> -->
                  </ion-item>
                 <div class="horizontal-cards ion-margin">
                     <ion-card *ngFor="let patient of formattedPatients">
