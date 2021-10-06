@@ -28,6 +28,15 @@ export class PatientsApiService {
   }
 
   /**
+   * Obtiene todos los pacientes cargados que coincidan con el campo de busqueda.
+   * @param fullName Nombre completo del paciente, ignorando casing.
+   * @returns Una página de pacientes.
+   */
+   getFilteredPatients(fullName: String): Observable<any> {
+     return this.http.get(`http://${environment.ip}:8080/${this.entity}/fn/${fullName}`);
+   }
+
+  /**
   * Obtiene un paciente a partir del id.
   * @param id Id del paciente.
   * @returns Observable del paciente.

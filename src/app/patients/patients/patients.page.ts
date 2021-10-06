@@ -21,7 +21,7 @@ export class PatientsPage implements OnInit {
   pageNumber = 0;
   formattedPatients: Patient[] = [];
   auxPatient: Patient;
-
+  patients: any[] = [];
   constructor(private patientsApiService: PatientsApiService) { }
 
   ngOnInit() {}
@@ -30,6 +30,7 @@ export class PatientsPage implements OnInit {
     this.pageNumber = 0;
     this.formattedPatients = [];
     this.getPatients();
+    this.patients = this.formattedPatients;
   }
 
   /**
@@ -54,10 +55,16 @@ export class PatientsPage implements OnInit {
   }
 
   /**
-   * Obtiene los pacientes de una página específica
+   * Obtiene los pacientes de una pagina especifica, filtra por nombre o apellido si se provee un valor en el campo de busqueda.
+   * @param fullName valor para filtrar pacientes.
    */
-  getPatients() {
-    this.patientsApiService.getPatients(this.pageNumber).subscribe(res =>{
+  getPatientsFiltered(fullName: String) {
+    this.formattedPatients = [];
+    this.pageNumber = 0; 
+    if (fullName == "") {
+      this.getPatients();
+    }
+    this.patientsApiService.getFilteredPatients(fullName).subscribe(res =>{
       res.content.forEach(p => {
         const textDate = p.bornDate.split('-');
         const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
@@ -81,9 +88,48 @@ export class PatientsPage implements OnInit {
         this.formattedPatients.push(this.auxPatient);
       })
     });
+  }
+  getPatients(){
+    this.patientsApiService.getPatients(this.pageNumber).subscribe(res =>{
+      res.content.forEach(p => {
+        const textDate = p.bornDate.split('-');
+        const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
+        let description = p.description
+        if (description){
+          description = p.description.substring(0,45)
+          if (description.length == 45) {
+            description += '...'
+          }
+        }
+        
+        this.auxPatient = {
+          "id": p.id,
+          "firstName": p.firstName,
+          "lastName": p.lastName,
+          "description": description,
+          "age": calculatedAge,
+          "city": p.city
+        }
+  
+        this.formattedPatients.push(this.auxPatient);
+      })
+    });
     this.scrollDepthTriggered = false;
   }
 
+  /**
+   * Si se ingresa texto en el campo de busqueda de paciente, obtiene los pacientes que posean dicho texto.
+   * @param event Valor ingresado en el campo de busqueda de paciente
+   */
+  filterPatientCard(event) {
+    this.getPatientsFiltered(event.srcElement.value)
+  }
+
+  /**
+   * Si existen mas de 20 tarjetas de pacientes, carga una pagina nueva de pacientes.
+   * @param $event Accion de scroll
+   * @returns Una pagina de pacientes siguiente a la actual
+   */
   async logScrolling($event) {
     // only send the event once
     if(this.scrollDepthTriggered) {
@@ -104,10 +150,12 @@ export class PatientsPage implements OnInit {
 
     let triggerDepth = ((scrollHeight / 100) * targetPercent);
 
-    if(currentScrollDepth > triggerDepth) {
-      this.scrollDepthTriggered = true;
-      this.pageNumber++;
-      this.getPatients();
+    if(currentScrollDepth > triggerDepth && this.formattedPatients.length % 20 == 0) {
+      if (this.formattedPatients.length == (this.pageNumber+1)*20){
+        this.scrollDepthTriggered = true;
+        this.pageNumber++; 
+        this.getPatients();
+      }
     }
   }
 }
