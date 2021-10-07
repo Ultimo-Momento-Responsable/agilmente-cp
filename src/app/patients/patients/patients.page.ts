@@ -122,7 +122,11 @@ export class PatientsPage implements OnInit {
    * @param event Valor ingresado en el campo de busqueda de paciente
    */
   filterPatientCard(event) {
-    this.getPatientsFiltered(event.srcElement.value)
+    const removeAccents = (str) => {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    } 
+    let search = removeAccents(event.srcElement.value)
+    this.getPatientsFiltered(search)
   }
 
   /**
