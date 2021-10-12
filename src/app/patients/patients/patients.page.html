@@ -34,6 +34,7 @@
                         >
                     </ion-searchbar>
                  </ion-item>
+                <!-- <h2 *ngIf="this.formattedPatients.length == 0">No se han encontrado resultados para la búsqueda</h2> -->
                 <div class="horizontal-cards ion-margin">
                     <ion-card *ngFor="let patient of formattedPatients">
                         <ion-card-header>
@@ -71,6 +72,7 @@
                         </ion-card-content>
                     </ion-card>
                 </div>
+                <h2 *ngIf="this.formattedPatients.length == 0">No se han encontrado resultados para la búsqueda</h2>
             </div>
         </ion-col>
         <ion-col size="1"></ion-col>
