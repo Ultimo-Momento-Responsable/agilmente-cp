@@ -36,7 +36,7 @@ export class NewPlanningPage implements OnInit {
   patientBlur=false;
 
   ngOnInit() {
-    this.patientsApiService.getPatientsListed().subscribe(res=>{
+    this.patientsApiService.getActivePatientsListed().subscribe(res=>{
       this.patients = res;
     });
     let i = 0;

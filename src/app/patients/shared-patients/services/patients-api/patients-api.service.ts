@@ -12,7 +12,7 @@ export class PatientsApiService {
   constructor(private http: HttpClient) { }
 
   /**
-  * Obtiene todos los Pacientes cargados.
+  * Obtiene todos los Pacientes cargados, independientemente de si se encuentran habilitados.
   * @return Una página de pacientes.
   */
    getPatients(page: number): Observable<any> {
@@ -20,11 +20,27 @@ export class PatientsApiService {
   }
 
   /**
-  * Obtiene todos los Pacientes cargados.
+  * Obtiene todos los Pacientes cargados que se encuentren habilitados.
+  * @return Una página de pacientes.
+  */
+   getActivePatients(page: number): Observable<any> {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/activePatients?page=${page}`);
+  }
+
+  /**
+  * Obtiene todos los Pacientes cargados que se encuentren habilitados.
+  * @return Una página de pacientes.
+  */
+   getActivePatientsListed(): Observable<any> {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listed`);
+  }
+
+  /**
+  * Obtiene todos los Pacientes cargados, independientemente de si se encuentran habilitados.
   * @return Una página de pacientes.
   */
    getPatientsListed(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listed`);
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listedAll`);
   }
 
   /**
