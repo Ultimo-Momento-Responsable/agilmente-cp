@@ -90,7 +90,7 @@ export class PatientsPage implements OnInit {
     });
   }
   getPatients(){
-    this.patientsApiService.getPatients(this.pageNumber).subscribe(res =>{
+    this.patientsApiService.getActivePatients(this.pageNumber).subscribe(res =>{
       res.content.forEach(p => {
         const textDate = p.bornDate.split('-');
         const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
