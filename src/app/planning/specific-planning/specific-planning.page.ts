@@ -36,13 +36,15 @@ export class SpecificPlanningPage implements OnInit {
   datePickerFinish: any = {};
   myForm: FormGroup;
   assignedGames: any [] = [];
+  planningGames: any [] = [];
+  auxGames: any [] = [];
   games: any [] = [];
   gamesSearch: any [];
   isAdding: boolean = false;
   patientBlur=false;
-  editMode: boolean = false;
   state: string;
   planningList: any[];
+  isEditing: boolean = false;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -68,17 +70,25 @@ export class SpecificPlanningPage implements OnInit {
     this.gamesApiService.getGames().subscribe(res=>{
       res.forEach(g => {
         this.games.push(g);
-        this.games[i].param.forEach(p => {
+        this.games[i].gameParam.forEach(p => {
           p.isActive = false;
+          if (p.param.type == 1) {
+            p.value=false;
+          }
+          if (p.param.type == 2) {
+            p.value=1;
+          }
+          if (p.param.type == 3) {
+            p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
+          }
         });
         this.games[i].maxNumberOfSessions = 5;
         this.games[i].hasLimit = false;
         this.games[i].index = null;
-        this.games[i].done = false;
+        this.games[i].done = true;
         i++;
       });
     });
-      
     this.datePickerStart = {
       showTodayButton: false,
       closeOnSelect: true,
@@ -117,13 +127,13 @@ export class SpecificPlanningPage implements OnInit {
   }
 
   patientExists(){
-    let flag = false;
+    let exist = false;
     this.patients?.forEach(p => {
       if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase())==this.myForm.value.patient.toLowerCase()){
-        flag = true;
+        exist = true;
       }
     });
-    return flag
+    return exist
   }
 
   // Cambia el valor mínimo que puede tener el datepicker del fin de la planning  
@@ -133,6 +143,7 @@ export class SpecificPlanningPage implements OnInit {
     this.datePickerFinish.fromDate = date;
     this.datePickerFinish.inputDate = date;
   }
+
   // Filtra pacientes según la búsqueda
   async filterPatient(evt){
     const search = evt.srcElement.value;
@@ -148,7 +159,7 @@ export class SpecificPlanningPage implements OnInit {
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
       if (search && this.gamesSearch){
-        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 && this.assignedGames.indexOf(g) == -1)
+        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
       }
     })
   }
@@ -171,18 +182,18 @@ export class SpecificPlanningPage implements OnInit {
   // Añade el juego seleccionado a la lista de juegos asignados.
   addGame(game) {
     this.gamesSearch = [];
-    this.assignedGames.push(game);
-    this.assignedGames[this.assignedGames.length - 1].accordion = true;
+    this.planningGames.push(JSON.parse(JSON.stringify(game)));
+    this.planningGames[this.planningGames.length - 1].accordion = true;
     this.isAdding = false;
     this.myForm.patchValue({"games": null});
   }
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
   setActiveParam(game, p, index){
-    this.assignedGames.forEach(g=>{
-      g.index = index;
+    this.planningGames.forEach(g=>{
       if (g.id == game.id){
-        g.param.forEach(param => {
+        g.index = index;
+        g.gameParam.forEach(param => {
           if (param.id == p.id) {
             if (!param.isActive) {
               param.isActive = true;
@@ -197,27 +208,57 @@ export class SpecificPlanningPage implements OnInit {
 
   // Actualiza el valor del Param
   changeParamValue(game,p,evt){
-    this.assignedGames[this.assignedGames.indexOf(game)].param[this.assignedGames[this.assignedGames.indexOf(game)].param.indexOf(p)].value = evt.srcElement.value;
+    let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
+    if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
+      gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = evt.srcElement.value;
+    }
   }
 
   // Setea el número máximo de sesiones de juego
   changeLimitGamesValue(game,evt){
-    this.assignedGames[this.assignedGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
+    this.planningGames[this.planningGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
+  }
+
+  // Setea el número máximo de sesiones de juego
+  changeParamsType1(game,p,evt) {
+    let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
+    gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = !gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value;
   }
 
   // Checkea que el juego esté correctamente cargado
   checkIfCorrect(game) : boolean{
-    let band = false;
-    game.param.forEach(p => {
-      if (p.type == 0){
+    let isCorrect = false;
+    game.gameParam.forEach(p => {
+      if (p.param.type == 0){
         if (p.isActive){
           if (p.value){
-            band = true;
+            isCorrect = true;
           }
         }
+      } else{
+        p.isActive = true;
       }
     });
-    return band
+    if (isCorrect){
+      this.assignedGames.forEach(g => {
+        if (JSON.stringify(g.gameParam) == JSON.stringify(game.gameParam) 
+              && g.name == game.name
+              && game.hasLimit == g.hasLimit 
+              && game.maxNumberOfSessions == g.maxNumberOfSessions) {
+          isCorrect = false;
+        }
+      })
+    }
+    return isCorrect;
+  }
+
+  // Borra un juego de la lista de los juegos planificados hasta el momento
+  deleteGame(game) {
+    let ind = this.planningGames.indexOf(game);
+    this.planningGames.splice(ind,1);
+    if (this.assignedGames[ind]){
+      this.assignedGames.splice(ind,1);
+    }
   }
 
   // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, se 
@@ -248,10 +289,15 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Cuando el juego se haya cargado, da como válido el formulario
-  gameAdded(game) {
+// Cuando el juego se haya cargado, da como válido el formulario
+  gameAdded(game,j) {
     game.accordion = false;
-    game.done = true;
+    if (game.done){
+      this.assignedGames[j] = JSON.parse(JSON.stringify(game));
+    } else {
+      game.done = true;
+      this.assignedGames.push(JSON.parse(JSON.stringify(game)));
+    } 
   }
 
   // Muestra la alerta.
@@ -270,19 +316,19 @@ export class SpecificPlanningPage implements OnInit {
     await alert.present(); 
     if (await alert.onDidDismiss()){
       if (reset){
-        this.router.navigateByUrl('/patients')
+        this.router.navigateByUrl('/planning')
       }
     }
   }
 
   // Se formatea y se envía la planificación al back
-  save(myForm: FormGroup) {
+  edit(myForm: FormGroup) {
     let patientId: number;
     this.patients.forEach(p=>{
       if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()) == this.myForm.value.patient.toLowerCase()){
         patientId = p.id;
       }
-    })
+    });
     let gamesPost: any[] = [];
     this.assignedGames.forEach(g => {
       let gamePost = {
@@ -293,15 +339,14 @@ export class SpecificPlanningPage implements OnInit {
       
       let params: any = {};
 
-      g.param.forEach(p => {
+      g.gameParam.forEach(p => {
         if (p.isActive) {
-          let newParam = {[p.className]: p.value}
+          let newParam = {[p.param.className]: p.value}
           params = {...params,...newParam}
         }
       });
       gamePost.params = params;
       gamesPost.push(gamePost);
-
     })
     if (myForm.valid) {
       let jsonPost = {
@@ -312,9 +357,13 @@ export class SpecificPlanningPage implements OnInit {
         dueDate: myForm.value.finishDate,
         games: gamesPost
       }
-      
-      this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
-        this.presentAlert('¡Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
+      console.log(jsonPost)
+      this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
+        this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
+          this.presentAlert('¡Planificación Editada!','<p>La planificación ha sido editada correctamente. </p>', true, 'alertSuccess'); 
+        }, (err) => {
+          this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+        });
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
       });
@@ -324,10 +373,10 @@ export class SpecificPlanningPage implements OnInit {
   // habilita o desabilita el botón de submit
   submitDisabled(){
     let gamesAreDone = true;
-    if (this.assignedGames.length == 0){
+    if (this.planningGames.length == 0){
       gamesAreDone = false;
     }
-    this.assignedGames.forEach(g => {
+    this.planningGames.forEach(g => {
       if (!g.done){
         gamesAreDone = false;
       }
@@ -337,14 +386,14 @@ export class SpecificPlanningPage implements OnInit {
     } else {
       this.myForm.patchValue({"games": null});
     }
-    return !this.myForm.valid || !this.patientExists()
+    return !this.myForm.valid || !this.patientExists() || JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames);
   }
 
   // Obtiene los datos de una planning y precarga los datos
   loadPlanning(){
     this.planningApiService.getPlanningById(this.id).subscribe(res => {
       this.patientId = res.patientId;
-      this.state = res.state;
+      this.state = res.stateName;
       this.planningList = res.planningList;
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
@@ -352,12 +401,6 @@ export class SpecificPlanningPage implements OnInit {
         finishDate: res.dueDate,
         games: null
       })
-
-      this.myForm.controls['patient'].disable();
-      this.myForm.controls['startDate'].disable();
-      this.myForm.controls['finishDate'].disable();
-      this.myForm.controls['games'].disable();
-      this.submitDisabled();
     })
   }
 
@@ -365,7 +408,6 @@ export class SpecificPlanningPage implements OnInit {
   async cancelPlanning(){
     const confirm = await this.dialogsComponent.presentAlertConfirm('Planificación',
     '¿Desea cancelar la planificación? Esta acción no puede deshacerse')
-    
     if (confirm) {
       this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
         this.dialogsComponent.presentAlert('Planificación eliminada','','<p>La planificación ha sido eliminado correctamente.','/planning');
@@ -373,5 +415,40 @@ export class SpecificPlanningPage implements OnInit {
         this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','/planning');
       });
     }
+  }
+
+  // Edita la planning actual
+  editPlanning(){
+    this.isEditing=true;
+    for (let i=0; i<this.planningList.length; i++){
+      this.assignedGames.push(this.games.find(game => game.name == this.planningList[i].game));
+      let index = 1;
+      this.assignedGames[i].gameParam.forEach(p => {
+        let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);
+        if (planningParam){
+          if (p.param.type==0){
+            if (p.param.id==1){
+              index = 0;
+            }
+          }
+          p.isActive = true;
+          if (!isNaN(parseFloat(planningParam.value)) && isFinite(planningParam.value)){
+            p.value = Math.floor(planningParam.value);
+          }else{
+            if (planningParam.value=="false"){
+              p.value = false;
+            }else if (planningParam.value=="true"){
+              p.value = true;
+            }else{
+              p.value = planningParam.value;
+            }
+          }
+        }
+      });
+      this.assignedGames[i].index = index;
+      this.assignedGames[i].done = true;
+    }
+    this.planningGames = JSON.parse(JSON.stringify(this.assignedGames));
+    this.auxGames = JSON.parse(JSON.stringify(this.assignedGames));
   }
 }
