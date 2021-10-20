@@ -357,7 +357,6 @@ export class SpecificPlanningPage implements OnInit {
         dueDate: myForm.value.finishDate,
         games: gamesPost
       }
-      console.log(jsonPost)
       this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
         this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
           this.presentAlert('¡Planificación Editada!','<p>La planificación ha sido editada correctamente. </p>', true, 'alertSuccess'); 
