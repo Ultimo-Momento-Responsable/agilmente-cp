@@ -448,6 +448,15 @@ export class SpecificPlanningPage implements OnInit {
       this.assignedGames[i].index = index;
       this.assignedGames[i].done = true;
     }
+    var dateSplit = this.myForm.value.startDate.split('-');
+    let startDate = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
+    let date = new Date();
+    if (date>startDate){
+      this.datePickerFinish.fromDate = date;
+    } else{
+      this.datePickerFinish.fromDate = startDate;
+    }
+    
     this.planningGames = JSON.parse(JSON.stringify(this.assignedGames));
     this.auxGames = JSON.parse(JSON.stringify(this.assignedGames));
   }
