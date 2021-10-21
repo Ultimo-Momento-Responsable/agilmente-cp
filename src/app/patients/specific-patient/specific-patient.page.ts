@@ -13,6 +13,8 @@ export interface Patient {
   description: string;
   bornDate: Date;
   city: string;
+  telephone: string,
+  email: string,
   loginCode: string;
   logged: boolean;
   enabled: boolean;
@@ -28,6 +30,8 @@ export class SpecificPatientPage implements OnInit {
     firstName: new FormControl(),
     lastName: new FormControl(),
     bornDate: new FormControl(),
+    telephone: new FormControl(),
+    email: new FormControl(),
     description: new FormControl(),
     city: new FormControl(),
   });

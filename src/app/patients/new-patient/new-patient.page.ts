@@ -40,6 +40,8 @@ export class NewPatientPage implements OnInit {
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       birthDate: new FormControl('', Validators.required),
+      telephone: new FormControl(),
+      email: new FormControl('',Validators.email),
       description: new FormControl(),
       city: new FormControl('', Validators.required)
     });
@@ -81,6 +83,8 @@ export class NewPatientPage implements OnInit {
         lastName: myForm.value.lastName,
         bornDate: myForm.value.birthDate,
         city: myForm.value.city,
+        telephone: myForm.value.telephone,
+        email: myForm.value.email,
         description: myForm.value.description,
         loginCode: code,
         isLogged: false
