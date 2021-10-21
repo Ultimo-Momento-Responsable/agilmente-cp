@@ -15,6 +15,7 @@ export interface Patient {
   city: string;
   loginCode: string;
   logged: boolean;
+  enabled: boolean;
 }
 
 @Component({
