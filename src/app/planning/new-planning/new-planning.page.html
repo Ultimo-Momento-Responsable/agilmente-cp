@@ -15,7 +15,7 @@
         Nueva Planificación
       </ion-title>
       <form [formGroup]="myForm" (ngSubmit)="save(myForm)">
-
+        <!-- Comienza el Form -->
         <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Paciente</ion-label>
           <ion-searchbar 
@@ -69,6 +69,8 @@
             </ion-col>
           </ion-row>
         </ion-item>
+
+        <!-- Comienza la sección de juegos -->
         <ion-row>
           <ion-col>
             <ion-card *ngFor="let game of planningGames; let j = index">
@@ -94,6 +96,7 @@
               </ion-card-header>
               <ion-card-content *ngIf="game.accordion">
                 <ion-list>
+                  <!-- PARAMS 0 y 3 -->
                   <ion-list-header>
                     <ion-label>
                       Condición de Parada
@@ -137,6 +140,7 @@
                       </div>
                     </div>
                   </ion-radio-group>
+                  <!-- PARAMS 1 y 2 -->
                   <ion-list-header>
                     <ion-label>
                       Activables
@@ -165,7 +169,6 @@
                       </ion-radio-group>
                     </div>
                   </div>
-
                   <!-- en todos los juegos -->
                   <ion-item>
                     <ion-label>¿Repeticiones limitadas?</ion-label>
