@@ -47,6 +47,7 @@ export class SpecificPlanningPage implements OnInit {
   isEditing: boolean = false;
   auxStartDate: Date;
   auxFinishDate: Date;
+  planningName: string;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -119,6 +120,7 @@ export class SpecificPlanningPage implements OnInit {
 
     this.myForm = new FormGroup({
       patient: new FormControl('', Validators.required),
+      planningName: new FormControl(''),
       startDate: new FormControl('', Validators.required),
       finishDate: new FormControl('', Validators.required),
       games: new FormControl('', Validators.required)
@@ -387,6 +389,7 @@ export class SpecificPlanningPage implements OnInit {
     return !this.myForm.valid 
       || !this.patientExists() 
       || (JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames) 
+        && this.planningName==this.myForm.value.planningName
         && this.auxFinishDate==this.myForm.value.finishDate
         && this.auxStartDate==this.myForm.value.startDate);
   }
@@ -395,10 +398,12 @@ export class SpecificPlanningPage implements OnInit {
   loadPlanning(){
     this.planningApiService.getPlanningById(this.id).subscribe(res => {
       this.patientId = res.patientId;
+      this.planningName = res.planningName;
       this.state = res.stateName;
       this.planningList = res.planningList;
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
+        planningName: res.planningName,
         startDate: res.startDate,
         finishDate: res.dueDate,
         games: null

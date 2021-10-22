@@ -90,6 +90,7 @@ export class NewPlanningPage implements OnInit {
 
     this.myForm = new FormGroup({
       patient: new FormControl('', Validators.required),
+      planningName: new FormControl(''),
       startDate: new FormControl('', Validators.required),
       finishDate: new FormControl('', Validators.required),
       games: new FormControl('', Validators.required)
@@ -148,6 +149,7 @@ export class NewPlanningPage implements OnInit {
   fillSearchBar(name: string) {
     this.myForm.patchValue({"patient": name})
     this.patientsSearch = null
+    this.myForm.patchValue({"planningName": "Planificación de " + this.myForm.value.patient})
   }
 
   // Añade el juego seleccionado a la lista de juegos asignados.
@@ -318,6 +320,7 @@ export class NewPlanningPage implements OnInit {
     if (myForm.valid) {
       let jsonPost = {
         patientId: patientId,
+        planningName: myForm.value.planningName,
         stateId: 1,
         professionalId: 1,
         startDate: myForm.value.startDate,
