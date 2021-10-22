@@ -7,6 +7,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
+import moment from 'moment';
 
 export interface Planning {
   id: number;
@@ -146,6 +147,8 @@ export class SpecificPlanningPage implements OnInit {
     let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
     this.datePickerFinish.fromDate = date;
     this.datePickerFinish.inputDate = date;
+    this.myForm.patchValue({"finishDate": date})
+    this.myForm.patchValue({"finishDate": moment(date).format('DD-MM-YYYY')})
   }
 
   // Filtra pacientes según la búsqueda
@@ -227,6 +230,9 @@ export class SpecificPlanningPage implements OnInit {
 
   // Checkea que el juego esté correctamente cargado
   checkIfCorrect(game) : boolean{
+    console.log(this.planningGames[0].index + " ag " + this.assignedGames[0].index)
+    console.log(this.planningGames[1].index + " ag " + this.assignedGames[1].index)
+    console.log(this.planningGames[2].index + " ag " + this.assignedGames[2].index)
     let isCorrect = false;
     game.gameParam.forEach(p => {
       if (p.param.type == 0){
@@ -430,7 +436,7 @@ export class SpecificPlanningPage implements OnInit {
   editPlanning(){
     this.isEditing=true;
     for (let i=0; i<this.planningList.length; i++){
-      this.assignedGames.push(this.games.find(game => game.name == this.planningList[i].game));
+      this.assignedGames.push(JSON.parse(JSON.stringify(this.games.find(game => game.name == this.planningList[i].game))));
       let index = 1;
       this.assignedGames[i].gameParam.forEach(p => {
         let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);
