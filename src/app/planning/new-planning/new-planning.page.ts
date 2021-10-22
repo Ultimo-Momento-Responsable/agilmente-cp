@@ -161,20 +161,16 @@ export class NewPlanningPage implements OnInit {
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
   setActiveParam(game, p, index){
-    this.planningGames.forEach(g=>{
-      if (g.id == game.id){
-        g.index = index;
-        g.gameParam.forEach(param => {
-          if (param.id == p.id) {
-            if (!param.isActive) {
-              param.isActive = true;
-            }
-          } else {
-            param.isActive = false;
-          }
-        });
+    game.index = index;
+    game.gameParam.forEach(param => {
+      if (param.id == p.id) {
+        if (!param.isActive) {
+          param.isActive = true;
+        }
+      } else {
+        param.isActive = false;
       }
-    })
+    });
   }
 
   // Actualiza el valor del Param

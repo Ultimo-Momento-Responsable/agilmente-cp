@@ -45,6 +45,8 @@ export class SpecificPlanningPage implements OnInit {
   state: string;
   planningList: any[];
   isEditing: boolean = false;
+  auxStartDate: Date;
+  auxFinishDate: Date;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -190,20 +192,16 @@ export class SpecificPlanningPage implements OnInit {
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
   setActiveParam(game, p, index){
-    this.planningGames.forEach(g=>{
-      if (g.id == game.id){
-        g.index = index;
-        g.gameParam.forEach(param => {
-          if (param.id == p.id) {
-            if (!param.isActive) {
-              param.isActive = true;
-            }
-          } else {
-            param.isActive = false;
-          }
-        });
+    game.index = index;
+    game.gameParam.forEach(param => {
+      if (param.id == p.id) {
+        if (!param.isActive) {
+          param.isActive = true;
+        }
+      } else {
+        param.isActive = false;
       }
-    })
+    });
   }
 
   // Actualiza el valor del Param
@@ -304,7 +302,7 @@ export class SpecificPlanningPage implements OnInit {
   async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
     const alert = await this.alertController.create({
       message: message,
-      header: 'Cargar Planificación',
+      header: 'Editar Planificación',
       subHeader: subHeader,
       cssClass: 'centerh3',
       buttons: [{
@@ -380,12 +378,17 @@ export class SpecificPlanningPage implements OnInit {
         gamesAreDone = false;
       }
     })
-    if (gamesAreDone){
+    if (gamesAreDone && this.assignedGames.length > 0){
       this.myForm.patchValue({"games": "ok"});
     } else {
       this.myForm.patchValue({"games": null});
     }
-    return !this.myForm.valid || !this.patientExists() || JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames);
+    
+    return !this.myForm.valid 
+      || !this.patientExists() 
+      || (JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames) 
+        && this.auxFinishDate==this.myForm.value.finishDate
+        && this.auxStartDate==this.myForm.value.startDate);
   }
 
   // Obtiene los datos de una planning y precarga los datos
@@ -400,6 +403,8 @@ export class SpecificPlanningPage implements OnInit {
         finishDate: res.dueDate,
         games: null
       })
+      this.auxStartDate = res.startDate;
+      this.auxFinishDate = res.dueDate;
     })
   }
 
@@ -432,7 +437,7 @@ export class SpecificPlanningPage implements OnInit {
           }
           p.isActive = true;
           if (!isNaN(parseFloat(planningParam.value)) && isFinite(planningParam.value)){
-            p.value = Math.floor(planningParam.value);
+            p.value = Math.floor(planningParam.value).toString();
           }else{
             if (planningParam.value=="false"){
               p.value = false;
@@ -446,6 +451,7 @@ export class SpecificPlanningPage implements OnInit {
       });
       this.assignedGames[i].index = index;
       this.assignedGames[i].done = true;
+      this.assignedGames[i].accordion = false;
     }
     var dateSplit = this.myForm.value.startDate.split('-');
     let startDate = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
