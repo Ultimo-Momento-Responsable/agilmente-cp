@@ -230,9 +230,6 @@ export class SpecificPlanningPage implements OnInit {
 
   // Checkea que el juego esté correctamente cargado
   checkIfCorrect(game) : boolean{
-    console.log(this.planningGames[0].index + " ag " + this.assignedGames[0].index)
-    console.log(this.planningGames[1].index + " ag " + this.assignedGames[1].index)
-    console.log(this.planningGames[2].index + " ag " + this.assignedGames[2].index)
     let isCorrect = false;
     game.gameParam.forEach(p => {
       if (p.param.type == 0){
