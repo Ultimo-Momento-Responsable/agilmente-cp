@@ -7,6 +7,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
+import moment from 'moment';
 
 export interface Planning {
   id: number;
@@ -47,6 +48,7 @@ export class SpecificPlanningPage implements OnInit {
   isEditing: boolean = false;
   auxStartDate: Date;
   auxFinishDate: Date;
+  planningName: string;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -119,6 +121,7 @@ export class SpecificPlanningPage implements OnInit {
 
     this.myForm = new FormGroup({
       patient: new FormControl('', Validators.required),
+      planningName: new FormControl(''),
       startDate: new FormControl('', Validators.required),
       finishDate: new FormControl('', Validators.required),
       games: new FormControl('', Validators.required)
@@ -144,6 +147,8 @@ export class SpecificPlanningPage implements OnInit {
     let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
     this.datePickerFinish.fromDate = date;
     this.datePickerFinish.inputDate = date;
+    this.myForm.patchValue({"finishDate": date})
+    this.myForm.patchValue({"finishDate": moment(date).format('DD-MM-YYYY')})
   }
 
   // Filtra pacientes según la búsqueda
@@ -387,6 +392,7 @@ export class SpecificPlanningPage implements OnInit {
     return !this.myForm.valid 
       || !this.patientExists() 
       || (JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames) 
+        && this.planningName==this.myForm.value.planningName
         && this.auxFinishDate==this.myForm.value.finishDate
         && this.auxStartDate==this.myForm.value.startDate);
   }
@@ -395,10 +401,12 @@ export class SpecificPlanningPage implements OnInit {
   loadPlanning(){
     this.planningApiService.getPlanningById(this.id).subscribe(res => {
       this.patientId = res.patientId;
+      this.planningName = res.planningName;
       this.state = res.stateName;
       this.planningList = res.planningList;
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
+        planningName: res.planningName,
         startDate: res.startDate,
         finishDate: res.dueDate,
         games: null
@@ -425,7 +433,7 @@ export class SpecificPlanningPage implements OnInit {
   editPlanning(){
     this.isEditing=true;
     for (let i=0; i<this.planningList.length; i++){
-      this.assignedGames.push(this.games.find(game => game.name == this.planningList[i].game));
+      this.assignedGames.push(JSON.parse(JSON.stringify(this.games.find(game => game.name == this.planningList[i].game))));
       let index = 1;
       this.assignedGames[i].gameParam.forEach(p => {
         let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);

@@ -54,6 +54,12 @@
           </ion-list>
         </ion-item>
         <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
+
+        <ion-item id="rounded">
+          <ion-label position="stacked" color="primary">Nombre de la planificación</ion-label>
+          <ion-input formControlName="planningName" [disabled]="!isEditing"></ion-input>
+        </ion-item>
+
         <ion-row>
           <ion-col>
             <ion-item id="rounded" button>

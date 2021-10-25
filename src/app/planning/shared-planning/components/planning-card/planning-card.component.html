@@ -1,7 +1,7 @@
 <ion-card class="horizontal-cards" button="true">
   <ion-card-header>
     <ion-row>
-    <ion-card-title style="margin-top: 0.8%;" color="primary">Nombre de planificacion</ion-card-title>
+    <ion-card-title style="margin-top: 0.8%;" color="primary">{{this.planning.planningName}}</ion-card-title>
       <ion-chip *ngIf="this.planning.stateName === 'Vigente'" color="dark">
         <ion-icon color="success" name="checkmark-circle"></ion-icon>
         <ion-label color="dark">{{ this.planning.stateName }}</ion-label>
