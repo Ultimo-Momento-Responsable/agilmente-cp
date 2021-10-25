@@ -460,6 +460,13 @@ export class SpecificPlanningPage implements OnInit {
       this.assignedGames[i].index = index;
       this.assignedGames[i].done = true;
       this.assignedGames[i].accordion = false;
+      if (this.planningList[i].numberOfSession > 0) {
+        this.assignedGames[i].maxNumberOfSessions = this.planningList[i].numberOfSession;
+        this.assignedGames[i].hasLimit = true;
+      } else {
+        this.assignedGames[i].maxNumberOfSessions = 5;
+        this.assignedGames[i].hasLimit = false
+      }
     }
     var dateSplit = this.myForm.value.startDate.split('-');
     let startDate = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
