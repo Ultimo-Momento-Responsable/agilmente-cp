@@ -356,6 +356,7 @@ export class SpecificPlanningPage implements OnInit {
         patientId: patientId,
         stateId: 1,
         professionalId: 1,
+        planningName: myForm.value.planningName,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
         games: gamesPost
