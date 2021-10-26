@@ -134,7 +134,6 @@ export class NewPlanningPage implements OnInit {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     } 
     const search = removeAccents(evt.srcElement.value);
-    console.log('El valor ingresado en el campo de texto es: ', search)
     this.patientsSearch = this.patients.filter((p)=> {
       if (search && this.patientsSearch){
         return ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()).normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(search.toLowerCase()) > -1)
