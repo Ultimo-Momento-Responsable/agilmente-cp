@@ -102,6 +102,8 @@ export class EditPatientPage implements OnInit {
         bornDate: myForm.value.birthDate,
         city: myForm.value.city,
         description: myForm.value.description,
+        telephone: myForm.value.telephone,
+        email: myForm.value.email,
         id: this.id,
         isLogged: this.patient.isLogged,
         loginCode: this.patient.loginCode
