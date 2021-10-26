@@ -101,6 +101,7 @@ export class NewPlanningPage implements OnInit {
 
   // Chequea que el paciente que se está buscando existe
   patientExists(){
+
     let flag = false;
     this.patients?.forEach(p => {
       if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase())==this.myForm.value.patient.toLowerCase()){
@@ -119,11 +120,24 @@ export class NewPlanningPage implements OnInit {
     this.myForm.patchValue({"finishDate": moment(date).format('DD-MM-YYYY')})
   }
   // Filtra pacientes según la búsqueda
+
+  /* filterPatientCard(event) {
+      const removeAccents = (str) => {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      } 
+      let search = removeAccents(event.srcElement.value)
+      this.getPatientsFiltered(search)
+    } */
+
   async filterPatient(evt){
-    const search = evt.srcElement.value;
+    const removeAccents = (str) => {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    } 
+    const search = removeAccents(evt.srcElement.value);
+    console.log('El valor ingresado en el campo de texto es: ', search)
     this.patientsSearch = this.patients.filter((p)=> {
       if (search && this.patientsSearch){
-        return ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()).indexOf(search.toLowerCase()) > -1)
+        return ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()).normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(search.toLowerCase()) > -1)
       }
     })
   }
