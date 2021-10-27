@@ -1,5 +1,7 @@
 {
   "name": "agilmente-cp",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
