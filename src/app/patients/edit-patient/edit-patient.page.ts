@@ -41,6 +41,8 @@ export class EditPatientPage implements OnInit {
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       birthDate: new FormControl('', Validators.required),
+      telephone: new FormControl(),
+      email: new FormControl('',Validators.email),
       description: new FormControl(),
       city: new FormControl('', Validators.required)
     });
@@ -57,6 +59,8 @@ export class EditPatientPage implements OnInit {
         firstName: this.patient.firstName,
         lastName: this.patient.lastName,
         birthDate: this.patient.bornDate,
+        telephone: this.patient.telephone,
+        email: this.patient.email,
         description: this.patient.description,
         city: this.patient.city
       }) 
@@ -98,6 +102,8 @@ export class EditPatientPage implements OnInit {
         bornDate: myForm.value.birthDate,
         city: myForm.value.city,
         description: myForm.value.description,
+        telephone: myForm.value.telephone,
+        email: myForm.value.email,
         id: this.id,
         isLogged: this.patient.isLogged,
         loginCode: this.patient.loginCode
