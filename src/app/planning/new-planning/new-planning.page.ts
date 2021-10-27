@@ -120,15 +120,6 @@ export class NewPlanningPage implements OnInit {
     this.myForm.patchValue({"finishDate": moment(date).format('DD-MM-YYYY')})
   }
   // Filtra pacientes según la búsqueda
-
-  /* filterPatientCard(event) {
-      const removeAccents = (str) => {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      } 
-      let search = removeAccents(event.srcElement.value)
-      this.getPatientsFiltered(search)
-    } */
-
   async filterPatient(evt){
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
