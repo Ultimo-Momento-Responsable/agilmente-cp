@@ -29,6 +29,9 @@ export class LoginPage implements OnInit {
     
   }
 
+  /**
+   * Realiza el logueo, y chequea que los datos sean correctos.
+   */
   doLogin() {
     this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(data => {
       if (data.length > 10){
@@ -40,6 +43,9 @@ export class LoginPage implements OnInit {
     });
   }
 
+  /**
+   * Si se está en la pagina de login y ya se está logueado te redirige automáticamente a la página de patients
+   */
   checkIfLogged() {
     this.loginService.checkIfLogged(window.localStorage.getItem('token')).subscribe(data => {
       if (data) {

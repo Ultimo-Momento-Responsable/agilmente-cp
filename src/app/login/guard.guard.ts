@@ -16,12 +16,16 @@ export class GuardGuard implements CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
+    /**
+     * Te lleva al login si no se está logueado
+     */
     return this.loginService.checkIfLogged(window.localStorage.getItem('token')).toPromise().then(isLogged =>{
       if (!isLogged) {
         this.navController.navigateForward('/login');
       }
       return isLogged;
+    }).catch(err => {
+      this.navController.navigateForward('/login');
     });
   }
 }

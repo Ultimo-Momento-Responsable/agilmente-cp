@@ -4,7 +4,6 @@ import { GuardGuard } from './login/guard.guard';
 import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
-  
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
