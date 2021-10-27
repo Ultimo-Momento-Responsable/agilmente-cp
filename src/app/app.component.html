@@ -1,6 +1,6 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" color=primary>
+  <ion-split-pane contentId="main-content" >
+    <ion-menu contentId="main-content" type="overlay" color=primary *ngIf="this.currentRoute !== '/login'">
       <ion-content>
         <ion-list id="inbox-list">
           <ion-avatar slot="start">
