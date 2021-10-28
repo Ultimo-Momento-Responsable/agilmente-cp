@@ -24,8 +24,30 @@ const routes: Routes = [
     canLoad: [GuardGuard]
   },
   {
+  path: 'results/:gameRoute/:id',
+  loadChildren: () =>
+      import('./results/subresults/subresults.module').then(
+      (m) => m.SubresultsPageModule
+      ),
+  },
+  {
     path: 'logout',
     component: LogoutComponent,
+    canLoad: [GuardGuard]
+  },
+  {
+    path: 'new-patient',
+    loadChildren: () => import('./patients/new-patient/new-patient.module').then( m => m.NewPatientPageModule),
+    canLoad: [GuardGuard]
+  },
+  {
+    path: 'edit-patient/:id',
+    loadChildren: () => import('./patients/edit-patient/edit-patient.module').then( m => m.EditPatientPageModule),
+    canLoad: [GuardGuard]
+  },
+  {
+    path: 'patients/:id',
+    loadChildren: () => import('./patients/specific-patient/specific-patient.module').then( m => m.SpecificPatientPageModule),
     canLoad: [GuardGuard]
   },
   {
