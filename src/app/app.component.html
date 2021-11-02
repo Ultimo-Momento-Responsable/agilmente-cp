@@ -3,11 +3,15 @@
     <ion-menu contentId="main-content" type="overlay" color=primary *ngIf="this.currentRoute !== '/login'">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-avatar slot="start">
+          <ion-list-header style="display:block; text-align: center;">
+            <ion-label>AgilMente</ion-label>
+          </ion-list-header>
+          <br>
+          <ion-avatar slot="start" style="margin:0 auto;">
             <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
           </ion-avatar>
-          <ion-list-header>AgilMente</ion-list-header>
-          <ion-note>Jorgelina</ion-note>
+          <br>
+          <ion-note style="display:block; text-align: center;">{{this.firstName + " " + this.lastName}}</ion-note>
           
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
