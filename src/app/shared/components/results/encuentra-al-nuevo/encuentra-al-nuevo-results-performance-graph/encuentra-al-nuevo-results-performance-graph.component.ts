@@ -24,6 +24,7 @@ export class EncuentraAlNuevoResultsPerformanceGraphComponent
    * Dibuja el gráfico de resultados históricos del paciente.
    */
    createLineCumulative() {
+    console.log('Los resultados obtenidos de Encuentra al Nuevo para crear graficos es: ', this.results)
     Chart.register(...registerables);
     this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
       type: 'line',

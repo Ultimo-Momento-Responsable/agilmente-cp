@@ -62,10 +62,16 @@ export class SpecificPatientPage implements OnInit {
 
       this.resultsApiService.getResultsByPatient(this.id).subscribe((res) => {
         this.results = res;
+        console.log('Los resultados antes de fixearlos es: ', this.results)
+        console.log('entra a formatear HUR')
         this.results.hayUnoRepetido.results.forEach(r => {
           r.totalTime = r.totalTime.toFixed(2);
         });
-        if (this.results.hayUnoRepetido.results?.length==0){
+        console.log('entra a formatear EAN')
+        this.results.encuentraAlNuevo.results.forEach(r => {
+          r.totalTime = r.totalTime.toFixed(2);
+        })
+        if (this.results.hayUnoRepetido.results?.length==0 && this.results.encuentraAlNuevo.results?.length==0){
           this.showResults=false;
         }
         
