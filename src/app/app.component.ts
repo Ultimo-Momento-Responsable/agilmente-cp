@@ -15,6 +15,8 @@ export class AppComponent {
   ];
   currentRoute: string;
   previousRoute: string;
+  firstName: string;
+  lastName: string;
   
   constructor(private router : Router, location: Location) {
     router.events.subscribe(val => {
@@ -27,5 +29,7 @@ export class AppComponent {
         this.currentRoute = location.path();
       }
     });
+    this.firstName = window.localStorage.getItem('firstName');
+    this.lastName = window.localStorage.getItem('lastName');
   }
 }

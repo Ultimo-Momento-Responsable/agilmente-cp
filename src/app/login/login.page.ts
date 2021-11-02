@@ -33,9 +33,12 @@ export class LoginPage implements OnInit {
    * Realiza el logueo, y chequea que los datos sean correctos.
    */
   doLogin() {
-    this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(data => {
-      if (data.length > 10){
-        window.localStorage.setItem('token', data);
+    this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(res => {
+      const professional = JSON.parse(res);
+      if (professional.token.length > 10){
+        window.localStorage.setItem('token', professional.token);
+        window.localStorage.setItem('firstName', professional.firstName);
+        window.localStorage.setItem('lastName', professional.lastName);
         this.router.navigate(["/patients"]);
       } else{
         this.errorLogin = true;
