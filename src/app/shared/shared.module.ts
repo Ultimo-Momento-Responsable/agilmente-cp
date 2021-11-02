@@ -8,6 +8,9 @@ import { HayUnoRepetidoResultsGeneralTableComponent } from './components/results
 import { HayUnoRepetidoResultsPerformanceGraphComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-performance-graph/hay-uno-repetido-results-performance-graph.component';
 import { HayUnoRepetidoResultsTimeGraphComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-time-graph/hay-uno-repetido-results-time-graph.component';
 import { DialogsComponent } from './components/dialogs/dialogs.component';
+import { EncuentraAlNuevoResultsGeneralTableComponent } from './components/results/encuentra-al-nuevo/encuentra-al-nuevo-results-general-table/encuentra-al-nuevo-results-general-table.component';
+import { EncuentraAlNuevoResultsPerformanceGraphComponent } from './components/results/encuentra-al-nuevo/encuentra-al-nuevo-results-performance-graph/encuentra-al-nuevo-results-performance-graph.component';
+import { EncuentraAlNuevoResultsTimeGraphComponent } from './components/results/encuentra-al-nuevo/encuentra-al-nuevo-results-time-graph/encuentra-al-nuevo-results-time-graph.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,10 @@ import { DialogsComponent } from './components/dialogs/dialogs.component';
     HayUnoRepetidoResultsGeneralTableComponent,
     HayUnoRepetidoResultsPerformanceGraphComponent,
     HayUnoRepetidoResultsTimeGraphComponent,
+    //Resultados de Encuentra al Nuevo
+    EncuentraAlNuevoResultsGeneralTableComponent,
+    EncuentraAlNuevoResultsPerformanceGraphComponent,
+    EncuentraAlNuevoResultsTimeGraphComponent,
     DialogsComponent
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule],
@@ -30,6 +37,10 @@ import { DialogsComponent } from './components/dialogs/dialogs.component';
     HayUnoRepetidoResultsGeneralTableComponent,
     HayUnoRepetidoResultsPerformanceGraphComponent,
     HayUnoRepetidoResultsTimeGraphComponent,
+    // Resultado de Encuentra al Nuevo
+    EncuentraAlNuevoResultsGeneralTableComponent,
+    EncuentraAlNuevoResultsPerformanceGraphComponent,
+    EncuentraAlNuevoResultsTimeGraphComponent,
     DialogsComponent
   ],
   providers: [DialogsComponent],

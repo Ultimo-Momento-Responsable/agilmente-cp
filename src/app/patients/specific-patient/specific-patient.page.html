@@ -176,6 +176,10 @@
           [results]="this.results.hayUnoRepetido"
           *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
         ></app-card-hay-uno-repetido-result>
+        <app-card-hay-uno-repetido-result
+          [results]="this.results.encuentraAlNuevo"
+          *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
+        ></app-card-hay-uno-repetido-result>
       </div>
     </ion-col>
   </ion-row>
