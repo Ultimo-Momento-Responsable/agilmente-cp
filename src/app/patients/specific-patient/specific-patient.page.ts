@@ -39,6 +39,7 @@ export class SpecificPatientPage implements OnInit {
   patient: Patient;
   results: any;
   showResults: boolean = true;
+  currentTab: string = "data";
 
   constructor(
     private patientsApiService: PatientsApiService,
