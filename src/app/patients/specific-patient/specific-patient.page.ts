@@ -18,6 +18,7 @@ export interface Patient {
   loginCode: string;
   logged: boolean;
   enabled: boolean;
+  comments: any[];
 }
 
 @Component({
@@ -40,6 +41,7 @@ export class SpecificPatientPage implements OnInit {
   results: any;
   showResults: boolean = true;
   currentTab: string = "data";
+  comment: string = "";
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -58,6 +60,9 @@ export class SpecificPatientPage implements OnInit {
 
       this.patientsApiService.getPatientById(this.id).subscribe((res) => {
         this.patient = res;
+        this.patient.comments.forEach(comment => {
+          comment.isEditing = false;
+        })
         this.myForm.patchValue(this.patient);
       });
 
@@ -69,7 +74,6 @@ export class SpecificPatientPage implements OnInit {
         if (this.results.hayUnoRepetido.results?.length==0){
           this.showResults=false;
         }
-        
       });
     });
   }
@@ -90,6 +94,64 @@ export class SpecificPatientPage implements OnInit {
     }
   }
 
+  /**
+   * Agrega un comentario a la caja de comentarios
+   */
+   addComment() {
+    let patientComment = {
+      patientId: this.patient.id,
+      comment: this.comment,
+      professionalFirstName: window.localStorage.getItem('firstName'),
+      professionalLastName: window.localStorage.getItem('lastName')
+    };
+    this.patientsApiService.addComment(patientComment).subscribe(res => {
+      this.comment = "";
+      this.patientsApiService.getPatientById(this.id).subscribe((res) => {
+        this.patient = res;
+      });
+    });
+  }
+
+  /**
+   * Edita un comentario de la caja de comentarios
+   * @param commentId id del comentario
+   */
+  editComment(comment: any) {
+    let patientComment = {
+      patientId: this.patient.id,
+      commentId: comment.id,
+      comment: comment.comment
+    };
+    this.patientsApiService.editComment(patientComment).subscribe(res => {
+      this.comment = "";
+      this.patientsApiService.getPatientById(this.id).subscribe((res) => {
+        this.patient = res;
+      });
+    });
+  }
+
+  /**
+   * Borra un comentario
+   * @param commentId id del comentario
+   */
+  async deleteComment(commentId: number){
+    const confirm = await this.dialogsComponent.presentAlertConfirm('Eliminar Comentario',
+    '¿Desea eliminar este comentario? Esta acción no puede deshacerse')
+    if (confirm) {
+      let patientComment = {
+        patientId: this.patient.id,
+        commentId: commentId
+      }
+      this.patientsApiService.deleteComment(patientComment).subscribe(() => {
+        this.dialogsComponent.presentAlert('Comentario eliminado','','<p>El comentario ha sido eliminado correctamente.',"");
+        this.patientsApiService.getPatientById(this.id).subscribe((res) => {
+          this.patient = res;
+        });
+      }, (err) => {
+        this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"");
+      });
+    }
+  }
 
   /**
    * Desvincula el paciente.

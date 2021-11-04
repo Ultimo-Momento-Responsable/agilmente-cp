@@ -90,4 +90,31 @@ export class PatientsApiService {
     return this.http.put(`http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`, {})
   }
 
+  /**
+   * Agrega un comentario al comment box
+   * @param comment Comentario
+   * @returns true o false
+   */
+   addComment(comment:any): Observable<any> {
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/comment`, comment);
+  }
+
+  /**
+   * Edita un comentario del comment box
+   * @param comment Comentario
+   * @returns true o false
+   */
+  editComment(comment:any): Observable<any> {
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/editComment`, comment);
+  }
+
+  /**
+   * Elimina un comentario del comment box
+   * @param comment Comentario
+   * @returns true o false
+   */
+  deleteComment(patientComment:any): Observable<any> {
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/deleteComment`, patientComment);
+  }
+
 }
