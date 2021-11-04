@@ -71,7 +71,10 @@ export class SpecificPatientPage implements OnInit {
         this.results.hayUnoRepetido.results.forEach(r => {
           r.totalTime = r.totalTime.toFixed(2);
         });
-        if (this.results.hayUnoRepetido.results?.length==0){
+        this.results.encuentraAlNuevo.results.forEach(r => {
+          r.totalTime = r.totalTime.toFixed(2);
+        })
+        if (this.results.hayUnoRepetido.results?.length==0 && this.results.encuentraAlNuevo.results?.length==0){
           this.showResults=false;
         }
       });

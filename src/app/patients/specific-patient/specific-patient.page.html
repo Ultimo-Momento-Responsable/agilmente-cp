@@ -194,6 +194,10 @@
             [results]="this.results.hayUnoRepetido"
             *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
         ></app-card-hay-uno-repetido-result>
+        <app-card-encuentra-al-nuevo-result
+          [results]="this.results.encuentraAlNuevo"
+          *ngIf="this.results && this.results.encuentraAlNuevo && this.showResults"
+        ></app-card-encuentra-al-nuevo-result>
       </div>
 
       <!-- TAB DE DATOS COMENTARIOS -->

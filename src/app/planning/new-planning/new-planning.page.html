@@ -116,14 +116,16 @@
                           <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
                         </ion-item>
                         <ion-item disabled="{{!p.isActive}}">
-                          <ion-label position="stacked" color="primary">Valor</ion-label>
+                          <ion-label position="stacked" color="primary">{{p.param.unit}}</ion-label>
                           <ion-input disabled="{{!p.isActive}}" 
                             type="number" 
                             value="{{ p.value }}" 
                             (ionChange)="changeParamValue(game,p,$event)" 
                             type="number" [min]="p.minValue" 
                             [max]="checkMaxValue(p)" 
-                            (ionBlur)="checkParamLimit(p)">
+                            (ionBlur)="checkParamLimit(p)"
+                            placeholder="{{p.param.unit}}"
+                            >
                           </ion-input>
                         </ion-item>
                       </div>
@@ -139,9 +141,11 @@
                               (ionChange)="changeParamValue(game,p,$event)" 
                               type="number" [min]="p.minValue" 
                               [max]="checkMaxValue(p)" 
-                              (ionBlur)="checkParamLimit(p)">
+                              (ionBlur)="checkParamLimit(p)"
+                              >
                             </ion-input>
                           </ion-item>
+                          <ion-text color="medium">{{p.param.unit}}</ion-text>
                         </ion-item>
                       </div>
                     </div>
