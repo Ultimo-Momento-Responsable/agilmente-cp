@@ -218,49 +218,80 @@
             </ion-button>
             <br> <br> <br>
             <div *ngFor="let comment of this.patient.comments.slice().reverse()"
-              class="ion-margin ion-padding" 
-              style="border-width: thin; border-style:groove; border-radius: 5px;"
+              class="ion-margin" 
               >
-              <ion-button
-                *ngIf="comment.isEditing"
-                shape="round"
-                size="small"
-                style="float: right"
-                color="success"
-                (click)="editComment(comment)"
-                [disabled]="comment.comment.length < 2">
-                <ion-icon name="checkmark-outline"></ion-icon>
-              </ion-button>
-              <ion-button
-                *ngIf="!comment.isEditing"
-                shape="round"
-                size="small"
-                color="danger"
-                style="float: right"
-                fill="clear"
-                (click)="deleteComment(comment.id)">
-                <ion-icon name="close-outline"></ion-icon>
-              </ion-button>
-              <ion-button
-                *ngIf="!comment.isEditing"
-                shape="round"
-                size="small"
-                style="float: right"
-                fill="clear"
-                (click)="comment.isEditing = true">
-                <ion-icon name="pencil-outline" item-right></ion-icon>
-              </ion-button>
-              <ion-label position="stacked" color="primary">
-                {{comment.author.firstName + " " + comment.author.lastName + "  -  " + comment.datetime}}
-              </ion-label>
-              <ion-label position="stacked" color="medium" *ngIf="!comment.isEditing && comment.edited">
-                <i>Mensaje editado</i>
-              </ion-label> 
-              <ion-label position="stacked" color="medium" *ngIf="comment.isEditing">
-                <i>Editando</i>
-              </ion-label> 
-              <ion-textarea autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment" [readonly]="!comment.isEditing">
-              </ion-textarea>
+              <!-- Si se está editando el comentario -->
+              <div *ngIf="comment.isEditing" 
+                class="ion-padding" 
+                style="border-width: thin; 
+                  border-style:groove; 
+                  border-radius: 5px;
+                  background-color: rgba(var(--ion-color-primary-rgb), 0.14);"
+              >
+                <ion-button
+                  shape="round"
+                  size="small"
+                  color="danger"
+                  style="float: right"
+                  fill="clear"
+                  (click)="cancelEditingComment(comment)"
+                >
+                  <ion-icon name="close-outline"></ion-icon>
+                </ion-button>
+                <ion-button
+                  shape="round"
+                  size="small"
+                  style="float: right"
+                  color="success"
+                  (click)="editComment(comment)"
+                  [disabled]="comment.comment.length < 2"
+                >
+                  <ion-icon name="checkmark-outline"></ion-icon>
+                </ion-button>
+                <ion-label position="stacked" color="primary">
+                  {{comment.author.firstName + " " + comment.author.lastName + "  -  " + comment.datetime}}
+                </ion-label>
+                <ion-label position="stacked" color="medium" *ngIf="comment.isEditing">
+                  <i>Editando</i>
+                </ion-label> 
+                <ion-textarea autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment">
+                </ion-textarea>
+              </div>
+              <!-- Si no se está editando el comentario -->
+              <div *ngIf="!comment.isEditing"
+                class="ion-padding" 
+                style="border-width: thin; 
+                  border-style:groove; 
+                  border-radius: 5px;" 
+              >
+                <ion-button
+                  shape="round"
+                  size="small"
+                  color="danger"
+                  style="float: right"
+                  fill="clear"
+                  (click)="deleteComment(comment.id)"
+                >
+                  <ion-icon name="close-outline"></ion-icon>
+                </ion-button>
+                <ion-button
+                  shape="round"
+                  size="small"
+                  style="float: right"
+                  fill="clear"
+                  (click)="startEditingComment(comment)"
+                >
+                  <ion-icon name="pencil-outline" item-right></ion-icon>
+                </ion-button>
+                <ion-label position="stacked" color="primary">
+                  {{comment.author.firstName + " " + comment.author.lastName + "  -  " + comment.datetime}}
+                </ion-label>
+                <ion-label position="stacked" color="medium" *ngIf="comment.edited">
+                  <i>Mensaje editado</i>
+                </ion-label> 
+                <ion-textarea autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment" readonly>
+                </ion-textarea>
+              </div>
             </div>
           </ion-col>
           <ion-col size=1></ion-col>
