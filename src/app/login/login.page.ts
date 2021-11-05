@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginService } from "./services/login.service";
@@ -34,15 +34,23 @@ export class LoginPage implements OnInit {
    */
   doLogin() {
     this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(res => {
-      const professional = JSON.parse(res);
-      if (professional.token.length > 10){
-        window.localStorage.setItem('token', professional.token);
-        window.localStorage.setItem('firstName', professional.firstName);
-        window.localStorage.setItem('lastName', professional.lastName);
-        this.router.navigate(["/patients"]);
-      } else{
+      // Checkeamos que el usuario sea válido previo a parsear el JSON
+      if (res != "") {
+        
+        const professional = JSON.parse(res);
+        if (professional.token.length > 10){
+          window.localStorage.setItem('token', professional.token);
+          window.localStorage.setItem('firstName', professional.firstName);
+          window.localStorage.setItem('lastName', professional.lastName);
+          this.router.navigate(["/patients"]);
+        } else {
+          this.errorLogin = true;
+        }
+      } else {
         this.errorLogin = true;
       }
+      
+      
     });
   }
 
@@ -55,5 +63,12 @@ export class LoginPage implements OnInit {
         this.router.navigate(["/patients"]);
       }
     });
+  }
+  
+  /*
+  * Escucha a si se presiona la tecla Enter y realiza el proceso de login
+  */
+  @HostListener("keyup.enter") onKeyupEnter() {
+    this.doLogin();
   }
 }
