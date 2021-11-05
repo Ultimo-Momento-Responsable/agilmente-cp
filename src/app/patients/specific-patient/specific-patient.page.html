@@ -254,7 +254,7 @@
                 <ion-label position="stacked" color="medium" *ngIf="comment.isEditing">
                   <i>Editando</i>
                 </ion-label> 
-                <ion-textarea autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment">
+                <ion-textarea autofocus autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment">
                 </ion-textarea>
               </div>
               <!-- Si no se está editando el comentario -->
