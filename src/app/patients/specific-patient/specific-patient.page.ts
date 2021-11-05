@@ -18,6 +18,7 @@ export interface Patient {
   loginCode: string;
   logged: boolean;
   enabled: boolean;
+  comments: any[];
 }
 
 @Component({
@@ -40,6 +41,8 @@ export class SpecificPatientPage implements OnInit {
   results: any;
   showResults: boolean = true;
   currentTab: string = "data";
+  comment: string = "";
+  auxComment: any = null;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -58,6 +61,10 @@ export class SpecificPatientPage implements OnInit {
 
       this.patientsApiService.getPatientById(this.id).subscribe((res) => {
         this.patient = res;
+        this.patient.comments.forEach(comment => {
+          comment.isEditing = false;
+        })
+        this.sortById(this.patient.comments);
         this.myForm.patchValue(this.patient);
       });
 
@@ -72,9 +79,24 @@ export class SpecificPatientPage implements OnInit {
         if (this.results.hayUnoRepetido.results?.length==0 && this.results.encuentraAlNuevo.results?.length==0){
           this.showResults=false;
         }
-        
       });
     });
+  }
+
+  /**
+   * Toma un array de objetos y los ordena descendientemente por ID
+   * @param objectArray Array de objetos.
+   */
+  sortById(objectArray: any[]) {
+    objectArray.sort(function(a,b) {
+      if (a.id > b.id) {
+        return 1;
+      }
+      if (a.id < b.id) {
+        return -1;
+      }
+      return 0;
+    })
   }
 
   /**
@@ -93,6 +115,85 @@ export class SpecificPatientPage implements OnInit {
     }
   }
 
+  /**
+   * Agrega un comentario a la caja de comentarios
+   */
+   addComment() {
+    let patientComment = {
+      patientId: this.patient.id,
+      comment: this.comment,
+      professionalFirstName: window.localStorage.getItem('firstName'),
+      professionalLastName: window.localStorage.getItem('lastName')
+    };
+    this.patientsApiService.addComment(patientComment).subscribe(res => {
+      this.comment = "";
+      this.patientsApiService.getPatientById(this.id).subscribe((res) => {
+        this.patient = res;
+        this.sortById(this.patient.comments);
+      });
+    });
+  }
+
+  /**
+   * Comienza a editar el comentario y se guarda el mismo en caso de que se cancele
+   * @param comment comentario
+   */
+  startEditingComment(comment: any){
+    comment.isEditing = true;
+    this.auxComment = comment.comment;
+  }
+
+  /**
+   * Cancela la edición del comentario y vuelve al estado inicial
+   * @param comment 
+   */
+  cancelEditingComment(comment: any){
+    comment.isEditing = false;
+    comment.comment = this.auxComment;
+  }
+
+  /**
+   * Edita un comentario de la caja de comentarios
+   * @param comment el comentario a editar
+   */
+  editComment(comment: any) {
+    let patientComment = {
+      patientId: this.patient.id,
+      commentId: comment.id,
+      comment: comment.comment
+    };
+    this.patientsApiService.editComment(patientComment).subscribe(res => {
+      this.comment = "";
+      this.patientsApiService.getPatientById(this.id).subscribe((res) => {
+        this.patient = res;
+        this.sortById(this.patient.comments);
+      });
+    });
+  }
+
+  /**
+   * Borra un comentario
+   * @param commentId id del comentario
+   */
+  async deleteComment(commentId: number){
+    const confirm = await this.dialogsComponent.presentAlertConfirm('Eliminar Comentario',
+    '¿Desea eliminar este comentario? Esta acción no puede deshacerse')
+    if (confirm) {
+      let patientComment = {
+        patientId: this.patient.id,
+        commentId: commentId
+      }
+      this.patientsApiService.deleteComment(patientComment).subscribe(() => {
+        this.dialogsComponent.presentAlert('Comentario eliminado','','<p>El comentario ha sido eliminado correctamente.',"");
+        this.patientsApiService.getPatientById(this.id).subscribe((res) => {
+          this.patient = res;
+          this.sortById(this.patient.comments);
+        });
+      }, (err) => {
+        this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"");
+      });
+    }
+  }
 
   /**
    * Desvincula el paciente.

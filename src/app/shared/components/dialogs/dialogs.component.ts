@@ -34,7 +34,9 @@ export class DialogsComponent implements OnInit {
       await alert.present();
 
       if (await alert.onDidDismiss()){
-        this.router.navigateForward(url)
+        if (url != "") {
+          this.router.navigateForward(url);
+        }
       }
     })
   }
