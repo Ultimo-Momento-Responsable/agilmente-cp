@@ -29,10 +29,16 @@ export class HayUnoRepetidoResultsTimeGraphComponent implements AfterViewInit {
    */
   createLineCumulative() {
     Chart.register(...registerables);
+    let graphResults = JSON.parse(JSON.stringify(this.results));
+    let label = graphResults.map((r, i) => `Partida ${i + 1}`);
+    if (this.results.length == 1) {
+      graphResults.push(JSON.parse(JSON.stringify(this.results[0])));
+      label.push("");
+    }
     this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: this.results.map((r, i) => `Partida ${i + 1}`),
+        labels: label,
         datasets: [
             {
                 label: 'Tiempo (segundos)',
@@ -52,7 +58,7 @@ export class HayUnoRepetidoResultsTimeGraphComponent implements AfterViewInit {
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: this.results.map((r) => r.totalTime),
+                data: graphResults.map((r) => r.totalTime),
                 spanGaps: false,
               },
         ],
