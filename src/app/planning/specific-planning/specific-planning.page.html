@@ -114,23 +114,34 @@
               <p *ngIf="detail.numberOfSession == -1"><b>Sesiones: </b>Sin límite de sesiones.</p>
               <ion-label *ngFor="let param of detail?.parameters">
                 <div [ngSwitch]="param?.value">
+                  
                   <div *ngSwitchCase="'true'">
-                    <p><b>{{ param?.spanishName }}: </b>Si</p>
+                    <ion-text>
+                      <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
+                      <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">Si</span></ion-text>
                   </div>
                   <div *ngSwitchCase="'false'">
-                    <p><b>{{ param?.spanishName }}: </b>No</p>
+                    <ion-text>
+                      <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
+                      <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">No</span></ion-text>
                   </div>
                   <div *ngSwitchDefault>
                     <div *ngIf="param?.name=='spriteSet';else notSpriteSet">
                       <div *ngIf="param?.value=='1'">
-                        <p><b>{{ param?.spanishName }}: </b>Flores</p>
+                        <ion-text>
+                          <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
+                          <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">Flores</span></ion-text>
                       </div>
                       <div *ngIf="param?.value=='2'">
-                        <p><b>{{ param?.spanishName }}: </b>Frutas</p>
+                        <ion-text>
+                          <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
+                          <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">Frutas</span></ion-text>
                       </div>
                     </div>
                     <ng-template #notSpriteSet>
-                      <p><b>{{ param?.spanishName }}: </b>{{param?.value}} {{param?.unit}}</p>
+                      <ion-text>
+                        <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
+                        <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">{{param?.value}} {{param?.unit}}</span></ion-text>
                     </ng-template>
                   </div>
                 </div>
@@ -171,7 +182,8 @@
                   <ion-radio-group [value]="game.index">
                     <div *ngFor="let p of game.gameParam; let i = index">
                       <div *ngIf="p.param.type==0">
-                        <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom">
+                        <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
+                          <ion-icon color="primary" name="information-circle"></ion-icon>
                           <ion-label>{{ p.param.name }}</ion-label>
                           <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
                         </ion-item>
@@ -189,7 +201,8 @@
                         </ion-item>
                       </div>
                       <div *ngIf="p.param.type==3">
-                        <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom">
+                        <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                          <ion-icon color="primary" name="information-circle"></ion-icon>
                           <ion-text>{{ p.param.name }}</ion-text>
                           <ion-item 
                             style="margin-left: 5%; border-bottom: solid 1px rgb(56, 128, 255);">
@@ -215,7 +228,8 @@
                   </ion-list-header>
                   <div *ngFor="let p of game.gameParam; let i = index">
                     <div *ngIf="p.param.type==1">
-                      <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom">
+                      <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                        <ion-icon color="primary" name="information-circle"></ion-icon>
                         <ion-label>{{ p.param.name }}</ion-label>
                         <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
                       </ion-item>
@@ -228,7 +242,8 @@
                       </ion-list-header>
                       <ion-radio-group [value]="p.value - 1"> 
                         <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
-                          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom">
+                          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                            <ion-icon color="primary" name="information-circle"></ion-icon>
                             <ion-label>{{ paramType2.name }}</ion-label>
                             <ion-radio [value]="j" (click)="p.value=paramType2.id"></ion-radio>
                           </ion-item>
