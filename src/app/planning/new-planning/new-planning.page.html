@@ -111,7 +111,8 @@
                   <ion-radio-group [value]="game.index">
                     <div *ngFor="let p of game.gameParam; let i = index">
                       <div *ngIf="p.param.type==0">
-                        <ion-item>
+                        <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
+                          <ion-icon color="primary" name="information-circle"></ion-icon>
                           <ion-label>{{ p.param.name }}</ion-label>
                           <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
                         </ion-item>
@@ -130,7 +131,8 @@
                         </ion-item>
                       </div>
                       <div *ngIf="p.param.type==3">
-                        <ion-item>
+                        <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                          <ion-icon color="primary" name="information-circle"></ion-icon>
                           <ion-text>{{ p.param.name }}</ion-text>
                           <ion-item 
                             style="margin-left: 5%; border-bottom: solid 1px rgb(56, 128, 255);">
@@ -158,7 +160,8 @@
                   </ion-list-header>
                   <div *ngFor="let p of game.gameParam; let i = index">
                     <div *ngIf="p.param.type==1">
-                      <ion-item>
+                      <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                        <ion-icon color="primary" name="information-circle"></ion-icon>
                         <ion-label>{{ p.param.name }}</ion-label>
                         <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
                       </ion-item>
@@ -171,7 +174,8 @@
                       </ion-list-header>
                       <ion-radio-group [value]="p.value - 1"> 
                         <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
-                          <ion-item>
+                          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                            <ion-icon color="primary" name="information-circle"></ion-icon>
                             <ion-label>{{ paramType2.name }}</ion-label>
                             <ion-radio [value]="j" (click)="p.value=paramType2.id"></ion-radio>
                           </ion-item>
