@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { SpecificPlanningPageRoutingModule } from './specific-planning-routing.module';
 import { SpecificPlanningPage } from './specific-planning.page';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     IonicModule,
     SpecificPlanningPageRoutingModule,
     ReactiveFormsModule,
-    Ionic4DatepickerModule,
-    NgbModule    
+    Ionic4DatepickerModule
   ],
   declarations: [SpecificPlanningPage]
 })

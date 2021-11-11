@@ -7,8 +7,6 @@ import { NewPlanningPageRoutingModule } from './new-planning-routing.module';
 
 import { NewPlanningPage } from './new-planning.page';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 
 @NgModule({
   imports: [
@@ -17,8 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     IonicModule,
     NewPlanningPageRoutingModule,
-    Ionic4DatepickerModule,
-    NgbModule
+    Ionic4DatepickerModule
   ],
   declarations: [NewPlanningPage]
 })
