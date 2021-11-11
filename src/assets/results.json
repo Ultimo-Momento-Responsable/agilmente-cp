@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "name": "Hay Uno Repetido",
+      "patient": "Cosme Fulanito",
+      "successes": 24,
+      "mistakes": 4,
+      "timeBetweenSuccesses": [],
+      "date": "19/05/2020 14:30:46",
+      "totalTime": "01:46",
+      "canceled": false
+    },
+	{
+		"id": 1,
+		"name": "Hay Uno Repetido",
+		"mistakes": 2,
+		"successes": 2,
+		"totalTime": 3.503158,
+		"timeBetweenSuccesses": [
+		1.440215,
+		1.33649
+		],
+		"dateTime": "15-06-2021 06:47:40",
+		"canceled": true
+	},
+    {
+      "id": "2",
+      "name": "Hay Uno Repetido",
+      "patient": "Guy Incognito",
+      "successes": "",
+      "mistakes": "4",
+      "timeBetweenSuccesses": ["3","4","5"],
+      "date": "19/05/2020 14:30:46",
+      "totalTime": "01:46",
+      "canceled": true
+    }
+	]
+
+}

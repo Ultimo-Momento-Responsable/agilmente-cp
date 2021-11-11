@@ -1,0 +1,306 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agilmente - Detalle de Paciente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-segment [(ngModel)]="currentTab">
+    <ion-segment-button value="data" layout="icon-start">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label>Datos Personales</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="stats" layout="icon-start">
+      <ion-icon name="trending-up"></ion-icon>
+      <ion-label>Estadisticas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="comments" layout="icon-start">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <ion-label>Comentarios</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-row>
+    <ion-col>
+      <!-- TAB DE DATOS PERSONALES -->
+      <div id="container" *ngIf="currentTab==='data'">
+        <div *ngIf="this.patient?.enabled == false">
+          <ion-chip color='danger'>
+            <ion-label>Paciente deshabilitado</ion-label>
+          </ion-chip>
+        </div>
+        <div class="ion-padding-top ion-margin-top">
+          <ion-row>
+            <ion-col size="3">
+              <ion-title> Datos Personales </ion-title>
+            </ion-col>
+            <ion-col size="9">
+              <ion-button
+                [disabled]="this.patient?.enabled == false"
+                style="float: right"
+                color="danger"
+                fill="clear"
+                (click)="this.deletePatient()"
+              >
+                <ion-icon name="trash-outline"></ion-icon>
+                <p class="ion-margin">Eliminar</p>
+              </ion-button>
+              <ion-button
+                [disabled]="this.patient?.enabled == false"
+                style="float: right"
+                fill="clear"
+                [routerLink]="['../../edit-patient',id]"
+                [disabled]="this.patient?.enabled == false"
+              >
+                <ion-icon name="pencil-outline" item-right></ion-icon>
+                <p class="ion-margin">Editar</p>
+              </ion-button>
+              <div
+                *ngIf="this.patient?.loginCode && this.patient?.loginCode?.length==6"
+                style="float: right; margin-right: 5%; margin-top: -0.5%"
+              >
+                <h5>Código de Ingreso: {{this.patient.loginCode}}</h5>
+              </div>
+              <div
+                *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged"
+                style="float: right; margin-right: 5%"
+              >
+                <h5 style="float: right; margin-right: 5%; margin-top: -0.5%">
+                  Paciente Vinculado
+                </h5>
+                <ion-button style="float: right" (click)="this.unlinkPatient()">
+                  <ion-icon name="log-out-outline"></ion-icon>
+                  <p class="ion-padding">Desvincular</p>
+                </ion-button>
+              </div>
+              <div
+                *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged"
+                style="float: right; margin-right: 5%"
+              >
+                <h5 style="float: right; margin-right: 5%; margin-top: -0.5%">
+                  Paciente Desvinculado
+                </h5>
+                <ion-button style="float: right" (click)="this.resetCode()" [disabled]="this.patient?.enabled == false"
+                >
+                  <ion-icon name="log-out-outline"></ion-icon>
+                  <p class="ion-padding">Generar Código</p>
+                </ion-button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </div>
+        <form [formGroup]="myForm">
+          <ion-row>
+            <ion-col size="6">
+              <ion-item id="rounded">
+                <ion-label position="stacked" fixed="" color="primary"
+                  >Nombre</ion-label
+                >
+                <ion-input
+                  [disabled]="true"
+                  readonly
+                  formControlName="firstName"
+                  type="text"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary"
+                  >Apellido</ion-label
+                >
+                <ion-input
+                  [disabled]="true"
+                  readonly
+                  formControlName="lastName"
+                  type="text"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item id="rounded" button>
+                <ion-label position="stacked" color="primary"
+                  >Fecha de nacimiento</ion-label
+                >
+                <ion-input
+                  [disabled]="true"
+                  readonly
+                  formControlName="bornDate"
+                ></ion-input>
+                <ion-icon
+                  name="calendar-outline"
+                  slot="end"
+                  style="margin-top: 16px"
+                ></ion-icon>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">
+                  Localidad
+                </ion-label>
+                <ion-input
+                  formControlName="city"
+                  readonly
+                  [disabled]="true"
+                  type="text"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size=6>
+              <ion-item id="rounded" button>
+                <ion-label position="stacked" color="primary">Teléfono</ion-label>
+                <ion-input [disabled]="true" type="text" formControlName="telephone">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">Correo Electrónico</ion-label>
+                <ion-input [disabled]="true" formControlName="email" type="email"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">
+                  Descripción
+                </ion-label>
+                <ion-textarea
+                  [disabled]="true"
+                  rows="6"
+                  formControlName="description"
+                  type="text"
+                >
+                </ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <br />
+          <br />
+        </form>
+      </div>
+      <!-- TAB DE ESTADÍSTICAS -->
+
+      <div id="stats" *ngIf="currentTab==='stats'">
+        <app-card-hay-uno-repetido-result
+            [results]="this.results.hayUnoRepetido"
+            *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
+        ></app-card-hay-uno-repetido-result>
+        <app-card-encuentra-al-nuevo-result
+          [results]="this.results.encuentraAlNuevo"
+          *ngIf="this.results && this.results.encuentraAlNuevo && this.showResults"
+        ></app-card-encuentra-al-nuevo-result>
+      </div>
+
+      <!-- TAB DE DATOS COMENTARIOS -->
+      <div id="comments" *ngIf="currentTab==='comments'">
+        <ion-row>
+          <ion-col size=1></ion-col>
+          <ion-col>
+            <ion-label position="stacked" color="primary">
+              Nuevo comentario
+            </ion-label>
+            <ion-textarea
+              class="ion-margin ion-padding" 
+              style="border-width: thin; border-style:groove; border-radius: 5px;"
+              rows="3"
+              type="text"
+              autoGrow=true
+              maxlength=2999
+              [(ngModel)]="this.comment">
+            </ion-textarea>
+            <ion-button color="primary" style="float: right;" (click)="addComment()" [disabled]="this.comment.length < 2">
+              Comentar
+            </ion-button>
+            <br> <br> <br>
+            <div *ngFor="let comment of this.patient.comments.slice().reverse()"
+              class="ion-margin" 
+              >
+              <!-- Si se está editando el comentario -->
+              <div *ngIf="comment.isEditing" 
+                class="ion-padding" 
+                style="border-width: thin; 
+                  border-style:groove; 
+                  border-radius: 5px;
+                  background-color: rgba(var(--ion-color-primary-rgb), 0.14);"
+              >
+                <ion-button
+                  shape="round"
+                  size="small"
+                  color="danger"
+                  style="float: right"
+                  fill="clear"
+                  (click)="cancelEditingComment(comment)"
+                >
+                  <ion-icon name="close-outline"></ion-icon>
+                </ion-button>
+                <ion-button
+                  shape="round"
+                  size="small"
+                  style="float: right"
+                  color="success"
+                  (click)="editComment(comment)"
+                  [disabled]="comment.comment.length < 2"
+                >
+                  <ion-icon name="checkmark-outline"></ion-icon>
+                </ion-button>
+                <ion-label position="stacked" color="primary">
+                  {{comment.author.firstName + " " + comment.author.lastName + "  -  " + comment.datetime}}
+                </ion-label>
+                <ion-label position="stacked" color="medium" *ngIf="comment.isEditing">
+                  <i>Editando</i>
+                </ion-label> 
+                <ion-textarea autofocus autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment">
+                </ion-textarea>
+              </div>
+              <!-- Si no se está editando el comentario -->
+              <div *ngIf="!comment.isEditing"
+                class="ion-padding" 
+                style="border-width: thin; 
+                  border-style:groove; 
+                  border-radius: 5px;" 
+              >
+                <ion-button
+                  shape="round"
+                  size="small"
+                  color="danger"
+                  style="float: right"
+                  fill="clear"
+                  (click)="deleteComment(comment.id)"
+                >
+                  <ion-icon name="close-outline"></ion-icon>
+                </ion-button>
+                <ion-button
+                  shape="round"
+                  size="small"
+                  style="float: right"
+                  fill="clear"
+                  (click)="startEditingComment(comment)"
+                >
+                  <ion-icon name="pencil-outline" item-right></ion-icon>
+                </ion-button>
+                <ion-label position="stacked" color="primary">
+                  {{comment.author.firstName + " " + comment.author.lastName + "  -  " + comment.datetime}}
+                </ion-label>
+                <ion-label position="stacked" color="medium" *ngIf="comment.edited">
+                  <i>Mensaje editado</i>
+                </ion-label> 
+                <ion-textarea autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment" readonly>
+                </ion-textarea>
+              </div>
+            </div>
+          </ion-col>
+          <ion-col size=1></ion-col>
+        </ion-row>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

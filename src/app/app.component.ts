@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Location } from "@angular/common";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,13 +8,28 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Mis Pacientes', url: '/patients', icon: 'body' },
+    { title: 'Resultados', url: '/results', icon: 'clipboard'},
+    { title: 'Planes de Juegos', url: '/planning', icon: 'phone-portrait' },
+    { title: 'Cerrar Sesión', url: '/logout', icon: 'log-out' }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  currentRoute: string;
+  previousRoute: string;
+  firstName: string;
+  lastName: string;
+  
+  constructor(private router : Router, location: Location) {
+    router.events.subscribe(val => {
+      if (this.previousRoute=="/login" && this.currentRoute=="/patients"){
+        this.previousRoute = "/patients";
+        window.location.reload();
+      }
+      if (location.path() != "") {
+        this.previousRoute = this.currentRoute;
+        this.currentRoute = location.path();
+      }
+    });
+    this.firstName = window.localStorage.getItem('firstName');
+    this.lastName = window.localStorage.getItem('lastName');
+  }
 }

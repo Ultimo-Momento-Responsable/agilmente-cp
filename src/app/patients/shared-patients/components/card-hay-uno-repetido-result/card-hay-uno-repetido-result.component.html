@@ -1,0 +1,22 @@
+<ion-card class="card">
+  <ion-card-header>
+    <ion-card-title>Encuentra al Repetido</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <app-hay-uno-repetido-results-performance-graph 
+          [results]="this.results.results"
+        ></app-hay-uno-repetido-results-performance-graph>
+        <app-hay-uno-repetido-results-time-graph
+          [results]="this.results.results"
+        ></app-hay-uno-repetido-results-time-graph>
+      </ion-col>
+      <ion-col>
+        <app-hay-uno-repetido-results-general-table
+          [results]="this.results.results"
+        ></app-hay-uno-repetido-results-general-table>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

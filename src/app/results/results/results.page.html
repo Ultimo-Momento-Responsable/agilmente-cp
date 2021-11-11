@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Resultados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-result-card
+    *ngFor="let result of this.results"
+    (click)="this.goToSubresults(result)"
+    [result]="result"
+  ></app-result-card>
+
+  <div *ngIf="!results || results.length === 0">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>¡No hay resultados para mostrar!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label><p>¡Vaya! Al parecer nadie ha jugado aun...</p></ion-label>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

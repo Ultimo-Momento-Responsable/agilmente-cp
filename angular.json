@@ -99,6 +99,7 @@
             "karmaConfig": "karma.conf.js",
             "styles": [],
             "scripts": [],
+            "codeCoverage": true,
             "assets": [
               {
                 "glob": "favicon.ico",
@@ -171,6 +172,7 @@
     }
   },
   "cli": {
+    "analytics": false,
     "defaultCollection": "@ionic/angular-toolkit"
   },
   "schematics": {

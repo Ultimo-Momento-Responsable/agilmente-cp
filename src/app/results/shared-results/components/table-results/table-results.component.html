@@ -1,0 +1,10 @@
+<ion-grid class="grid-full">
+  <ion-row>
+    <ion-col class="table-cell"><b>Nivel</b></ion-col>
+    <ion-col class="table-cell"><b>Tiempo (segundos)</b></ion-col>
+  </ion-row>
+  <ion-row *ngFor="let time of this.result.timeBetweenSuccesses; index as i">
+    <ion-col class="table-cell">{{ i + 1 }}</ion-col>
+    <ion-col class="table-cell">{{ time }}</ion-col>
+  </ion-row>
+</ion-grid>

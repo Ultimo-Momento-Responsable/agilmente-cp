@@ -1,0 +1,23 @@
+<ion-card class="card">
+  <ion-card-header>
+    <ion-card-title>Encuentra al Nuevo</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <app-encuentra-al-nuevo-results-performance-graph 
+          [results]="this.results.results"
+        ></app-encuentra-al-nuevo-results-performance-graph>
+        <app-encuentra-al-nuevo-results-time-graph
+          [results]="this.results.results"
+        ></app-encuentra-al-nuevo-results-time-graph>
+      </ion-col>
+      <ion-col>
+        <app-encuentra-al-nuevo-results-general-table
+          [results]="this.results.results"
+        ></app-encuentra-al-nuevo-results-general-table>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+
