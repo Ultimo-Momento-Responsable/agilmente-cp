@@ -39,7 +39,6 @@
     "angular-material": "^1.2.2",
     "bootstrap": "^4.5.0",
     "chart.js": "^3.3.2",
-    "chartjs-plugin-annotation": "^1.0.2",
     "ionic-angular": "^3.9.10",
     "moment": "^2.29.1",
     "rxjs": "~6.6.0",

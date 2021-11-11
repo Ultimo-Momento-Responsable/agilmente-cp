@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import annotationPlugin from 'chartjs-plugin-annotation';
 
 @Component({
   selector: 'app-hay-uno-repetido-results-performance-graph',
@@ -14,7 +13,6 @@ export class HayUnoRepetidoResultsPerformanceGraphComponent
   @Input() results;
   lineCumulative: any;
   constructor() {}
-  options: any = null;
 
   ngOnInit() {}
 
@@ -26,17 +24,11 @@ export class HayUnoRepetidoResultsPerformanceGraphComponent
    * Dibuja el gráfico de resultados históricos del paciente.
    */
   createLineCumulative() {
-    Chart.register(...registerables, annotationPlugin);
-    let graphResults = JSON.parse(JSON.stringify(this.results));
-    let label = graphResults.map((r, i) => `Partida ${i + 1}`);
-    if (this.results.length == 1) {
-      graphResults.push(JSON.parse(JSON.stringify(this.results[0])));
-      label.push("");
-    }
+    Chart.register(...registerables);
     this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: label,
+        labels: this.results.map((r, i) => `Partida ${i + 1}`),
         datasets: [
           {
             label: 'Aciertos',
@@ -54,7 +46,7 @@ export class HayUnoRepetidoResultsPerformanceGraphComponent
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: graphResults.map((r) => r.successes),
+            data: this.results.map((r) => r.successes),
             spanGaps: false,
           },
           {
@@ -74,11 +66,11 @@ export class HayUnoRepetidoResultsPerformanceGraphComponent
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: graphResults.map((r) => r.mistakes),
+            data: this.results.map((r) => r.mistakes),
             spanGaps: false,
-          }
-        ]
-      }
+          },
+        ],
+      },
     });
   }
 }

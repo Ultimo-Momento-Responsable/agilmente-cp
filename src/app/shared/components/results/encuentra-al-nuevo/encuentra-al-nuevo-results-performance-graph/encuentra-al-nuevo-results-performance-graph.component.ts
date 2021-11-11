@@ -25,16 +25,10 @@ export class EncuentraAlNuevoResultsPerformanceGraphComponent
    */
    createLineCumulative() {
     Chart.register(...registerables);
-    let graphResults = JSON.parse(JSON.stringify(this.results));
-    let label = graphResults.map((r, i) => `Partida ${i + 1}`);
-    if (this.results.length == 1) {
-      graphResults.push(JSON.parse(JSON.stringify(this.results[0])));
-      label.push("");
-    }
     this.lineCumulative = new Chart(this.lineCumulativeCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: label,
+        labels: this.results.map((r, i) => `Partida ${i + 1}`),
         datasets: [
           {
             label: 'Aciertos',
@@ -52,7 +46,7 @@ export class EncuentraAlNuevoResultsPerformanceGraphComponent
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: graphResults.map((r) => r.successes),
+            data: this.results.map((r) => r.successes),
             spanGaps: false,
           },
           {
@@ -72,7 +66,7 @@ export class EncuentraAlNuevoResultsPerformanceGraphComponent
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: graphResults.map((r) => r.mistakes),
+            data: this.results.map((r) => r.mistakes),
             spanGaps: false,
           },
         ],
