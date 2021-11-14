@@ -49,6 +49,7 @@ export class SpecificPlanningPage implements OnInit {
   auxStartDate: Date;
   auxFinishDate: Date;
   planningName: string;
+  isLoading: boolean;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -63,6 +64,7 @@ export class SpecificPlanningPage implements OnInit {
   
   ngOnInit() {
     // Recibe el id de la planificación específica
+	this.isLoading = true;
     this.route.params.subscribe(params => {
       this.id = +params['id']; 
     });
@@ -264,7 +266,7 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, se 
+  // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, devuelve el valor
   checkMaxValue(p) : number {
     if (p.maxValue <= -1){
       return undefined
@@ -414,6 +416,7 @@ export class SpecificPlanningPage implements OnInit {
       })
       this.auxStartDate = res.startDate;
       this.auxFinishDate = res.dueDate;
+		this.isLoading = false;
     })
   }
 

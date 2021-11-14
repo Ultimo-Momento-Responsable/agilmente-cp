@@ -30,7 +30,7 @@
         <p class="ion-margin">Editar</p>
       </ion-button>
       </ion-title>
-      <form [formGroup]="myForm" (ngSubmit)="edit(myForm)">
+      <form [formGroup]="myForm" (ngSubmit)="edit(myForm)" *ngIf='!this.isLoading'>
 
         <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Paciente</ion-label>
