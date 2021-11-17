@@ -64,7 +64,7 @@ export class SpecificPlanningPage implements OnInit {
   
   ngOnInit() {
     // Recibe el id de la planificación específica
-	this.isLoading = true;
+    this.isLoading = true;
     this.route.params.subscribe(params => {
       this.id = +params['id']; 
     });
@@ -133,6 +133,10 @@ export class SpecificPlanningPage implements OnInit {
     this.loadPlanning();
   }
 
+  /**
+   * Chequea que el paciente exista
+   * @returns true o false si el paciente existe
+   */
   patientExists(){
     let exist = false;
     this.patients?.forEach(p => {
@@ -143,7 +147,9 @@ export class SpecificPlanningPage implements OnInit {
     return exist
   }
 
-  // Cambia el valor mínimo que puede tener el datepicker del fin de la planning  
+  /** 
+   * Cambia el valor mínimo que puede tener el datepicker del fin de la planning 
+   */ 
   setFinishMinDate(){
     var dateSplit = this.myForm.value.startDate.split('-');
     let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
@@ -153,7 +159,10 @@ export class SpecificPlanningPage implements OnInit {
     this.myForm.patchValue({"finishDate": moment(date).format('DD-MM-YYYY')})
   }
 
-  // Filtra pacientes según la búsqueda
+  /**
+   * Filtra pacientes según la búsqueda
+   * @param evt contiene el valor del input de la búsqueda
+   */
   async filterPatient(evt){
     const search = evt.srcElement.value;
     this.patientsSearch = this.patients.filter((p)=> {
@@ -163,7 +172,10 @@ export class SpecificPlanningPage implements OnInit {
     })
   }
 
-  // Filtra juegos según la búsqueda
+  /**
+   * Filtra juegos según la búsqueda
+   * @param evt contiene el valor del input de la búsqueda
+   */
   async filterGame(evt){
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
@@ -173,7 +185,9 @@ export class SpecificPlanningPage implements OnInit {
     })
   }
 
-  // Abre el datepicker
+  /**
+   * Abre el datepicker
+   */
   async openDatePicker() {
     const datePickerModal = await this.modalCtrl.create({
       component: Ionic4DatepickerModalComponent,
@@ -182,13 +196,19 @@ export class SpecificPlanningPage implements OnInit {
     await datePickerModal.present();
   }
 
-  // llena el campo del paciente cuando clickeas el que deseas en la lista
+  /**
+   * llena el campo del paciente cuando clickeas el que deseas en la lista
+   * @param name nombre del paciente
+   */
   fillSearchBar(name: string) {
     this.myForm.patchValue({"patient": name})
     this.patientsSearch = null
   }
 
-  // Añade el juego seleccionado a la lista de juegos asignados.
+  /**
+   * Añade el juego seleccionado a la lista de juegos asignados.
+   * @param game juego a añadir
+   */
   addGame(game) {
     this.gamesSearch = [];
     this.planningGames.push(JSON.parse(JSON.stringify(game)));
@@ -197,7 +217,12 @@ export class SpecificPlanningPage implements OnInit {
     this.myForm.patchValue({"games": null});
   }
 
-  // Para los params tipo 0, activa uno, en caso de que se haya tildado
+  /**
+   * Para los params tipo 0, activa uno, en caso de que se haya tildado
+   * @param game juego que se está editando
+   * @param p parámetro que se está editando
+   * @param index índice para el radio button
+   */
   setActiveParam(game, p, index){
     game.index = index;
     game.gameParam.forEach(param => {
@@ -211,7 +236,12 @@ export class SpecificPlanningPage implements OnInit {
     });
   }
 
-  // Actualiza el valor del Param
+  /**
+   * Actualiza el valor del Param
+   * @param game juego que se está editando
+   * @param p parámetro que se está editando
+   * @param evt valor del parámetro
+   */
   changeParamValue(game,p,evt){
     let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
     if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
@@ -219,18 +249,30 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Setea el número máximo de sesiones de juego
+  /**
+   * Setea el número máximo de sesiones de juego
+   * @param game Juego que se está editando
+   * @param evt valor de las sesiones
+   */
   changeLimitGamesValue(game,evt){
     this.planningGames[this.planningGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
   }
 
-  // Setea el número máximo de sesiones de juego
-  changeParamsType1(game,p,evt) {
+  /**
+   * Cambia el valor del booleano del parámetro tipo 1
+   * @param game Juego que se está editando
+   * @param p Param que se está editando
+   */
+  changeParamsType1(game,p) {
     let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
     gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = !gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value;
   }
 
-  // Checkea que el juego esté correctamente cargado
+  /**
+   * Checkea que el juego esté correctamente cargado
+   * @param game Juego que se está editando
+   * @returns verdadero o falso si es correcto o no
+   */
   checkIfCorrect(game) : boolean{
     let isCorrect = false;
     game.gameParam.forEach(p => {
@@ -257,7 +299,10 @@ export class SpecificPlanningPage implements OnInit {
     return isCorrect;
   }
 
-  // Borra un juego de la lista de los juegos planificados hasta el momento
+  /**
+   * Borra un juego de la lista de los juegos planificados hasta el momento
+   * @param game Juego que se está borrando
+   */
   deleteGame(game) {
     let ind = this.planningGames.indexOf(game);
     this.planningGames.splice(ind,1);
@@ -266,7 +311,11 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, devuelve el valor
+  /**
+   * Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, devuelve el valor
+   * @param p parámetro 
+   * @returns valor máximo
+   */
   checkMaxValue(p) : number {
     if (p.maxValue <= -1){
       return undefined
@@ -275,7 +324,10 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Asegura que el param ingresado respeta los valores mínimos y máximos y si no es así lo cambia
+  /**
+   * Asegura que el param ingresado respeta los valores mínimos y máximos y si no es así lo cambia
+   * @param p parámetro a analizar
+   */
   checkParamLimit(p){
     if (parseInt(p.value) < p.minValue) {
       p.value = p.minValue.toString();
@@ -287,14 +339,21 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Asegura que maxNumberOfSessions ingresado es mayor que 0
+  /**
+   * Asegura que maxNumberOfSessions ingresado es mayor que 0
+   * @param game Juego que se está revisando 
+   */
   checkMNoSLimit(game){
     if (parseInt(game.maxNumberOfSessions) < 1) {
       game.maxNumberOfSessions = "1";
     }
   }
 
-// Cuando el juego se haya cargado, da como válido el formulario
+  /**
+   * Cuando el juego se haya cargado, da como válido el formulario
+   * @param game El juego añadido
+   * @param j índice del juego.
+   */
   gameAdded(game,j) {
     game.accordion = false;
     if (game.done){
@@ -305,7 +364,13 @@ export class SpecificPlanningPage implements OnInit {
     } 
   }
 
-  // Muestra la alerta.
+  /**
+   * Muestra la alerta.
+   * @param subHeader subtítulo de la alerta
+   * @param message mensaje de la alerta
+   * @param reset si es verdadero se refresca la página al final
+   * @param css css de la alerta
+   */
   async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
     const alert = await this.alertController.create({
       message: message,
@@ -326,7 +391,10 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Se formatea y se envía la planificación al back
+  /**
+   * Se envía la planning al back para su edición
+   * @param myForm Formulario
+   */
   edit(myForm: FormGroup) {
     let patientId: number;
     this.patients.forEach(p=>{
@@ -375,7 +443,10 @@ export class SpecificPlanningPage implements OnInit {
     };
   }
 
-  // habilita o desabilita el botón de submit
+  /**
+   * habilita o desabilita el botón de submit
+   * @returns true o false
+   */
   submitDisabled(){
     let gamesAreDone = true;
     if (this.planningGames.length == 0){
@@ -400,7 +471,9 @@ export class SpecificPlanningPage implements OnInit {
         && this.auxStartDate==this.myForm.value.startDate);
   }
 
-  // Obtiene los datos de una planning y precarga los datos
+  /**
+   * Obtiene los datos de una planning y precarga los datos
+   */
   loadPlanning(){
     this.planningApiService.getPlanningById(this.id).subscribe(res => {
       this.patientId = res.patientId;
@@ -420,7 +493,9 @@ export class SpecificPlanningPage implements OnInit {
     })
   }
 
-  // Cancela la planning actual
+  /**
+   * Cancela la planning actual
+   */
   async cancelPlanning(){
     const confirm = await this.dialogsComponent.presentAlertConfirm('Planificación',
     '¿Desea cancelar la planificación? Esta acción no puede deshacerse')
@@ -433,7 +508,9 @@ export class SpecificPlanningPage implements OnInit {
     }
   }
 
-  // Edita la planning actual
+  /**
+   * Se prepara el formulario para su edición.
+   */
   editPlanning(){
     this.isEditing=true;
     for (let i=0; i<this.planningList.length; i++){
