@@ -26,14 +26,18 @@ export class GraphResultsComponent implements OnInit {
    */
   createLineTimeBetweenSuccesses() {
     Chart.register(...registerables);
+    let graphResults = JSON.parse(JSON.stringify(this.result.timeBetweenSuccesses));
+    let label = graphResults.map((r, i) => `Nivel ${i + 1}`);
+    if (this.result.timeBetweenSuccesses.length == 1) {
+      graphResults.push(JSON.parse(JSON.stringify(this.result.timeBetweenSuccesses[0])));
+      label.push("");
+    }
     this.lineTimeBetweenSuccesses = new Chart(
       this.lineTimeBetweenSuccessesCanvas.nativeElement,
       {
         type: 'line',
         data: {
-          labels: this.result.timeBetweenSuccesses.map(
-            (r, i) => `Nivel ${i + 1}`
-          ),
+          labels: label,
           datasets: [
             {
               label: 'Tiempo (segundos)',
@@ -53,7 +57,7 @@ export class GraphResultsComponent implements OnInit {
               pointHoverBorderWidth: 2,
               pointRadius: 1,
               pointHitRadius: 10,
-              data: this.result.timeBetweenSuccesses,
+              data: graphResults,
               spanGaps: false,
             },
           ],
