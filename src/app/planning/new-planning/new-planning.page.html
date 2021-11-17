@@ -22,7 +22,7 @@
             animated 
             placeholder="Selecciona un paciente" 
             formControlName="patient"
-            (ionInput)="filterPatient($event)"
+            (ionChange)="filterPatient($event)"
             (ionFocus)="patientBlur=false"
             (ionBlur)="patientBlur=true">
           </ion-searchbar>
