@@ -188,7 +188,7 @@
         </form>
       </div>
       <!-- TAB DE ESTADÍSTICAS -->
-
+      
       <div id="stats" *ngIf="currentTab==='stats'">
         <ion-card class="ion-padding" 
           *ngIf="this.results.hayUnoRepetido.results.length == 0 
@@ -197,17 +197,35 @@
               <h2>Este paciente no tiene resultados para mostrar.</h2>
           </ion-text>
         </ion-card>
-        <div *ngIf="this.results.hayUnoRepetido.results.length > 0">
-          <app-card-hay-uno-repetido-result
-            [results]="this.results.hayUnoRepetido"
-            *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
-          ></app-card-hay-uno-repetido-result>
+        <div style="margin-top: 2%;">
+          <ngb-accordion #acc="ngbAccordion" animation>
+            <ngb-panel type="primary" *ngIf="this.results.hayUnoRepetido.results.length > 0">
+              <ng-template ngbPanelTitle >
+                <h3 style="color:white;">Encuentra al Repetido</h3>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <app-card-hay-uno-repetido-result 
+                  [results]="this.results.hayUnoRepetido"
+                  *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
+                ></app-card-hay-uno-repetido-result>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
         </div>
-        <div *ngIf="this.results.encuentraAlNuevo.results.length > 0">
-          <app-card-encuentra-al-nuevo-result
-            [results]="this.results.encuentraAlNuevo"
-            *ngIf="this.results && this.results.encuentraAlNuevo && this.showResults"
-          ></app-card-encuentra-al-nuevo-result>
+        <div style="margin-top: 1%;">
+          <ngb-accordion #acc="ngbAccordion" animation>
+            <ngb-panel type="primary" *ngIf="this.results.encuentraAlNuevo.results.length > 0">
+              <ng-template ngbPanelTitle>
+                <h3 style="color:white;">Encuentra al Nuevo</h3>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <app-card-encuentra-al-nuevo-result
+                  [results]="this.results.encuentraAlNuevo"
+                  *ngIf="this.results && this.results.encuentraAlNuevo && this.showResults"
+                ></app-card-encuentra-al-nuevo-result>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
         </div>
       </div>
 
