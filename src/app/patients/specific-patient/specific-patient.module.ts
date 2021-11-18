@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedPatientsModule } from '../shared-patients/shared-patients.module';
 import { SpecificPatientPage } from './specific-patient.page';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +14,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), SharedPatientsModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    RouterModule.forChild(routes), 
+    SharedPatientsModule, 
+    ReactiveFormsModule, 
+    FormsModule,
+    NgbModule
+  ],
   declarations: [SpecificPatientPage],
 })
 export class SpecificPatientPageModule {}
