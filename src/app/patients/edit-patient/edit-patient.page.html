@@ -101,7 +101,7 @@
           <br>
           <br>
           <ion-button type="submit" 
-            [disabled]="!myForm.valid"
+            [disabled]="!myForm.valid || isClicked"
             expand="block" 
             class="ion-text-uppercase ion-margin-top">
             Actualizar Paciente

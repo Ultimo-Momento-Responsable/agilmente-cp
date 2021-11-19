@@ -307,7 +307,7 @@
           </ion-col>
         </ion-row>
         <ion-button type="submit" *ngIf="isEditing"
-          [disabled]="submitDisabled()"
+          [disabled]="submitDisabled() || isClicked"
           expand="block" 
           class="ion-text-uppercase ion-margin-top">
           Actualizar Planificación

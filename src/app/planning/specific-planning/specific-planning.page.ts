@@ -50,6 +50,7 @@ export class SpecificPlanningPage implements OnInit {
   auxFinishDate: Date;
   planningName: string;
   isLoading: boolean;
+  isClicked: boolean;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -396,6 +397,7 @@ export class SpecificPlanningPage implements OnInit {
    * @param myForm Formulario
    */
   edit(myForm: FormGroup) {
+    this.isClicked = true;
     let patientId: number;
     this.patients.forEach(p=>{
       if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()) == this.myForm.value.patient.toLowerCase()){
@@ -503,6 +505,7 @@ export class SpecificPlanningPage implements OnInit {
       this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
         this.dialogsComponent.presentAlert('Planificación eliminada','','<p>La planificación ha sido eliminado correctamente.','/planning');
       }, (err) => {
+        this.isClicked = false;
         this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','/planning');
       });
     }

@@ -35,6 +35,7 @@ export class NewPlanningPage implements OnInit {
   gamesSearch: any [] = [];
   isAdding: boolean = false;
   patientBlur = false;
+  isClicked: boolean;
 
   ngOnInit() {
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
@@ -297,6 +298,7 @@ export class NewPlanningPage implements OnInit {
   
   // Se formatea y se envía la planificación al back
   save(myForm: FormGroup) {
+    this.isClicked = true;
     let patientId: number;
     this.patients.forEach(p=>{
       if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()) == this.myForm.value.patient.toLowerCase()){
@@ -337,6 +339,7 @@ export class NewPlanningPage implements OnInit {
         this.presentAlert('¡Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+        this.isClicked = false;
       });
     };
   }
