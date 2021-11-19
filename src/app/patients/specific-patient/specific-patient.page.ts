@@ -139,7 +139,7 @@ export class SpecificPatientPage implements OnInit {
    * @param comment comentario
    * @returns verdadero o falso, según si puede o no borrar/editar el comentario
    */
-  canEditOrRemoveComment(comment):boolean{
+  canEditOrRemoveComment(comment: any):boolean{
     return ((comment.author.firstName + comment.author.lastName)==(window.localStorage.getItem('firstName') + window.localStorage.getItem('lastName')));
   }
 
