@@ -64,6 +64,7 @@ export class PatientsPage implements OnInit {
     if (fullName == "") {
       this.getPatients();
     }
+    let aux = []
     this.patientsApiService.getFilteredPatients(fullName).subscribe(res =>{
       res.content.forEach(p => {
         const textDate = p.bornDate.split('-');
@@ -85,8 +86,9 @@ export class PatientsPage implements OnInit {
           "city": p.city
         }
         
-        this.formattedPatients.push(this.auxPatient);
+        aux.push(this.auxPatient);
       })
+      this.formattedPatients = aux;
     });
   }
   getPatients(){
