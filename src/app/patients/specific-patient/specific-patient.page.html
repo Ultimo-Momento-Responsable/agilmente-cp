@@ -303,6 +303,7 @@
                   color="danger"
                   style="float: right"
                   fill="clear"
+                  *ngIf="canEditOrRemoveComment(comment)"
                   (click)="deleteComment(comment.id)"
                 >
                   <ion-icon name="close-outline"></ion-icon>
@@ -312,6 +313,7 @@
                   size="small"
                   style="float: right"
                   fill="clear"
+                  *ngIf="canEditOrRemoveComment(comment)"
                   (click)="startEditingComment(comment)"
                 >
                   <ion-icon name="pencil-outline" item-right></ion-icon>
