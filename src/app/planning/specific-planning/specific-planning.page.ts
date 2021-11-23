@@ -438,9 +438,11 @@ export class SpecificPlanningPage implements OnInit {
           this.presentAlert('¡Planificación Editada!','<p>La planificación ha sido editada correctamente. </p>', true, 'alertSuccess'); 
         }, (err) => {
           this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+          this.isClicked = false;
         });
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+        this.isClicked = false;
       });
     };
   }
@@ -505,7 +507,6 @@ export class SpecificPlanningPage implements OnInit {
       this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
         this.dialogsComponent.presentAlert('Planificación eliminada','','<p>La planificación ha sido eliminado correctamente.','/planning');
       }, (err) => {
-        this.isClicked = false;
         this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','/planning');
       });
     }
