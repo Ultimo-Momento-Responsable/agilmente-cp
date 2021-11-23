@@ -544,7 +544,7 @@ export class SpecificPlanningPage implements OnInit {
       this.assignedGames[i].index = index;
       this.assignedGames[i].done = true;
       this.assignedGames[i].accordion = false;
-      if (this.planningList[i].numberOfSession > 0) {
+      if (this.planningList[i].numberOfSession >= 0) {
         this.assignedGames[i].maxNumberOfSessions = this.planningList[i].numberOfSession;
         this.assignedGames[i].hasLimit = true;
       } else {
