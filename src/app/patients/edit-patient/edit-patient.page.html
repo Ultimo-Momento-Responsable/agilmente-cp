@@ -23,9 +23,9 @@
                 <ion-input class="form-control" formControlName="firstName" required maxlength=20></ion-input>
               </ion-item>
   
-              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('firstName')" class="alert">
+              <small class="validation-error" style="color:#f53d3d; font-size:70%" *ngIf="invalidField('firstName')" class="alert">
                 Este campo es requerido
-              </div>
+              </small>
 
             </ion-col>
             <ion-col size=6>
@@ -34,16 +34,16 @@
                 <ion-input formControlName="lastName" type="text" maxlength=20></ion-input>
               </ion-item>
 
-              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('lastName')" class="alert">
+              <small class="validation-error" style="color:#f53d3d; font-size:70%" *ngIf="invalidField('lastName')" class="alert">
                 Este campo es requerido
-              </div>
+              </small>
 
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col size=6>
-              <ion-item id="rounded" button>
+              <ion-item id="rounded">
                 <ion-label position="stacked" color="primary">Fecha de nacimiento *</ion-label>
                 <ion-input readonly
                     [liIonic4Datepicker]="datePickerObj"
@@ -51,9 +51,9 @@
                 </ion-input>
                 <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
               </ion-item>
-              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('birthDate')" class="alert">
+              <small class="validation-error" style="color:#f53d3d; font-size:70%" *ngIf="invalidField('birthDate')" class="alert">
                 Este campo es requerido
-              </div>
+              </small>
             </ion-col>
 
             <ion-col>
@@ -63,9 +63,9 @@
                 </ion-label>
                 <ion-input formControlName="city" type="text" maxlength=20></ion-input>
               </ion-item>
-              <div class="validation-error" style="color:#f53d3d; font-size:80%" *ngIf="invalidField('city')" class="alert">
+              <small class="validation-error" style="color:#f53d3d; font-size:70%" *ngIf="invalidField('city')" class="alert">
                 Este campo es requerido
-              </div>
+              </small>
             </ion-col>
           </ion-row>
 
@@ -101,7 +101,7 @@
           <br>
           <br>
           <ion-button type="submit" 
-            [disabled]="!myForm.valid"
+            [disabled]="!myForm.valid || isClicked"
             expand="block" 
             class="ion-text-uppercase ion-margin-top">
             Actualizar Paciente

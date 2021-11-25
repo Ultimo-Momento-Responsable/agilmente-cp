@@ -135,6 +135,15 @@ export class SpecificPatientPage implements OnInit {
   }
 
   /**
+   * Chequea si el profesional puede editar o eliminar el comentario
+   * @param comment comentario
+   * @returns verdadero o falso, según si puede o no borrar/editar el comentario
+   */
+  canEditOrRemoveComment(comment: any):boolean{
+    return ((comment.author.firstName + comment.author.lastName)==(window.localStorage.getItem('firstName') + window.localStorage.getItem('lastName')));
+  }
+
+  /**
    * Comienza a editar el comentario y se guarda el mismo en caso de que se cancele
    * @param comment comentario
    */

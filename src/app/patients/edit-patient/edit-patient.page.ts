@@ -19,6 +19,7 @@ export class EditPatientPage implements OnInit {
   minDate: Date;
   maxDate: Date;
   patient: any = {};
+  isClicked : boolean;
 
   //Verifica si el campo es invalido
   invalidField(field: string) {
@@ -95,6 +96,7 @@ export class EditPatientPage implements OnInit {
 
   // Guarda el paciente editado
   save(myForm: FormGroup){
+    this.isClicked = true;
     if (myForm.valid){
       let patient: any = {
         firstName: myForm.value.firstName,
@@ -113,6 +115,7 @@ export class EditPatientPage implements OnInit {
         this.presentAlert('¡Paciente editado!','El paciente ha sido editado correctamente.', true, 'alertSuccess');
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+        this.isClicked = false;
       });
     }
   }

@@ -231,7 +231,7 @@
                       <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
                         <ion-icon color="primary" name="information-circle"></ion-icon>
                         <ion-label>{{ p.param.name }}</ion-label>
-                        <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
+                        <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p)"></ion-toggle>
                       </ion-item>
                     </div>
                     <div *ngIf="p.param.type==2">
@@ -307,7 +307,7 @@
           </ion-col>
         </ion-row>
         <ion-button type="submit" *ngIf="isEditing"
-          [disabled]="submitDisabled()"
+          [disabled]="submitDisabled() || isClicked"
           expand="block" 
           class="ion-text-uppercase ion-margin-top">
           Actualizar Planificación

@@ -17,6 +17,7 @@ export class NewPatientPage implements OnInit {
   minDate: Date;
   maxDate: Date;
   datePickerObj: any = {};
+  isClicked: boolean;
 
   //Verifica si el campo es invalido
   invalidField(field: string) {
@@ -76,6 +77,7 @@ export class NewPatientPage implements OnInit {
 
   // Guarda el Paciente rellenado en el formulario
   save(myForm: FormGroup) {
+    this.isClicked = true;
     if (myForm.valid) {
       let code = this.createLoginCode()
       let patient: any = {
@@ -95,6 +97,7 @@ export class NewPatientPage implements OnInit {
         'Muéstrale este código a tu paciente para que pueda ingresar a la app. \n</p><h3>' + code + '</h3>', true, 'alertSuccess'); 
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+        this.isClicked = false;
       });
     }
   }

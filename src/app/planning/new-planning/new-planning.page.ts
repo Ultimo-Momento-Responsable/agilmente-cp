@@ -25,16 +25,17 @@ export class NewPlanningPage implements OnInit {
     private router: Router) { }
 
   patients: any [];
-  patientsSearch: any [];
+  patientsSearch: any [] = [];
   datePickerStart: any = {};
   datePickerFinish: any = {};
   myForm: FormGroup;
   assignedGames: any [] = [];
   planningGames: any [] = [];
   games: any [] = [];
-  gamesSearch: any [];
+  gamesSearch: any [] = [];
   isAdding: boolean = false;
-  patientBlur=false;
+  patientBlur = false;
+  isClicked: boolean;
 
   ngOnInit() {
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
@@ -120,7 +121,7 @@ export class NewPlanningPage implements OnInit {
     this.myForm.patchValue({"finishDate": moment(date).format('DD-MM-YYYY')})
   }
   // Filtra pacientes según la búsqueda
-  async filterPatient(evt){
+  filterPatient(evt){
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     } 
@@ -133,7 +134,7 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Filtra juegos según la búsqueda
-  async filterGame(evt){
+  filterGame(evt){
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
       if (search && this.gamesSearch){
@@ -297,6 +298,7 @@ export class NewPlanningPage implements OnInit {
   
   // Se formatea y se envía la planificación al back
   save(myForm: FormGroup) {
+    this.isClicked = true;
     let patientId: number;
     this.patients.forEach(p=>{
       if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()) == this.myForm.value.patient.toLowerCase()){
@@ -337,6 +339,7 @@ export class NewPlanningPage implements OnInit {
         this.presentAlert('¡Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
       }, (err) => {
         this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+        this.isClicked = false;
       });
     };
   }
