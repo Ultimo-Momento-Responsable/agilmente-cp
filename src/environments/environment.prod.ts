@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  ip: "24.232.158.21"
+  ip: "186.127.62.28"
 };
