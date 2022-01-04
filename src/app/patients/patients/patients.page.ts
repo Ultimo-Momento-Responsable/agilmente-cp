@@ -22,6 +22,7 @@ export class PatientsPage implements OnInit {
   formattedPatients: Patient[] = [];
   auxPatient: Patient;
   patients: any[] = [];
+  skeletonLoading = true;
   constructor(private patientsApiService: PatientsApiService) { }
 
   ngOnInit() {}
@@ -59,6 +60,7 @@ export class PatientsPage implements OnInit {
    * @param fullName valor para filtrar pacientes.
    */
   getPatientsFiltered(fullName: String) {
+    this.skeletonLoading = true;
     this.formattedPatients = [];
     this.pageNumber = 0; 
     if (fullName == "") {
@@ -89,6 +91,7 @@ export class PatientsPage implements OnInit {
         auxPatientList.push(this.auxPatient);
       })
       this.formattedPatients = auxPatientList;
+      this.skeletonLoading = false;
     });
   }
   getPatients(){
@@ -114,6 +117,7 @@ export class PatientsPage implements OnInit {
         }
   
         this.formattedPatients.push(this.auxPatient);
+        this.skeletonLoading = false;
       })
     });
     this.scrollDepthTriggered = false;
