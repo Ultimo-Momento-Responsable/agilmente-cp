@@ -35,6 +35,17 @@
                     </ion-searchbar>
                  </ion-item>
                 <div class="horizontal-cards ion-margin">
+                    <div class="item" *ngIf="this.skeletonLoading == true">
+                        <ngx-skeleton-loader 
+                            count="10" 
+                            [theme]="{
+                                width: '372px',
+                                height: '240px',
+                                'border-radius': '10px',
+                                'margin-right': '10px'
+                            }"
+                            ></ngx-skeleton-loader>
+                      </div>
                     <ion-card *ngFor="let patient of formattedPatients">
                         <ion-card-header>
                             <ion-row>
@@ -71,7 +82,7 @@
                         </ion-card-content>
                     </ion-card>
                 </div>
-                <h2 *ngIf="this.formattedPatients.length == 0">No se han encontrado resultados para la búsqueda</h2>
+                <h2 *ngIf="this.formattedPatients.length == 0 && this.skeletonLoading == false">No se han encontrado resultados para la búsqueda</h2>
             </div>
         </ion-col>
         <ion-col size="1"></ion-col>
