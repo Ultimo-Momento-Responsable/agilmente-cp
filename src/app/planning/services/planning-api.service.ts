@@ -14,8 +14,16 @@ export class PlanningApiService {
    * Obtiene todas las planificaciones vigentes sin juegos.
    * @returns Una pagina de planificaciones sin juegos.
    */
-  getPlanningsOverview(): Observable<any> {
+   getPlanningsOverview(): Observable<any> {
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/planningOverview`);
+  }
+
+  /**
+   * Obtiene todas las planificaciones vigentes sin juegos.
+   * @returns Una pagina de planificaciones sin juegos.
+   */
+   getPlanningsOverviewFiltered(search: string): Observable<any> {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/filter/${search}`);
   }
 
   /**
