@@ -91,6 +91,7 @@ export class PatientsPage implements OnInit {
         auxPatientList.push(this.auxPatient);
       })
       this.formattedPatients = auxPatientList;
+      this.sortPatients(this.formattedPatients);
       this.skeletonLoading = false;
     });
   }
@@ -119,8 +120,24 @@ export class PatientsPage implements OnInit {
         this.formattedPatients.push(this.auxPatient);
         this.skeletonLoading = false;
       })
+      this.sortPatients(this.formattedPatients);
     });
     this.scrollDepthTriggered = false;
+  }
+
+  sortPatients(patients) {
+    patients.sort(function (x, y) {
+      if  (x.lastName < y.lastName) {
+        return -1
+      } else if  (x.lastName > y.lastName) {
+        return 1
+      } else if (x.firstName < y.firstName) {
+        return -1;
+      } else if (x.firstName > y.firstName) {
+        return 1;
+      }
+      return 0;
+    })
   }
 
   /**
