@@ -9,7 +9,7 @@ import { PlanningApiService } from './services/planning-api.service';
 })
 export class PlanningPage implements OnInit {
   plannings: any[];
-
+  filteredPlannings: any[];
   constructor(
     private planningApiService: PlanningApiService,
     private navController: NavController
@@ -21,6 +21,7 @@ export class PlanningPage implements OnInit {
   ionViewWillEnter() {
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
       this.plannings = res.content;
+      this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
     });
   }
 
@@ -32,5 +33,33 @@ export class PlanningPage implements OnInit {
   goToPlanningDetail(planning: any) {
     this.navController.navigateForward([`planning/${planning.planningId}`]);
   }
+
+  /**
+   * Si se ingresa texto en el campo de busqueda de la planificación, obtiene las planificaciones que posean dicho texto.
+   * @param event Valor ingresado en el campo de busqueda de planificación
+   */
+  filterPlannings(event) {
+    const removeAccents = (str) => {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    } 
+    let search = removeAccents(event.srcElement.value)
+    if (search == ''){
+      this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
+    } else{
+      this.getPlanningsFiltered(search)
+    }
+  }
+
+  /**
+   * Obtiene las planificaciones de una pagina especifica, filtra por nombre, nombre y/o apellido de paciente 
+   * si se provee un valor en el campo de busqueda.
+   * @param search valor para filtrar planificaciones.
+   */
+  getPlanningsFiltered(search: string) {
+    this.planningApiService.getPlanningsOverviewFiltered(search).subscribe((res) => {
+      this.filteredPlannings = res.content;
+    });
+  }
+
 
 }

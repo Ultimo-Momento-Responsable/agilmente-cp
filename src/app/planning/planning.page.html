@@ -18,19 +18,31 @@
       </ion-button>
     </ion-card>
     <div *ngIf="this.plannings?.length !== 0">
-        <div class="horizontal-cards ion-padding ion-margin">
-            <ion-button [routerLink]="['./new-planning']">
-                <ion-icon name="phone-portrait-outline"></ion-icon>
-                <p class="ion-margin">Nueva planificacion</p>
-            </ion-button>
-        </div>
-        <div class="horizontal-cards ion-margin">
-            <app-planning-card
-            *ngFor="let planning of this.plannings"
-            (click)="this.goToPlanningDetail(planning)"
-            [planning]="planning"
-            ></app-planning-card>
-        </div>
+      <div class="horizontal-cards ion-padding ion-margin">
+        <ion-button [routerLink]="['./new-planning']">
+            <ion-icon name="phone-portrait-outline"></ion-icon>
+            <p class="ion-margin">Nueva planificacion</p>
+        </ion-button>
+      </div>
+      <ion-item id="rounded">
+        <ion-label position="stacked" color="primary">Busqueda por nombre de planificacion o por paciente</ion-label>
+        <ion-searchbar
+        animated 
+        showCancelButton="focus" 
+        placeholder="Nombre o apellido"
+        (ionInput)="filterPlannings($event)"
+        >
+        </ion-searchbar>
+      </ion-item>
+      <div class="horizontal-cards ion-margin">
+          <app-planning-card
+          *ngFor="let planning of this.filteredPlannings"
+          (click)="this.goToPlanningDetail(planning)"
+          [planning]="planning"
+          ></app-planning-card>
+      </div>
+      
+      <h2 *ngIf="this.filteredPlannings?.length == 0">No se han encontrado resultados para la búsqueda</h2>
     </div>
 </ion-col>
 <ion-col size="1"></ion-col>
