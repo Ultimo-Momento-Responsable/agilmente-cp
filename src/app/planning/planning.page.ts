@@ -34,6 +34,10 @@ export class PlanningPage implements OnInit {
     this.navController.navigateForward([`planning/${planning.planningId}`]);
   }
 
+  /**
+   * Si se ingresa texto en el campo de busqueda de la planificación, obtiene las planificaciones que posean dicho texto.
+   * @param event Valor ingresado en el campo de busqueda de planificación
+   */
   filterPlannings(event) {
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -46,6 +50,11 @@ export class PlanningPage implements OnInit {
     }
   }
 
+  /**
+   * Obtiene las planificaciones de una pagina especifica, filtra por nombre, nombre y/o apellido de paciente 
+   * si se provee un valor en el campo de busqueda.
+   * @param search valor para filtrar planificaciones.
+   */
   getPlanningsFiltered(search: string) {
     this.planningApiService.getPlanningsOverviewFiltered(search).subscribe((res) => {
       this.filteredPlannings = res.content;
