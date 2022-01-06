@@ -36,6 +36,7 @@ export class NewPlanningPage implements OnInit {
   isAdding: boolean = false;
   patientBlur = false;
   isClicked: boolean;
+  professionalId: string;
 
   ngOnInit() {
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
@@ -299,6 +300,7 @@ export class NewPlanningPage implements OnInit {
   // Se formatea y se envía la planificación al back
   save(myForm: FormGroup) {
     this.isClicked = true;
+    this.professionalId = window.localStorage.getItem('professionalId');
     let patientId: number;
     this.patients.forEach(p=>{
       if ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()) == this.myForm.value.patient.toLowerCase()){
@@ -330,7 +332,7 @@ export class NewPlanningPage implements OnInit {
         patientId: patientId,
         planningName: myForm.value.planningName,
         stateId: 1,
-        professionalId: 1,
+        professionalId: this.professionalId,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
         games: gamesPost

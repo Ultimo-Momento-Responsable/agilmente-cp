@@ -42,6 +42,7 @@ export class LoginPage implements OnInit {
           window.localStorage.setItem('token', professional.token);
           window.localStorage.setItem('firstName', professional.firstName);
           window.localStorage.setItem('lastName', professional.lastName);
+          window.localStorage.setItem('professionalId', professional.id);
           this.router.navigate(["/patients"]);
         } else {
           this.errorLogin = true;
