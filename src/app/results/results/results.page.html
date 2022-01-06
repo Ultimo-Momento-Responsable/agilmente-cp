@@ -5,13 +5,24 @@
 </ion-header>
 
 <ion-content>
+  <div class="item" *ngIf="this.skeletonLoading == true">
+    <ngx-skeleton-loader 
+        count="10" 
+        [theme]="{
+            height: '220px',
+            'border-radius': '10px',
+            'margin-left': '10px',
+            'margin-top': '10px'
+        }"
+        ></ngx-skeleton-loader>
+  </div>
   <app-result-card
     *ngFor="let result of this.results"
     (click)="this.goToSubresults(result)"
     [result]="result"
   ></app-result-card>
 
-  <div *ngIf="!results || results.length === 0">
+  <div *ngIf="(!results || results.length === 0) && skeletonLoading == false">
     <ion-card>
       <ion-card-header>
         <ion-card-title>¡No hay resultados para mostrar!</ion-card-title>

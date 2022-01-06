@@ -3,6 +3,8 @@ import { ResultsRoutingModule } from './results-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [ResultsRoutingModule],
+  imports: [
+    ResultsRoutingModule
+  ],
 })
 export class ResultsModule {}
