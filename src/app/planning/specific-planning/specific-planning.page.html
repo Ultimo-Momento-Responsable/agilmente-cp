@@ -31,7 +31,7 @@
       </ion-button>
       </ion-title>
       <form [formGroup]="myForm" (ngSubmit)="edit(myForm)" *ngIf='!this.isLoading'>
-
+        
         <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Paciente</ion-label>
           <ion-searchbar 
@@ -54,6 +54,11 @@
           </ion-list>
         </ion-item>
         <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
+        
+        <ion-item id="rounded">
+          <ion-label position="stacked" color="primary">Profesional</ion-label>
+          <ion-input formControlName="professionalName" [disabled]="true"></ion-input>
+        </ion-item>
 
         <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Nombre de la planificación</ion-label>

@@ -51,6 +51,7 @@ export class SpecificPlanningPage implements OnInit {
   planningName: string;
   isLoading: boolean;
   isClicked: boolean;
+  professionalName: string;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -125,6 +126,7 @@ export class SpecificPlanningPage implements OnInit {
     this.myForm = new FormGroup({
       patient: new FormControl('', Validators.required),
       planningName: new FormControl(''),
+      professionalName: new FormControl(''),
       startDate: new FormControl('', Validators.required),
       finishDate: new FormControl('', Validators.required),
       games: new FormControl('', Validators.required)
@@ -427,7 +429,7 @@ export class SpecificPlanningPage implements OnInit {
       let jsonPost = {
         patientId: patientId,
         stateId: 1,
-        professionalId: 1,
+        professionalId: window.localStorage.getItem('professionalId'),
         planningName: myForm.value.planningName,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
@@ -487,6 +489,7 @@ export class SpecificPlanningPage implements OnInit {
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
         planningName: res.planningName,
+        professionalName: res.professionalFirstName + " " + res.professionalLastName,
         startDate: res.startDate,
         finishDate: res.dueDate,
         games: null
