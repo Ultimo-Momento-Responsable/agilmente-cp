@@ -130,8 +130,11 @@ export class PatientsPage implements OnInit {
   filterPatientCard(event) {
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    } 
+    }
     let search = removeAccents(event.srcElement.value)
+    while (search.substring(0,1) == " ") {
+      search = search.substring(1)
+    }
     this.getPatientsFiltered(search)
   }
 

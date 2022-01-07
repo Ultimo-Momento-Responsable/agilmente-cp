@@ -44,8 +44,11 @@ export class PlanningPage implements OnInit {
     this.skeletonLoading = true;
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    } 
-    let search = removeAccents(event.srcElement.value)
+    }
+    let search : string = removeAccents(event.srcElement.value)
+    while (search.substring(0,1) == " ") {
+      search = search.substring(1)
+    }
     if (search == ''){
       this.skeletonLoading = false;
       this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
