@@ -35,6 +35,16 @@
         </ion-searchbar>
       </ion-item>
       <div class="horizontal-cards ion-margin">
+        <div class="item" *ngIf="this.skeletonLoading == true">
+          <ngx-skeleton-loader 
+              count="2" 
+              [theme]="{
+                  height: '180px',
+                  'border-radius': '10px',
+                  'margin-right': '20px'
+              }"
+              ></ngx-skeleton-loader>
+        </div>
           <app-planning-card
           *ngFor="let planning of this.filteredPlannings"
           (click)="this.goToPlanningDetail(planning)"
@@ -42,7 +52,7 @@
           ></app-planning-card>
       </div>
       
-      <h2 *ngIf="this.filteredPlannings?.length == 0">No se han encontrado resultados para la búsqueda</h2>
+      <h2 *ngIf="this.filteredPlannings?.length == 0 && this.skeletonLoading == false">No se han encontrado resultados para la búsqueda</h2>
     </div>
 </ion-col>
 <ion-col size="1"></ion-col>

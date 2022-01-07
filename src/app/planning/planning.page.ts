@@ -10,6 +10,7 @@ import { PlanningApiService } from './services/planning-api.service';
 export class PlanningPage implements OnInit {
   plannings: any[];
   filteredPlannings: any[];
+  skeletonLoading = true;
   constructor(
     private planningApiService: PlanningApiService,
     private navController: NavController
@@ -22,6 +23,7 @@ export class PlanningPage implements OnInit {
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
       this.plannings = res.content;
       this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
+      this.skeletonLoading = false;
     });
   }
 
@@ -39,11 +41,13 @@ export class PlanningPage implements OnInit {
    * @param event Valor ingresado en el campo de busqueda de planificación
    */
   filterPlannings(event) {
+    this.skeletonLoading = true;
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     } 
     let search = removeAccents(event.srcElement.value)
     if (search == ''){
+      this.skeletonLoading = false;
       this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
     } else{
       this.getPlanningsFiltered(search)
@@ -58,6 +62,7 @@ export class PlanningPage implements OnInit {
   getPlanningsFiltered(search: string) {
     this.planningApiService.getPlanningsOverviewFiltered(search).subscribe((res) => {
       this.filteredPlannings = res.content;
+      this.skeletonLoading = false;
     });
   }
 
