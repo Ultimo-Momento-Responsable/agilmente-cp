@@ -8,6 +8,7 @@ import { ResultsApiService } from '../shared-results/services/results-api/result
 })
 export class ResultsPage implements OnInit {
   results: any[];
+  skeletonLoading = true;
 
   constructor(
     private resultsApiService: ResultsApiService,
@@ -19,6 +20,7 @@ export class ResultsPage implements OnInit {
   ionViewWillEnter() {
     this.resultsApiService.getResults().subscribe((res) => {
       this.results = res.content;
+      this.skeletonLoading = false;
     });
   }
 
