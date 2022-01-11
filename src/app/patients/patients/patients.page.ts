@@ -95,7 +95,8 @@ export class PatientsPage implements OnInit {
       this.skeletonLoading = false;
     });
   }
-  getPatients(){
+
+  getPatients() {
     this.patientsApiService.getActivePatients(this.pageNumber).subscribe(res =>{
       res.content.forEach(p => {
         const textDate = p.bornDate.split('-');

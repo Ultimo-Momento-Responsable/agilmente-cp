@@ -4,10 +4,10 @@ ion-toolbar.md ion-content {
     --padding-top: 20px;
     --padding-bottom: 20px;
 }
+
 .horizontal-cards {
-    ion-card {
-        display: inline-block;
-        width: 360px;
-        height: 256px;
-    }
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-content: center;
 }

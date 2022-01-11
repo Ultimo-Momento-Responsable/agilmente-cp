@@ -18,23 +18,32 @@
         </ion-button>
       </ion-card>
       <div *ngIf="this.patients.length !== 0">
-        <div class="horizontal-cards ion-padding ion-margin">
+        <div class="ion-padding ion-margin">
           <ion-button [routerLink]="['../new-patient']">
             <ion-icon name="person-add-outline"></ion-icon>
             <p class="ion-margin">Nuevo Paciente</p>
           </ion-button>
         </div>
-        <ion-item id="rounded">
-          <ion-label position="stacked" color="primary"
-            >Busqueda por paciente</ion-label
-          >
-          <ion-searchbar
-            animated
-            showCancelButton="focus"
-            placeholder="Nombre o apellido"
-            (ionInput)="filterPatientCard($event)"
-          ></ion-searchbar>
-        </ion-item>
+        <div>
+          <form>
+            <div>
+              <ion-label position="stacked" color="primary">
+                Busqueda por paciente
+              </ion-label>
+              <ion-searchbar
+                animated
+                showCancelButton="focus"
+                placeholder="Nombre o apellido"
+                (ionInput)="filterPatientCard($event)"
+              ></ion-searchbar>
+            </div>
+            <div>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Incluir pacientes deshabilitados</ion-label>
+            </div>
+          </form>
+        </div>
+        
         <div class="horizontal-cards ion-margin">
           <div class="item" *ngIf="this.skeletonLoading == true">
             <ngx-skeleton-loader
@@ -47,47 +56,9 @@
                             }"
             ></ngx-skeleton-loader>
           </div>
-          <ion-card *ngFor="let patient of formattedPatients">
-            <ion-card-header>
-              <ion-row>
-                <ion-col size="3">
-                  <div>
-                    <ion-avatar slot="start" style="max-width: fit-content">
-                      <img src="../../../assets/default_avatar.png" />
-                    </ion-avatar>
-                  </div>
-                </ion-col>
-                <ion-col size="7">
-                  <h4>{{patient.lastName}} {{patient.firstName}}</h4>
-                </ion-col>
-                <ion-col size="2">
-                  <ion-button
-                    color="light"
-                    style="--border-radius: 20px"
-                    [routerLink]="['../edit-patient',patient.id]"
-                  >
-                    <ion-icon name="pencil-outline" item-right></ion-icon>
-                  </ion-button>
-                </ion-col>
-              </ion-row>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-label> Edad: {{patient.age}} <br /><br /> </ion-label>
-              <ion-label> {{patient.description}} </ion-label> <br />
-              <br />
-              <ion-button
-                style="float: right"
-                color="light"
-                fill="clear"
-                [routerLink]="['./',patient.id]"
-              >
-                <ion-icon name="add-outline" color="primary"></ion-icon>
-                <ion-label class="ion-margin" color="primary"
-                  >Ver más</ion-label
-                >
-              </ion-button>
-            </ion-card-content>
-          </ion-card>
+          <div *ngFor="let patient of formattedPatients">
+            <app-patient-card [patient]="patient"></app-patient-card>
+          </div>
         </div>
         <h2
           *ngIf="this.formattedPatients.length == 0 && this.skeletonLoading == false"
