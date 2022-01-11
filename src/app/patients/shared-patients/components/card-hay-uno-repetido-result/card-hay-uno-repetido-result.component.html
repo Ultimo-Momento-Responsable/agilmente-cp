@@ -1,15 +1,31 @@
 <ion-row>
+  <p *ngIf="this.selectedValue!=-1">Se mostrarán los últimos</p>
+  <p *ngIf="this.selectedValue==-1">Se mostrarán</p>
+  <ion-select interface="popover" 
+              value="{{ this.resultsSelected }}" 
+              (ionChange)="optionsFn($event);" 
+  >
+    <ion-select-option value=-1>Todos</ion-select-option>
+    <ion-select-option value=5>5</ion-select-option>
+    <ion-select-option value=10>10</ion-select-option>
+    <ion-select-option value=15>15</ion-select-option>
+    <ion-select-option value=20>20</ion-select-option>
+  </ion-select>
+  <p *ngIf="this.selectedValue!=-1"> resultados</p>
+  <p *ngIf="this.selectedValue==-1"> los resultados</p>
+</ion-row>
+<ion-row>
   <ion-col>
     <app-hay-uno-repetido-results-performance-graph 
-      [results]="this.results.results"
+      [results]="this.finalResults"
     ></app-hay-uno-repetido-results-performance-graph>
     <app-hay-uno-repetido-results-time-graph
-      [results]="this.results.results"
+      [results]="this.finalResults"
     ></app-hay-uno-repetido-results-time-graph>
   </ion-col>
   <ion-col>
     <app-hay-uno-repetido-results-general-table
-      [results]="this.results.results"
+      [results]="this.finalResults"
     ></app-hay-uno-repetido-results-general-table>
   </ion-col>
 </ion-row>

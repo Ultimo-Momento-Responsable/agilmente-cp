@@ -25,7 +25,7 @@ export class HayUnoRepetidoResultsPerformanceGraphComponent
   /**
    * Dibuja el gráfico de resultados históricos del paciente.
    */
-  createLineCumulative() {
+  public createLineCumulative() {
     Chart.register(...registerables, annotationPlugin);
     let graphResults = JSON.parse(JSON.stringify(this.results));
     let label = graphResults.map((r, i) => `Partida ${i + 1}`);
