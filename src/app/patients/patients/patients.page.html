@@ -24,22 +24,23 @@
             <p class="ion-margin">Nuevo Paciente</p>
           </ion-button>
         </div>
-        <div>
-          <form>
-            <div>
-              <ion-label position="stacked" color="primary">
-                Busqueda por paciente
-              </ion-label>
+        <div class="fc">
+          <ion-label class="fc__label" position="stacked" color="primary">
+            Busqueda por paciente
+          </ion-label>
+          <form class="fc__form">
+            <div class="fc__form__searchbar_container">
               <ion-searchbar
+                class="fc__form__searchbar_container__searchbar"
                 animated
                 showCancelButton="focus"
                 placeholder="Nombre o apellido"
                 (ionInput)="filterPatientCard($event)"
               ></ion-searchbar>
             </div>
-            <div>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Incluir pacientes deshabilitados</ion-label>
+            <div class="fc__form__checkbox_container">
+              <ion-checkbox class="fc__form__checkbox_container__checkbox"></ion-checkbox>
+              <ion-label class="fc__form__checkbox_container__label">Incluir pacientes deshabilitados</ion-label>
             </div>
           </form>
         </div>
@@ -49,11 +50,11 @@
             <ngx-skeleton-loader
               count="10"
               [theme]="{
-                                width: '372px',
-                                height: '240px',
-                                'border-radius': '10px',
-                                'margin-right': '10px'
-                            }"
+                width: '372px',
+                height: '240px',
+                'border-radius': '10px',
+                'margin-right': '10px'
+              }"
             ></ngx-skeleton-loader>
           </div>
           <div *ngFor="let patient of formattedPatients">

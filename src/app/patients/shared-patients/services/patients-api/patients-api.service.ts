@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -48,9 +48,13 @@ export class PatientsApiService {
    * @param fullName Nombre completo del paciente, ignorando casing.
    * @returns Una página de pacientes.
    */
-   getFilteredPatients(fullName: String): Observable<any> {
-     return this.http.get(`http://${environment.ip}:8080/${this.entity}/fn/${fullName}`);
-   }
+  getFilteredPatients(fullName?: string, all?: boolean): Observable<any> {
+    const params = new HttpParams();
+    params.set('fullName', fullName);
+    params.set('all', all);
+    
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/`, { params });
+  }
 
   /**
   * Obtiene un paciente a partir del id.

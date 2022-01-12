@@ -59,7 +59,7 @@ export class PatientsPage implements OnInit {
    * Obtiene los pacientes de una pagina especifica, filtra por nombre o apellido si se provee un valor en el campo de busqueda.
    * @param fullName valor para filtrar pacientes.
    */
-  getPatientsFiltered(fullName: String) {
+  getPatientsFiltered(fullName: string) {
     this.skeletonLoading = true;
     this.formattedPatients = [];
     this.pageNumber = 0; 
