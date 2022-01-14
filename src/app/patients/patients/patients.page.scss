@@ -5,11 +5,21 @@ ion-toolbar.md ion-content {
     --padding-bottom: 20px;
 }
 
-.horizontal-cards {
+.patients_container {
     width: 100%;
-    display: grid;
-    align-items: center;
-    justify-content: center;
+
+    &__patient_item {
+        display: inline-grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        align-items: center;
+        justify-items: center;
+
+        &__card {
+            display: flex;
+            justify-items: center;
+            align-items: center;
+        }
+    }
 }
 
 .fc {

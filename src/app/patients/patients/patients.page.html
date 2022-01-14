@@ -7,8 +7,8 @@
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <ion-row>
     <ion-col size="1"></ion-col>
-    <ion-col>
-      <ion-card class="ion-padding" *ngIf="this.patients.length === 0">
+    <ion-col *ngIf="!this.isLoadingPage">
+      <ion-card class="ion-padding" *ngIf="!this.hasRegisteredPatients">
         <ion-text>
           <h2>No se encontró ningún paciente. ¿Quieres cargar uno?</h2>
         </ion-text>
@@ -17,7 +17,7 @@
           <p class="ion-margin">Crear paciente</p>
         </ion-button>
       </ion-card>
-      <div *ngIf="this.patients.length !== 0">
+      <div *ngIf="this.hasRegisteredPatients">
         <div class="ion-padding ion-margin">
           <ion-button [routerLink]="['../new-patient']">
             <ion-icon name="person-add-outline"></ion-icon>
@@ -28,41 +28,50 @@
           <ion-label class="fc__label" position="stacked" color="primary">
             Busqueda por paciente
           </ion-label>
-          <form class="fc__form">
+          <form class="fc__form" [formGroup]="this.searchForm">
             <div class="fc__form__searchbar_container">
               <ion-searchbar
                 class="fc__form__searchbar_container__searchbar"
                 animated
                 showCancelButton="focus"
+                formControlName='searchText'
                 placeholder="Nombre o apellido"
-                (ionInput)="filterPatientCard($event)"
               ></ion-searchbar>
             </div>
             <div class="fc__form__checkbox_container">
-              <ion-checkbox class="fc__form__checkbox_container__checkbox"></ion-checkbox>
-              <ion-label class="fc__form__checkbox_container__label">Incluir pacientes deshabilitados</ion-label>
+              <ion-checkbox formControlName='includeDisabledPatients' class="fc__form__checkbox_container__checkbox"></ion-checkbox>
+              <ion-label class="fc__form__checkbox_container__label" (click)="this.toggleCheckbox()">Incluir pacientes deshabilitados</ion-label>
             </div>
           </form>
         </div>
         
-        <div class="horizontal-cards ion-margin">
-          <div class="item" *ngIf="this.skeletonLoading == true">
-            <ngx-skeleton-loader
-              count="10"
-              [theme]="{
-                width: '372px',
-                height: '240px',
-                'border-radius': '10px',
-                'margin-right': '10px'
-              }"
-            ></ngx-skeleton-loader>
+        <div class="patients_container ion-margin">
+          <div *ngIf="this.skeletonLoading">
+            <div class="patients_container__patient_item" *ngIf="this.skeletonLoading">
+              
+              <div class="patients_container__patient_item__card">
+              <ngx-skeleton-loader
+                count="10"
+                [theme]="{
+                  width: '372px',
+                  height: '240px',
+                  'border-radius': '10px',
+                  'margin-right': '10px'
+                }"
+              ></ngx-skeleton-loader>
+            </div>
+            </div>
           </div>
-          <div *ngFor="let patient of formattedPatients">
-            <app-patient-card [patient]="patient"></app-patient-card>
+          <div *ngIf="!this.skeletonLoading">
+            <div class="patients_container__patient_item" *ngFor="let patient of this.patients">
+              <div class="patients_container__patient_item__card">
+                <app-patient-card [patient]="patient"></app-patient-card>
+              </div>
+            </div>
           </div>
         </div>
         <h2
-          *ngIf="this.formattedPatients.length == 0 && this.skeletonLoading == false"
+          *ngIf="this.patients.length == 0 && this.skeletonLoading == false"
         >
           No se han encontrado resultados para la búsqueda
         </h2>

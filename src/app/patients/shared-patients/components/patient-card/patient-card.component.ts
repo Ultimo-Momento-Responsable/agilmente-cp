@@ -14,10 +14,16 @@ export class PatientCardComponent implements OnInit {
 
   ngOnInit() {}
 
+  /**
+   * Redirije al usuario a la página de editar paciente.
+   */
   goToEditPatient() {
     this.navController.navigateForward(['/edit-patient/', this.patient.id]);
   }
 
+  /**
+   * Redirije al usuario a la página de detalle paciente.
+   */
   goToPatientDetail() {
     this.navController.navigateForward(['/patients/', this.patient.id]);
   }

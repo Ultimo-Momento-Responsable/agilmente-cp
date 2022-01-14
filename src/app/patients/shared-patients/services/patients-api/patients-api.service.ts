@@ -12,22 +12,6 @@ export class PatientsApiService {
   constructor(private http: HttpClient) { }
 
   /**
-  * Obtiene todos los Pacientes cargados, independientemente de si se encuentran habilitados.
-  * @return Una página de pacientes.
-  */
-   getPatients(page: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}?page=${page}`);
-  }
-
-  /**
-  * Obtiene todos los Pacientes cargados que se encuentren habilitados.
-  * @return Una página de pacientes.
-  */
-   getActivePatients(page: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/activePatients?page=${page}`);
-  }
-
-  /**
   * Obtiene todos los Pacientes cargados que se encuentren habilitados.
   * @return Una página de pacientes.
   */
@@ -48,10 +32,10 @@ export class PatientsApiService {
    * @param fullName Nombre completo del paciente, ignorando casing.
    * @returns Una página de pacientes.
    */
-  getFilteredPatients(fullName?: string, all?: boolean): Observable<any> {
-    const params = new HttpParams();
-    params.set('fullName', fullName);
-    params.set('all', all);
+  getFilteredPatients(fullName: string = "", all: boolean = false): Observable<any> {
+    const params = new HttpParams()
+      .set('fullName', fullName)
+      .set('all', all);
     
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/`, { params });
   }
