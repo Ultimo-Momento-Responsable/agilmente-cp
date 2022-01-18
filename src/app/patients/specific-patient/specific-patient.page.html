@@ -72,7 +72,7 @@
                 </h5>
                 <ion-button style="float: right" (click)="this.unlinkPatient()">
                   <ion-icon name="log-out-outline"></ion-icon>
-                  <p class="ion-padding">Desvincular</p>
+                  <p class="ion-margin">Desvincular</p>
                 </ion-button>
               </div>
               <div
@@ -85,7 +85,7 @@
                 <ion-button style="float: right" (click)="this.resetCode()" [disabled]="this.patient?.enabled == false"
                 >
                   <ion-icon name="log-out-outline"></ion-icon>
-                  <p class="ion-padding">Generar Código</p>
+                  <p class="ion-margin">Generar Código</p>
                 </ion-button>
               </div>
             </ion-col>
@@ -122,10 +122,8 @@
           </ion-row>
           <ion-row>
             <ion-col size="6">
-              <ion-item id="rounded" button>
-                <ion-label position="stacked" color="primary"
-                  >Fecha de nacimiento</ion-label
-                >
+              <ion-item id="rounded">
+                <ion-label position="stacked" color="primary">Fecha de nacimiento</ion-label>
                 <ion-input
                   [disabled]="true"
                   readonly
@@ -154,7 +152,7 @@
           </ion-row>
           <ion-row>
             <ion-col size=6>
-              <ion-item id="rounded" button>
+              <ion-item id="rounded">
                 <ion-label position="stacked" color="primary">Teléfono</ion-label>
                 <ion-input [disabled]="true" type="text" formControlName="telephone">
                 </ion-input>
