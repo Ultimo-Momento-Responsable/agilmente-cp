@@ -9,10 +9,15 @@ import { Patient } from 'src/app/patients/patients/patients.page';
 })
 export class PatientCardComponent implements OnInit {
   @Input() patient: Patient;
+  class: string;
 
   constructor(private navController: NavController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.patient.isEnabled) {
+      this.class = 'disabled';
+    }
+  }
 
   /**
    * Redirije al usuario a la página de editar paciente.

@@ -1,4 +1,4 @@
-<ion-card class="pc">
+<ion-card class="pc" [ngClass]="this.class">
   <ion-card-header>
     <ion-row>
       <ion-col size="3">
@@ -9,7 +9,8 @@
         </div>
       </ion-col>
       <ion-col size="7">
-        <h4>{{patient.lastName}} {{patient.firstName}}</h4>
+        <h4 class="name-text">{{patient.lastName}} {{patient.firstName}}</h4>
+        <ion-chip class="ion-no-margin disabled-chip" *ngIf="!this.patient.isEnabled">Paciente deshabilitado</ion-chip>
       </ion-col>
       <ion-col size="2">
         <ion-button
