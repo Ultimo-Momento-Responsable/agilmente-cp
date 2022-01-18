@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 export interface Patient {
   id: number,
@@ -17,21 +18,26 @@ export interface Patient {
 })
 
 export class PatientsPage implements OnInit {
+  isLoadingPage = true;
+  hasRegisteredPatients = false;
   scrollDepthTriggered = false;
   pageNumber = 0;
-  formattedPatients: Patient[] = [];
-  auxPatient: Patient;
-  patients: any[] = [];
+  patients: Patient[] = [];
   skeletonLoading = true;
-  constructor(private patientsApiService: PatientsApiService) { }
+  searchForm: FormGroup = this.formBuilder.group({
+    searchText: [''],
+    includeDisabledPatients: [false]
+  });
+
+  constructor(private patientsApiService: PatientsApiService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit() {}
 
-  ionViewDidEnter(){
+  ionViewWillEnter() {
     this.pageNumber = 0;
-    this.formattedPatients = [];
-    this.getPatients();
-    this.patients = this.formattedPatients;
+    this.filterPatients();
+    this.searchForm.valueChanges.subscribe(() => this.filterPatients());
   }
 
   /**
@@ -41,15 +47,15 @@ export class PatientsPage implements OnInit {
    * @param year Año en el que nació
    * @returns Edad del paciente
    */
-  calculateAge(day:number, month:number, year:number) : number{
+  private static calculateAge(day:number, month:number, year:number) : number {
     const currentDate = new Date();
     let difYear = currentDate.getFullYear() - year; 
     let difMonth = (currentDate.getMonth()+1) - month;
     let difDay = currentDate.getDate() - day;
-    if (difDay<0){
+    if (difDay < 0){
       difMonth--;
     }
-    if (difMonth<0){
+    if (difMonth < 0){
       difYear--;
     }
     return difYear
@@ -59,96 +65,72 @@ export class PatientsPage implements OnInit {
    * Obtiene los pacientes de una pagina especifica, filtra por nombre o apellido si se provee un valor en el campo de busqueda.
    * @param fullName valor para filtrar pacientes.
    */
-  getPatientsFiltered(fullName: String) {
+  getPatientsFiltered(fullName: string) {
     this.skeletonLoading = true;
-    this.formattedPatients = [];
     this.pageNumber = 0; 
-    if (fullName == "") {
-      this.getPatients();
-    }
-    let auxPatientList = []
-    this.patientsApiService.getFilteredPatients(fullName).subscribe(res =>{
-      res.content.forEach(p => {
-        const textDate = p.bornDate.split('-');
-        const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
-        let description = p.description
-        if (description){
-          description = p.description.substring(0,45)
-          if (description.length == 45) {
-            description += '...'
-          }
-        }
-        
-        this.auxPatient = {
-          "id": p.id,
-          "firstName": p.firstName,
-          "lastName": p.lastName,
-          "description": description,
-          "age": calculatedAge,
-          "city": p.city
-        }
-        
-        auxPatientList.push(this.auxPatient);
-      })
-      this.formattedPatients = auxPatientList;
-      this.sortPatients(this.formattedPatients);
+    this.patientsApiService.getFilteredPatients(fullName, this.searchForm.value.includeDisabledPatients).subscribe((res) => {
+      if (res.content.length > 0) {
+        this.hasRegisteredPatients = true;
+      
+        this.patients = res.content.map(this.formatPatient);
+        this.patients.sort(this.isPatientAlphabeticallyBefore);
+      } else {
+        this.patients = [];
+      }
+      
+      this.isLoadingPage = false;
       this.skeletonLoading = false;
     });
   }
-  getPatients(){
-    this.patientsApiService.getActivePatients(this.pageNumber).subscribe(res =>{
-      res.content.forEach(p => {
-        const textDate = p.bornDate.split('-');
-        const calculatedAge = this.calculateAge(textDate[0],textDate[1],textDate[2]);
-        let description = p.description
-        if (description){
-          description = p.description.substring(0,45)
-          if (description.length == 45) {
-            description += '...'
-          }
-        }
-        
-        this.auxPatient = {
-          "id": p.id,
-          "firstName": p.firstName,
-          "lastName": p.lastName,
-          "description": description,
-          "age": calculatedAge,
-          "city": p.city
-        }
-  
-        this.formattedPatients.push(this.auxPatient);
-        this.skeletonLoading = false;
-      })
-      this.sortPatients(this.formattedPatients);
-    });
-    this.scrollDepthTriggered = false;
+
+
+  /**
+   * Función que ordena los pacientes alfabéticamente.
+   * @param x Paciente 1.
+   * @param y Paciente 2.
+   * @returns Un número que representa el orden en que van los pacientes.
+   */
+  private isPatientAlphabeticallyBefore(x: Patient, y: Patient): number {
+    if  (x.lastName < y.lastName) {
+      return -1
+    } else if  (x.lastName > y.lastName) {
+      return 1
+    } else if (x.firstName < y.firstName) {
+      return -1;
+    } else if (x.firstName > y.firstName) {
+      return 1;
+    }
+    return 0;
   }
 
-  sortPatients(patients) {
-    patients.sort(function (x, y) {
-      if  (x.lastName < y.lastName) {
-        return -1
-      } else if  (x.lastName > y.lastName) {
-        return 1
-      } else if (x.firstName < y.firstName) {
-        return -1;
-      } else if (x.firstName > y.firstName) {
-        return 1;
+  /**
+   * Función que formatea los pacientes que llegan desde el back para mostrarlos.
+   * @param patient Paciente que llega del back.
+   * @returns Un paciente formateado.
+   */
+  private formatPatient(patient: any): Patient {
+    const textDate = patient.bornDate.split('-');
+    patient.age = PatientsPage.calculateAge(textDate[0], textDate[1], textDate[2]);
+
+    if (patient.description) {
+      patient.description = patient.description.substring(0, 45);
+      if (patient.description.length == 45) {
+        patient.description += '...';
       }
-      return 0;
-    })
+    }
+
+    return patient;
   }
 
   /**
    * Si se ingresa texto en el campo de busqueda de paciente, obtiene los pacientes que posean dicho texto.
    * @param event Valor ingresado en el campo de busqueda de paciente
    */
-  filterPatientCard(event) {
+  filterPatients() {
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
-    let search = removeAccents(event.srcElement.value)
+    let search = removeAccents(this.searchForm.value.searchText)
     while (search.substring(0,1) == " ") {
       search = search.substring(1)
     }
@@ -180,12 +162,19 @@ export class PatientsPage implements OnInit {
 
     let triggerDepth = ((scrollHeight / 100) * targetPercent);
 
-    if(currentScrollDepth > triggerDepth && this.formattedPatients.length % 20 == 0) {
-      if (this.formattedPatients.length == (this.pageNumber+1)*20){
+    if(currentScrollDepth > triggerDepth && this.patients.length % 20 == 0) {
+      if (this.patients.length == (this.pageNumber+1)*20){
         this.scrollDepthTriggered = true;
         this.pageNumber++; 
-        this.getPatients();
+        this.filterPatients();
       }
     }
+  }
+
+  /**
+   * Cambia el estado de la checkbox cuando se presiona el texto
+   */
+  toggleCheckbox() {
+    this.searchForm.patchValue({includeDisabledPatients: !this.searchForm.value.includeDisabledPatients})
   }
 }
