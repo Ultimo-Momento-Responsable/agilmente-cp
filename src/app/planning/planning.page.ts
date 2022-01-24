@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { PlanningApiService } from './services/planning-api.service';
 
@@ -6,18 +6,33 @@ import { PlanningApiService } from './services/planning-api.service';
   selector: 'app-planning',
   templateUrl: './planning.page.html',
   styleUrls: ['./planning.page.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class PlanningPage implements OnInit {
   plannings: any[];
+  planningStates: any[] = [];
   filteredPlannings: any[];
   skeletonLoading = true;
+  selectedStates: any[] = [];
+  search: string = "";
+
   constructor(
     private planningApiService: PlanningApiService,
-    private navController: NavController
+    private navController: NavController,
+    private cd: ChangeDetectorRef
   ) { }
 
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+ }
   ngOnInit() {
+    this.planningApiService.getPlanningStates().subscribe((res) => {
+      this.planningStates = res;
+      this.selectedStates.push(this.planningStates[0].name)
+      this.selectedStates.push(this.planningStates[1].name)
+    });
   }
+
 
   ionViewWillEnter() {
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
@@ -25,6 +40,7 @@ export class PlanningPage implements OnInit {
       this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
       this.skeletonLoading = false;
     });
+    
   }
 
   /**
@@ -45,16 +61,11 @@ export class PlanningPage implements OnInit {
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
-    let search : string = removeAccents(event.srcElement.value)
-    while (search.substring(0,1) == " ") {
-      search = search.substring(1)
+    this.search = removeAccents(event.srcElement.value)
+    while (this.search.substring(0,1) == " ") {
+      this.search = this.search.substring(1)
     }
-    if (search == ''){
-      this.skeletonLoading = false;
-      this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
-    } else{
-      this.getPlanningsFiltered(search)
-    }
+    this.getPlanningsFiltered(this.search)
   }
 
   /**
@@ -63,11 +74,10 @@ export class PlanningPage implements OnInit {
    * @param search valor para filtrar planificaciones.
    */
   getPlanningsFiltered(search: string) {
-    this.planningApiService.getPlanningsOverviewFiltered(search).subscribe((res) => {
+    this.planningApiService.getPlanningsOverviewFiltered(search,this.selectedStates).subscribe((res) => {
       this.filteredPlannings = res.content;
       this.skeletonLoading = false;
     });
   }
-
 
 }

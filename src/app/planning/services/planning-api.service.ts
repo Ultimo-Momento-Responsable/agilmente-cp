@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -22,8 +22,12 @@ export class PlanningApiService {
    * Obtiene todas las planificaciones vigentes sin juegos.
    * @returns Una pagina de planificaciones sin juegos.
    */
-   getPlanningsOverviewFiltered(search: string): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/filter/${search}`);
+   getPlanningsOverviewFiltered(search: string, states: string []): Observable<any> {
+    const json = {
+      search: search,
+      states: states
+    }
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/filter`,json);
   }
 
   /**
@@ -42,6 +46,14 @@ export class PlanningApiService {
    */
   getPlanningById(id : number): Observable<any> {
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+  }
+
+  /**
+   * Busca los estados de las plannings
+   * @returns lista de PlanningState
+   */
+  getPlanningStates(): Observable<any> {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/states`);
   }
 
   /**
