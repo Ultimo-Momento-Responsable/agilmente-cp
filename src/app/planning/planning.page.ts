@@ -31,16 +31,11 @@ export class PlanningPage implements OnInit {
       this.selectedStates.push(this.planningStates[0].name)
       this.selectedStates.push(this.planningStates[1].name)
     });
-  }
-
-
-  ionViewWillEnter() {
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
       this.plannings = res.content;
       this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
       this.skeletonLoading = false;
     });
-    
   }
 
   /**
@@ -71,6 +66,7 @@ export class PlanningPage implements OnInit {
   /**
    * Obtiene las planificaciones de una pagina especifica, filtra por nombre, nombre y/o apellido de paciente 
    * si se provee un valor en el campo de busqueda.
+   * Además filtra por los estados seleccionados.
    * @param search valor para filtrar planificaciones.
    */
   getPlanningsFiltered(search: string) {

@@ -19,8 +19,8 @@ export class PlanningApiService {
   }
 
   /**
-   * Obtiene todas las planificaciones vigentes sin juegos.
-   * @returns Una pagina de planificaciones sin juegos.
+   * Obtiene todas las planificaciones con los estados provistos y con el filtro de búsqueda.
+   * @returns Una pagina de planificaciones.
    */
    getPlanningsOverviewFiltered(search: string, states: string []): Observable<any> {
     const json = {
