@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -19,8 +19,8 @@ export class PlanningApiService {
   }
 
   /**
-   * Obtiene todas las planificaciones vigentes sin juegos.
-   * @returns Una pagina de planificaciones sin juegos.
+   * Obtiene todas las planificaciones con los estados provistos y con el filtro de búsqueda.
+   * @returns Una pagina de planificaciones.
    */
    getPlanningsOverviewFiltered(search: string, states: string []): Observable<any> {
     const json = {
