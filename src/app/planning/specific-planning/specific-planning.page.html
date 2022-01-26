@@ -90,13 +90,21 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-chip *ngIf="this.state === 'Vigente'" color="dark">
-          <ion-icon color="success" name="checkmark-circle"></ion-icon>
+        <ion-chip *ngIf="this.state === 'Vigente'" color="primary">
+          <ion-icon name="play-circle"></ion-icon>
           <ion-label color="dark">{{ this.state }}</ion-label>
         </ion-chip>
         <ion-chip *ngIf="this.state === 'Pendiente'" color="warning">
+          <ion-icon name="time"></ion-icon>
+          <ion-label color="dark">{{this.state}}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="this.state === 'Terminada'" color="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-label color="dark">{{this.state}}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="this.state === 'Cancelada'" color="danger">
           <ion-icon name="close-circle"></ion-icon>
-          <ion-label>{{this.state}}</ion-label>
+          <ion-label color="dark">{{this.state}}</ion-label>
         </ion-chip>
         <ion-item id="rounded">
           <ion-row>

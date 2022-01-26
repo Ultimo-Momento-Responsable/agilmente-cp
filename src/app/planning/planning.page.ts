@@ -21,10 +21,7 @@ export class PlanningPage implements OnInit {
     private navController: NavController,
     private cd: ChangeDetectorRef
   ) { }
-
-  ngAfterViewInit() {
-    this.cd.detectChanges();
- }
+  
   ngOnInit() {
     this.planningApiService.getPlanningStates().subscribe((res) => {
       this.planningStates = res;
@@ -32,6 +29,16 @@ export class PlanningPage implements OnInit {
       this.selectedStates.push(this.planningStates[1].name)
     });
     this.planningApiService.getPlanningsOverview().subscribe((res) => {
+      this.plannings = res.content;
+      this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
+      this.skeletonLoading = false;
+    });
+  }
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+  ionViewWillEnter() {
+    this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates).subscribe((res) => {
       this.plannings = res.content;
       this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
       this.skeletonLoading = false;
