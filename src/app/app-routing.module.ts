@@ -51,10 +51,13 @@ const routes: Routes = [
     canLoad: [GuardGuard]
   },
   {
+    path: 'games',
+    loadChildren: () => import('./games/games.module').then( m => m.GamesPageModule)
+  },
+  {
     path: '**',
     redirectTo: '/login'
   }
-
 ];
 
 @NgModule({

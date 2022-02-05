@@ -1,0 +1,18 @@
+<ion-card class="gc ion-no-padding">
+  <img src="{{this.imgSrc}}" />
+  <ion-card-header>
+    <p class="gc_title">{{game.name}}</p>
+    <div class="gc_cd_container" *ngFor="let cd of game.cognitiveDomain">
+      <ion-chip class="gc_cd_container_CD" style="background-color: rgba(45, 211, 111, 1);" *ngIf="cd.name == 'Memoria'" >{{cd.name}}</ion-chip>
+      <ion-chip class="gc_cd_container_CD" style="background-color: rgba(0, 0, 0, 0, 87);" *ngIf="cd.name == 'Funciones Ejecutivas'" >{{cd.name}}</ion-chip>
+      <ion-chip class="gc_cd_container_CD" style="background-color: rgba(127, 57, 251, 1)" *ngIf="cd.name == 'Procesos Atencionales'" >Atención</ion-chip>
+      <ion-chip class="gc_cd_container_CD" style="background-color: rgba(235, 68, 90, 1);" *ngIf="cd.name == 'Visoespacial'" >{{cd.name}}</ion-chip>
+      <ion-chip class="gc_cd_container_CD" style="background-color: rgba(255, 196, 9, 1);" *ngIf="cd.name == 'Lenguaje'" >{{cd.name}}</ion-chip>
+    </div>
+  </ion-card-header>
+  <ion-card-content>
+    <p class="gc_description"> {{game.description}} </p> <br>
+    <p class="gc_paramDescription"> {{game.paramDescription}} </p> <br>
+    <p class="gc_link">Más información</p>
+  </ion-card-content>
+</ion-card>

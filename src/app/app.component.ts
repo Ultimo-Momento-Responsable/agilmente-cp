@@ -12,6 +12,7 @@ export class AppComponent {
     { title: 'Mis Pacientes', url: '/patients', icon: 'body' },
     { title: 'Resultados', url: '/results', icon: 'clipboard'},
     { title: 'Planes de Juegos', url: '/planning', icon: 'phone-portrait' },
+    { title: 'Juegos', url: '/games', icon: 'game-controller' },
     { title: 'Cerrar Sesión', url: '/logout', icon: 'log-out' }
   ];
   currentRoute: string;

@@ -1,0 +1,42 @@
+:host {
+    .gc {
+        width: 353px;
+
+        &_title {
+            font-family: "Futura LtCn BT";
+            font-size: 36px;
+            color:black;
+        }
+
+        &_cd_container {
+            display: inline-grid;
+            
+            &_CD {
+                color:white;
+                font-family: "Bariol";
+                border-radius: 4px;
+                padding: 0px 4px;
+            }
+        }
+
+
+        &_description {
+            font-family: "Bariol";
+            font-size: 16px;
+            color:black;
+        }
+
+        &_paramDescription {
+            font-family: "Bariol";
+            font-size: 14px;
+            font-weight: 400;
+            color:rgba(0,0,0,0.6);
+        }
+
+        &_link {
+            font-family: "Bariol";
+            font-size: 16px;
+            color:rgba(0, 124, 238, 1);
+        }
+    }
+}
