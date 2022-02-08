@@ -9,6 +9,29 @@
     <ion-col size=1>
     </ion-col>
     <ion-col size=10>
+      <div class="cd">
+        <ion-item color="light" style="border-radius: 20px;">
+          <ion-select multiple="true" 
+                      [(ngModel)]="this.selectedCognitiveDomains"
+                      class="cd_select"
+                      (ionChange)="getGamesFiltered()"
+                      selectedText="Dominios Cognitivos"
+                      ngDefaultControl
+            >
+            <div *ngFor="let cd of this.cognitiveDomains">
+              <ion-select-option class="cd_select_option" value="{{cd.name}}">{{cd.name}}</ion-select-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <div class="cd_chips" *ngFor="let cd of this.selectedCognitiveDomains">
+          <ion-chip class="cd_chips_selected" style="background-color: rgba(45, 211, 111, 1);" *ngIf="cd == 'Memoria'" >{{cd}}</ion-chip>
+          <ion-chip class="cd_chips_selected" style="background-color: rgba(0, 0, 0, 0.87);" *ngIf="cd == 'Funciones ejecutivas'" >{{cd}}</ion-chip>
+          <ion-chip class="cd_chips_selected" style="background-color: rgba(127, 57, 251, 1)" *ngIf="cd == 'Atención'" >{{cd}}</ion-chip>
+          <ion-chip class="cd_chips_selected" style="background-color: rgba(235, 68, 90, 1);" *ngIf="cd == 'Visoespacial'" >{{cd}}</ion-chip>
+          <ion-chip class="cd_chips_selected" style="background-color: rgba(255, 196, 9, 1);" *ngIf="cd == 'Lenguaje'" >{{cd}}</ion-chip>
+        </div>
+      </div>
+
       <div class="gc_container">
         <div class="gc_container_item" *ngFor="let game of this?.games">
           <div class="gc_container_item_card ion-margin">

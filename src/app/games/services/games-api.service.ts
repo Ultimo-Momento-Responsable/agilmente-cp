@@ -23,7 +23,16 @@ export class GamesApiService {
   * @param id Id del juego.
   * @returns Observable del juego.
   */
-   getGameById(id: number): Observable<any> {
+  getGameById(id: number): Observable<any> {
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+  }
+  
+  /**
+   * Obtiene los juegos filtrados por dominios cognitivos
+   * @param cognitiveDomains lista de dominios cognitivos
+   * @returns Juegos que poseen alguno de los dominios cognitivos seleccionados.
+   */
+  getGamesFilteredByCD(cognitiveDomains: string []): Observable<any> {
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/cognitiveDomains`,cognitiveDomains);
   }
 }
