@@ -61,7 +61,7 @@ export class PlanningApiService {
    * @param id ID de la planificación que se quiere cancelar
    * @returns La planificación cancelada
    */
-   cancelPlanningById(id : number): Observable<any> {
+  cancelPlanningById(id : number): Observable<any> {
     return this.http.put(`http://${environment.ip}:8080/${this.entity}/cancel_planning/${id}`, '');
   }
 }

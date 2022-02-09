@@ -13,6 +13,27 @@
             align-items: center;
         }
     }
+}
+.cd {
+    margin-left: 15px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
     
-    
+    &_select {
+        font-family: "Bariol";
+        border-radius: 4px;
+        padding: 0px 4px;
+        height: 24px;
+    }
+
+    &_chips {
+        &_selected {
+            color:white;
+            font-family: "Bariol";
+            border-radius: 4px;
+            padding: 0px 4px;
+            height: 24px;
+        }
+    }
 }
