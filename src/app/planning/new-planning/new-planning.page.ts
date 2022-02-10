@@ -330,7 +330,7 @@ export class NewPlanningPage implements OnInit {
         patientId: patientId,
         planningName: myForm.value.planningName,
         stateId: 1,
-        professionalId: 1,
+        professionalId: window.localStorage.getItem('professionalId'),
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
         games: gamesPost

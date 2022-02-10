@@ -1,0 +1,51 @@
+:host {
+    .gc {
+        width: 353px;
+        border-radius: 8px;
+        
+        &_header {
+            padding: 16px 16px 8px 16px;
+        }
+        &_title {
+            font-family: "Futura LtCn BT";
+            font-size: 36px;
+            color:black;
+            line-height: 36px;
+            margin-bottom: 8px;
+        }
+
+        &_cd_container {
+            display: inline-grid;
+
+            &_CD {
+                color:white;
+                font-family: "Bariol";
+                border-radius: 4px;
+                padding: 0px 4px;
+                height: 24px;
+            }
+        }
+
+        &_description {
+            font-family: "Bariol";
+            font-size: 16px;
+            color:black;
+        }
+
+        &_paramDescription {
+            font-family: "Bariol";
+            font-size: 14px;
+            font-weight: 400;
+            color:rgba(0,0,0,0.6);
+            margin-top: 8px;
+            line-height: 15px;
+        }
+
+        &_link {
+            font-family: "Bariol";
+            font-size: 16px;
+            color:rgba(0, 124, 238, 1);
+            margin-top: 8px;
+        }
+    }
+}

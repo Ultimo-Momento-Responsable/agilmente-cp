@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,22 +10,6 @@ export class PatientsApiService {
   entity: string = 'patient';
 
   constructor(private http: HttpClient) { }
-
-  /**
-  * Obtiene todos los Pacientes cargados, independientemente de si se encuentran habilitados.
-  * @return Una página de pacientes.
-  */
-   getPatients(page: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}?page=${page}`);
-  }
-
-  /**
-  * Obtiene todos los Pacientes cargados que se encuentren habilitados.
-  * @return Una página de pacientes.
-  */
-   getActivePatients(page: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/activePatients?page=${page}`);
-  }
 
   /**
   * Obtiene todos los Pacientes cargados que se encuentren habilitados.
@@ -48,9 +32,13 @@ export class PatientsApiService {
    * @param fullName Nombre completo del paciente, ignorando casing.
    * @returns Una página de pacientes.
    */
-   getFilteredPatients(fullName: String): Observable<any> {
-     return this.http.get(`http://${environment.ip}:8080/${this.entity}/fn/${fullName}`);
-   }
+  getFilteredPatients(fullName: string = "", all: boolean = false): Observable<any> {
+    const params = new HttpParams()
+      .set('fullName', fullName)
+      .set('all', all);
+    
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/`, { params });
+  }
 
   /**
   * Obtiene un paciente a partir del id.

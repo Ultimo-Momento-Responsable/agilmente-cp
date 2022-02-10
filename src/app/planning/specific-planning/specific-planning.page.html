@@ -31,7 +31,7 @@
       </ion-button>
       </ion-title>
       <form [formGroup]="myForm" (ngSubmit)="edit(myForm)" *ngIf='!this.isLoading'>
-
+        
         <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Paciente</ion-label>
           <ion-searchbar 
@@ -54,6 +54,11 @@
           </ion-list>
         </ion-item>
         <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
+        
+        <ion-item id="rounded">
+          <ion-label position="stacked" color="primary">Profesional</ion-label>
+          <ion-input formControlName="professionalName" [disabled]="true"></ion-input>
+        </ion-item>
 
         <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Nombre de la planificación</ion-label>
@@ -85,13 +90,21 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-chip *ngIf="this.state === 'Vigente'" color="dark">
-          <ion-icon color="success" name="checkmark-circle"></ion-icon>
+        <ion-chip *ngIf="this.state === 'Vigente'" color="primary">
+          <ion-icon name="play-circle"></ion-icon>
           <ion-label color="dark">{{ this.state }}</ion-label>
         </ion-chip>
         <ion-chip *ngIf="this.state === 'Pendiente'" color="warning">
+          <ion-icon name="time"></ion-icon>
+          <ion-label color="dark">{{this.state}}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="this.state === 'Terminada'" color="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-label color="dark">{{this.state}}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="this.state === 'Cancelada'" color="danger">
           <ion-icon name="close-circle"></ion-icon>
-          <ion-label>{{this.state}}</ion-label>
+          <ion-label color="dark">{{this.state}}</ion-label>
         </ion-chip>
         <ion-item id="rounded">
           <ion-row>

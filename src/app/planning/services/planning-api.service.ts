@@ -14,8 +14,20 @@ export class PlanningApiService {
    * Obtiene todas las planificaciones vigentes sin juegos.
    * @returns Una pagina de planificaciones sin juegos.
    */
-  getPlanningsOverview(): Observable<any> {
+   getPlanningsOverview(): Observable<any> {
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/planningOverview`);
+  }
+
+  /**
+   * Obtiene todas las planificaciones con los estados provistos y con el filtro de búsqueda.
+   * @returns Una pagina de planificaciones.
+   */
+   getPlanningsOverviewFiltered(search: string, states: string []): Observable<any> {
+    const json = {
+      search: search,
+      states: states
+    }
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/filter`,json);
   }
 
   /**
@@ -37,11 +49,19 @@ export class PlanningApiService {
   }
 
   /**
+   * Busca los estados de las plannings
+   * @returns lista de PlanningState
+   */
+  getPlanningStates(): Observable<any> {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/states`);
+  }
+
+  /**
    * Cancela una planificación
    * @param id ID de la planificación que se quiere cancelar
    * @returns La planificación cancelada
    */
-   cancelPlanningById(id : number): Observable<any> {
+  cancelPlanningById(id : number): Observable<any> {
     return this.http.put(`http://${environment.ip}:8080/${this.entity}/cancel_planning/${id}`, '');
   }
 }
