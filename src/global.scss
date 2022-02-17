@@ -25,6 +25,16 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+/* Custom fonts */
+@font-face {   
+  font-family: 'Futura';
+  src: url('./assets/fonts/Futura Light font.ttf');
+}
+@font-face {   
+  font-family: 'Bariol';
+  src: url('./assets/fonts/Bariol_Regular.otf');
+}
+
 $colors: (
   primary:    #488aff,
   secondary:  #32db64,
@@ -37,6 +47,57 @@ ion-menu ion-content {
   --background: var(--ion-item-background, var(--ion-background-color, #488aff));
 }
 
+/* Style overwrite for AgilMente Fonts */
+ion-label {
+  font-family: "Bariol" !important;
+  font-size: 14px;
+}
+
+ion-title {
+  font-family: "Futura";
+  font-size: 36px;
+}
+
+ion-text {
+  font-family: "Bariol";
+}
+
+ion-button {
+  font-family: "Futura";
+  text-transform: none;
+  font-size: 18px;
+}
+
+ion-margin {
+  font-size: 24px;
+}
+
+ion-card-title {
+  font-family: "Futura";
+  font-size: 24px;
+}
+
+ion-card-subtitle {
+  font-family: "Bariol";
+  font-size: 14px;
+}
+
+ion-searchbar {
+  font-family: "Futura"
+}
+
+ion-col {
+  font-family: "Bariol"
+}
+
+ion-row {
+  font-family: "Bariol"
+}
+
+ion-input {
+  font-family: "Bariol"
+}
+
 .alertError{
   color: #f53d3d !important;
 }
@@ -47,4 +108,5 @@ ion-menu ion-content {
   h3{
     text-align: center;
   }
+
 }

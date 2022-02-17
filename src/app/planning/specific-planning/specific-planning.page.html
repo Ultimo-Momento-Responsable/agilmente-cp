@@ -109,7 +109,7 @@
         <ion-item id="rounded">
           <ion-row>
             <ion-col>
-              <ion-label position="stacked" color="primary">Juegos asignados</ion-label>
+              <ion-label class="assigned-games" position="stacked" color="primary">Juegos asignados</ion-label>
             </ion-col>
           </ion-row>
         </ion-item>
@@ -123,8 +123,8 @@
               </ion-row>
             </ion-card-header>
             <ion-card-content>
-              <p *ngIf="detail.numberOfSession != -1"><b>Sesiones: </b>{{detail.numberOfSession}}</p>
-              <p *ngIf="detail.numberOfSession == -1"><b>Sesiones: </b>Sin límite de sesiones.</p>
+              <p class="session-input" *ngIf="detail.numberOfSession != -1"><b>Sesiones: </b>{{detail.numberOfSession}}</p>
+              <p class="session-input" *ngIf="detail.numberOfSession == -1"><b>Sesiones: </b>Sin límite de sesiones.</p>
               <ion-label *ngFor="let param of detail?.parameters">
                 <div [ngSwitch]="param?.value">
                   

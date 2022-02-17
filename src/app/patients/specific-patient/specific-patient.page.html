@@ -11,15 +11,15 @@
   <ion-segment [(ngModel)]="currentTab">
     <ion-segment-button value="data" layout="icon-start">
       <ion-icon name="information-circle"></ion-icon>
-      <ion-label>Datos Personales</ion-label>
+      <ion-label class="patient-tab">Datos Personales</ion-label>
     </ion-segment-button>
     <ion-segment-button value="stats" layout="icon-start">
       <ion-icon name="trending-up"></ion-icon>
-      <ion-label>Estadisticas</ion-label>
+      <ion-label class="patient-tab">Estadisticas</ion-label>
     </ion-segment-button>
     <ion-segment-button value="comments" layout="icon-start">
       <ion-icon name="chatbubbles-outline"></ion-icon>
-      <ion-label>Comentarios</ion-label>
+      <ion-label class="patient-tab">Comentarios</ion-label>
     </ion-segment-button>
   </ion-segment>
   <ion-row>
@@ -199,7 +199,7 @@
           <ngb-accordion #acc="ngbAccordion" animation>
             <ngb-panel type="primary" *ngIf="this.results.hayUnoRepetido.results.length > 0">
               <ng-template ngbPanelTitle >
-                <h3 style="color:white;">Encuentra al Repetido</h3>
+                <h3 class="result-tab">Encuentra al Repetido</h3>
               </ng-template>
               <ng-template ngbPanelContent>
                 <app-card-hay-uno-repetido-result 
@@ -214,7 +214,7 @@
           <ngb-accordion #acc="ngbAccordion" animation>
             <ngb-panel type="primary" *ngIf="this.results.encuentraAlNuevo.results.length > 0">
               <ng-template ngbPanelTitle>
-                <h3 style="color:white;">Encuentra al Nuevo</h3>
+                <h3 class="result-tab">Encuentra al Nuevo</h3>
               </ng-template>
               <ng-template ngbPanelContent>
                 <app-card-encuentra-al-nuevo-result
