@@ -41,6 +41,7 @@
     "chart.js": "^3.3.2",
     "chartjs-plugin-annotation": "^1.0.2",
     "ionic-angular": "^3.9.10",
+    "ionic-text-avatar": "^1.1.0",
     "moment": "^2.29.1",
     "ngx-skeleton-loader": "^4.0.0",
     "rxjs": "~6.6.0",
