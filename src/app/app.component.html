@@ -5,8 +5,8 @@
       <ion-content >
         <div style="height:100%; background:#ffffff;">
           <ion-list>
-            <ion-item> 
-              <ion-avatar slot="start" style="margin:5px;">
+            <ion-item lines="none"> 
+              <ion-avatar slot="start" style="margin:10px;">
                 <img src="../assets/default_avatar.png">
               </ion-avatar>
               <ion-label>
@@ -14,7 +14,7 @@
                 <p>{{this.firstName + " " + this.lastName}}</p>
               </ion-label>
             </ion-item>
-          
+            <ion-item-divider></ion-item-divider>
             <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
               <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
@@ -26,6 +26,7 @@
         
         <div style="position: absolute; bottom: 0px; width: 100%;">
           <ion-list>
+            <ion-item-divider></ion-item-divider>
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="['/logout']" lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon slot="start" name="log-out"></ion-icon>
