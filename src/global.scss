@@ -83,10 +83,30 @@ ion-card-subtitle {
 }
 
 ion-searchbar {
-  font-family: "Futura"
+  .searchbar-input-container {
+    input{
+      font-family: 'Bariol' !important;
+      font-size: 16px !important;
+    }
+  }
 }
 
+ion-alert {
+  .alert-checkbox-label {
+    font-family: "Bariol";
+  }
+
+  .alert-button {
+    font-family: "Bariol";
+  }
+}
+
+
 ion-col {
+  font-family: "Bariol"
+}
+
+ion-chip {
   font-family: "Bariol"
 }
 
@@ -95,7 +115,11 @@ ion-row {
 }
 
 ion-input {
-  font-family: "Bariol"
+  font-family: "Bariol" !important;
+}
+
+ion-textarea {
+  font-family: "Bariol" !important;
 }
 
 .alertError{
@@ -104,6 +128,24 @@ ion-input {
 .alertSuccess{
   color: #32db64 !important;
 }
+
+.my-custom-class {
+  .alert-message {
+    font-family: "Bariol";
+  }
+
+  .alert-head {
+    font-family: "Futura";
+  }
+
+  .alert-button {
+    font-family: "Bariol";
+  }
+}
+
+
+
+
 .centerh3{
   h3{
     text-align: center;
