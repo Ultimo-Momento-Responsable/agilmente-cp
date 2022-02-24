@@ -284,7 +284,6 @@
                 <ion-button
                   [disabled]="!checkIfCorrect(game)"
                   expand="block" 
-                  class="ion-text-uppercase ion-margin-top"
                   (click)="gameAdded(game,j)">
                   Listo
                 </ion-button>
@@ -321,8 +320,7 @@
         </ion-row>
         <ion-button type="submit" *ngIf="isEditing"
           [disabled]="submitDisabled() || isClicked"
-          expand="block" 
-          class="ion-text-uppercase ion-margin-top">
+          expand="block">
           Actualizar Planificación
         </ion-button>
       </form>
