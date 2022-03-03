@@ -119,8 +119,7 @@ export class NewPatientPage implements OnInit {
       subHeader: subHeader,
       cssClass: 'centerh3',
       buttons: [{
-        text: 'OK',
-        cssClass: css
+        text: 'OK'
       }],
     });
 

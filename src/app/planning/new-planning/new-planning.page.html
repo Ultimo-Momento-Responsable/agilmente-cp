@@ -202,7 +202,6 @@
                 <ion-button
                   [disabled]="!checkIfCorrect(game)"
                   expand="block" 
-                  class="ion-text-uppercase ion-margin-top"
                   (click)="gameAdded(game,j)">
                   Listo
                 </ion-button>
@@ -239,8 +238,7 @@
         </ion-row>
         <ion-button type="submit" 
           [disabled]="submitDisabled() || isClicked"
-          expand="block" 
-          class="ion-text-uppercase ion-margin-top">
+          expand="block">
           Cargar Planificación
         </ion-button>
       </form>
