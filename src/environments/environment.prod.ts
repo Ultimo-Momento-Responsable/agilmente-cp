@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  ip: "http://agilmente.tk"
+  ip: "agilmente.tk"
 };
