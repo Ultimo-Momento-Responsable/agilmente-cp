@@ -15,7 +15,7 @@ export class PlanningApiService {
    * @returns Una pagina de planificaciones sin juegos.
    */
    getPlanningsOverview(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/planningOverview`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/planningOverview`);
   }
 
   /**
@@ -27,7 +27,7 @@ export class PlanningApiService {
       search: search,
       states: states
     }
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/filter`,json);
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}/filter`,json);
   }
 
   /**
@@ -36,7 +36,7 @@ export class PlanningApiService {
    * @returns La planificación guardada
    */
   postPlanning(planning: any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}`, planning);
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}`, planning);
   }
 
   /**
@@ -45,7 +45,7 @@ export class PlanningApiService {
    * @returns Un objeto PlanningData
    */
   getPlanningById(id : number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/${id}`);
   }
 
   /**
@@ -53,7 +53,7 @@ export class PlanningApiService {
    * @returns lista de PlanningState
    */
   getPlanningStates(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/states`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/states`);
   }
 
   /**
@@ -62,6 +62,6 @@ export class PlanningApiService {
    * @returns La planificación cancelada
    */
   cancelPlanningById(id : number): Observable<any> {
-    return this.http.put(`http://${environment.ip}:8080/${this.entity}/cancel_planning/${id}`, '');
+    return this.http.put(`http://${environment.ip}:8009/${this.entity}/cancel_planning/${id}`, '');
   }
 }

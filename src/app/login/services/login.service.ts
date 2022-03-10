@@ -17,7 +17,7 @@ export class LoginService {
    * @returns Devuelve un observable que contiene el token, el nombre y el apellido del professional
    */
   public login(userName:string, password:string):Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}`,{userName, password},{responseType: 'text'})
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}`,{userName, password},{responseType: 'text'})
   }
 
   /**
@@ -26,6 +26,6 @@ export class LoginService {
    * @returns devuelve true si el token es correcto y no está vencido de otro modo devuelve false.
    */
   public checkIfLogged(token:string):any {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/token/${token}`)
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/token/${token}`)
   }
 }

@@ -17,7 +17,7 @@ export class ResultsApiService {
    * @return Una página de resultados.
    */
   getResults(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}`);
   }
 
   /**
@@ -27,7 +27,7 @@ export class ResultsApiService {
    */
   getResultById(id: number, game: string): Observable<any> {
     return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/${game}/${id}`
+      `http://${environment.ip}:8009/${this.entity}/${game}/${id}`
     );
   }
 
@@ -39,7 +39,7 @@ export class ResultsApiService {
    */
   getResultsByPatient(id: number): Observable<any> {
     return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/by-patient/${id}`
+      `http://${environment.ip}:8009/${this.entity}/by-patient/${id}`
     );
   }
 }

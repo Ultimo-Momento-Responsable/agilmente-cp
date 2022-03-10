@@ -16,7 +16,7 @@ export class PatientsApiService {
   * @return Una página de pacientes.
   */
    getActivePatientsListed(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listed`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/listed`);
   }
 
   /**
@@ -24,7 +24,7 @@ export class PatientsApiService {
   * @return Una página de pacientes.
   */
    getPatientsListed(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listedAll`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/listedAll`);
   }
 
   /**
@@ -37,7 +37,7 @@ export class PatientsApiService {
       .set('fullName', fullName)
       .set('all', all);
     
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/`, { params });
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/`, { params });
   }
 
   /**
@@ -46,7 +46,7 @@ export class PatientsApiService {
   * @returns Observable del paciente.
   */
   getPatientById(id: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/${id}`);
   }
 
   /**
@@ -55,7 +55,7 @@ export class PatientsApiService {
    * @returns El paciente guardado
    */
   postPatient(patient: any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}`, patient);
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}`, patient);
   }
   
   /**
@@ -65,7 +65,7 @@ export class PatientsApiService {
    * @returns El paciente modificado
    */
   putPatient(patient: any, id: number): Observable<any> {
-    return this.http.put(`http://${environment.ip}:8080/${this.entity}/${id}`, patient);
+    return this.http.put(`http://${environment.ip}:8009/${this.entity}/${id}`, patient);
   }
 
   /**
@@ -75,7 +75,7 @@ export class PatientsApiService {
    * @returns El paciente con su estado en "Deshabilitado"
    */
   deletePatient(id: number): Observable<any> {
-    return this.http.put(`http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`, {})
+    return this.http.put(`http://${environment.ip}:8009/${this.entity}/deletePatient/${id}`, {})
   }
 
   /**
@@ -84,7 +84,7 @@ export class PatientsApiService {
    * @returns true o false
    */
    addComment(comment:any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/comment`, comment);
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}/comment`, comment);
   }
 
   /**
@@ -93,7 +93,7 @@ export class PatientsApiService {
    * @returns true o false
    */
   editComment(comment:any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/editComment`, comment);
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}/editComment`, comment);
   }
 
   /**
@@ -102,7 +102,7 @@ export class PatientsApiService {
    * @returns true o false
    */
   deleteComment(patientComment:any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/deleteComment`, patientComment);
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}/deleteComment`, patientComment);
   }
 
 }
