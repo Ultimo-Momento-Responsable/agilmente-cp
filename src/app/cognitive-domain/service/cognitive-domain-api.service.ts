@@ -12,6 +12,6 @@ export class CognitiveDomainApiService {
   constructor(private http: HttpClient) { }
 
   getCognitiveDomains(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}`);
   }
 }

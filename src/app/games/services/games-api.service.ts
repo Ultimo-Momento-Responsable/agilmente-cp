@@ -15,7 +15,7 @@ export class GamesApiService {
   * @return una lista de juegos.
   */
   getGames(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}`);
   }
 
   /**
@@ -24,7 +24,7 @@ export class GamesApiService {
   * @returns Observable del juego.
   */
   getGameById(id: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+    return this.http.get(`http://${environment.ip}:8009/${this.entity}/${id}`);
   }
   
   /**
@@ -33,6 +33,6 @@ export class GamesApiService {
    * @returns Juegos que poseen alguno de los dominios cognitivos seleccionados.
    */
   getGamesFilteredByCD(cognitiveDomains: string []): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/cognitiveDomains`,cognitiveDomains);
+    return this.http.post(`http://${environment.ip}:8009/${this.entity}/cognitiveDomains`,cognitiveDomains);
   }
 }
