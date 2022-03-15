@@ -45,12 +45,19 @@ export class NewPlanningPage implements OnInit {
     this.gamesApiService.getGames().subscribe(res=>{
       res.forEach(g => {
         this.games.push(g);
+        let contType0 = 0;
+        let contActivatable = 0;
         this.games[i].gameParam.forEach(p => {
           p.isActive = false;
+          if (p.param.type == 0) {
+            contType0++;
+          }
           if (p.param.type == 1) {
+            contActivatable++;
             p.value=false;
           }
           if (p.param.type == 2) {
+            contActivatable++;
             p.value=1;
           }
           if (p.param.type == 3) {
@@ -60,7 +67,12 @@ export class NewPlanningPage implements OnInit {
         this.games[i].maxNumberOfSessions = 5;
         this.games[i].hasLimit = false;
         this.games[i].index = null;
+        if (contType0==1) {
+          this.games[i].index = 0;
+          this.games[i].gameParam.find(p => p.param.type === 0).isActive = true;
+        }
         this.games[i].done = false;
+        this.games[i].hasActivatable = (contActivatable > 0);
         i++;
       });
     });
