@@ -33,7 +33,7 @@ export class NewPlanningPage implements OnInit {
   planningGames: any [] = [];
   games: any [] = [];
   gamesSearch: any [] = [];
-  isAdding: boolean = false;
+  isAdding: boolean = true;
   patientBlur = false;
   isClicked: boolean;
 
