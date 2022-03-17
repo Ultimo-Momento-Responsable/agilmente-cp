@@ -36,6 +36,7 @@ export class NewPlanningPage implements OnInit {
   isAdding: boolean = true;
   patientBlur = false;
   isClicked: boolean;
+  currentGame: any;
 
   ngOnInit() {
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
@@ -361,5 +362,17 @@ export class NewPlanningPage implements OnInit {
       this.myForm.patchValue({"games": null});
     }
     return !this.myForm.valid || !this.patientExists()
+  }
+
+  // Descubre que juego esta activo en este momento
+  switchTab(index) {
+    this.currentGame = index;
+    console.log(this.currentGame);
+  }
+
+  checkTab(index) {
+    if (index == this.currentGame) {
+      return true;
+    }
   }
 }
