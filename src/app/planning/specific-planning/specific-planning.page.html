@@ -206,7 +206,7 @@
                             type="number" 
                             value="{{ p.value }}" 
                             (ionChange)="changeParamValue(game,p,$event)" 
-                            type="number" [min]="p.minValue" 
+                            [min]="p.minValue" 
                             [max]="checkMaxValue(p)" 
                             (ionBlur)="checkParamLimit(p)"
                             placeholder="{{p.param.unit}}">
@@ -224,7 +224,7 @@
                               type="number" 
                               value="{{ p.value }}" 
                               (ionChange)="changeParamValue(game,p,$event)" 
-                              type="number" [min]="p.minValue" 
+                              [min]="p.minValue" 
                               [max]="checkMaxValue(p)" 
                               (ionBlur)="checkParamLimit(p)">
                             </ion-input>
@@ -234,7 +234,7 @@
                       </div>
                     </div>
                   </ion-radio-group>
-                  <ion-list-header>
+                  <ion-list-header *ngIf="game.hasActivatable">
                     <ion-label>
                       Activables
                     </ion-label>
