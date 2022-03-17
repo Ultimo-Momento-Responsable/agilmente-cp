@@ -200,6 +200,22 @@ export class NewPlanningPage implements OnInit {
     if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
       gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = evt.srcElement.value;
     }
+    if (p.param.name == "Número de filas" || p.param.name == "Número de columnas") {
+      let nOfRows = 3;
+      let nOfColumns = 3;
+      game.gameParam.forEach(p => {
+        if (p.param.name == "Número de filas"){
+          nOfRows = p.value;
+        }
+        if (p.param.name == "Número de columnas"){
+          nOfColumns = p.value;
+        }
+        if (p.param.name == "Cantidad Máxima de Estímulos") {
+          p.maxValue = Math.round((nOfColumns*nOfRows)/2)
+          p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
+        }
+      });
+    }
   }
 
   // Setea el número máximo de sesiones de juego
