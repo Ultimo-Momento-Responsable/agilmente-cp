@@ -94,16 +94,20 @@
           <ion-icon name="play-circle"></ion-icon>
           <ion-label color="dark">{{ this.state }}</ion-label>
         </ion-chip>
-        <ion-chip *ngIf="this.state === 'Pendiente'" color="warning">
+        <ion-chip *ngIf="this.state === 'Pendiente'" color="tertiary">
           <ion-icon name="time"></ion-icon>
           <ion-label color="dark">{{this.state}}</ion-label>
         </ion-chip>
-        <ion-chip *ngIf="this.state === 'Terminada'" color="success">
+        <ion-chip *ngIf="this.state === 'Incompleta'" color="warning">
           <ion-icon name="checkmark-circle"></ion-icon>
           <ion-label color="dark">{{this.state}}</ion-label>
         </ion-chip>
         <ion-chip *ngIf="this.state === 'Cancelada'" color="danger">
           <ion-icon name="close-circle"></ion-icon>
+          <ion-label color="dark">{{this.state}}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="this.state === 'Completada'" color="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
           <ion-label color="dark">{{this.state}}</ion-label>
         </ion-chip>
         <ion-item id="rounded">
