@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { PlanningApiService } from './services/planning-api.service';
 
@@ -18,30 +18,22 @@ export class PlanningPage implements OnInit {
 
   constructor(
     private planningApiService: PlanningApiService,
-    private navController: NavController,
-    private cd: ChangeDetectorRef
+    private navController: NavController
   ) { }
   
   ngOnInit() {
+  }
+  
+  ionViewWillEnter() {
     this.planningApiService.getPlanningStates().subscribe((res) => {
       this.planningStates = res;
       this.selectedStates.push(this.planningStates[0].name)
       this.selectedStates.push(this.planningStates[1].name)
-    });
-    this.planningApiService.getPlanningsOverview().subscribe((res) => {
-      this.plannings = res.content;
-      this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
-      this.skeletonLoading = false;
-    });
-  }
-  ngAfterViewInit() {
-    this.cd.detectChanges();
-  }
-  ionViewWillEnter() {
-    this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates).subscribe((res) => {
-      this.plannings = res.content;
-      this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
-      this.skeletonLoading = false;
+      this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates).subscribe((res) => {
+        this.plannings = res.content;
+        this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
+        this.skeletonLoading = false;
+      });
     });
   }
 
