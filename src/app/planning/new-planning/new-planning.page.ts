@@ -37,6 +37,7 @@ export class NewPlanningPage implements OnInit {
   patientBlur = false;
   isClicked: boolean;
   currentGame: any;
+  patientSelected: boolean = false;
 
   ngOnInit() {
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
@@ -167,6 +168,7 @@ export class NewPlanningPage implements OnInit {
     this.planningGames[this.planningGames.length - 1].accordion = true;
     this.isAdding = false;
     this.myForm.patchValue({"games": null});
+    this.switchTab (this.planningGames.length-1);
   }
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
@@ -370,6 +372,7 @@ export class NewPlanningPage implements OnInit {
     console.log(this.currentGame);
   }
 
+  // Verifica que la tab actual sea la del juego correspondiente
   checkTab(index) {
     if (index == this.currentGame) {
       return true;

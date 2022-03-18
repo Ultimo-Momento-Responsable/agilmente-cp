@@ -15,10 +15,13 @@
         <form [formGroup]="myForm" (ngSubmit)="save(myForm)">
           <!-- Seleccionar al paciente -->
           <ion-card>
-            <ion-title class="ion-padding">
-              1. Seleccionar un Paciente
+            <ion-row>
+              <ion-col>
+            <ion-title>
+              Seleccionar un Paciente
             </ion-title>
-          <ion-item>
+            
+          <ion-item lines="none">
             <ion-label position="stacked" color="primary">Selecciona al paciente para el cual quieres crear una planificación:</ion-label>
             <ion-searchbar 
               animated 
@@ -30,7 +33,7 @@
             </ion-searchbar>
             <ion-list lines="none">
               <ion-item *ngFor="let p of patientsSearch">
-                <ion-button fill="clear" class="ion-text-wrap" (click) = "fillSearchBar(p.firstName + ' ' + p.lastName)">
+                <ion-button fill="clear" class="ion-text-wrap" (click) = "fillSearchBar(p.firstName + ' ' + p.lastName); patientSelected = true;">
                   <ion-text>
                     {{ p.firstName }} {{ p.lastName }}
                   </ion-text>
@@ -39,21 +42,26 @@
             </ion-list>
           </ion-item>
           <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
-          
-          <ion-title class="ion-padding">
+        </ion-col>
+
+        <ion-col>
+          <ion-title>
             Nombre de la planificación
           </ion-title>
-          <ion-item id="rounded">
+          
+          <ion-item>
             <ion-label position="stacked" color="primary">Ingresa un nombre único para la planificación:</ion-label>
             <ion-input formControlName="planningName" placeholder="Nombre de la planificación" type="text"></ion-input>
           </ion-item>
+        </ion-col>
+        </ion-row>
         
         </ion-card>
 
         <!-- Fechas de planificación -->
-        <ion-card>
+        <ion-card *ngIf="patientSelected">
           <ion-title class="ion-padding">
-            2. Seleccionar un período
+            Seleccionar un período
           </ion-title>
           <ion-label class="ion-padding">Selecciona el período de tiempo en el cual el paciente podrá realizar los ejercicios.</ion-label>
           <ion-row>
@@ -85,9 +93,9 @@
         </ion-card>
 
         <!-- Juegos de planificación -->
-        <ion-card>
+        <ion-card *ngIf="this.myForm.value.startDate.length != 0">
           <ion-title class="ion-padding">
-            3. Agregar ejercicios
+            Agregar ejercicios
           </ion-title>
 
           <div id="assignedGames">
@@ -95,11 +103,11 @@
             
             
             <ion-item lines="none">
-              <ion-chip color="primary" *ngFor="let game of planningGames; let j = index" (click)="isAdding = false; switchTab(j);">
+              <ion-chip outline="true" [color]="checkTab(j) ? 'primary' : ''" *ngFor="let game of planningGames; let j = index" (click)="isAdding = false; switchTab(j);">
                 <ion-icon name="game-controller"></ion-icon>
                 <ion-label class="ion-margin">{{ game.name }}</ion-label>
               </ion-chip>
-              <ion-chip color="success" (click)="isAdding = true; switchTab(-1);">
+              <ion-chip outline="true" color="medium" (click)="isAdding = true; switchTab(-1);">
                 <ion-icon name="add-outline"></ion-icon>
                 <ion-label class="ion-margin">Añadir Juego</ion-label>
               </ion-chip>
@@ -120,7 +128,7 @@
                 </ion-searchbar>
                 <ion-list lines="none">
                   <ion-item *ngFor="let g of gamesSearch">
-                    <ion-button fill="clear" class="ion-text-wrap" (click) = "addGame(g);currentTab(0);">
+                    <ion-button fill="clear" class="ion-text-wrap" (click) = "addGame(g);">
                       <ion-text>
                         {{ g.name }}
                       </ion-text>
@@ -132,8 +140,15 @@
               <!-- Tarjetas de cada juego-->
               <ion-card *ngFor="let game of planningGames; let j = index">
               <div *ngIf="checkTab(j)">
-              <ion-title class="ion-padding">{{ game.name }}</ion-title>
-                <ion-card-content *ngIf="game.accordion">
+                <ion-item>
+                  <ion-title class="ion-padding">{{ game.name }}</ion-title>
+                  <ion-button fill="outline" color="danger" style="--padding:20px;--border-radius: 20px;"
+                            (click)="deleteGame(game); isAdding=true">
+                            <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                </ion-item>
+
+                <ion-card-content>
                   <ion-list>
                     <!-- PARAMS 0 y 3 -->
                     <ion-list-header>
@@ -144,13 +159,17 @@
                     <ion-radio-group [value]="game.index">
                       <div *ngFor="let p of game.gameParam; let i = index">
                         <div *ngIf="p.param.type==0">
+                          <ion-row>
+                          <ion-col>
                           <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
                             <ion-icon color="primary" name="information-circle"></ion-icon>
                             <ion-label>{{ p.param.name }}</ion-label>
                             <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
                           </ion-item>
+                        </ion-col>
+                        <ion-col>
                           <ion-item disabled="{{!p.isActive}}">
-                            <ion-label position="stacked" color="primary">{{p.param.unit}}</ion-label>
+
                             <ion-input disabled="{{!p.isActive}}" 
                               type="number" 
                               value="{{ p.value }}" 
@@ -162,6 +181,8 @@
                               >
                             </ion-input>
                           </ion-item>
+                        </ion-col>
+                        </ion-row>
                         </div>
                         <div *ngIf="p.param.type==3">
                           <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
@@ -191,14 +212,17 @@
                         Activables
                       </ion-label>
                     </ion-list-header>
+
                     <div *ngFor="let p of game.gameParam; let i = index">
+
                       <div *ngIf="p.param.type==1">
-                        <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
-                          <ion-icon color="primary" name="information-circle"></ion-icon>
-                          <ion-label>{{ p.param.name }}</ion-label>
-                          <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
-                        </ion-item>
+                          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                            <ion-icon color="primary" name="information-circle"></ion-icon>
+                            <ion-label>{{ p.param.name }}</ion-label>
+                            <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
+                          </ion-item>
                       </div>
+
                       <div *ngIf="p.param.type==2">
                         <ion-list-header>
                           <ion-label>
@@ -215,7 +239,9 @@
                           </div>
                         </ion-radio-group>
                       </div>
+
                     </div>
+
                     <!-- en todos los juegos -->
                     <ion-item>
                       <ion-label>¿Repeticiones limitadas?</ion-label>
@@ -235,7 +261,7 @@
                   <ion-button
                     [disabled]="!checkIfCorrect(game)"
                     expand="block" 
-                    (click)="gameAdded(game,j)">
+                    (click)="gameAdded(game,j); switchTab(-1); isAdding=true">
                     Listo
                   </ion-button>
                 </ion-card-content>
