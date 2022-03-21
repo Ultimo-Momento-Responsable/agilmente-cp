@@ -101,8 +101,10 @@
           <div id="assignedGames">
             <ion-label color="primary" class="ion-padding">Juegos asignados</ion-label>
             
-            
+            <!-- Tabs de juegos-->
+         
             <ion-item lines="none">
+              <ion-label text-wrap class="ion-text-wrap">
               <ion-chip outline="true" [color]="checkTab(j) ? 'primary' : ''" *ngFor="let game of planningGames; let j = index" (click)="isAdding = false; switchTab(j);">
                 <ion-icon name="game-controller"></ion-icon>
                 <ion-label class="ion-margin">{{ game.name }}</ion-label>
@@ -111,7 +113,9 @@
                 <ion-icon name="add-outline"></ion-icon>
                 <ion-label class="ion-margin">Añadir Juego</ion-label>
               </ion-chip>
+            </ion-label>
             </ion-item>
+          
           </div>
 
           <!-- Buscador de juegos-->
@@ -138,7 +142,8 @@
               </div>
 
               <!-- Tarjetas de cada juego-->
-              <ion-card *ngFor="let game of planningGames; let j = index">
+              <ion-card *ngFor="let game of planningGames; let j = index"
+              style="margin: 0 !important; box-shadow: none ! important;">
               <div *ngIf="checkTab(j)">
                 <ion-item>
                   <ion-title class="ion-padding">{{ game.name }}</ion-title>
