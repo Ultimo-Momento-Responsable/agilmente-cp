@@ -265,7 +265,12 @@ export class SpecificPlanningPage implements OnInit {
           nOfColumns = p.value;
         }
         if (p.param.name == "Cantidad Máxima de Estímulos") {
-          p.maxValue = Math.round((nOfColumns*nOfRows)/2)
+          let maxValue = Math.round((nOfColumns*nOfRows)/2)
+          if (maxValue < 15){
+            p.maxValue = maxValue;
+          } else {
+            p.maxValue = 15;
+          }
           p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
         }
       });
