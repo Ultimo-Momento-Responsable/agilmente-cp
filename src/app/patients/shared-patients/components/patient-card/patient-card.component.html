@@ -1,4 +1,4 @@
-<ion-card class="pc" [ngClass]="this.class">
+<ion-card class="pc" [ngClass]="this.class" (click)="this.goToPatientDetail()">
   <ion-card-header>
     <ion-row>
       <ion-col size="3">
@@ -11,15 +11,6 @@
       <ion-col size="7">
         <h4 class="name-text">{{patient.lastName}} {{patient.firstName}}</h4>
         <ion-chip class="ion-no-margin disabled-chip" *ngIf="!this.patient.isEnabled">Paciente deshabilitado</ion-chip>
-      </ion-col>
-      <ion-col size="2">
-        <ion-button
-          color="light"
-          style="--border-radius: 20px"
-          (click)="this.goToEditPatient()"
-        >
-          <ion-icon name="pencil-outline" item-right></ion-icon>
-        </ion-button>
       </ion-col>
     </ion-row>
   </ion-card-header>
