@@ -33,9 +33,11 @@ export class NewPlanningPage implements OnInit {
   planningGames: any [] = [];
   games: any [] = [];
   gamesSearch: any [] = [];
-  isAdding: boolean = false;
+  isAdding: boolean = true;
   patientBlur = false;
   isClicked: boolean;
+  currentGame: any;
+  patientSelected: boolean = false;
 
   ngOnInit() {
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
@@ -178,6 +180,7 @@ export class NewPlanningPage implements OnInit {
     this.planningGames[this.planningGames.length - 1].accordion = true;
     this.isAdding = false;
     this.myForm.patchValue({"games": null});
+    this.switchTab (this.planningGames.length-1);
   }
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
@@ -394,5 +397,18 @@ export class NewPlanningPage implements OnInit {
       this.myForm.patchValue({"games": null});
     }
     return !this.myForm.valid || !this.patientExists()
+  }
+
+  // Descubre que juego esta activo en este momento
+  switchTab(index) {
+    this.currentGame = index;
+    console.log(this.currentGame);
+  }
+
+  // Verifica que la tab actual sea la del juego correspondiente
+  checkTab(index) {
+    if (index == this.currentGame) {
+      return true;
+    }
   }
 }
