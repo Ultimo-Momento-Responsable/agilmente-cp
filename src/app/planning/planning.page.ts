@@ -27,8 +27,10 @@ export class PlanningPage implements OnInit {
   ionViewWillEnter() {
     this.planningApiService.getPlanningStates().subscribe((res) => {
       this.planningStates = res;
-      this.selectedStates.push(this.planningStates[0].name)
-      this.selectedStates.push(this.planningStates[1].name)
+      if (this.selectedStates.length==0){
+        this.selectedStates.push(this.planningStates[0].name);
+        this.selectedStates.push(this.planningStates[1].name);
+      }
       this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates).subscribe((res) => {
         this.plannings = res.content;
         this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
