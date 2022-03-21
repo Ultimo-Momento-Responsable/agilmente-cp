@@ -179,7 +179,7 @@
                               type="number" 
                               value="{{ p.value }}" 
                               (ionChange)="changeParamValue(game,p,$event)" 
-                              type="number" [min]="p.minValue" 
+                              [min]="p.minValue" 
                               [max]="checkMaxValue(p)" 
                               (ionBlur)="checkParamLimit(p)"
                               placeholder="{{p.param.unit}}"
