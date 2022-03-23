@@ -77,14 +77,17 @@ export class SpecificPlanningPage implements OnInit {
     let i = 0;
     this.gamesApiService.getGames().subscribe(res=>{
       res.forEach(g => {
+        let contActivatable = 0;
         this.games.push(g);
         this.games[i].gameParam.forEach(p => {
           p.isActive = false;
           if (p.param.type == 1) {
             p.value=false;
+            contActivatable++;
           }
           if (p.param.type == 2) {
             p.value=1;
+            contActivatable++;
           }
           if (p.param.type == 3) {
             p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
@@ -94,6 +97,7 @@ export class SpecificPlanningPage implements OnInit {
         this.games[i].hasLimit = false;
         this.games[i].index = null;
         this.games[i].done = true;
+        this.games[i].hasActivatable = (contActivatable > 0);
         i++;
       });
     });
@@ -249,6 +253,27 @@ export class SpecificPlanningPage implements OnInit {
     let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
     if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
       gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = evt.srcElement.value;
+    }
+    if (p.param.name == "Número de filas" || p.param.name == "Número de columnas") {
+      let nOfRows = 3;
+      let nOfColumns = 3;
+      game.gameParam.forEach(p => {
+        if (p.param.name == "Número de filas"){
+          nOfRows = p.value;
+        }
+        if (p.param.name == "Número de columnas"){
+          nOfColumns = p.value;
+        }
+        if (p.param.name == "Cantidad Máxima de Estímulos") {
+          let maxValue = Math.round((nOfColumns*nOfRows)/2)
+          if (maxValue < 15){
+            p.maxValue = maxValue;
+          } else {
+            p.maxValue = 15;
+          }
+          p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
+        }
+      });
     }
   }
 

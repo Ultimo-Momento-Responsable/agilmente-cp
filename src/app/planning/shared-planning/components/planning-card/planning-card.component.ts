@@ -18,13 +18,16 @@ export class PlanningCardComponent implements OnInit {
       this.color = "primary";
     } else if (this.planning.stateName === 'Pendiente') {
       this.icon = "time";
+      this.color = "tertiary";
+    } else if (this.planning.stateName === 'Incompleta') {
+      this.icon = "alert-circle";
       this.color = "warning";
-    } else if (this.planning.stateName === 'Terminada') {
-      this.icon = "checkmark-circle";
-      this.color = "success";
     } else if (this.planning.stateName === 'Cancelada') {
       this.icon = "close-circle";
       this.color = "danger";
+    } else if (this.planning.stateName === 'Completada') {
+      this.icon = "checkmark-circle";
+      this.color = "success";
     } 
   }
 

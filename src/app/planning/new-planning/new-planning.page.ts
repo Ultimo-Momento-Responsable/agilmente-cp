@@ -33,9 +33,11 @@ export class NewPlanningPage implements OnInit {
   planningGames: any [] = [];
   games: any [] = [];
   gamesSearch: any [] = [];
-  isAdding: boolean = false;
+  isAdding: boolean = true;
   patientBlur = false;
   isClicked: boolean;
+  currentGame: any;
+  patientSelected: boolean = false;
 
   ngOnInit() {
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
@@ -45,12 +47,19 @@ export class NewPlanningPage implements OnInit {
     this.gamesApiService.getGames().subscribe(res=>{
       res.forEach(g => {
         this.games.push(g);
+        let contType0 = 0;
+        let contActivatable = 0;
         this.games[i].gameParam.forEach(p => {
           p.isActive = false;
+          if (p.param.type == 0) {
+            contType0++;
+          }
           if (p.param.type == 1) {
+            contActivatable++;
             p.value=false;
           }
           if (p.param.type == 2) {
+            contActivatable++;
             p.value=1;
           }
           if (p.param.type == 3) {
@@ -60,7 +69,12 @@ export class NewPlanningPage implements OnInit {
         this.games[i].maxNumberOfSessions = 5;
         this.games[i].hasLimit = false;
         this.games[i].index = null;
+        if (contType0==1) {
+          this.games[i].index = 0;
+          this.games[i].gameParam.find(p => p.param.type === 0).isActive = true;
+        }
         this.games[i].done = false;
+        this.games[i].hasActivatable = (contActivatable > 0);
         i++;
       });
     });
@@ -166,6 +180,7 @@ export class NewPlanningPage implements OnInit {
     this.planningGames[this.planningGames.length - 1].accordion = true;
     this.isAdding = false;
     this.myForm.patchValue({"games": null});
+    this.switchTab (this.planningGames.length-1);
   }
 
   // Para los params tipo 0, activa uno, en caso de que se haya tildado
@@ -187,6 +202,27 @@ export class NewPlanningPage implements OnInit {
     let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
     if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
       gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = evt.srcElement.value;
+    }
+    if (p.param.name == "Número de filas" || p.param.name == "Número de columnas") {
+      let nOfRows = 3;
+      let nOfColumns = 3;
+      game.gameParam.forEach(p => {
+        if (p.param.name == "Número de filas"){
+          nOfRows = p.value;
+        }
+        if (p.param.name == "Número de columnas"){
+          nOfColumns = p.value;
+        }
+        if (p.param.name == "Cantidad Máxima de Estímulos") {
+          let maxValue = Math.round((nOfColumns*nOfRows)/2)
+          if (maxValue < 15){
+            p.maxValue = maxValue;
+          } else {
+            p.maxValue = 15;
+          }
+          p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
+        }
+      });
     }
   }
 
@@ -361,5 +397,18 @@ export class NewPlanningPage implements OnInit {
       this.myForm.patchValue({"games": null});
     }
     return !this.myForm.valid || !this.patientExists()
+  }
+
+  // Descubre que juego esta activo en este momento
+  switchTab(index) {
+    this.currentGame = index;
+    console.log(this.currentGame);
+  }
+
+  // Verifica que la tab actual sea la del juego correspondiente
+  checkTab(index) {
+    if (index == this.currentGame) {
+      return true;
+    }
   }
 }

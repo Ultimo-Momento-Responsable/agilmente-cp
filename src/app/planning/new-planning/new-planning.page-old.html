@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Detalles de planificación</ion-title>
+    <ion-title>Cargar nueva planificación</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,36 +12,19 @@
     <ion-col size="2"></ion-col>
     <ion-col>
       <ion-title class="ion-padding ion-margin">
-        Detalles
-      <ion-button
-        style="float: right"
-        color="danger"
-        fill="clear"
-        (click)="this.cancelPlanning()">
-        <ion-icon name="trash-outline"></ion-icon>
-        <p class="ion-margin">Eliminar</p>
-      </ion-button>
-      <ion-button
-        [disabled]="this.isEditing"
-        style="float: right"
-        fill="clear"
-        (click)="this.editPlanning()">
-        <ion-icon name="pencil-outline"></ion-icon>
-        <p class="ion-margin">Editar</p>
-      </ion-button>
+        Nueva Planificación
       </ion-title>
-      <form [formGroup]="myForm" (ngSubmit)="edit(myForm)" *ngIf='!this.isLoading'>
-        
+      <form [formGroup]="myForm" (ngSubmit)="save(myForm)">
+        <!-- Comienza el Form -->
         <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Paciente</ion-label>
           <ion-searchbar 
             animated 
             placeholder="Selecciona un paciente" 
             formControlName="patient"
-            (ionInput)="filterPatient($event)"
+            (ionChange)="filterPatient($event)"
             (ionFocus)="patientBlur=false"
-            (ionBlur)="patientBlur=true"
-            [disabled]="true">
+            (ionBlur)="patientBlur=true">
           </ion-searchbar>
           <ion-list lines="none">
             <ion-item *ngFor="let p of patientsSearch">
@@ -56,15 +39,10 @@
         <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
         
         <ion-item id="rounded">
-          <ion-label position="stacked" color="primary">Profesional</ion-label>
-          <ion-input formControlName="professionalName" [disabled]="true"></ion-input>
-        </ion-item>
-
-        <ion-item id="rounded">
           <ion-label position="stacked" color="primary">Nombre de la planificación</ion-label>
-          <ion-input formControlName="planningName" [disabled]="!isEditing"></ion-input>
+          <ion-input formControlName="planningName"></ion-input>
         </ion-item>
-
+        
         <ion-row>
           <ion-col>
             <ion-item id="rounded" button>
@@ -72,7 +50,6 @@
               <ion-input readonly
                   [liIonic4Datepicker]="datePickerStart"
                   formControlName="startDate"
-                  [disabled]="this.state!='Pendiente' || !isEditing"
                   (ionChange)="setFinishMinDate()">
               </ion-input>
               <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
@@ -82,90 +59,24 @@
             <ion-item id="rounded" button >
               <ion-label position="stacked" color="primary">Fecha de fin</ion-label>
               <ion-input readonly
+                  [disabled]="this.myForm.value.startDate.length == 0"
                   [liIonic4Datepicker]="datePickerFinish"
-                  formControlName="finishDate"
-                  [disabled]="!isEditing">
+                  formControlName="finishDate">
               </ion-input>
               <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-chip *ngIf="this.state === 'Vigente'" color="primary">
-          <ion-icon name="play-circle"></ion-icon>
-          <ion-label color="dark">{{ this.state }}</ion-label>
-        </ion-chip>
-        <ion-chip *ngIf="this.state === 'Pendiente'" color="tertiary">
-          <ion-icon name="time"></ion-icon>
-          <ion-label color="dark">{{this.state}}</ion-label>
-        </ion-chip>
-        <ion-chip *ngIf="this.state === 'Incompleta'" color="warning">
-          <ion-icon name="checkmark-circle"></ion-icon>
-          <ion-label color="dark">{{this.state}}</ion-label>
-        </ion-chip>
-        <ion-chip *ngIf="this.state === 'Cancelada'" color="danger">
-          <ion-icon name="close-circle"></ion-icon>
-          <ion-label color="dark">{{this.state}}</ion-label>
-        </ion-chip>
-        <ion-chip *ngIf="this.state === 'Completada'" color="success">
-          <ion-icon name="checkmark-circle"></ion-icon>
-          <ion-label color="dark">{{this.state}}</ion-label>
-        </ion-chip>
+
         <ion-item id="rounded">
           <ion-row>
             <ion-col>
-              <ion-label class="assigned-games" position="stacked" color="primary">Juegos asignados</ion-label>
+              <ion-label position="stacked" color="primary">Juegos asignados</ion-label>
             </ion-col>
           </ion-row>
         </ion-item>
-        <div *ngIf="!this.isEditing">
-          <ion-card 
-            *ngFor="let detail of planningList" 
-            class="horizontal-cards">
-            <ion-card-header>
-              <ion-row>
-              <ion-card-title style="margin-top: 0.8%;" color="primary">{{detail.game}}</ion-card-title>
-              </ion-row>
-            </ion-card-header>
-            <ion-card-content>
-              <p class="session-input" *ngIf="detail.numberOfSession != -1"><b>Sesiones: </b>{{detail.numberOfSession}}</p>
-              <p class="session-input" *ngIf="detail.numberOfSession == -1"><b>Sesiones: </b>Sin límite de sesiones.</p>
-              <ion-label *ngFor="let param of detail?.parameters">
-                <div [ngSwitch]="param?.value">
-                  
-                  <div *ngSwitchCase="'true'">
-                    <ion-text>
-                      <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
-                      <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">Si</span></ion-text>
-                  </div>
-                  <div *ngSwitchCase="'false'">
-                    <ion-text>
-                      <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
-                      <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">No</span></ion-text>
-                  </div>
-                  <div *ngSwitchDefault>
-                    <div *ngIf="param?.name=='spriteSet';else notSpriteSet">
-                      <div *ngIf="param?.value=='1'">
-                        <ion-text>
-                          <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
-                          <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">Flores</span></ion-text>
-                      </div>
-                      <div *ngIf="param?.value=='2'">
-                        <ion-text>
-                          <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
-                          <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">Frutas</span></ion-text>
-                      </div>
-                    </div>
-                    <ng-template #notSpriteSet>
-                      <ion-text>
-                        <ion-icon size="small" color="primary" name="information-circle"  ngbTooltip="{{param.contextualHelp}}" placement="top-left"></ion-icon>
-                        <b style="vertical-align: top;">{{ param?.spanishName }}: </b><span style="vertical-align: top;">{{param?.value}} {{param?.unit}}</span></ion-text>
-                    </ng-template>
-                  </div>
-                </div>
-              </ion-label>
-            </ion-card-content>
-          </ion-card>
-        </div>
+
+        <!-- Comienza la sección de juegos -->
         <ion-row>
           <ion-col>
             <ion-card *ngFor="let game of planningGames; let j = index">
@@ -191,6 +102,7 @@
               </ion-card-header>
               <ion-card-content *ngIf="game.accordion">
                 <ion-list>
+                  <!-- PARAMS 0 y 3 -->
                   <ion-list-header>
                     <ion-label>
                       Condición de Parada
@@ -210,17 +122,18 @@
                             type="number" 
                             value="{{ p.value }}" 
                             (ionChange)="changeParamValue(game,p,$event)" 
-                            [min]="p.minValue" 
+                            type="number" [min]="p.minValue" 
                             [max]="checkMaxValue(p)" 
                             (ionBlur)="checkParamLimit(p)"
-                            placeholder="{{p.param.unit}}">
+                            placeholder="{{p.param.unit}}"
+                            >
                           </ion-input>
                         </ion-item>
                       </div>
                       <div *ngIf="p.param.type==3">
                         <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
                           <ion-icon color="primary" name="information-circle"></ion-icon>
-                          <ion-text>{{ p.param.name }}</ion-text>
+                          <ion-label>{{ p.param.name }}</ion-label>
                           <ion-item 
                             style="margin-left: 5%; border-bottom: solid 1px rgb(56, 128, 255);">
                             <ion-input 
@@ -228,9 +141,10 @@
                               type="number" 
                               value="{{ p.value }}" 
                               (ionChange)="changeParamValue(game,p,$event)" 
-                              [min]="p.minValue" 
+                              type="number" [min]="p.minValue" 
                               [max]="checkMaxValue(p)" 
-                              (ionBlur)="checkParamLimit(p)">
+                              (ionBlur)="checkParamLimit(p)"
+                              >
                             </ion-input>
                           </ion-item>
                           <ion-text color="medium">{{p.param.unit}}</ion-text>
@@ -238,7 +152,8 @@
                       </div>
                     </div>
                   </ion-radio-group>
-                  <ion-list-header *ngIf="game.hasActivatable">
+                  <!-- PARAMS 1 y 2 -->
+                  <ion-list-header>
                     <ion-label>
                       Activables
                     </ion-label>
@@ -248,7 +163,7 @@
                       <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
                         <ion-icon color="primary" name="information-circle"></ion-icon>
                         <ion-label>{{ p.param.name }}</ion-label>
-                        <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p)"></ion-toggle>
+                        <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
                       </ion-item>
                     </div>
                     <div *ngIf="p.param.type==2">
@@ -268,7 +183,6 @@
                       </ion-radio-group>
                     </div>
                   </div>
-
                   <!-- en todos los juegos -->
                   <ion-item>
                     <ion-label>¿Repeticiones limitadas?</ion-label>
@@ -316,16 +230,16 @@
                 </ion-item>
               </ion-list>
             </div>
-            <ion-button *ngIf="!isAdding && isEditing" (click)="isAdding = true" style="float: right;">
+            <ion-button *ngIf="!isAdding" (click)="isAdding = true" style="float: right;">
               <ion-icon name="add-outline"></ion-icon>
               <ion-label class="ion-margin">Añadir Juego</ion-label>
             </ion-button>
           </ion-col>
         </ion-row>
-        <ion-button type="submit" *ngIf="isEditing"
+        <ion-button type="submit" 
           [disabled]="submitDisabled() || isClicked"
           expand="block">
-          Actualizar Planificación
+          Cargar Planificación
         </ion-button>
       </form>
     </ion-col>
