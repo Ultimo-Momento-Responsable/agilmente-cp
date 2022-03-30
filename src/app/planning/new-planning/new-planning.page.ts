@@ -402,7 +402,6 @@ export class NewPlanningPage implements OnInit {
   // Descubre que juego esta activo en este momento
   switchTab(index) {
     this.currentGame = index;
-    console.log(this.currentGame);
   }
 
   // Verifica que la tab actual sea la del juego correspondiente
