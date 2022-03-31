@@ -112,6 +112,7 @@ export class NewPlanningPage implements OnInit {
       games: new FormControl('', Validators.required)
     });
     this.myForm.patchValue({"games": null});
+
   }
 
   // Chequea que el paciente que se está buscando existe
@@ -151,7 +152,7 @@ export class NewPlanningPage implements OnInit {
   filterGame(evt){
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
-      if (search && this.gamesSearch){
+      if (this.gamesSearch){
         return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
       }
     })
@@ -402,7 +403,12 @@ export class NewPlanningPage implements OnInit {
   // Descubre que juego esta activo en este momento
   switchTab(index) {
     this.currentGame = index;
-    console.log(this.currentGame);
+    const search = '';
+    this.gamesSearch = this.games.filter((g)=> {
+      if (this.gamesSearch){
+        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
+      }
+    })
   }
 
   // Verifica que la tab actual sea la del juego correspondiente
@@ -410,5 +416,16 @@ export class NewPlanningPage implements OnInit {
     if (index == this.currentGame) {
       return true;
     }
+  }
+
+  // Ejecuta una busqueda vacía para traer la lista completa de juegos
+  // al cargar la pagina
+  ionViewDidEnter() {
+    const search = '';
+    this.gamesSearch = this.games.filter((g)=> {
+      if (this.gamesSearch){
+        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
+      }
+    })
   }
 }
