@@ -14,274 +14,277 @@
         
         <form [formGroup]="myForm" (ngSubmit)="save(myForm)">
           <!-- Seleccionar al paciente -->
-          <ion-card>
-            <ion-row>
-              <ion-col>
-            <ion-title>
-              Seleccionar un Paciente
-            </ion-title>
-            
-          <ion-item lines="none">
-            <ion-label position="stacked" color="primary">Selecciona al paciente para el cual quieres crear una planificación:</ion-label>
-            <ion-searchbar 
-              animated 
-              placeholder="Selecciona un paciente" 
-              formControlName="patient"
-              (ionChange)="filterPatient($event)"
-              (ionFocus)="patientBlur=false"
-              (ionBlur)="patientBlur=true">
-            </ion-searchbar>
-            <ion-list lines="none">
-              <ion-item *ngFor="let p of patientsSearch">
-                <ion-button fill="clear" class="ion-text-wrap" (click) = "fillSearchBar(p.firstName + ' ' + p.lastName); patientSelected = true;">
-                  <ion-text>
-                    {{ p.firstName }} {{ p.lastName }}
-                  </ion-text>
-                </ion-button>
-              </ion-item>
-            </ion-list>
-          </ion-item>
-          <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
-        </ion-col>
-
-        <ion-col>
-          <ion-title>
-            Nombre de la planificación
-          </ion-title>
-          
-          <ion-item>
-            <ion-label position="stacked" color="primary">Ingresa un nombre único para la planificación:</ion-label>
-            <ion-input formControlName="planningName" placeholder="Nombre de la planificación" type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-        </ion-row>
-        
-        </ion-card>
-
-        <!-- Fechas de planificación -->
-        <ion-card *ngIf="patientSelected">
-          <ion-title class="ion-padding">
-            Seleccionar un período
-          </ion-title>
-          <ion-label class="ion-padding">Selecciona el período de tiempo en el cual el paciente podrá realizar los ejercicios.</ion-label>
           <ion-row>
             <ion-col>
-              <ion-item id="rounded" button>
-                <ion-label position="stacked" color="primary">¿Cuándo podrá el paciente empezar a jugar?</ion-label>
-                <ion-input readonly
-                    [liIonic4Datepicker]="datePickerStart"
-                    formControlName="startDate"
-                    (ionChange)="setFinishMinDate()"
-                    placeholder="DD/MM/AAAA">
-                </ion-input>
-                <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item id="rounded" button >
-                <ion-label position="stacked" color="primary">¿Cuándo el paciente dejará de ver los ejercicios?</ion-label>
-                <ion-input readonly
-                    [disabled]="this.myForm.value.startDate.length == 0"
-                    [liIonic4Datepicker]="datePickerFinish"
-                    formControlName="finishDate"
-                    placeholder="DD/MM/AAAA">
-                </ion-input>
-                <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-card>
-
-        <!-- Juegos de planificación -->
-        <ion-card *ngIf="this.myForm.value.startDate.length != 0">
-          <ion-title class="ion-padding">
-            Agregar ejercicios
-          </ion-title>
-
-          <div id="assignedGames">
-            <ion-label color="primary" class="ion-padding">Juegos asignados</ion-label>
+              <ion-card class="card">
+                <ion-title class="card_title">
+                  Seleccionar un paciente
+                </ion-title>
             
-            <!-- Tabs de juegos-->
-         
-            <ion-item lines="none">
-              <ion-label text-wrap class="ion-text-wrap">
-              <ion-chip outline="true" [color]="checkTab(j) ? 'primary' : ''" *ngFor="let game of planningGames; let j = index" (click)="isAdding = false; switchTab(j);">
-                <ion-icon name="game-controller"></ion-icon>
-                <ion-label class="ion-margin">{{ game.name }}</ion-label>
-              </ion-chip>
-              <ion-chip outline="true" color="medium" (click)="isAdding = true; switchTab(-1);">
-                <ion-icon name="add-outline"></ion-icon>
-                <ion-label class="ion-margin">Añadir Juego</ion-label>
-              </ion-chip>
-            </ion-label>
-            </ion-item>
-          
-          </div>
-
-          <!-- Buscador de juegos-->
-          <ion-row>
-            <ion-col>
-              <div id="searchBar" *ngIf="isAdding">
-                <ion-label class="ion-padding" position="stacked">Busca un juego o selecciona uno de los que aparecen debajo para agregarlo a la planificación:</ion-label>
-                <ion-searchbar 
-                  animated 
-                  placeholder="Comienza a escribir aquí..."
-                  autocomplete
-                  autocorrect
-                  (ionInput)="filterGame($event)">
-                </ion-searchbar>
+                <ion-label class="card_label ion-padding">Selecciona al paciente para el cual quieres crear una planificación:</ion-label>
+                <ion-item lines="none">
+                  <ion-searchbar 
+                    animated 
+                    placeholder="Selecciona un paciente" 
+                    formControlName="patient"
+                    (ionChange)="filterPatient($event)"
+                    (ionFocus)="patientBlur=false"
+                    (ionBlur)="patientBlur=true">
+                  </ion-searchbar>
+                </ion-item>
                 <ion-list lines="none">
-                  <ion-item *ngFor="let g of gamesSearch">
-                    <ion-button fill="clear" class="ion-text-wrap" (click) = "addGame(g);">
+                  <ion-item *ngFor="let p of patientsSearch">
+                    <ion-button fill="clear" class="ion-text-wrap" (click) = "fillSearchBar(p.firstName + ' ' + p.lastName); patientSelected = true;">
                       <ion-text>
-                        {{ g.name }}
+                        {{ p.firstName }} {{ p.lastName }}
                       </ion-text>
                     </ion-button>
                   </ion-item>
                 </ion-list>
-              </div>
+                <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
+              </ion-card>
+            </ion-col>
 
-              <!-- Tarjetas de cada juego-->
-              <ion-card *ngFor="let game of planningGames; let j = index"
-              style="margin: 0 !important; box-shadow: none ! important;">
-              <div *ngIf="checkTab(j)">
-                <ion-item>
-                  <ion-title class="ion-padding">{{ game.name }}</ion-title>
-                  <ion-button fill="outline" color="danger" style="--padding:20px;--border-radius: 20px;"
-                            (click)="deleteGame(game); isAdding=true">
-                            <ion-icon name="trash-outline"></ion-icon>
-                  </ion-button>
+            <ion-col>
+              <ion-card class="card">
+                <ion-title class="card_title">
+                  Nombre de la planificación
+                </ion-title>
+                <ion-label class="card_label ion-padding">Ingresa un nombre único para la planificación:</ion-label>
+                <ion-item class="card_name">
+                  <ion-input formControlName="planningName" placeholder="Nombre de la planificación" type="text"></ion-input>
                 </ion-item>
-
-                <ion-card-content>
-                  <ion-list>
-                    <!-- PARAMS 0 y 3 -->
-                    <ion-list-header>
-                      <ion-label>
-                        Condición de Parada
-                      </ion-label>
-                    </ion-list-header>
-                    <ion-radio-group [value]="game.index">
-                      <div *ngFor="let p of game.gameParam; let i = index">
-                        <div *ngIf="p.param.type==0">
-                          <ion-row>
-                          <ion-col>
-                          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
-                            <ion-icon color="primary" name="information-circle"></ion-icon>
-                            <ion-label>{{ p.param.name }}</ion-label>
-                            <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
-                          </ion-item>
-                        </ion-col>
-                        <ion-col>
-                          <ion-item disabled="{{!p.isActive}}">
-
-                            <ion-input disabled="{{!p.isActive}}" 
-                              type="number" 
-                              value="{{ p.value }}" 
-                              (ionChange)="changeParamValue(game,p,$event)" 
-                              [min]="p.minValue" 
-                              [max]="checkMaxValue(p)" 
-                              (ionBlur)="checkParamLimit(p)"
-                              placeholder="{{p.param.unit}}"
-                              >
-                            </ion-input>
-                          </ion-item>
-                        </ion-col>
-                        </ion-row>
-                        </div>
-                        <div *ngIf="p.param.type==3">
-                          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
-                            <ion-icon color="primary" name="information-circle"></ion-icon>
-                            <ion-label>{{ p.param.name }}</ion-label>
-                            <ion-item 
-                              style="margin-left: 5%; border-bottom: solid 1px rgb(56, 128, 255);">
-                              <ion-input 
-                                slot="end"
-                                type="number" 
-                                value="{{ p.value }}" 
-                                (ionChange)="changeParamValue(game,p,$event)" 
-                                type="number" [min]="p.minValue" 
-                                [max]="checkMaxValue(p)" 
-                                (ionBlur)="checkParamLimit(p)"
-                                >
-                              </ion-input>
-                            </ion-item>
-                            <ion-text color="medium">{{p.param.unit}}</ion-text>
-                          </ion-item>
-                        </div>
-                      </div>
-                    </ion-radio-group>
-                    <!-- PARAMS 1 y 2 -->
-                    <ion-list-header>
-                      <ion-label>
-                        Activables
-                      </ion-label>
-                    </ion-list-header>
-
-                    <div *ngFor="let p of game.gameParam; let i = index">
-
-                      <div *ngIf="p.param.type==1">
-                          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
-                            <ion-icon color="primary" name="information-circle"></ion-icon>
-                            <ion-label>{{ p.param.name }}</ion-label>
-                            <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
-                          </ion-item>
-                      </div>
-
-                      <div *ngIf="p.param.type==2">
-                        <ion-list-header>
-                          <ion-label>
-                            {{ p.param.name }}
-                          </ion-label>
-                        </ion-list-header>
-                        <ion-radio-group [value]="p.value - 1"> 
-                          <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
-                            <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
-                              <ion-icon color="primary" name="information-circle"></ion-icon>
-                              <ion-label>{{ paramType2.name }}</ion-label>
-                              <ion-radio [value]="j" (click)="p.value=paramType2.id"></ion-radio>
-                            </ion-item>
-                          </div>
-                        </ion-radio-group>
-                      </div>
-
-                    </div>
-
-                    <!-- en todos los juegos -->
-                    <ion-item>
-                      <ion-label>¿Repeticiones limitadas?</ion-label>
-                      <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
-                      <ion-item disabled="{{!game.hasLimit}}">
-                        <ion-label position="stacked" color="primary">Cantidad</ion-label>
-                        <ion-input disabled="{{!game.hasLimit}}" 
-                          value="{{ game.maxNumberOfSessions }}" 
-                          (ionChange)="changeLimitGamesValue(game,$event)" 
-                          type="number" 
-                          min=1 
-                          (ionBlur)="checkMNoSLimit(game)"> 
-                        </ion-input>
-                      </ion-item>
-                    </ion-item>
-                  </ion-list>
-                  <ion-button
-                    [disabled]="!checkIfCorrect(game)"
-                    expand="block" 
-                    (click)="gameAdded(game,j); switchTab(-1); isAdding=true">
-                    Listo
-                  </ion-button>
-                </ion-card-content>
-              </div>
               </ion-card>
             </ion-col>
           </ion-row>
-        </ion-card>
 
-        <ion-button type="submit" 
-          [disabled]="submitDisabled() || isClicked"
-          expand="block">
-          <ion-icon slot="start" name="pencil"></ion-icon>
-          Guardar y terminar
-        </ion-button>
+          <!-- Fechas de planificación -->
+          <ion-row>
+            <ion-col>
+              <ion-card class="card" *ngIf="patientSelected">
+                <ion-title class="card_title">
+                  Seleccionar un período
+                </ion-title>
+                <ion-label class="card_label ion-padding">Selecciona el período de tiempo en el cual el paciente podrá realizar los ejercicios.</ion-label>
+                <ion-row>
+                  <ion-col>
+                    <ion-item class="card_date" id="rounded">
+                      <ion-label class="card_date_stacked" position="stacked" color="primary">¿Cuándo podrá el paciente empezar a jugar?</ion-label>
+                      <ion-input readonly
+                          [liIonic4Datepicker]="datePickerStart"
+                          formControlName="startDate"
+                          (ionChange)="setFinishMinDate()"
+                          placeholder="DD/MM/AAAA">
+                      </ion-input>
+                      <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col>
+                    <ion-item class="card_date" id="rounded">
+                      <ion-label class="card_date_stacked" position="stacked" color="primary">¿Cuándo el paciente dejará de ver los ejercicios?</ion-label>
+                      <ion-input readonly
+                          [disabled]="this.myForm.value.startDate.length == 0"
+                          [liIonic4Datepicker]="datePickerFinish"
+                          formControlName="finishDate"
+                          placeholder="DD/MM/AAAA">
+                      </ion-input>
+                      <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+
+          <!-- Juegos de planificación -->
+          <ion-row>
+            <ion-col>
+              <ion-card class="card" *ngIf="this.myForm.value.startDate.length != 0">
+                <ion-title class="card_title">
+                  Agregar ejercicios
+                </ion-title>
+
+                <div id="assignedGames">
+                  <ion-label class="card_label ion-padding">Juegos asignados</ion-label>
+                  
+                  <!-- Tabs de juegos-->
+              
+                  <ion-item lines="none">
+                    <ion-label text-wrap class="ion-text-wrap">
+                      <ion-chip outline="true" [color]="checkTab(j) ? 'primary' : ''" *ngFor="let game of planningGames; let j = index" (click)="isAdding = false; switchTab(j);">
+                        <ion-icon name="game-controller"></ion-icon>
+                        <ion-label class="ion-margin">{{ game.name }}</ion-label>
+                      </ion-chip>
+                      <ion-chip outline="true" [color]="isAdding ? 'primary' : 'medium'" (click)="isAdding = true; switchTab(-1);">
+                        <ion-icon name="add-outline"></ion-icon>
+                        <ion-label class="ion-margin">Añadir ejercicio</ion-label>
+                      </ion-chip>
+                    </ion-label>
+                  </ion-item>
+                
+                </div>
+
+                <!-- Buscador de juegos-->
+                <div *ngIf="isAdding">
+                  <ion-label class="card_label ion-padding">Busca un juego o selecciona uno de los que aparecen debajo para agregarlo a la planificación:</ion-label>
+                  <ion-searchbar 
+                    class="card_search"
+                    animated 
+                    placeholder="Comienza a escribir aquí..."
+                    autocomplete
+                    autocorrect
+                    (ionInput)="filterGame($event)">
+                  </ion-searchbar>
+                  <ion-list lines="none">
+                    <ion-item *ngFor="let g of gamesSearch">
+                      <ion-button fill="clear" class="ion-text-wrap" (click) = "addGame(g);">
+                        <ion-text>
+                          {{ g.name }}
+                        </ion-text>
+                      </ion-button>
+                    </ion-item>
+                  </ion-list>
+                </div>
+
+                <!-- Tarjetas de cada juego-->
+                <ion-card *ngFor="let game of planningGames; let j = index"
+                  style="margin: 0 !important; box-shadow: none ! important;">
+                  <div *ngIf="checkTab(j)">
+                    <ion-item>
+                      <ion-title class="ion-padding">{{ game.name }}</ion-title>
+                      <ion-button fill="outline" color="danger" style="--padding:20px;--border-radius: 20px;"
+                                (click)="deleteGame(game); isAdding=true">
+                                <ion-icon name="trash-outline"></ion-icon>
+                      </ion-button>
+                    </ion-item>
+                    <ion-card-content>
+                      <ion-list>
+                        <!-- PARAMS 0 y 3 -->
+                        <ion-list-header>
+                          <ion-label>
+                            Condición de Parada
+                          </ion-label>
+                        </ion-list-header>
+                        <ion-radio-group [value]="game.index">
+                          <div *ngFor="let p of game.gameParam; let i = index">
+                            <div *ngIf="p.param.type==0">
+                              <ion-row>
+                              <ion-col>
+                              <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
+                                <ion-icon color="primary" name="information-circle"></ion-icon>
+                                <ion-label>{{ p.param.name }}</ion-label>
+                                <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
+                              </ion-item>
+                            </ion-col>
+                            <ion-col>
+                              <ion-item disabled="{{!p.isActive}}">
+
+                                <ion-input disabled="{{!p.isActive}}" 
+                                  type="number" 
+                                  value="{{ p.value }}" 
+                                  (ionChange)="changeParamValue(game,p,$event)" 
+                                  [min]="p.minValue" 
+                                  [max]="checkMaxValue(p)" 
+                                  (ionBlur)="checkParamLimit(p)"
+                                  placeholder="{{p.param.unit}}"
+                                  >
+                                </ion-input>
+                              </ion-item>
+                            </ion-col>
+                            </ion-row>
+                            </div>
+                            <div *ngIf="p.param.type==3">
+                              <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                                <ion-icon color="primary" name="information-circle"></ion-icon>
+                                <ion-label>{{ p.param.name }}</ion-label>
+                                <ion-item 
+                                  style="margin-left: 5%; border-bottom: solid 1px rgb(56, 128, 255);">
+                                  <ion-input 
+                                    slot="end"
+                                    type="number" 
+                                    value="{{ p.value }}" 
+                                    (ionChange)="changeParamValue(game,p,$event)" 
+                                    type="number" [min]="p.minValue" 
+                                    [max]="checkMaxValue(p)" 
+                                    (ionBlur)="checkParamLimit(p)"
+                                    >
+                                  </ion-input>
+                                </ion-item>
+                                <ion-text color="medium">{{p.param.unit}}</ion-text>
+                              </ion-item>
+                            </div>
+                          </div>
+                        </ion-radio-group>
+                        <!-- PARAMS 1 y 2 -->
+                        <ion-list-header *ngIf="game.hasActivatable">
+                          <ion-label>
+                            Activables
+                          </ion-label>
+                        </ion-list-header>
+
+                        <div *ngFor="let p of game.gameParam; let i = index">
+
+                          <div *ngIf="p.param.type==1">
+                              <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                                <ion-icon color="primary" name="information-circle"></ion-icon>
+                                <ion-label>{{ p.param.name }}</ion-label>
+                                <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
+                              </ion-item>
+                          </div>
+
+                          <div *ngIf="p.param.type==2">
+                            <ion-list-header>
+                              <ion-label>
+                                {{ p.param.name }}
+                              </ion-label>
+                            </ion-list-header>
+                            <ion-radio-group [value]="p.value - 1"> 
+                              <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
+                                <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
+                                  <ion-icon color="primary" name="information-circle"></ion-icon>
+                                  <ion-label>{{ paramType2.name }}</ion-label>
+                                  <ion-radio [value]="j" (click)="p.value=paramType2.id"></ion-radio>
+                                </ion-item>
+                              </div>
+                            </ion-radio-group>
+                          </div>
+
+                        </div>
+
+                        <!-- en todos los juegos -->
+                        <ion-item>
+                          <ion-label>¿Repeticiones limitadas?</ion-label>
+                          <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
+                          <ion-item disabled="{{!game.hasLimit}}">
+                            <ion-label position="stacked" color="primary">Cantidad</ion-label>
+                            <ion-input disabled="{{!game.hasLimit}}" 
+                              value="{{ game.maxNumberOfSessions }}" 
+                              (ionChange)="changeLimitGamesValue(game,$event)" 
+                              type="number" 
+                              min=1 
+                              (ionBlur)="checkMNoSLimit(game)"> 
+                            </ion-input>
+                          </ion-item>
+                        </ion-item>
+                      </ion-list>
+                      <ion-button
+                        [disabled]="!checkIfCorrect(game)"
+                        expand="block" 
+                        (click)="gameAdded(game,j); switchTab(-1); isAdding=true">
+                        Listo
+                      </ion-button>
+                    </ion-card-content>
+                  </div>
+                </ion-card>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-button type="submit" 
+            [disabled]="submitDisabled() || isClicked"
+            expand="block">
+            <ion-icon slot="start" name="pencil"></ion-icon>
+            Guardar y terminar
+          </ion-button>
         </form>
       </ion-col>
       <ion-col size="1"></ion-col>
