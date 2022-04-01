@@ -7,6 +7,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
+import { CognitiveDomainApiService } from 'src/app/cognitive-domain/service/cognitive-domain-api.service';
 
 @Component({
   selector: 'app-new-planning',
@@ -153,7 +154,10 @@ export class NewPlanningPage implements OnInit {
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
       if (this.gamesSearch){
-        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
+        const gameName = (g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1;
+        const gamesCd = (g.cognitiveDomain.some(cd =>
+           cd.name.toLowerCase().indexOf(search.toLowerCase()) > -1));
+        return (gameName + gamesCd)
       }
     })
   }
