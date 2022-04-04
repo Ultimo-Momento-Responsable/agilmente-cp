@@ -7,7 +7,6 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
-import { CognitiveDomainApiService } from 'src/app/cognitive-domain/service/cognitive-domain-api.service';
 
 @Component({
   selector: 'app-new-planning',
@@ -155,8 +154,8 @@ export class NewPlanningPage implements OnInit {
     this.gamesSearch = this.games.filter((g)=> {
       if (this.gamesSearch){
         const gameName = (g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1;
-        const gamesCd = (g.cognitiveDomain.some(cd =>
-           cd.name.toLowerCase().indexOf(search.toLowerCase()) > -1));
+        const gamesCd = (g.cognitiveDomain.some(cd => cd.name.toLowerCase().indexOf(search.toLowerCase()) > -1));
+        
         return (gameName + gamesCd)
       }
     })
@@ -407,12 +406,7 @@ export class NewPlanningPage implements OnInit {
   // Descubre que juego esta activo en este momento
   switchTab(index) {
     this.currentGame = index;
-    const search = '';
-    this.gamesSearch = this.games.filter((g)=> {
-      if (this.gamesSearch){
-        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
-      }
-    })
+    this.filterGameByString('');
   }
 
   // Verifica que la tab actual sea la del juego correspondiente
@@ -422,14 +416,24 @@ export class NewPlanningPage implements OnInit {
     }
   }
 
-  // Ejecuta una busqueda vacía para traer la lista completa de juegos
-  // al cargar la pagina
-  ionViewDidEnter() {
-    const search = '';
+  // Filtra juegos mediante el nombre a través del parámetro recibido
+  filterGameByString(search) {
     this.gamesSearch = this.games.filter((g)=> {
       if (this.gamesSearch){
         return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
       }
     })
+  }
+
+  // Ejecuta una busqueda vacía para traer la lista completa de juegos
+  // al cargar la pagina
+  ionViewDidEnter() {
+    this.filterGameByString('');
+  }
+
+  getGameThumb(game) {
+    let gameNameFormatted : string = game.name.toLowerCase();
+    gameNameFormatted = gameNameFormatted.replace(/\s/g, '_');
+    return( "../../../assets/pictures/" + gameNameFormatted + "_icon.png");
   }
 }
