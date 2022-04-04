@@ -112,6 +112,7 @@ export class NewPlanningPage implements OnInit {
       games: new FormControl('', Validators.required)
     });
     this.myForm.patchValue({"games": null});
+
   }
 
   // Chequea que el paciente que se está buscando existe
@@ -148,11 +149,15 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Filtra juegos según la búsqueda
+  // @param evt Evento de formulario input que se convertira en String para buscar juegos
   filterGame(evt){
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
-      if (search && this.gamesSearch){
-        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
+      if (this.gamesSearch){
+        const gameName = (g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1;
+        const gamesCd = (g.cognitiveDomain.some(cd => cd.name.toLowerCase().indexOf(search.toLowerCase()) > -1));
+        
+        return (gameName + gamesCd)
       }
     })
   }
@@ -400,8 +405,10 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Descubre que juego esta activo en este momento
+  // @param index Índice de la pestaña activa en la página
   switchTab(index) {
     this.currentGame = index;
+    this.filterGameByString('');
   }
 
   // Verifica que la tab actual sea la del juego correspondiente
@@ -409,5 +416,29 @@ export class NewPlanningPage implements OnInit {
     if (index == this.currentGame) {
       return true;
     }
+  }
+
+  // Filtra juegos mediante el nombre a través del parámetro recibido
+  // @param search String del nombre de juego que se busca
+  filterGameByString(search) {
+    this.gamesSearch = this.games.filter((g)=> {
+      if (this.gamesSearch){
+        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
+      }
+    })
+  }
+
+  // Ejecuta una busqueda vacía para traer la lista completa de juegos
+  // al cargar la pagina
+  ionViewDidEnter() {
+    this.filterGameByString('');
+  }
+
+  // Obtiene un juego y devuelve el nombre del archivo PNG del ícono
+  // @param game Objeto juego
+  getGameThumb(game) {
+    let gameNameFormatted : string = game.name.toLowerCase();
+    gameNameFormatted = gameNameFormatted.replace(/\s/g, '_');
+    return( "../../../assets/pictures/" + gameNameFormatted + "_icon.png");
   }
 }
