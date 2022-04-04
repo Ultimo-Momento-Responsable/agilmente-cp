@@ -149,6 +149,7 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Filtra juegos según la búsqueda
+  // @param evt Evento de formulario input que se convertira en String para buscar juegos
   filterGame(evt){
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
@@ -404,6 +405,7 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Descubre que juego esta activo en este momento
+  // @param index Índice de la pestaña activa en la página
   switchTab(index) {
     this.currentGame = index;
     this.filterGameByString('');
@@ -417,6 +419,7 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Filtra juegos mediante el nombre a través del parámetro recibido
+  // @param search String del nombre de juego que se busca
   filterGameByString(search) {
     this.gamesSearch = this.games.filter((g)=> {
       if (this.gamesSearch){
@@ -431,6 +434,8 @@ export class NewPlanningPage implements OnInit {
     this.filterGameByString('');
   }
 
+  // Obtiene un juego y devuelve el nombre del archivo PNG del ícono
+  // @param game Objeto juego
   getGameThumb(game) {
     let gameNameFormatted : string = game.name.toLowerCase();
     gameNameFormatted = gameNameFormatted.replace(/\s/g, '_');
