@@ -1,0 +1,32 @@
+<ion-card class="table">
+  <ion-item-group>
+    <ion-item class="header-row ion-no-padding">
+      <ion-col class="column">
+        Nivel
+      </ion-col>
+      <ion-col class="column">
+        Tiempo (segundos)
+      </ion-col>
+      <ion-col class="column">
+        Aciertos
+      </ion-col>
+      <ion-col class="column">
+        Errores
+      </ion-col>
+    </ion-item>
+    <ion-item class="row ion-no-padding" *ngFor="let r of this.result.successesPerLevel; index as index">
+      <ion-col class="column">
+        {{ index + 1 }}
+      </ion-col>
+      <ion-col class="column">
+        {{ this.result.timePerLevel[index] }}
+      </ion-col>
+      <ion-col class="column">
+        {{ r }}
+      </ion-col>
+      <ion-col class="column">
+        {{ this.result.mistakesPerLevel[index] }}
+      </ion-col>
+    </ion-item>
+  </ion-item-group>
+</ion-card>

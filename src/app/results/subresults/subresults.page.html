@@ -34,11 +34,15 @@
         >
         <ion-chip color="success">
           <ion-icon name="checkmark-circle"></ion-icon>
-          <ion-label>Aciertos: {{ this.result.successes }}</ion-label>
+          <ion-label>Aciertos: {{ this.totalSuccesses }}</ion-label>
         </ion-chip>
         <ion-chip color="danger">
           <ion-icon name="close-circle"></ion-icon>
-          <ion-label>Errores: {{ this.result.mistakes }}</ion-label>
+          <ion-label>Errores: {{ this.totalMistakes }}</ion-label>
+        </ion-chip>
+        <ion-chip color="warning" *ngIf="this.result.streak">
+          <ion-icon name="flash"></ion-icon>
+          <ion-label>Racha: {{ this.result.streak }}</ion-label>
         </ion-chip>
       </ion-card-content>
     </ion-card>
@@ -81,26 +85,7 @@
     <ion-grid class="ion-justify-content-center">
       <ion-row>
         <ion-col>
-          <ion-card class="table">
-            <ion-item-group>
-              <ion-item class="header-row ion-no-padding">
-                <ion-col class="column">
-                  Nivel
-                </ion-col>
-                <ion-col class="column">
-                  Tiempo (segundos)
-                </ion-col>
-              </ion-item>
-              <ion-item class="row ion-no-padding" *ngFor="let r of this.result.timeBetweenSuccesses; index as index">
-                <ion-col class="column">
-                  {{ index + 1 }}
-                </ion-col>
-                <ion-col class="column">
-                  {{ r }}
-                </ion-col>
-              </ion-item>
-            </ion-item-group>
-            </ion-card>
+          <app-table-tbs-results [result]="this.result"></app-table-tbs-results>
         </ion-col>
 
         <ion-col>
@@ -110,7 +95,20 @@
     </ion-grid>
   </div>
 
-  <div *ngIf="!(!!this.result.timeBetweenSuccesses && !!this.result.timeBetweenSuccesses.length)">
+  <div class="ion-padding" *ngIf="!!this.result.timePerLevel && !!this.result.timePerLevel.length">
+    <ion-grid class="ion-justify-content-center">
+      <ion-row>
+        <ion-col>
+          <app-table-memorilla-results [result]="this.result"></app-table-memorilla-results>
+        </ion-col>
+        <ion-col>
+          <app-graph-results [result]="this.result"></app-graph-results>
+      </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="!checkIfDataExists">
     <ion-card class="ion-padding">No hay datos de juego.</ion-card>
   </div>
 </ion-content>

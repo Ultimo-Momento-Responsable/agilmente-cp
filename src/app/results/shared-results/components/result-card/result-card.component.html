@@ -20,11 +20,15 @@
     >
     <ion-chip color="success">
       <ion-icon name="checkmark-circle"></ion-icon>
-      <ion-label>Aciertos: {{ this.result.successes }}</ion-label>
+      <ion-label>Aciertos: {{ this.totalSuccesses }}</ion-label>
     </ion-chip>
     <ion-chip color="danger">
       <ion-icon name="close-circle"></ion-icon>
-      <ion-label>Errores: {{ this.result.mistakes }}</ion-label>
+      <ion-label>Errores: {{ this.totalMistakes }}</ion-label>
+    </ion-chip>
+    <ion-chip color="warning" *ngIf="this.streak">
+      <ion-icon name="flash"></ion-icon>
+      <ion-label>Racha: {{ this.streak }}</ion-label>
     </ion-chip>
   </ion-card-content>
 </ion-card>
