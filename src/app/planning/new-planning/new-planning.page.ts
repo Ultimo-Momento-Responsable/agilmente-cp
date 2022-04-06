@@ -330,6 +330,7 @@ export class NewPlanningPage implements OnInit {
     }
   }
 
+  //Setea la dificultad seleccionada para el juego seleccionado.
   setDifficulty(event, game:any, j: number) {
     let dif: any;
     game.difficulty = event.target.value
