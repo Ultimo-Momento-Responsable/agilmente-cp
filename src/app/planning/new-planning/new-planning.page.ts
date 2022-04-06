@@ -186,7 +186,6 @@ export class NewPlanningPage implements OnInit {
   addGame(game) {
     this.gamesSearch = [];
     this.planningGames.push(JSON.parse(JSON.stringify(game)));
-    this.planningGames[this.planningGames.length - 1].accordion = true;
     this.isAdding = false;
     this.myForm.patchValue({"games": null});
     this.switchTab (this.planningGames.length-1);
@@ -207,17 +206,20 @@ export class NewPlanningPage implements OnInit {
     await customDifficultModal.present();
     return customDifficultModal.onWillDismiss().then((data)=> {
       if (data.data) {
+        this.gameAdded(game,j);
         game.difficulty = "custom";
         game.difficultDescription = "Este juego posee una dificultad personalizada";
-        this.isAdding = true;
-        game.done = true;
       }
     });
   }
 
-  // Setea el número máximo de sesiones de juego
-  changeLimitGamesValue(game,evt){
-    this.planningGames[this.planningGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
+  gameAdded(game,j) {
+    if (game.done){
+      this.assignedGames[j] = JSON.parse(JSON.stringify(game));
+    } else {
+      game.done = true;
+      this.assignedGames.push(JSON.parse(JSON.stringify(game)));
+    } 
   }
 
   // borra un juego de la lista de los juegos planificados hasta el momento
@@ -304,6 +306,21 @@ export class NewPlanningPage implements OnInit {
     };
   }
 
+  changeLimit(game:any, j: number) {
+    if (game.done) {
+      this.assignedGames[j].hasLimit = !this.assignedGames[j].hasLimit;
+    }
+    game.hasLimit=!game.hasLimit;
+  }
+
+  // Setea el número máximo de sesiones de juego
+  changeLimitGamesValue(game,evt,j){
+    if (game.done) {
+      this.assignedGames[j].maxNumberOfSessions = evt.srcElement.value;
+    }
+    game.maxNumberOfSessions = evt.srcElement.value;
+  }
+
   // habilita o desabilita el botón de submit
   submitDisabled(){
     let gamesAreDone = true;
@@ -341,32 +358,31 @@ export class NewPlanningPage implements OnInit {
   setDifficulty(event, game:any, j: number) {
     let dif: any;
     game.difficulty = event.target.value
-    switch (game.name){
-      case "Encuentra al Nuevo":
-        dif = encuentraAlNuevo[game.difficulty];
-        break;
-      case "Encuentra al Repetido":
-        dif = encuentraAlRepetido[game.difficulty];
-        break;
-      case "Memorilla":
-        dif = memorilla[game.difficulty];
-        break;
-    }
-    game.difficultDescription = dif?.description
-    game.gameParam.forEach(p => {
-      for (let pDif of dif.params) {
-        if (p.param.className==pDif.name){
-          p.isActive = true;
-          p.value = pDif.value;
+    if (game.difficulty != "custom"){
+      switch (game.name){
+        case "Encuentra al Nuevo":
+          dif = encuentraAlNuevo[game.difficulty];
           break;
-        }
+        case "Encuentra al Repetido":
+          dif = encuentraAlRepetido[game.difficulty];
+          break;
+        case "Memorilla":
+          dif = memorilla[game.difficulty];
+          break;
       }
-    });
-    if (game.done){
-      this.assignedGames[j] = JSON.parse(JSON.stringify(game));
-    } else {
-      game.done = true;
-      this.assignedGames.push(JSON.parse(JSON.stringify(game)));
+      game.difficultDescription = dif?.description
+      game.gameParam.forEach(p => {
+        for (let pDif of dif.params) {
+          if (p.param.className==pDif.name){
+            p.isActive = true;
+            p.value = pDif.value;
+            break;
+          }
+        }
+      });
+      this.gameAdded(game,j);
+    } else{
+      this.openCustomDifficult(game,j);
     }
   }
   // Filtra juegos mediante el nombre a través del parámetro recibido
