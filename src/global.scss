@@ -158,5 +158,24 @@ ion-textarea {
   h3{
     text-align: center;
   }
+}
 
+ion-modal.auto-height {
+  &.bottom {
+      align-items: flex-end;
+  }
+  --border-radius: 8px;
+  --height: auto;
+
+  .ion-page {
+      position: relative;
+      display: block;
+      contain: content;
+
+      .inner-content {
+          max-height: 80vh;
+          overflow: auto;
+          padding: 10px;
+      }
+  }
 }

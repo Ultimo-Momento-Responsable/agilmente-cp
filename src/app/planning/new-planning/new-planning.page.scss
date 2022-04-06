@@ -16,16 +16,36 @@ ion-text {
 
 }
 
+.custom_modal {
+    height: auto;
+}
+
 .card {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
 
-    &_title {
-        margin-top: 16px;
+
+    &_subtitle {
+        font-size: 26px;
     }
 
     &_label {
-        margin-left: 5px;
+        &_error {
+            margin-left: 5%;
+            margin-bottom: 15px;
+            font-size: 80%;
+        }
+    }
+
+    &_desc {
+        display: inline-block;
+        padding-left: 15px;
+    }
+    
+    &_select {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        box-sizing: border-box;
+        border-radius: 8px;
     }
 
     &_date {
@@ -47,4 +67,5 @@ ion-text {
         margin-right: 20px;
         margin-bottom: 25px;
     }
+
 }

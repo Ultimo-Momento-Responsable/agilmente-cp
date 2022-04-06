@@ -41,7 +41,7 @@
                     </ion-button>
                   </ion-item>
                 </ion-list>
-                <ion-label color="danger" *ngIf="!patientExists() && patientBlur" style="margin-left: 5%;font-size: 80%;">El paciente ingresado no existe</ion-label>
+                <ion-label color="danger" *ngIf="!patientExists() && patientBlur" class="card_label_error">El paciente ingresado no existe</ion-label>
               </ion-card>
             </ion-col>
 
@@ -150,130 +150,60 @@
                 <ion-card *ngFor="let game of planningGames; let j = index"
                   style="margin: 0 !important; box-shadow: none ! important;">
                   <div *ngIf="checkTab(j)">
-                    <ion-item>
-                      <ion-title class="ion-padding">{{ game.name }}</ion-title>
-                      <ion-button fill="outline" color="danger" style="--padding:20px;--border-radius: 20px;"
-                                (click)="deleteGame(game); isAdding=true">
-                                <ion-icon name="trash-outline"></ion-icon>
+                    
+                    <!-- PRESET Dificultad -->
+                    <ion-card class="ion-padding">
+                      <ion-button fill="outline" size="small" color="danger" class="ion-margin" style="--border-radius: 20px;float: right;"
+                              (click)="deleteGame(game); isAdding=true">
+                              <ion-icon name="trash-outline"></ion-icon>
                       </ion-button>
-                    </ion-item>
-                    <ion-card-content>
-                      <ion-list>
-                        <!-- PARAMS 0 y 3 -->
-                        <ion-list-header>
-                          <ion-label>
-                            Condición de Parada
-                          </ion-label>
-                        </ion-list-header>
-                        <ion-radio-group [value]="game.index">
-                          <div *ngFor="let p of game.gameParam; let i = index">
-                            <div *ngIf="p.param.type==0">
-                              <ion-row>
-                              <ion-col>
-                              <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
-                                <ion-icon color="primary" name="information-circle"></ion-icon>
-                                <ion-label>{{ p.param.name }}</ion-label>
-                                <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
-                              </ion-item>
-                            </ion-col>
-                            <ion-col>
-                              <ion-item disabled="{{!p.isActive}}">
+                      <ion-title class="card_subtitle ion-padding">Dificultad para {{ game.name }}</ion-title>
+                      <ion-label class="card_label ion-padding">
+                        Selecciona una dificultad
+                      </ion-label>
+                      <ion-select 
+                        class="card_select ion-margin" 
+                        interface="popover" 
+                        placeholder="Dificultad del ejercicio"
+                        [value]="game?.difficulty"
+                        (ionChange)="setDifficulty($event,game,j)"
+                      >
+                        <ion-select-option value="veryEasy">Muy fácil</ion-select-option>
+                        <ion-select-option value="easy">Fácil</ion-select-option>
+                        <ion-select-option value="medium">Intermedia</ion-select-option>
+                        <ion-select-option value="hard">Difícil</ion-select-option>
+                        <ion-select-option value="veryHard">Muy difícil</ion-select-option>
+                        <ion-select-option *ngIf="game.difficulty == 'custom'" value="custom">Personalizado</ion-select-option>
+                      </ion-select>
+                      <ion-label class="card_desc" *ngIf="game.difficultDescription">
+                        {{ game?.difficultDescription }}
+                      </ion-label>
 
-                                <ion-input disabled="{{!p.isActive}}" 
-                                  type="number" 
-                                  value="{{ p.value }}" 
-                                  (ionChange)="changeParamValue(game,p,$event)" 
-                                  [min]="p.minValue" 
-                                  [max]="checkMaxValue(p)" 
-                                  (ionBlur)="checkParamLimit(p)"
-                                  placeholder="{{p.param.unit}}"
-                                  >
-                                </ion-input>
-                              </ion-item>
-                            </ion-col>
-                            </ion-row>
-                            </div>
-                            <div *ngIf="p.param.type==3">
-                              <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
-                                <ion-icon color="primary" name="information-circle"></ion-icon>
-                                <ion-label>{{ p.param.name }}</ion-label>
-                                <ion-item 
-                                  style="margin-left: 5%; border-bottom: solid 1px rgb(56, 128, 255);">
-                                  <ion-input 
-                                    slot="end"
-                                    type="number" 
-                                    value="{{ p.value }}" 
-                                    (ionChange)="changeParamValue(game,p,$event)" 
-                                    type="number" [min]="p.minValue" 
-                                    [max]="checkMaxValue(p)" 
-                                    (ionBlur)="checkParamLimit(p)"
-                                    >
-                                  </ion-input>
-                                </ion-item>
-                                <ion-text color="medium">{{p.param.unit}}</ion-text>
-                              </ion-item>
-                            </div>
-                          </div>
-                        </ion-radio-group>
-                        <!-- PARAMS 1 y 2 -->
-                        <ion-list-header *ngIf="game.hasActivatable">
-                          <ion-label>
-                            Activables
-                          </ion-label>
-                        </ion-list-header>
-
-                        <div *ngFor="let p of game.gameParam; let i = index">
-
-                          <div *ngIf="p.param.type==1">
-                              <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
-                                <ion-icon color="primary" name="information-circle"></ion-icon>
-                                <ion-label>{{ p.param.name }}</ion-label>
-                                <ion-toggle checked="{{p.value}}" (ionChange)="changeParamsType1(game,p,$event)"></ion-toggle>
-                              </ion-item>
-                          </div>
-
-                          <div *ngIf="p.param.type==2">
-                            <ion-list-header>
-                              <ion-label>
-                                {{ p.param.name }}
-                              </ion-label>
-                            </ion-list-header>
-                            <ion-radio-group [value]="p.value - 1"> 
-                              <div *ngFor="let paramType2 of p.paramType2Content; let j = index">
-                                <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="top-left">
-                                  <ion-icon color="primary" name="information-circle"></ion-icon>
-                                  <ion-label>{{ paramType2.name }}</ion-label>
-                                  <ion-radio [value]="j" (click)="p.value=paramType2.id"></ion-radio>
-                                </ion-item>
-                              </div>
-                            </ion-radio-group>
-                          </div>
-
-                        </div>
-
-                        <!-- en todos los juegos -->
-                        <ion-item>
-                          <ion-label>¿Repeticiones limitadas?</ion-label>
-                          <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
-                          <ion-item disabled="{{!game.hasLimit}}">
-                            <ion-label position="stacked" color="primary">Cantidad</ion-label>
-                            <ion-input disabled="{{!game.hasLimit}}" 
-                              value="{{ game.maxNumberOfSessions }}" 
-                              (ionChange)="changeLimitGamesValue(game,$event)" 
-                              type="number" 
-                              min=1 
-                              (ionBlur)="checkMNoSLimit(game)"> 
-                            </ion-input>
-                          </ion-item>
+                      <ion-item lines="none">
+                        <ion-label class="card_label">¿Repeticiones limitadas?</ion-label>
+                        <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
+                        <ion-item disabled="{{!game.hasLimit}}">
+                          <ion-label position="stacked">Cantidad</ion-label>
+                          <ion-input disabled="{{!game.hasLimit}}" 
+                            value="{{ game.maxNumberOfSessions }}" 
+                            (ionChange)="changeLimitGamesValue(game,$event)" 
+                            type="number" 
+                            min=1 
+                            (ionBlur)="checkMNoSLimit(game)"> 
+                          </ion-input>
                         </ion-item>
-                      </ion-list>
-                      <ion-button
-                        [disabled]="!checkIfCorrect(game)"
-                        expand="block" 
-                        (click)="gameAdded(game,j); switchTab(-1); isAdding=true">
-                        Listo
+                      </ion-item>
+                      
+                      <ion-button class="ion-margin" expand="block" fill="clear" (click)="openCustomDifficult(game, j);">
+                        <ion-icon name="pencil" color="primary"></ion-icon>
+                        Personalizar dificultad
                       </ion-button>
-                    </ion-card-content>
+
+                    </ion-card>
+
+                    <!-- VA EN MODAL -->
+                    
+                    
                   </div>
                 </ion-card>
               </ion-card>
