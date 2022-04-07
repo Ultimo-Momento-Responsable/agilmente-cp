@@ -119,15 +119,8 @@ export class CustomDifficultComponent implements OnInit {
     return flag;
   }
 
-  // Cuando el juego se haya cargado, da como válido el formulario
-  gameAdded(game,j) {
-    game.accordion = false;
-    if (game.done){
-      this.assignedGames[j] = JSON.parse(JSON.stringify(game));
-    } else {
-      game.done = true;
-      this.assignedGames.push(JSON.parse(JSON.stringify(game)));
-    } 
+  // Cierra el modal para agregar el juego.
+  gameAdded(game,j) { 
     this.modalCtrl.dismiss(true);
   }
 }

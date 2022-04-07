@@ -213,6 +213,7 @@ export class NewPlanningPage implements OnInit {
     });
   }
 
+  // Agrega el juego a la lista de juegos asignados
   gameAdded(game,j) {
     if (game.done){
       this.assignedGames[j] = JSON.parse(JSON.stringify(game));
@@ -306,6 +307,7 @@ export class NewPlanningPage implements OnInit {
     };
   }
 
+  // Cambia si el juego puede jugarse ilimitadamente o no
   changeLimit(game:any, j: number) {
     if (game.done) {
       this.assignedGames[j].hasLimit = !this.assignedGames[j].hasLimit;
