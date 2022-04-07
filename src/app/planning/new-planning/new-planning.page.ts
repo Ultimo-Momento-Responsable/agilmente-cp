@@ -28,6 +28,7 @@ export class NewPlanningPage implements OnInit {
     public alertController: AlertController,
     private router: Router) { }
 
+  shouldOpenModal: boolean = true;
   patients: any [];
   patientsSearch: any [] = [];
   datePickerStart: any = {};
@@ -207,6 +208,7 @@ export class NewPlanningPage implements OnInit {
     return customDifficultModal.onWillDismiss().then((data)=> {
       if (data.data) {
         this.gameAdded(game,j);
+        this.shouldOpenModal = false;
         game.difficulty = "custom";
         game.difficultDescription = "Este juego posee una dificultad personalizada";
       }
@@ -361,6 +363,7 @@ export class NewPlanningPage implements OnInit {
     let dif: any;
     game.difficulty = event.target.value
     if (game.difficulty != "custom"){
+      this.shouldOpenModal = true;
       switch (game.name){
         case "Encuentra al Nuevo":
           dif = encuentraAlNuevo[game.difficulty];
@@ -384,7 +387,9 @@ export class NewPlanningPage implements OnInit {
       });
       this.gameAdded(game,j);
     } else{
-      this.openCustomDifficult(game,j);
+      if (this.shouldOpenModal){
+        this.openCustomDifficult(game,j);
+      }
     }
   }
   // Filtra juegos mediante el nombre a través del parámetro recibido
