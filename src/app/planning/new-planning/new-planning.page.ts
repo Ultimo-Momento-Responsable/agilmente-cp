@@ -7,6 +7,10 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
+import { encuentraAlNuevo } from '../shared-planning/constants/difficulty-level';
+import { encuentraAlRepetido } from '../shared-planning/constants/difficulty-level';
+import { memorilla } from '../shared-planning/constants/difficulty-level';
+import { CustomDifficultComponent } from '../shared-planning/components/custom-difficulty/custom-difficulty.component';
 
 @Component({
   selector: 'app-new-planning',
@@ -24,6 +28,7 @@ export class NewPlanningPage implements OnInit {
     public alertController: AlertController,
     private router: Router) { }
 
+  shouldOpenModal: boolean = true;
   patients: any [];
   patientsSearch: any [] = [];
   datePickerStart: any = {};
@@ -112,6 +117,7 @@ export class NewPlanningPage implements OnInit {
       games: new FormControl('', Validators.required)
     });
     this.myForm.patchValue({"games": null});
+
   }
 
   // Chequea que el paciente que se está buscando existe
@@ -148,11 +154,15 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Filtra juegos según la búsqueda
+  // @param evt Evento de formulario input que se convertira en String para buscar juegos
   filterGame(evt){
     const search = evt.srcElement.value;
     this.gamesSearch = this.games.filter((g)=> {
-      if (search && this.gamesSearch){
-        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
+      if (this.gamesSearch){
+        const gameName = (g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1;
+        const gamesCd = (g.cognitiveDomain.some(cd => cd.name.toLowerCase().indexOf(search.toLowerCase()) > -1));
+        
+        return (gameName + gamesCd)
       }
     })
   }
@@ -177,91 +187,42 @@ export class NewPlanningPage implements OnInit {
   addGame(game) {
     this.gamesSearch = [];
     this.planningGames.push(JSON.parse(JSON.stringify(game)));
-    this.planningGames[this.planningGames.length - 1].accordion = true;
     this.isAdding = false;
     this.myForm.patchValue({"games": null});
     this.switchTab (this.planningGames.length-1);
   }
 
-  // Para los params tipo 0, activa uno, en caso de que se haya tildado
-  setActiveParam(game, p, index){
-    game.index = index;
-    game.gameParam.forEach(param => {
-      if (param.id == p.id) {
-        if (!param.isActive) {
-          param.isActive = true;
-        }
-      } else {
-        param.isActive = false;
+  // Abre el modal para personalizar la dificultad.
+  async openCustomDifficult(game: any, j: number) {
+    const customDifficultModal = await this.modalCtrl.create({
+      component: CustomDifficultComponent,
+      cssClass: "auto-height",
+      componentProps: { 
+         'game': game,
+         'planningGames': this.planningGames,
+         'assignedGames': this.assignedGames,
+         'j': j
+      }
+    });
+    await customDifficultModal.present();
+    return customDifficultModal.onWillDismiss().then((data)=> {
+      if (data.data) {
+        this.gameAdded(game,j);
+        this.shouldOpenModal = false;
+        game.difficulty = "custom";
+        game.difficultDescription = "Este juego posee una dificultad personalizada";
       }
     });
   }
 
-  // Actualiza el valor del Param
-  changeParamValue(game,p,evt){
-    let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
-    if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
-      gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = evt.srcElement.value;
-    }
-    if (p.param.name == "Número de filas" || p.param.name == "Número de columnas") {
-      let nOfRows = 3;
-      let nOfColumns = 3;
-      game.gameParam.forEach(p => {
-        if (p.param.name == "Número de filas"){
-          nOfRows = p.value;
-        }
-        if (p.param.name == "Número de columnas"){
-          nOfColumns = p.value;
-        }
-        if (p.param.name == "Cantidad Máxima de Estímulos") {
-          let maxValue = Math.round((nOfColumns*nOfRows)/2)
-          if (maxValue < 15){
-            p.maxValue = maxValue;
-          } else {
-            p.maxValue = 15;
-          }
-          p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
-        }
-      });
-    }
-  }
-
-  // Setea el número máximo de sesiones de juego
-  changeLimitGamesValue(game,evt){
-    this.planningGames[this.planningGames.indexOf(game)].maxNumberOfSessions = evt.srcElement.value;
-  }
-
-  // Setea el número máximo de sesiones de juego
-  changeParamsType1(game,p,evt) {
-    let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
-    gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = !gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value;
-  }
-
-  // Checkea que el juego esté correctamente cargado
-  checkIfCorrect(game) : boolean{
-    let flag = false;
-    game.gameParam.forEach(p => {
-      if (p.param.type == 0){
-        if (p.isActive){
-          if (p.value){
-            flag = true;
-          }
-        }
-      } else{
-        p.isActive = true;
-      }
-    });
-    if (flag){
-      this.assignedGames.forEach(g => {
-        if (JSON.stringify(g.gameParam) == JSON.stringify(game.gameParam) 
-              && g.name == game.name
-              && game.hasLimit == g.hasLimit 
-              && game.maxNumberOfSessions == g.maxNumberOfSessions) {
-          flag = false;
-        }
-      })
-    }
-    return flag;
+  // Agrega el juego a la lista de juegos asignados
+  gameAdded(game,j) {
+    if (game.done){
+      this.assignedGames[j] = JSON.parse(JSON.stringify(game));
+    } else {
+      game.done = true;
+      this.assignedGames.push(JSON.parse(JSON.stringify(game)));
+    } 
   }
 
   // borra un juego de la lista de los juegos planificados hasta el momento
@@ -272,43 +233,11 @@ export class NewPlanningPage implements OnInit {
     }
   }
 
-  // Checkea que el valor máximo en el parámetro no sea negativo y si no lo es, se 
-  checkMaxValue(p) : number {
-    if (p.maxValue <= -1){
-      return undefined
-    } else{
-      return p.maxValue
-    }
-  }
-
-  // Asegura que el param ingresado respeta los valores mínimos y máximos y si no es así lo cambia
-  checkParamLimit(p){
-    if (parseInt(p.value) < p.minValue) {
-      p.value = p.minValue.toString();
-    }
-    if (p.maxValue != -1) {
-      if (parseInt(p.value) > p.maxValue) {
-        p.value = p.maxValue.toString();
-      }
-    }
-  }
-
   // Asegura que maxNumberOfSessions ingresado es mayor que 0
   checkMNoSLimit(game){
     if (parseInt(game.maxNumberOfSessions) < 1) {
       game.maxNumberOfSessions = "1";
     }
-  }
-
-  // Cuando el juego se haya cargado, da como válido el formulario
-  gameAdded(game,j) {
-    game.accordion = false;
-    if (game.done){
-      this.assignedGames[j] = JSON.parse(JSON.stringify(game));
-    } else {
-      game.done = true;
-      this.assignedGames.push(JSON.parse(JSON.stringify(game)));
-    } 
   }
 
   // Muestra la alerta.
@@ -380,6 +309,22 @@ export class NewPlanningPage implements OnInit {
     };
   }
 
+  // Cambia si el juego puede jugarse ilimitadamente o no
+  changeLimit(game:any, j: number) {
+    if (game.done) {
+      this.assignedGames[j].hasLimit = !this.assignedGames[j].hasLimit;
+    }
+    game.hasLimit=!game.hasLimit;
+  }
+
+  // Setea el número máximo de sesiones de juego
+  changeLimitGamesValue(game,evt,j){
+    if (game.done) {
+      this.assignedGames[j].maxNumberOfSessions = evt.srcElement.value;
+    }
+    game.maxNumberOfSessions = evt.srcElement.value;
+  }
+
   // habilita o desabilita el botón de submit
   submitDisabled(){
     let gamesAreDone = true;
@@ -400,9 +345,10 @@ export class NewPlanningPage implements OnInit {
   }
 
   // Descubre que juego esta activo en este momento
+  // @param index Índice de la pestaña activa en la página
   switchTab(index) {
     this.currentGame = index;
-    console.log(this.currentGame);
+    this.filterGameByString('');
   }
 
   // Verifica que la tab actual sea la del juego correspondiente
@@ -410,5 +356,63 @@ export class NewPlanningPage implements OnInit {
     if (index == this.currentGame) {
       return true;
     }
+  }
+
+  //Setea la dificultad seleccionada para el juego seleccionado.
+  setDifficulty(event, game:any, j: number) {
+    let dif: any;
+    game.difficulty = event.target.value
+    if (game.difficulty != "custom"){
+      this.shouldOpenModal = true;
+      switch (game.name){
+        case "Encuentra al Nuevo":
+          dif = encuentraAlNuevo[game.difficulty];
+          break;
+        case "Encuentra al Repetido":
+          dif = encuentraAlRepetido[game.difficulty];
+          break;
+        case "Memorilla":
+          dif = memorilla[game.difficulty];
+          break;
+      }
+      game.difficultDescription = dif?.description
+      game.gameParam.forEach(p => {
+        for (let pDif of dif.params) {
+          if (p.param.className==pDif.name){
+            p.isActive = true;
+            p.value = pDif.value;
+            break;
+          }
+        }
+      });
+      this.gameAdded(game,j);
+    } else{
+      if (this.shouldOpenModal){
+        this.openCustomDifficult(game,j);
+      }
+    }
+  }
+  // Filtra juegos mediante el nombre a través del parámetro recibido
+  // @param search String del nombre de juego que se busca
+  filterGameByString(search) {
+    this.gamesSearch = this.games.filter((g)=> {
+      if (this.gamesSearch){
+        return ((g.name.toLowerCase()).indexOf(search.toLowerCase()) > -1 )
+      }
+    })
+  }
+
+  // Ejecuta una busqueda vacía para traer la lista completa de juegos
+  // al cargar la pagina
+  ionViewDidEnter() {
+    this.filterGameByString('');
+  }
+
+  // Obtiene un juego y devuelve el nombre del archivo PNG del ícono
+  // @param game Objeto juego
+  getGameThumb(game) {
+    let gameNameFormatted : string = game.name.toLowerCase();
+    gameNameFormatted = gameNameFormatted.replace(/\s/g, '_');
+    return( "../../../assets/pictures/" + gameNameFormatted + "_icon.png");
   }
 }
