@@ -16,7 +16,7 @@
           <!-- Seleccionar al paciente -->
           <ion-row>
             <ion-col>
-              <ion-card class="card" style="margin: 0 !important;">
+              <ion-card class="card">
                 <ion-title class="card_title">
                   Seleccionar un paciente
                 </ion-title>
@@ -45,7 +45,7 @@
             </ion-col>
 
             <ion-col>
-              <ion-card class="card" style="margin: 0 !important;">
+              <ion-card class="card">
                 <ion-title class="card_title">
                   Nombre de la planificación
                 </ion-title>
@@ -186,20 +186,20 @@
                         <ion-select-option value="medium">Intermedia</ion-select-option>
                         <ion-select-option value="hard">Difícil</ion-select-option>
                         <ion-select-option value="veryHard">Muy difícil</ion-select-option>
-                        <ion-select-option *ngIf="game.difficulty == 'custom'" value="custom">Personalizado</ion-select-option>
+                        <ion-select-option value="custom">Personalizado</ion-select-option>
                       </ion-select>
-                      <ion-label class="card_desc" *ngIf="game.difficultDescription">
+                      <ion-label class="card_desc">
                         {{ game?.difficultDescription }}
                       </ion-label>
 
                       <ion-item lines="none">
                         <ion-label class="card_label">¿Repeticiones limitadas?</ion-label>
-                        <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
-                        <ion-item disabled="{{!game.hasLimit}}">
+                        <ion-toggle checked="{{game.hasLimit}}" (ionChange)="changeLimit(game,j)"></ion-toggle>
+                        <ion-item disabled="{{!game.hasLimit }}">
                           <ion-label position="stacked">Cantidad</ion-label>
-                          <ion-input disabled="{{!game.hasLimit}}" 
+                          <ion-input disabled="{{!game.hasLimit }}" 
                             value="{{ game.maxNumberOfSessions }}" 
-                            (ionChange)="changeLimitGamesValue(game,$event)" 
+                            (ionChange)="changeLimitGamesValue(game,$event,j)" 
                             type="number" 
                             min=1 
                             (ionBlur)="checkMNoSLimit(game)"> 
