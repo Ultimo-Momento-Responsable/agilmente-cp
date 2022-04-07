@@ -120,7 +120,7 @@ export class CustomDifficultComponent implements OnInit {
   }
 
   // Cierra el modal para agregar el juego.
-  gameAdded(game,j) { 
+  closeModal() { 
     this.modalCtrl.dismiss(true);
   }
 }
