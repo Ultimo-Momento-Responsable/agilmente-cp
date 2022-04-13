@@ -52,7 +52,13 @@ const routes: Routes = [
   },
   {
     path: 'games',
-    loadChildren: () => import('./games/games.module').then( m => m.GamesPageModule)
+    loadChildren: () => import('./games/games.module').then( m => m.GamesPageModule),
+    canLoad: [GuardGuard]
+  },
+  {
+    path: 'games/:id',
+    loadChildren: () => import('./games/specific-game/specific-game.module').then( m => m.SpecificGamePageModule),
+    canLoad: [GuardGuard]
   },
   {
     path: '**',
