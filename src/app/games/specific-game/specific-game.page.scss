@@ -1,0 +1,39 @@
+.gc_container {
+    width: 100%;
+
+    &_item {
+        display: inline-grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        align-items: center;
+        justify-items: center;
+
+        &_card {
+            display: flex;
+            justify-items: center;
+            align-items: center;
+        }
+    }
+}
+.cd {
+    margin-left: 15px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    
+    &_select {
+        font-family: "Bariol";
+        border-radius: 4px;
+        padding: 0px 4px;
+        height: 24px;
+    }
+
+    &_chips {
+        &_selected {
+            color:white;
+            font-family: "Bariol";
+            border-radius: 4px;
+            padding: 0px 4px;
+            height: 24px;
+        }
+    }
+}

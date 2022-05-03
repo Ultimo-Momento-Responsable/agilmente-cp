@@ -1,30 +1,50 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color=primary>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
     <ion-title>Detalles de juego</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card class="gamecard">
-    <ion-card-header>
-      <ion-row>
-        <ion-col size="3"><ion-img style="width: 64px; height:64px;"></ion-img></ion-col>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col>
+      <ion-card class="gamecard">
+        <ion-card-header>
+          <ion-row>
+            <ion-col size="1"><ion-img style="width: 64px; height:64px;" [src]=this.gameThumb></ion-img></ion-col>
+            <ion-col>
+              <ion-card-title>{{this.specificGame?.name}}</ion-card-title>
+              <span *ngFor="let cd of specificGame?.cognitiveDomain">
+                <ion-chip class="cd_chips_selected" style="background-color: rgba(45, 211, 111, 1);" *ngIf="cd.name == 'Memoria'" >{{cd.name}}</ion-chip>
+                <ion-chip class="cd_chips_selected" style="background-color: rgba(0, 0, 0, 0.87);" *ngIf="cd.name == 'Funciones ejecutivas'" >{{cd.name}}</ion-chip>
+                <ion-chip class="cd_chips_selected" style="background-color: rgba(127, 57, 251, 1)" *ngIf="cd.name == 'Atención'" >{{cd.name}}</ion-chip>
+                <ion-chip class="cd_chips_selected" style="background-color: rgba(235, 68, 90, 1);" *ngIf="cd.name == 'Visoespacial'" >{{cd.name}}</ion-chip>
+                <ion-chip class="cd_chips_selected" style="background-color: rgba(255, 196, 9, 1);" *ngIf="cd.name == 'Lenguaje'" >{{cd.name}}</ion-chip>
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-card-header>
       
-        <ion-col>
-          <ion-card-title>{{this.specificGame?.name}}</ion-card-title>
-          <span *ngFor="let cd of specificGame?.cognitiveDomain">
-            <ion-chip class="cd_chips_selected" style="background-color: rgba(45, 211, 111, 1);" *ngIf="cd.name == 'Memoria'" >{{cd.name}}</ion-chip>
-            <ion-chip class="cd_chips_selected" style="background-color: rgba(0, 0, 0, 0.87);" *ngIf="cd.name == 'Funciones ejecutivas'" >{{cd.name}}</ion-chip>
-            <ion-chip class="cd_chips_selected" style="background-color: rgba(127, 57, 251, 1)" *ngIf="cd.name == 'Atención'" >{{cd.name}}</ion-chip>
-            <ion-chip class="cd_chips_selected" style="background-color: rgba(235, 68, 90, 1);" *ngIf="cd.name == 'Visoespacial'" >{{cd.name}}</ion-chip>
-            <ion-chip class="cd_chips_selected" style="background-color: rgba(255, 196, 9, 1);" *ngIf="cd.name == 'Lenguaje'" >{{cd.name}}</ion-chip>
-          </span>
-        </ion-col>
-      </ion-row>
-    </ion-card-header>
-    
-    <ion-card-content>
-      <div><ion-label class="gamecard_label">{{this.specificGame?.description}}</ion-label></div>
-    </ion-card-content>
-  </ion-card>
+        <ion-card-content>
+          <div><ion-label class="gamecard_label">{{this.specificGame?.description}}</ion-label></div>
+          <div><ion-label class="gamecard_label">{{this.specificGame?.paramDescription}}</ion-label></div>
+          <ion-title>Parámetros</ion-title>
+          <div *ngFor="let gp of this.specificGame?.gameParam">
+            <ion-title class="card_subtitle ion-padding">
+              {{gp.param.name}}
+            </ion-title>
+            <span *ngFor="let p of this.specificGame?.params"><span *ngIf="p.id == gp.param.id">
+            <ion-label class="card_label ion-padding">{{gp.param.contextualHelp}} </ion-label>
+            <br>
+            <ion-label class="card_label ion-padding" *ngIf="p.type !== 1 && p.type !== 2">Valores permitidos: {{gp.minValue}} a {{gp.maxValue}} {{p.unit}}</ion-label>
+            </span></span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col size="1"></ion-col>
+  </ion-row>
 </ion-content>

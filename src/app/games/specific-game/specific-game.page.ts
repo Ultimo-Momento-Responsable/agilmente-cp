@@ -20,6 +20,7 @@ export interface Game {
 export class SpecificGamePage implements OnInit {
   id: number;
   specificGame: Game;
+  gameThumb: String;
 
   constructor(
     private gamesApiService: GamesApiService,
@@ -33,6 +34,7 @@ export class SpecificGamePage implements OnInit {
       this.id = params['id'];
       this.gamesApiService.getGameById(this.id).subscribe((res) => {
         this.specificGame = res;
+        this.gameThumb = this.getGameThumb(res);
       });
     });
   }
