@@ -43,9 +43,13 @@
               <ion-label class="fc__form__checkbox_container__label" (click)="this.toggleCheckbox()">Incluir pacientes deshabilitados</ion-label>
             </div>
           </form>
-        </div>
-        
+        </div> 
         <div class="patients_container ion-margin">
+          <div *ngIf="this.patients.length == 0 && this.skeletonLoading == false" style=text-align:center;>
+            <br>
+            <h2>No se han encontrado resultados para la búsqueda</h2>
+            <h6>Prueba con otras palabras clave o modifica los filtros de búsqueda.</h6>
+          </div>
           <div *ngIf="this.skeletonLoading">
             <div class="patients_container__patient_item" *ngIf="this.skeletonLoading">
               
@@ -70,11 +74,6 @@
             </div>
           </div>
         </div>
-        <h2
-          *ngIf="this.patients.length == 0 && this.skeletonLoading == false"
-        >
-          No se han encontrado resultados para la búsqueda
-        </h2>
       </div>
     </ion-col>
     <ion-col size="1"></ion-col>
