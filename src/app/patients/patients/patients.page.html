@@ -8,16 +8,7 @@
   <ion-row>
     <ion-col size="1"></ion-col>
     <ion-col *ngIf="!this.isLoadingPage">
-      <ion-card class="ion-padding" *ngIf="!this.hasRegisteredPatients">
-        <ion-text>
-          <h2>No se encontró ningún paciente. ¿Quieres cargar uno?</h2>
-        </ion-text>
-        <ion-button [routerLink]="['../new-patient']">
-          <ion-icon name="person-add-outline"></ion-icon>
-          <p class="ion-margin">Crear paciente</p>
-        </ion-button>
-      </ion-card>
-      <div *ngIf="this.hasRegisteredPatients">
+      <div>
         <div class="ion-padding ion-margin">
           <ion-button [routerLink]="['../new-patient']">
             <ion-icon name="person-add-outline"></ion-icon>
