@@ -13,9 +13,9 @@
       <ion-icon name="information-circle"></ion-icon>
       <ion-label class="patient-tab">Datos Personales</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="stats" layout="icon-start">
+    <ion-segment-button value="plannings" layout="icon-start">
       <ion-icon name="trending-up"></ion-icon>
-      <ion-label class="patient-tab">Estadisticas</ion-label>
+      <ion-label class="patient-tab">Planificaciones</ion-label>
     </ion-segment-button>
     <ion-segment-button value="comments" layout="icon-start">
       <ion-icon name="chatbubbles-outline"></ion-icon>
@@ -185,46 +185,10 @@
           <br />
         </form>
       </div>
-      <!-- TAB DE ESTADÍSTICAS -->
+      <!-- TAB DE PLANIFICACIONES -->
       
-      <div id="stats" *ngIf="currentTab==='stats'">
-        <ion-card class="ion-padding" 
-          *ngIf="this.results.hayUnoRepetido.results.length == 0 
-          && this.results.encuentraAlNuevo.results.length == 0">
-          <ion-text>
-              <h2>Este paciente no tiene resultados para mostrar.</h2>
-          </ion-text>
-        </ion-card>
-        <div style="margin-top: 2%;">
-          <ngb-accordion #acc="ngbAccordion" animation>
-            <ngb-panel type="primary" *ngIf="this.results.hayUnoRepetido.results.length > 0">
-              <ng-template ngbPanelTitle >
-                <h3 class="result-tab">Encuentra al Repetido</h3>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <app-card-hay-uno-repetido-result 
-                  [results]="this.results.hayUnoRepetido"
-                  *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
-                ></app-card-hay-uno-repetido-result>
-              </ng-template>
-            </ngb-panel>
-          </ngb-accordion>
-        </div>
-        <div style="margin-top: 1%;">
-          <ngb-accordion #acc="ngbAccordion" animation>
-            <ngb-panel type="primary" *ngIf="this.results.encuentraAlNuevo.results.length > 0">
-              <ng-template ngbPanelTitle>
-                <h3 class="result-tab">Encuentra al Nuevo</h3>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <app-card-encuentra-al-nuevo-result
-                  [results]="this.results.encuentraAlNuevo"
-                  *ngIf="this.results && this.results.encuentraAlNuevo && this.showResults"
-                ></app-card-encuentra-al-nuevo-result>
-              </ng-template>
-            </ngb-panel>
-          </ngb-accordion>
-        </div>
+      <div id="plannings" *ngIf="currentTab==='plannings'">
+        
       </div>
 
       <!-- TAB DE DATOS COMENTARIOS -->

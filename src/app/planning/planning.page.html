@@ -15,34 +15,15 @@
             <p class="ion-margin">Nueva planificacion</p>
         </ion-button>
       </div>
-      <ion-item id="rounded">
-        <ion-label position="stacked" color="primary">Busqueda por nombre de planificacion o por paciente</ion-label>
-        <ion-searchbar
-          animated 
-          showCancelButton="focus" 
-          placeholder="Nombre o apellido"
-          (ionInput)="filterPlannings($event)"
-        >
-        </ion-searchbar>
-      </ion-item>
 
-      <div class="ps">
-        <ion-item color="light" style="border-radius: 20px;">
-          <ion-select multiple="true" 
-                      [(ngModel)]="this.selectedStates"
-                      class="ps_select"
-                      (ionChange)="getPlanningsFiltered(this.search)"
-                      selectedText="Estados"
-                      ngDefaultControl
-            >
-            <div *ngFor="let state of this.planningStates">
-              <ion-select-option class="ps_select_option" value="{{state.name}}">{{state.name}}</ion-select-option>
-            </div>
-          </ion-select>
-        </ion-item>
-        <ion-chip *ngFor="let state of this.selectedStates" color="dark"> {{ state }}</ion-chip>
-      </div>
-      
+      <app-planning-search 
+        [selectedStates]="this.selectedStates"
+        [planningStates]="this.planningStates"
+        (skeletonLoading)="this.skeletonLoading = $event" 
+        (search)="this.search = $event"
+        (statesToFilter)="getPlanningsFiltered($event,this.search)">
+      </app-planning-search>
+
       <div class="horizontal-cards ion-margin">
         <div *ngIf="this.filteredPlannings?.length == 0 && this.skeletonLoading == false" style=text-align:center;>
           <br>
@@ -57,13 +38,13 @@
                   'border-radius': '10px',
                   'margin-right': '20px'
               }"
-              ></ngx-skeleton-loader>
+          ></ngx-skeleton-loader>
         </div>
-          <app-planning-card
+        <app-planning-card
           *ngFor="let planning of this.filteredPlannings"
           (click)="this.goToPlanningDetail(planning)"
           [planning]="planning"
-          ></app-planning-card>
+        ></app-planning-card>
       </div>
     </div>
 </ion-col>

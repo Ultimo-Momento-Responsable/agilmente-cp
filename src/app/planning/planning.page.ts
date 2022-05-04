@@ -50,36 +50,16 @@ export class PlanningPage implements OnInit {
   }
 
   /**
-   * Si se ingresa texto en el campo de busqueda de la planificación, obtiene las planificaciones que posean dicho texto.
-   * @param event Valor ingresado en el campo de busqueda de planificación
-   */
-  filterPlannings(event) {
-    this.skeletonLoading = true;
-    const removeAccents = (str) => {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-    this.search = removeAccents(event.srcElement.value)
-    while (this.search.substring(0,1) == " ") {
-      this.search = this.search.substring(1)
-    }
-    this.getPlanningsFiltered(this.search)
-  }
-
-  /**
    * Obtiene las planificaciones de una pagina especifica, filtra por nombre, nombre y/o apellido de paciente 
    * si se provee un valor en el campo de busqueda.
    * Además filtra por los estados seleccionados.
-   * @param search valor para filtrar planificaciones.
+   * @param search texto de búsqueda para filtrar planificaciones.
+   * @param statesToFilter estados con los que filtrar
    */
-  getPlanningsFiltered(search: string) {
-    let statesToFilter = this.selectedStates.slice();
-    if (statesToFilter.includes("Completada")) {
-      statesToFilter.push("Completada y Terminada");
-    }
+  getPlanningsFiltered(statesToFilter,search){
     this.planningApiService.getPlanningsOverviewFiltered(search,statesToFilter).subscribe((res) => {
       this.filteredPlannings = res.content;
       this.skeletonLoading = false;
     });
   }
-
 }
