@@ -29,9 +29,13 @@
         </ion-card-header>
       
         <ion-card-content>
-          <div><ion-label class="gamecard_label">{{this.specificGame?.description}}</ion-label></div>
+          <div><ion-label class="gamecard_label">{{this.gameDescription}}</ion-label></div>
+          <br>
           <div><ion-label class="gamecard_label">{{this.specificGame?.paramDescription}}</ion-label></div>
-          <ion-title>Parámetros</ion-title>
+        </ion-card-content>
+      </ion-card>
+      <ion-title>Parámetros</ion-title>
+      <ion-card>
           <div *ngFor="let gp of this.specificGame?.gameParam">
             <ion-title class="card_subtitle ion-padding">
               {{gp.param.name}}
@@ -39,11 +43,18 @@
             <span *ngFor="let p of this.specificGame?.params"><span *ngIf="p.id == gp.param.id">
             <ion-label class="card_label ion-padding">{{gp.param.contextualHelp}} </ion-label>
             <br>
+            <ion-label class="card_label ion-padding" *ngIf="p.type == 1">Parámetro activable. Valores permitidos: SI - NO.</ion-label>
             <ion-label class="card_label ion-padding" *ngIf="p.type !== 1 && p.type !== 2">Valores permitidos: {{gp.minValue}} a {{gp.maxValue}} {{p.unit}}</ion-label>
+            <span *ngIf="p.type == 2">
+              <ion-label class="card_label ion-padding">Conjuntos disponibles:</ion-label>
+              <ion-item class="cd_item" *ngFor="let t2 of gp.paramType2Content">
+                <ion-icon name="ellipse-outline" slot="start"></ion-icon>
+                {{t2}}
+              </ion-item>
+            </span>
             </span></span>
           </div>
-        </ion-card-content>
-      </ion-card>
+        </ion-card>
     </ion-col>
     <ion-col size="1"></ion-col>
   </ion-row>

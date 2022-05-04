@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GamesApiService } from '../services/games-api.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
 
 export interface Game {
   id: number;
@@ -21,10 +22,12 @@ export class SpecificGamePage implements OnInit {
   id: number;
   specificGame: Game;
   gameThumb: String;
+  gameDescription: String;
 
   constructor(
     private gamesApiService: GamesApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private httpClient: HttpClient
   ) { }
 
   ngOnInit() { }
@@ -35,6 +38,7 @@ export class SpecificGamePage implements OnInit {
       this.gamesApiService.getGameById(this.id).subscribe((res) => {
         this.specificGame = res;
         this.gameThumb = this.getGameThumb(res);
+        this.getGameDescription(res);
       });
     });
   }
@@ -44,5 +48,14 @@ export class SpecificGamePage implements OnInit {
     let gameNameFormatted : string = game.name.toLowerCase();
     gameNameFormatted = gameNameFormatted.replace(/\s/g, '_');
     return( "../../../assets/pictures/" + gameNameFormatted + "_icon.png");
+  }
+
+  getGameDescription(game) {
+    let gameData: any [];
+    let URL = "../../../assets/games.json";
+    this.httpClient.get(URL).subscribe(data =>{
+        gameData = JSON.parse(JSON.stringify(data));;
+        this.gameDescription = gameData[this.id-1].description;
+    })
   }
 }
