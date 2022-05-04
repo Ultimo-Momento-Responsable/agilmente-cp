@@ -26,6 +26,7 @@ export class PlanningPage implements OnInit {
   
   ionViewWillEnter() {
     this.planningApiService.getPlanningStates().subscribe((res) => {
+      res.pop();
       this.planningStates = res;
       if (this.selectedStates.length==0){
         this.selectedStates.push(this.planningStates[0].name);
@@ -71,7 +72,11 @@ export class PlanningPage implements OnInit {
    * @param search valor para filtrar planificaciones.
    */
   getPlanningsFiltered(search: string) {
-    this.planningApiService.getPlanningsOverviewFiltered(search,this.selectedStates).subscribe((res) => {
+    let statesToFilter = this.selectedStates.slice();
+    if (statesToFilter.includes("Completada")) {
+      statesToFilter.push("Completada y Terminada");
+    }
+    this.planningApiService.getPlanningsOverviewFiltered(search,statesToFilter).subscribe((res) => {
       this.filteredPlannings = res.content;
       this.skeletonLoading = false;
     });
