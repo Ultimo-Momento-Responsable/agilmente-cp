@@ -18,11 +18,10 @@
       <ion-item id="rounded">
         <ion-label position="stacked" color="primary">Busqueda por nombre de planificacion o por paciente</ion-label>
         <ion-searchbar
-        animated 
-        showCancelButton="focus" 
-        placeholder="Nombre o apellido"
-        
-        (ionInput)="filterPlannings($event)"
+          animated 
+          showCancelButton="focus" 
+          placeholder="Nombre o apellido"
+          (ionInput)="filterPlannings($event)"
         >
         </ion-searchbar>
       </ion-item>

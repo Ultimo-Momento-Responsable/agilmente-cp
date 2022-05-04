@@ -10,28 +10,28 @@
       <div *ngFor="let p of game.gameParam; let i = index">
         <div *ngIf="p.param.type==0">
           <ion-row>
+            <ion-col>
+            <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
+              <ion-icon color="primary" name="information-circle"></ion-icon>
+              <ion-label>{{ p.param.name }}</ion-label>
+              <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
+            </ion-item>
+          </ion-col>
           <ion-col>
-          <ion-item ngbTooltip="{{p.param.contextualHelp}}" placement="bottom-left">
-            <ion-icon color="primary" name="information-circle"></ion-icon>
-            <ion-label>{{ p.param.name }}</ion-label>
-            <ion-radio [value]="i" (click)="setActiveParam(game,p,i)"></ion-radio>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item disabled="{{!p.isActive}}">
+            <ion-item disabled="{{!p.isActive}}">
 
-            <ion-input disabled="{{!p.isActive}}" 
-              type="number" 
-              value="{{ p.value }}" 
-              (ionChange)="changeParamValue(game,p,$event)" 
-              [min]="p.minValue" 
-              [max]="checkMaxValue(p)" 
-              (ionBlur)="checkParamLimit(p)"
-              placeholder="{{p.param.unit}}"
-              >
-            </ion-input>
-          </ion-item>
-        </ion-col>
+              <ion-input disabled="{{!p.isActive}}" 
+                type="number" 
+                value="{{ p.value }}" 
+                (ionChange)="changeParamValue(game,p,$event)" 
+                [min]="p.minValue" 
+                [max]="checkMaxValue(p)" 
+                (ionBlur)="checkParamLimit(p)"
+                placeholder="{{p.param.unit}}"
+                >
+              </ion-input>
+            </ion-item>
+          </ion-col>
         </ion-row>
         </div>
         <div *ngIf="p.param.type==3">
