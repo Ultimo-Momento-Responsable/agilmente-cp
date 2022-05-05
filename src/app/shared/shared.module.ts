@@ -12,6 +12,7 @@ import { EncuentraAlNuevoResultsGeneralTableComponent } from './components/resul
 import { EncuentraAlNuevoResultsPerformanceGraphComponent } from './components/results/encuentra-al-nuevo/encuentra-al-nuevo-results-performance-graph/encuentra-al-nuevo-results-performance-graph.component';
 import { EncuentraAlNuevoResultsTimeGraphComponent } from './components/results/encuentra-al-nuevo/encuentra-al-nuevo-results-time-graph/encuentra-al-nuevo-results-time-graph.component';
 import { PlanningSearchComponent } from './components/planning-search/planning-search.component';
+import { PlanningCardComponent } from './components/planning-card/planning-card.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PlanningSearchComponent } from './components/planning-search/planning-s
     EncuentraAlNuevoResultsPerformanceGraphComponent,
     EncuentraAlNuevoResultsTimeGraphComponent,
     DialogsComponent,
-    PlanningSearchComponent
+    PlanningSearchComponent,
+    PlanningCardComponent
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
   exports: [
@@ -45,7 +47,8 @@ import { PlanningSearchComponent } from './components/planning-search/planning-s
     EncuentraAlNuevoResultsPerformanceGraphComponent,
     EncuentraAlNuevoResultsTimeGraphComponent,
     DialogsComponent,
-    PlanningSearchComponent
+    PlanningSearchComponent,
+    PlanningCardComponent
   ],
   providers: [DialogsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

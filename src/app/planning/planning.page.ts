@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { PlanningSearchComponent } from '../shared/components/planning-search/planning-search.component';
 import { PlanningApiService } from './services/planning-api.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { PlanningApiService } from './services/planning-api.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class PlanningPage implements OnInit {
+  @ViewChild(PlanningSearchComponent) pSC: PlanningSearchComponent;
   plannings: any[];
   planningStates: any[] = [];
   filteredPlannings: any[];
@@ -25,13 +27,17 @@ export class PlanningPage implements OnInit {
   }
   
   ionViewWillEnter() {
+    this.selectedStates = this.pSC.selectedStates;
+    if (this.selectedStates.includes("Completada")) {
+      this.selectedStates.push("Completada y Terminada");
+    }
     this.planningApiService.getPlanningStates().subscribe((res) => {
       res.pop();
       this.planningStates = res;
       if (this.selectedStates.length==0){
         this.selectedStates.push(this.planningStates[0].name);
         this.selectedStates.push(this.planningStates[1].name);
-      }
+      } 
       this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates).subscribe((res) => {
         this.plannings = res.content;
         this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));

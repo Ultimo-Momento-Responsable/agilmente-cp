@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { PlanningApiService } from 'src/app/planning/services/planning-api.service';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
+import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
 export interface Patient {
@@ -27,6 +29,7 @@ export interface Patient {
   styleUrls: ['./specific-patient.page.scss'],
 })
 export class SpecificPatientPage implements OnInit {
+  @ViewChild(PlanningSearchComponent) pSC: PlanningSearchComponent;
   myForm: FormGroup = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
@@ -44,9 +47,16 @@ export class SpecificPatientPage implements OnInit {
   comment: string = "";
   auxComment: any = null;
 
+  plannings: any[];
+  planningStates: any[] = [];
+  filteredPlannings: any[];
+  skeletonLoading = true;
+  selectedStates: any[] = [];
+  search: string = "";
+
   constructor(
     private patientsApiService: PatientsApiService,
-    private resultsApiService: ResultsApiService,
+    private planningApiService: PlanningApiService,
     private route: ActivatedRoute,
     private router: Router,
     public alertController: AlertController,
@@ -67,18 +77,25 @@ export class SpecificPatientPage implements OnInit {
         this.sortById(this.patient.comments);
         this.myForm.patchValue(this.patient);
       });
+    });
+  }
 
-      this.resultsApiService.getResultsByPatient(this.id).subscribe((res) => {
-        this.results = res;
-        this.results.hayUnoRepetido.results.forEach(r => {
-          r.totalTime = r.totalTime.toFixed(2);
-        });
-        this.results.encuentraAlNuevo.results.forEach(r => {
-          r.totalTime = r.totalTime.toFixed(2);
-        })
-        if (this.results.hayUnoRepetido.results?.length==0 && this.results.encuentraAlNuevo.results?.length==0){
-          this.showResults=false;
-        }
+  getInitialPlannings() {
+    this.selectedStates = this.pSC.selectedStates;
+    if (this.selectedStates.includes("Completada")) {
+      this.selectedStates.push("Completada y Terminada");
+    }
+    this.planningApiService.getPlanningStates().subscribe((res) => {
+      res.pop();
+      this.planningStates = res;
+      if (this.selectedStates.length==0){
+        this.selectedStates.push(this.planningStates[0].name);
+        this.selectedStates.push(this.planningStates[1].name);
+      } 
+      this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates, this.id).subscribe((res) => {
+        this.plannings = res.content;
+        this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
+        this.skeletonLoading = false;
       });
     });
   }
@@ -232,4 +249,27 @@ export class SpecificPatientPage implements OnInit {
       .subscribe((res) => {});
   }
 
+
+  /**
+   * Redirige al usuario a la página del detalle
+   * de la planificacion.
+   * @param planning Id de la planificacion.
+   */
+   goToPlanningDetail(planning: any) {
+    this.router.navigateByUrl('/planning/' + planning.planningId)
+  }
+
+  /**
+   * Obtiene las planificaciones de una pagina especifica, filtra por nombre, nombre y/o apellido de paciente 
+   * si se provee un valor en el campo de busqueda.
+   * Además filtra por los estados seleccionados.
+   * @param search texto de búsqueda para filtrar planificaciones.
+   * @param statesToFilter estados con los que filtrar
+   */
+  getPlanningsFiltered(statesToFilter,search){
+    this.planningApiService.getPlanningsOverviewFiltered(search,statesToFilter,this.id).subscribe((res) => {
+      this.filteredPlannings = res.content;
+      this.skeletonLoading = false;
+    });
+  }
 }

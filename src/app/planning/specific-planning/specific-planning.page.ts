@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import moment from 'moment';
+import { Location } from '@angular/common';
 
 export interface Planning {
   id: number;
@@ -59,7 +60,7 @@ export class SpecificPlanningPage implements OnInit {
     private planningApiService: PlanningApiService,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router,
+    private location: Location,
     private route: ActivatedRoute,
     private dialogsComponent: DialogsComponent
   ) { }
@@ -414,7 +415,7 @@ export class SpecificPlanningPage implements OnInit {
     await alert.present(); 
     if (await alert.onDidDismiss()){
       if (reset){
-        this.router.navigateByUrl('/planning')
+        this.location.back();
       }
     }
   }
@@ -533,9 +534,9 @@ export class SpecificPlanningPage implements OnInit {
     '¿Desea cancelar la planificación? Esta acción no puede deshacerse')
     if (confirm) {
       this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
-        this.dialogsComponent.presentAlert('Planificación eliminada','','<p>La planificación ha sido eliminado correctamente.','/planning');
+        this.presentAlert('Planificación eliminada','<p>La planificación ha sido eliminada correctamente.',true,'alertSuccess');
       }, (err) => {
-        this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','/planning');
+        this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
       });
     }
   }

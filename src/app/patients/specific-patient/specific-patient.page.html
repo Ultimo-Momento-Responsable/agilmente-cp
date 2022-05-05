@@ -13,12 +13,12 @@
       <ion-icon name="information-circle"></ion-icon>
       <ion-label class="patient-tab">Datos Personales</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="plannings" layout="icon-start">
-      <ion-icon name="trending-up"></ion-icon>
+    <ion-segment-button value="plannings" (click)="getInitialPlannings()" layout="icon-start">
+      <ion-icon name="calendar"></ion-icon>
       <ion-label class="patient-tab">Planificaciones</ion-label>
     </ion-segment-button>
     <ion-segment-button value="comments" layout="icon-start">
-      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <ion-icon name="chatbubbles"></ion-icon>
       <ion-label class="patient-tab">Comentarios</ion-label>
     </ion-segment-button>
   </ion-segment>
@@ -188,7 +188,36 @@
       <!-- TAB DE PLANIFICACIONES -->
       
       <div id="plannings" *ngIf="currentTab==='plannings'">
-        
+        <app-planning-search 
+          [selectedStates]="this.selectedStates"
+          [planningStates]="this.planningStates"
+          (skeletonLoading)="this.skeletonLoading = $event" 
+          (search)="this.search = $event"
+          (statesToFilter)="getPlanningsFiltered($event,this.search)">
+        </app-planning-search>
+
+        <div class="horizontal-cards ion-margin">
+          <div *ngIf="this.filteredPlannings?.length == 0 && this.skeletonLoading == false" style=text-align:center;>
+            <br>
+            <h2>No se han encontrado resultados para la búsqueda.</h2>
+            <h6>Prueba con otras palabras clave o modifica los filtros de búsqueda.</h6>
+          </div>
+          <div class="item" *ngIf="this.skeletonLoading == true">
+            <ngx-skeleton-loader 
+                count="10" 
+                [theme]="{
+                    height: '180px',
+                    'border-radius': '10px',
+                    'margin-right': '20px'
+                }"
+            ></ngx-skeleton-loader>
+          </div>
+          <app-planning-card
+            *ngFor="let planning of this.filteredPlannings"
+            (click)="this.goToPlanningDetail(planning)"
+            [planning]="planning"
+          ></app-planning-card>
+        </div>
       </div>
 
       <!-- TAB DE DATOS COMENTARIOS -->

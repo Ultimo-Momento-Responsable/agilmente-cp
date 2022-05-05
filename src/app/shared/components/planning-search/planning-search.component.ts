@@ -14,6 +14,9 @@ export class PlanningSearchComponent {
   internalSearch = "";
   constructor() { }
 
+  ionViewWillEnter() {
+    this.statesToFilter.emit(this.selectedStates);
+  }
   /**
    * Si se ingresa texto en el campo de busqueda de la planificación, obtiene las planificaciones que posean dicho texto.
    * @param event Valor ingresado en el campo de busqueda de planificación

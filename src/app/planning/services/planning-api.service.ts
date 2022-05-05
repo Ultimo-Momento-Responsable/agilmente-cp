@@ -22,10 +22,11 @@ export class PlanningApiService {
    * Obtiene todas las planificaciones con los estados provistos y con el filtro de búsqueda.
    * @returns Una pagina de planificaciones.
    */
-   getPlanningsOverviewFiltered(search: string, states: string []): Observable<any> {
+   getPlanningsOverviewFiltered(search: string, states: string [], patientId: number = null): Observable<any> {
     const json = {
       search: search,
-      states: states
+      states: states,
+      patientId: patientId
     }
     return this.http.post(`http://${environment.ip}:8080/${this.entity}/filter`,json);
   }

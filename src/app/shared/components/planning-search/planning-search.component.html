@@ -21,5 +21,7 @@
       </div>
     </ion-select>
   </ion-item>
-  <ion-chip *ngFor="let state of this.selectedStates" color="dark"> {{ state }}</ion-chip>
+  <div *ngFor="let state of this.selectedStates">
+    <ion-chip *ngIf="state != 'Completada y Terminada'"  color="dark"> {{ state }}</ion-chip>
+  </div>
 </div>
