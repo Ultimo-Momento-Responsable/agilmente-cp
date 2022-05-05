@@ -23,6 +23,8 @@ export class SpecificGamePage implements OnInit {
   specificGame: Game;
   gameThumb: String;
   gameDescription: String;
+  hasActivatable: any;
+  hasType3: any;
 
   constructor(
     private gamesApiService: GamesApiService,
@@ -39,7 +41,10 @@ export class SpecificGamePage implements OnInit {
         this.specificGame = res;
         this.gameThumb = this.getGameThumb(res);
         this.getGameDescription(res);
+        this.findActivatable(res);
+        this.findType3(res);
       });
+      
     });
   }
   // Obtiene un juego y devuelve el nombre del archivo PNG del ícono
@@ -56,6 +61,18 @@ export class SpecificGamePage implements OnInit {
     this.httpClient.get(URL).subscribe(data =>{
         gameData = JSON.parse(JSON.stringify(data));;
         this.gameDescription = gameData[this.id-1].description;
+    })
+  }
+
+  findActivatable(game) {
+    this.hasActivatable = this.specificGame.params.find( result => {
+      return result.type === 1;
+    })
+  }
+
+  findType3(game) {
+    this.hasType3 = this.specificGame.params.find( result => {
+      return result.type === 3;
     })
   }
 }

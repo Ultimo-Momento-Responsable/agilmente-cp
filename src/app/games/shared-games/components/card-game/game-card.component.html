@@ -1,4 +1,4 @@
-<ion-card class="gc ion-no-padding">
+<ion-card class="gc ion-no-padding" role="button" (click)="this.goToGameDetail()">
   <img src="{{this.imgSrc}}" />
   <ion-card-header class="gc_header">
     <p class="gc_title">{{game.name}}</p>
@@ -13,6 +13,6 @@
   <ion-card-content>
     <p class="gc_description"> {{game.description}} </p>
     <p class="gc_paramDescription"> {{game.paramDescription}} </p>
-    <p class="gc_link" (click)="this.goToGameDetail()">Más información</p>
+    <p class="gc_link">Más información</p>
   </ion-card-content>
 </ion-card>
