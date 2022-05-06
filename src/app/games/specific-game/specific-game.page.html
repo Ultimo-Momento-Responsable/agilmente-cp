@@ -29,15 +29,17 @@
         </ion-card-header>
       
         <ion-card-content>
-          <div ng-bind="textFromJSON" style="white-space:pre-wrap"><p>{{this.gameDescription}}</p></div>
-          <br>
-          <div><p>{{this.specificGame?.paramDescription}}</p></div>
+          <div ng-bind="textFromJSON" style="white-space:pre-wrap">
+            <p class="cd_description">{{this.gameDescription}}</p>
+            <br>
+            <p class="cd_description">{{this.specificGame?.paramDescription}}</p>
+          </div>
         </ion-card-content>
       </ion-card>
       <ion-title>Parámetros</ion-title>
       <ion-card>
         <!-- Param Type 0-->
-        <ion-title>Condiciones de Parada</ion-title>
+        <ion-title class="cd_param_type ion-padding">Condiciones de Parada</ion-title>
         <div *ngFor="let gp of this.specificGame?.gameParam">
           <div *ngIf="gp.param.type==0">
             
@@ -56,7 +58,7 @@
       </div>
 
       <!-- Param Type 1-->
-      <ion-title *ngIf="this.hasActivatable">Activables</ion-title>
+      <ion-title class="cd_param_type ion-padding" *ngIf="this.hasActivatable">Activables</ion-title>
       <div *ngFor="let gp of this.specificGame?.gameParam">
         <div *ngIf="gp.param.type==1">
           
@@ -68,7 +70,7 @@
             </ion-title>
           <ion-label class="cd_param_ex ion-padding">{{gp.param.contextualHelp}} </ion-label>
           <br>
-          <ion-label class="cd_param_ex ion-padding"><b>Valores permitidos:</b> SI - NO.</ion-label>
+          <ion-label class="cd_param_ex ion-padding"><b>Valores permitidos:</b> SI - NO</ion-label>
           </span>
         </div>
       </div>
@@ -78,7 +80,7 @@
     
     <div *ngFor="let gp of this.specificGame?.gameParam">
       <div *ngIf="gp.paramType2Content.length > 0">
-      <ion-title>Opciones seleccionables</ion-title>
+      <ion-title class="cd_param_type ion-padding">Opciones seleccionables</ion-title>
     </div>
       <div *ngIf="gp.param.type==2">
         
@@ -93,33 +95,33 @@
         <span *ngIf="p.type == 2">
           <ion-label class="cd_param_ex ion-padding"><b>Conjuntos disponibles:</b></ion-label>
           <br>
-          <ion-item class="cd_item" *ngFor="let t2 of gp.paramType2Content">
-            <ion-icon name="ellipse-outline" slot="start"></ion-icon>
-            {{t2}}
-          </ion-item>
+          <ul ><li *ngFor="let t2 of gp.paramType2Content">
+            <b><ion-label class="cd_param_ex ion-padding">{{t2}}</ion-label></b>
+          </li></ul>
         </span></span>
       </div>
     </div>
   </div>
 
-  <!-- Param Type 3-->
-  <ion-title *ngIf="this.hasType3">Condiciones adicionales</ion-title>
-  <div *ngFor="let gp of this.specificGame?.gameParam">
-    <div *ngIf="gp.param.type==3">
-      
-      <div *ngFor="let p of this.specificGame?.params">
-      <span *ngIf="p.id == gp.param.id">
+    <!-- Param Type 3-->
+    <ion-title class="cd_param_type ion-padding" *ngIf="this.hasType3">Condiciones adicionales</ion-title>
+    <div *ngFor="let gp of this.specificGame?.gameParam">
+      <div *ngIf="gp.param.type==3">
         
-        <ion-title class="cd_param_sub ion-padding">
-          {{gp.param.name}}
-        </ion-title>
-      <ion-label class="cd_param_ex ion-padding">{{gp.param.contextualHelp}} </ion-label>
-      <br>
-      <ion-label class="cd_param_ex ion-padding" *ngIf="p.type !== 1 && p.type !== 2"><b>Valores permitidos:</b> {{gp.minValue}} a {{gp.maxValue}} {{p.unit}}</ion-label>
-      </span>
+        <div *ngFor="let p of this.specificGame?.params">
+        <span *ngIf="p.id == gp.param.id">
+          
+          <ion-title class="cd_param_sub ion-padding">
+            {{gp.param.name}}
+          </ion-title>
+        <ion-label class="cd_param_ex ion-padding">{{gp.param.contextualHelp}} </ion-label>
+        <br>
+        <ion-label class="cd_param_ex ion-padding" *ngIf="p.type !== 1 && p.type !== 2"><b>Valores permitidos:</b> {{gp.minValue}} a {{gp.maxValue}} {{p.unit}}</ion-label>
+        </span>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <br>
     </ion-card>
       
     </ion-col>
