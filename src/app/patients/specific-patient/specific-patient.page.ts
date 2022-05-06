@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { PlanningApiService } from 'src/app/planning/services/planning-api.service';
-import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
@@ -80,6 +79,10 @@ export class SpecificPatientPage implements OnInit {
     });
   }
 
+  /**
+   * Obtiene las plannings asignadas a ese paciente según los criterios
+   * de búsqueda establecidos.
+   */
   getInitialPlannings() {
     this.selectedStates = this.pSC.selectedStates;
     if (this.selectedStates.includes("Completada")) {

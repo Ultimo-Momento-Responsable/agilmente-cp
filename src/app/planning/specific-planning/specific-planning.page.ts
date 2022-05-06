@@ -4,7 +4,7 @@ import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 import { AlertController, ModalController } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import moment from 'moment';
