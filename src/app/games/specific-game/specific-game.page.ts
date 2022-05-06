@@ -55,6 +55,9 @@ export class SpecificGamePage implements OnInit {
     return( "../../../assets/pictures/" + gameNameFormatted + "_icon.png");
   }
 
+  // Obtiene un juego y devuelve la explicación detallada desde el JSON
+  // ubicada en la carpeta assets.
+  // @param game Objeto juego
   getGameDescription(game) {
     let gameData: any [];
     let URL = "../../../assets/games.json";
@@ -64,12 +67,16 @@ export class SpecificGamePage implements OnInit {
     })
   }
 
+  // Obtiene un juego y guarda en una variable si tiene parámetros del tipo 1
+  // @param game Objeto juego
   findActivatable(game) {
     this.hasActivatable = this.specificGame.params.find( result => {
       return result.type === 1;
     })
   }
 
+  // Obtiene un juego y guarda en una variable si tiene parámetros del tipo 3
+  // @param game Objeto juego
   findType3(game) {
     this.hasType3 = this.specificGame.params.find( result => {
       return result.type === 3;
