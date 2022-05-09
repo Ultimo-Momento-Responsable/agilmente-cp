@@ -1,0 +1,66 @@
+.gc_container {
+    width: 100%;
+
+    &_item {
+        display: inline-grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        align-items: center;
+        justify-items: center;
+
+        &_card {
+            display: flex;
+            justify-items: center;
+            align-items: center;
+        }
+    }
+}
+.cd {
+    margin-left: 15px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    
+    &_select {
+        font-family: "Bariol";
+        border-radius: 4px;
+        padding: 0px 4px;
+        height: 24px;
+    }
+
+    &_chips {
+        &_selected {
+            color:white;
+            font-family: "Bariol";
+            border-radius: 4px;
+            padding: 0px 4px;
+            height: 24px;
+        }
+    }
+    &_item {
+        font-family: "Bariol";
+        color: #616e7e;
+    }
+    &_param_sub {
+        font-family: "Bariol";
+        color: #616e7e;
+        font-size: 18px;
+    }
+    &_param_ex {
+        font-family: "Bariol";
+        color: #616e7e;
+        font-size: 16px;
+    }
+    &_param_type {
+        font-family: "Futura";
+        color: #616e7e;
+        font-size: 36px;
+        padding-left: 16px !important;
+        padding-bottom: 0;
+    }
+
+    &_description {
+        font-family: "Bariol";
+        color: #616e7e;
+        font-size: 16px;
+    }
+}
