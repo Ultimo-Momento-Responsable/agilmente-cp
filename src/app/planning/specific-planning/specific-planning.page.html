@@ -17,12 +17,13 @@
         style="float: right"
         color="danger"
         fill="clear"
+        [disabled]="this.state=='Cancelada' || this.state=='Completada y Terminada'"
         (click)="this.cancelPlanning()">
         <ion-icon name="trash-outline"></ion-icon>
         <p class="ion-margin">Eliminar</p>
       </ion-button>
       <ion-button
-        [disabled]="this.isEditing"
+        [disabled]="this.isEditing || this.state=='Cancelada' || this.state=='Completada y Terminada'"
         style="float: right"
         fill="clear"
         (click)="this.editPlanning()">

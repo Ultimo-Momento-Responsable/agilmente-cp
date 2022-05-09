@@ -5,6 +5,8 @@ import { SharedPatientsModule } from '../shared-patients/shared-patients.module'
 import { SpecificPatientPage } from './specific-patient.page';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   {
@@ -19,7 +21,9 @@ const routes: Routes = [
     SharedPatientsModule, 
     ReactiveFormsModule, 
     FormsModule,
-    NgbModule
+    NgbModule,
+    NgxSkeletonLoaderModule,
+    SharedModule
   ],
   declarations: [SpecificPatientPage],
 })
