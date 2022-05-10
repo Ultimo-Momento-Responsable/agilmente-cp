@@ -153,17 +153,11 @@ export class PatientsPage implements OnInit {
     if($event.target.localName != "ion-content") {
       return;
     }
-
     const scrollElement = await $event.target.getScrollElement();
-
     const scrollHeight = scrollElement.scrollHeight - scrollElement.clientHeight;
-
     const currentScrollDepth = $event.detail.scrollTop;
-
     const targetPercent = 80;
-
     let triggerDepth = ((scrollHeight / 100) * targetPercent);
-
     if(currentScrollDepth > triggerDepth && this.patients.length % 20 == 0) {
       if (this.patients.length == (this.pageNumber+1)*20){
         this.scrollDepthTriggered = true;
