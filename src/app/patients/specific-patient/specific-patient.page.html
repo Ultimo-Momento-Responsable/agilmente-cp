@@ -191,6 +191,7 @@
         <app-planning-search 
           [selectedStates]="this.selectedStates"
           [planningStates]="this.planningStates"
+          [fromPatient]="true"
           (skeletonLoading)="this.skeletonLoading = $event" 
           (search)="this.search = $event"
           (statesToFilter)="getPlanningsFiltered($event,this.search)">

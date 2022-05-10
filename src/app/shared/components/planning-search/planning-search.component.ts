@@ -1,20 +1,28 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-planning-search',
   templateUrl: './planning-search.component.html',
   styleUrls: ['./planning-search.component.scss'],
 })
-export class PlanningSearchComponent {
+export class PlanningSearchComponent implements OnInit {
   @Input() selectedStates: any[] = [];
   @Input() planningStates: any[] = [];
+  @Input() fromPatient: boolean;
   @Output() skeletonLoading = new EventEmitter<boolean>();
   @Output() statesToFilter = new EventEmitter<any[]>();
   @Output() search = new EventEmitter<string>();
   internalSearch = "";
+  label = "Búsqueda por nombre de planificación o paciente";
   constructor() { }
 
-  ionViewWillEnter() {
+  ngOnInit(): void {
+    if (this.fromPatient) {
+      this.label = "Búsqueda por nombre de planificación";
+    }
+  }
+
+  ionViewWillEnter() {   
     this.statesToFilter.emit(this.selectedStates);
   }
   /**
