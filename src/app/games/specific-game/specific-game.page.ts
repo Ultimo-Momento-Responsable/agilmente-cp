@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GamesApiService } from '../services/games-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
+import { IonSlides} from '@ionic/angular';
 
 export interface Game {
   id: number;
@@ -11,6 +12,10 @@ export interface Game {
   cognitiveDomain: any[];
   gameParam: any[];
   params: any[];
+}
+
+export interface SlideImg {
+  img: String;
 }
 
 @Component({
@@ -25,6 +30,8 @@ export class SpecificGamePage implements OnInit {
   gameDescription: String;
   hasActivatable: any;
   hasType3: any;
+
+  slideImg = [];
 
   constructor(
     private gamesApiService: GamesApiService,
@@ -43,6 +50,7 @@ export class SpecificGamePage implements OnInit {
         this.getGameDescription(res);
         this.findActivatable(res);
         this.findType3(res);
+        this.getGameScreenshot(res);
       });
       
     });
@@ -81,5 +89,33 @@ export class SpecificGamePage implements OnInit {
     this.hasType3 = this.specificGame.params.find( result => {
       return result.type === 3;
     })
+  }
+  
+  @ViewChild('Slides') slides: IonSlides;
+  // Mueve los slides un espacio hacia atras
+  slidePrev() {
+    this.slides.getActiveIndex().then((index: number) => {
+      this.slides.slideTo(index -= 1)
+    });
+  }
+
+  // Mueve los slides un espacio hacia adelante
+  slideNext() {
+    this.slides.getActiveIndex().then((index: number) => {
+      this.slides.slideTo(index += 1)
+    });
+  }
+
+  // Obtiene un juego y llena el array de screenshots para el slides
+  // @param game Objeto juego
+  getGameScreenshot(game) {
+    let gameNameFormatted : string = game.name.toLowerCase();
+    gameNameFormatted = gameNameFormatted.replace(/\s/g, '_');
+    for (let i = 1; i < 6; i++) {
+      const img: SlideImg = {
+        img: `../../../assets/pictures/${gameNameFormatted}/SS${i}.png`
+      }
+      this.slideImg.push(img);
+    }
   }
 }

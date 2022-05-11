@@ -36,6 +36,21 @@
           </div>
         </ion-card-content>
       </ion-card>
+
+      <div>
+        <ion-slides pager="true" [options]="slideOptions" #Slides>
+          <ion-slide *ngFor="let slide of slideImg"><img [src]="slide.img"></ion-slide>        
+        </ion-slides>
+        <div style="text-align: center">
+          <ion-button (click)="slidePrev()">
+            <ion-icon name="arrow-back-outline"></ion-icon> Anterior
+          </ion-button>
+          <ion-button (click)="slidePrev()" (click)="slideNext()">
+            <ion-icon name="arrow-forward-outline" slot="end"></ion-icon> Siguiente
+          </ion-button>
+        </div>
+      </div>
+
       <ion-title>Parámetros</ion-title>
       <ion-card>
         <!-- Param Type 0-->
