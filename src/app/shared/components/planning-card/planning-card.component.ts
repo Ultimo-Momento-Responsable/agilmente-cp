@@ -25,7 +25,7 @@ export class PlanningCardComponent implements OnInit {
     } else if (this.planning.stateName === 'Cancelada') {
       this.icon = "close-circle";
       this.color = "danger";
-    } else if (this.planning.stateName === 'Completada') {
+    } else if (this.planning.stateName === 'Completada' || this.planning.stateName === 'Completada y Terminada') {
       this.icon = "checkmark-circle";
       this.color = "success";
     } 

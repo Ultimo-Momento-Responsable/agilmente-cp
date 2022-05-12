@@ -102,13 +102,13 @@
                 <ion-title class="card_title">
                   Agregar ejercicios
                 </ion-title>
-
+                <ion-label class="card_label ion-padding">Juegos actualmente asignados:</ion-label>
+                
                 <div id="assignedGames">
-                  <ion-label class="card_label ion-padding">Juegos asignados</ion-label>
-                  
+                                    
                   <!-- Tabs de juegos-->
               
-                  <ion-item lines="none">
+                  <ion-item lines="none" class="card_chips">
                     <ion-label text-wrap class="ion-text-wrap">
                       <ion-chip outline="true" [color]="checkTab(j) ? 'primary' : ''" *ngFor="let game of planningGames; let j = index" (click)="isAdding = false; switchTab(j);">
                         <ion-icon name="game-controller"></ion-icon>
@@ -127,7 +127,6 @@
                 <div *ngIf="isAdding">
                   <ion-label class="card_label ion-padding">Busca un juego o selecciona uno de los que aparecen debajo para agregarlo a la planificación:</ion-label>
                   <ion-searchbar 
-                    class="card_search"
                     animated 
                     placeholder="Comienza a escribir aquí..."
                     autocomplete

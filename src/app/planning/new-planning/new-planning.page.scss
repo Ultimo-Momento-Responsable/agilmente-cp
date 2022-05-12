@@ -83,7 +83,7 @@ ion-text {
     }
 
     &_search {
-        margin-left: 20px;
+        margin-left: 3px;
         margin-right: 20px;
     }
 
@@ -91,5 +91,11 @@ ion-text {
         margin-left: 20px;
         margin-right: 20px;
         margin-bottom: 25px;
+    }
+
+    &_chips {
+        --padding-top: 0px;
+        --inner-padding-top: 0px;
+        --inner-padding-bottom: 0px;
     }
 }

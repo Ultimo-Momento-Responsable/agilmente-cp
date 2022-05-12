@@ -9,6 +9,8 @@ import { PlanningPageRoutingModule } from './planning-routing.module';
 import { PlanningPage } from './planning.page';
 import { SharedPlanningModule } from './shared-planning/shared-planning.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -16,7 +18,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     IonicModule,
     PlanningPageRoutingModule,
     SharedPlanningModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    SharedModule
   ],
   declarations: [PlanningPage],
 })

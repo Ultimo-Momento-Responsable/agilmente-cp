@@ -1,0 +1,27 @@
+<ion-item id="rounded">
+  <ion-label position="stacked" color="primary">{{label}}</ion-label>
+  <ion-searchbar
+    animated 
+    placeholder="Escriba su búsqueda aquí"
+    (ionInput)="filterPlannings($event)"
+  >
+  </ion-searchbar>
+</ion-item>
+<div class="ps">
+  <ion-item color="light" style="border-radius: 20px;">
+    <ion-select multiple="true" 
+                [(ngModel)]="this.selectedStates"
+                class="ps_select"
+                (ionChange)="getPlanningsFiltered(this.internalSearch)"
+                selectedText="Estados"
+                ngDefaultControl
+      >
+      <div *ngFor="let state of this.planningStates">
+        <ion-select-option class="ps_select_option" value="{{state.name}}">{{state.name}}</ion-select-option>
+      </div>
+    </ion-select>
+  </ion-item>
+  <div *ngFor="let state of this.selectedStates">
+    <ion-chip *ngIf="state != 'Completada y Terminada'"  color="dark"> {{ state }}</ion-chip>
+  </div>
+</div>

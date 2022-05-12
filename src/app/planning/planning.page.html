@@ -8,52 +8,28 @@
   <ion-row>
     <ion-col size="1"></ion-col>
     <ion-col>
-    <ion-card class="ion-padding" *ngIf="this.plannings?.length === 0">
-      <ion-text>
-        <h2>No se encontró ningúna planificacion. ¿Quieres cargar una?</h2>
-      </ion-text>
-      <ion-button [routerLink]="['./new-planning']">
-        <ion-icon name="phone-portrait-outline"></ion-icon>
-        <p class="ion-margin">Nueva planificacion</p>
-      </ion-button>
-    </ion-card>
-    <div *ngIf="this.plannings?.length !== 0">
+    <div>
       <div class="horizontal-cards ion-padding ion-margin">
         <ion-button [routerLink]="['./new-planning']">
             <ion-icon name="phone-portrait-outline"></ion-icon>
             <p class="ion-margin">Nueva planificacion</p>
         </ion-button>
       </div>
-      <ion-item id="rounded">
-        <ion-label position="stacked" color="primary">Busqueda por nombre de planificacion o por paciente</ion-label>
-        <ion-searchbar
-        animated 
-        showCancelButton="focus" 
-        placeholder="Nombre o apellido"
-        
-        (ionInput)="filterPlannings($event)"
-        >
-        </ion-searchbar>
-      </ion-item>
 
-      <div class="ps">
-        <ion-item color="light" style="border-radius: 20px;">
-          <ion-select multiple="true" 
-                      [(ngModel)]="this.selectedStates"
-                      class="ps_select"
-                      (ionChange)="getPlanningsFiltered(this.search)"
-                      selectedText="Estados"
-                      ngDefaultControl
-            >
-            <div *ngFor="let state of this.planningStates">
-              <ion-select-option class="ps_select_option" value="{{state.name}}">{{state.name}}</ion-select-option>
-            </div>
-          </ion-select>
-        </ion-item>
-        <ion-chip *ngFor="let state of this.selectedStates" color="dark"> {{ state }}</ion-chip>
-      </div>
+      <app-planning-search 
+        [selectedStates]="this.selectedStates"
+        [planningStates]="this.planningStates"
+        (skeletonLoading)="this.skeletonLoading = $event" 
+        (search)="this.search = $event"
+        (statesToFilter)="getPlanningsFiltered($event,this.search)">
+      </app-planning-search>
 
       <div class="horizontal-cards ion-margin">
+        <div *ngIf="this.filteredPlannings?.length == 0 && this.skeletonLoading == false" style=text-align:center;>
+          <br>
+          <h2>No se han encontrado resultados para la búsqueda.</h2>
+          <h6>Prueba con otras palabras clave o modifica los filtros de búsqueda.</h6>
+        </div>
         <div class="item" *ngIf="this.skeletonLoading == true">
           <ngx-skeleton-loader 
               count="10" 
@@ -62,16 +38,14 @@
                   'border-radius': '10px',
                   'margin-right': '20px'
               }"
-              ></ngx-skeleton-loader>
+          ></ngx-skeleton-loader>
         </div>
-          <app-planning-card
+        <app-planning-card
           *ngFor="let planning of this.filteredPlannings"
           (click)="this.goToPlanningDetail(planning)"
           [planning]="planning"
-          ></app-planning-card>
+        ></app-planning-card>
       </div>
-      
-      <h2 *ngIf="this.filteredPlannings?.length == 0 && this.skeletonLoading == false">No se han encontrado resultados para la búsqueda</h2>
     </div>
 </ion-col>
 <ion-col size="1"></ion-col>

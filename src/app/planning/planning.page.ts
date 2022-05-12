@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { PlanningSearchComponent } from '../shared/components/planning-search/planning-search.component';
 import { PlanningApiService } from './services/planning-api.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { PlanningApiService } from './services/planning-api.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class PlanningPage implements OnInit {
+  @ViewChild(PlanningSearchComponent) pSC: PlanningSearchComponent;
   plannings: any[];
   planningStates: any[] = [];
   filteredPlannings: any[];
@@ -25,12 +27,17 @@ export class PlanningPage implements OnInit {
   }
   
   ionViewWillEnter() {
+    this.selectedStates = this.pSC.selectedStates;
+    if (this.selectedStates.includes("Completada")) {
+      this.selectedStates.push("Completada y Terminada");
+    }
     this.planningApiService.getPlanningStates().subscribe((res) => {
+      res.pop();
       this.planningStates = res;
       if (this.selectedStates.length==0){
         this.selectedStates.push(this.planningStates[0].name);
         this.selectedStates.push(this.planningStates[1].name);
-      }
+      } 
       this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates).subscribe((res) => {
         this.plannings = res.content;
         this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
@@ -49,32 +56,16 @@ export class PlanningPage implements OnInit {
   }
 
   /**
-   * Si se ingresa texto en el campo de busqueda de la planificación, obtiene las planificaciones que posean dicho texto.
-   * @param event Valor ingresado en el campo de busqueda de planificación
-   */
-  filterPlannings(event) {
-    this.skeletonLoading = true;
-    const removeAccents = (str) => {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-    this.search = removeAccents(event.srcElement.value)
-    while (this.search.substring(0,1) == " ") {
-      this.search = this.search.substring(1)
-    }
-    this.getPlanningsFiltered(this.search)
-  }
-
-  /**
    * Obtiene las planificaciones de una pagina especifica, filtra por nombre, nombre y/o apellido de paciente 
    * si se provee un valor en el campo de busqueda.
    * Además filtra por los estados seleccionados.
-   * @param search valor para filtrar planificaciones.
+   * @param search texto de búsqueda para filtrar planificaciones.
+   * @param statesToFilter estados con los que filtrar
    */
-  getPlanningsFiltered(search: string) {
-    this.planningApiService.getPlanningsOverviewFiltered(search,this.selectedStates).subscribe((res) => {
+  getPlanningsFiltered(statesToFilter,search){
+    this.planningApiService.getPlanningsOverviewFiltered(search,statesToFilter).subscribe((res) => {
       this.filteredPlannings = res.content;
       this.skeletonLoading = false;
     });
   }
-
 }
