@@ -32,11 +32,11 @@ export class PatientsApiService {
    * @param fullName Nombre completo del paciente, ignorando casing.
    * @returns Una página de pacientes.
    */
-  getFilteredPatients(fullName: string = "", all: boolean = false): Observable<any> {
+  getFilteredPatients(fullName: string = "", all: boolean = false, page: number): Observable<any> {
     const params = new HttpParams()
       .set('fullName', fullName)
-      .set('all', all);
-    
+      .set('all', all)
+      .set('page', page);
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/`, { params });
   }
 
