@@ -25,6 +25,7 @@ export class PatientsPage implements OnInit {
   pageNumber = 0;
   patients: Patient[] = [];
   skeletonLoading = true;
+  scrollPercent = 0;
   searchForm: FormGroup = this.formBuilder.group({
     searchText: [''],
     includeDisabledPatients: [false]
@@ -67,23 +68,22 @@ export class PatientsPage implements OnInit {
    * @param fullName valor para filtrar pacientes.
    */
   getPatientsFiltered(fullName: string) {
-    this.skeletonLoading = true;
-    this.pageNumber = 0; 
-    this.patientsApiService.getFilteredPatients(fullName, this.searchForm.value.includeDisabledPatients).subscribe((res) => {
+    this.patientsApiService.getFilteredPatients(fullName, this.searchForm.value.includeDisabledPatients,this.pageNumber).subscribe((res) => {
       if (res.content.length > 0) {
         this.hasRegisteredPatients = true;
-      
-        this.patients = res.content.map(this.formatPatient);
+        if (this.pageNumber>0) {
+          this.patients = [...this.patients, ...(res.content.map(this.formatPatient))];
+        } else {
+          this.patients = res.content.map(this.formatPatient);
+        }
         this.patients.sort(this.isPatientAlphabeticallyBefore);
       } else {
         this.patients = [];
       }
-      
       this.isLoadingPage = false;
       this.skeletonLoading = false;
     });
   }
-
 
   /**
    * Función que ordena los pacientes alfabéticamente.
@@ -120,7 +120,6 @@ export class PatientsPage implements OnInit {
         patient.description += '...';
       }
     }
-
     return patient;
   }
 
@@ -129,6 +128,7 @@ export class PatientsPage implements OnInit {
    * @param event Valor ingresado en el campo de busqueda de paciente
    */
   filterPatients() {
+    this.skeletonLoading = true;
     const removeAccents = (str) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
@@ -136,7 +136,9 @@ export class PatientsPage implements OnInit {
     while (search.substring(0,1) == " ") {
       search = search.substring(1)
     }
-    this.getPatientsFiltered(search)
+    this.pageNumber=0;
+    this.scrollDepthTriggered = false;
+    this.getPatientsFiltered(search);
   }
 
   /**
@@ -149,7 +151,6 @@ export class PatientsPage implements OnInit {
     if(this.scrollDepthTriggered) {
       return;
     }
-
     if($event.target.localName != "ion-content") {
       return;
     }
@@ -162,7 +163,8 @@ export class PatientsPage implements OnInit {
       if (this.patients.length == (this.pageNumber+1)*20){
         this.scrollDepthTriggered = true;
         this.pageNumber++; 
-        this.filterPatients();
+        this.scrollPercent = currentScrollDepth;
+        this.getPatientsFiltered(this.searchForm.value.searchText);
       }
     }
   }
