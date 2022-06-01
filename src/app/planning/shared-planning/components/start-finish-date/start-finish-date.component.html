@@ -1,0 +1,39 @@
+<ion-row>
+  <ion-col>
+    <ion-card class="card" >
+      <ion-title class="card_title">
+        Seleccionar un período
+      </ion-title>
+      <ion-label class="card_label ion-padding">Selecciona el período de tiempo en el cual el paciente podrá realizar los ejercicios.</ion-label>
+      <form [formGroup]="datesForm">
+        <ion-row>
+          <ion-col>
+            <ion-item class="card_date" id="rounded">
+              <ion-label class="card_date_stacked" position="stacked" color="primary">¿Cuándo podrá el paciente empezar a jugar?</ion-label>
+              <ion-input readonly
+                  [liIonic4Datepicker]="datePickerStart"
+                  formControlName="startDate"
+                  (ionChange)="setFinishMinDate()"
+                  placeholder="DD-MM-AAAA">
+              </ion-input>
+              <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item class="card_date" id="rounded">
+              <ion-label class="card_date_stacked" position="stacked" color="primary">¿Cuándo el paciente dejará de ver los ejercicios?</ion-label>
+              <ion-input readonly
+                  [disabled]="this.datesForm.value.startDate.length == 0"
+                  [liIonic4Datepicker]="datePickerFinish"
+                  formControlName="finishDate"
+                  (ionChange)="sendFinishDate()"
+                  placeholder="DD-MM-AAAA">
+              </ion-input>
+              <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-card>
+  </ion-col>
+</ion-row>

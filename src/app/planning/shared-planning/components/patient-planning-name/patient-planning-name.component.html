@@ -1,0 +1,42 @@
+<ion-row>
+  <ion-col>
+    <ion-card class="card">
+      <ion-title class="card_title">
+        Seleccionar un paciente
+      </ion-title>
+      <ion-label class="card_label ion-padding">Selecciona al paciente para el cual quieres crear una planificación:</ion-label>
+      <ion-item lines="none">
+        <ion-searchbar 
+          animated 
+          placeholder="Selecciona un paciente" 
+          [(ngModel)]="patient"
+          (ionChange)="filterPatient($event)"
+          (ionFocus)="patientBlur=false"
+          (ionBlur)="patientBlur=true">
+        </ion-searchbar>
+      </ion-item>
+      <ion-list lines="none">
+        <ion-item *ngFor="let p of patientsSearch">
+          <ion-button fill="clear" class="ion-text-wrap" (click) = "fillSearchBar(p.firstName + ' ' + p.lastName);">
+            <ion-text>
+              {{ p.firstName }} {{ p.lastName }}
+            </ion-text>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+      <ion-label color="danger" *ngIf="!patientExists() && patientBlur" class="card_label_error">El paciente ingresado no existe</ion-label>
+    </ion-card>
+  </ion-col>
+
+  <ion-col>
+    <ion-card class="card">
+      <ion-title class="card_title">
+        Nombre de la planificación
+      </ion-title>
+      <ion-label class="card_label ion-padding">Ingresa un nombre único para la planificación:</ion-label>
+      <ion-item class="card_name">
+        <ion-input [(ngModel)]="planning" (ionChange)="changePlanningName()" placeholder="Nombre de la planificación" type="text"></ion-input>
+      </ion-item>
+    </ion-card>
+  </ion-col>
+</ion-row>
