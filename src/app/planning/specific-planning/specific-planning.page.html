@@ -3,12 +3,121 @@
     <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Detalles de planificación</ion-title>
+    <ion-title>Detalles de planificación
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <ion-segment [(ngModel)]="currentTab">
+    <ion-segment-button value="summary" layout="icon-start">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label class="planning_tab">Resumen</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="sessions" layout="icon-start">
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label class="planning_tab">Sesiones</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="results" layout="icon-start">
+      <ion-icon name="chatbubbles"></ion-icon>
+      <ion-label class="planning_tab">Resultados</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-row class="ion-justify-content-end">
+    <ion-button
+      style="float: right"
+      color="danger"
+      fill="clear"
+      [disabled]="this.state=='Cancelada' || this.state=='Completada y Terminada' || this.state=='Incompleta'"
+      (click)="this.cancelPlanning()">
+      <ion-icon name="trash-outline"></ion-icon>
+      <p class="ion-margin">Eliminar</p>
+    </ion-button>
+    <ion-button
+      [disabled]="this.isEditing || this.state=='Cancelada' || this.state=='Completada y Terminada' || this.state=='Incompleta'"
+      style="float: right"
+      fill="clear"
+      (click)="this.editPlanning()">
+      <ion-icon name="pencil-outline"></ion-icon>
+      <p class="ion-margin">Editar</p>
+    </ion-button>
+  </ion-row>
   <ion-row>
+    <ion-col size="1"></ion-col>
+      <ion-col>
+        <ion-row>
+          <ion-col>
+            <ion-card class="card">
+              <ion-title class="card_title">
+                Nombre de planificación
+              </ion-title>
+              <ion-label class="card_label">
+                {{ this.planningName }}
+              </ion-label>
+              <ion-title class="card_title">
+                Paciente
+              </ion-title>
+              <ion-label class="card_label">
+                {{ this.myForm.value.patient }} ({{this.patientAge}} años)
+              </ion-label>
+              <ion-title class="card_title">
+                Asignada por
+              </ion-title>
+              <ion-label class="card_label">
+                {{ this.myForm.value.professionalName }}
+              </ion-label>
+            </ion-card>
+          </ion-col>
+
+          <ion-col>
+            <ion-card class="card">
+              <ion-title class="card_title">
+                Vigencia
+              </ion-title>
+              <ion-label class="card_label">
+                Desde {{ this.myForm.value.startDate }}
+                <br>
+                Hasta {{ this.myForm.value.finishDate }}
+                <br>
+                <ion-chip class="card_label_chip" *ngIf="this.state === 'Vigente'" color="primary">
+                  <ion-icon name="play-circle"></ion-icon>
+                  <ion-label color="dark">{{ this.state }}</ion-label>
+                </ion-chip>
+                <ion-chip class="card_label_chip" *ngIf="this.state === 'Pendiente'" color="tertiary">
+                  <ion-icon name="time"></ion-icon>
+                  <ion-label color="dark">{{ this.state }}</ion-label>
+                </ion-chip>
+                <ion-chip class="card_label_chip" *ngIf="this.state === 'Incompleta'" color="warning">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                  <ion-label color="dark">{{ this.state }}</ion-label>
+                </ion-chip>
+                <ion-chip class="card_label_chip" *ngIf="this.state === 'Cancelada'" color="danger">
+                  <ion-icon name="close-circle"></ion-icon>
+                  <ion-label color="dark">{{ this.state }}</ion-label>
+                </ion-chip>
+                <ion-chip *ngIf="this.state === 'Completada' || this.state === 'Completada y Terminada'" color="success">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                  <ion-label color="dark">Completada</ion-label>
+                </ion-chip>
+              </ion-label>
+              
+              <ion-title class="card_title">
+                Juegos asignados
+              </ion-title>
+              <ion-label class="card_label">
+                Encuentra esta - El hotelero
+                <br>
+                El hotelero 2 - El teto
+              </ion-label>
+            </ion-card>
+          </ion-col>
+          <ion-col size="1"></ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+  <!-- <ion-row>
     <ion-col size="2"></ion-col>
     <ion-col>
       <ion-title class="ion-padding ion-margin">
@@ -270,7 +379,7 @@
                     </div>
                   </div>
 
-                  <!-- en todos los juegos -->
+                  en todos los juegos
                   <ion-item>
                     <ion-label>¿Repeticiones limitadas?</ion-label>
                     <ion-toggle checked="{{game.hasLimit}}" (ionChange)="game.hasLimit=!game.hasLimit"></ion-toggle>
@@ -331,5 +440,5 @@
       </form>
     </ion-col>
     <ion-col size="2"></ion-col>
-  </ion-row>
+  </ion-row> -->
 </ion-content>

@@ -1,11 +1,54 @@
+.card {
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 5px;
+	height: 320px;
+	
+	&_title {
+		font-size: 40px;
+		color: black;
+		margin-bottom: -4px;
+	}
+	
+	&_label {
+		font-size: 24px;
+		font-family: "Bariol";
+		margin-bottom: 16px;
+		line-height: normal;
+
+		&_chip {
+			height: 45px;
+			font-size: 20px;
+			border-radius: 24px;
+
+			ion-icon {
+				font-size: 150%;
+			}
+
+			ion-label {
+				font-size: 20px;
+			}
+		}
+	}
+}
+
+.planning_tab {
+  font-size: 16px;
+  font-family: "Bariol";
+  text-transform: capitalize;
+}
+
 ion-input {
-    font-family: "Bariol"
+  font-family: "Bariol"
+}
+
+ion-card {
+  text-align: center;
 }
 
 .session-input {
-    font-family: "Bariol"
+  font-family: "Bariol"
 }
 
 .assigned-games {
-    font-size: 24px;
+  font-size: 24px;
 }
