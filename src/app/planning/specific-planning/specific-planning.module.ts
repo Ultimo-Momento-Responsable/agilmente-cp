@@ -9,6 +9,7 @@ import { IonicModule } from '@ionic/angular';
 import { SpecificPlanningPageRoutingModule } from './specific-planning-routing.module';
 import { SpecificPlanningPage } from './specific-planning.page';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GameSessionCardComponent } from '../shared-planning/components/game-session-card/game-session-card.component';
 
 @NgModule({
   imports: [
@@ -19,8 +20,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SpecificPlanningPageRoutingModule,
     ReactiveFormsModule,
     Ionic4DatepickerModule,
-    NgbModule    
+    NgbModule
   ],
-  declarations: [SpecificPlanningPage]
+  declarations: [SpecificPlanningPage, GameSessionCardComponent]
 })
 export class SpecificPlanningPageModule {}

@@ -1,10 +1,9 @@
 <ion-header>
-  <ion-toolbar color=primary>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Detalles de planificación
-    </ion-title>
+    <ion-title>Detalles de planificación </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -79,26 +78,45 @@
               </ion-text>
               <ion-label class="card_label">
                 Desde {{ this.myForm.value.startDate }}
-                <br>
+                <br />
                 Hasta {{ this.myForm.value.finishDate }}
-                <br>
-                <ion-chip class="card_label_chip" *ngIf="this.state === 'Vigente'" color="primary">
+                <br />
+                <ion-chip
+                  class="card_label_chip"
+                  *ngIf="this.state === 'Vigente'"
+                  color="primary"
+                >
                   <ion-icon name="play-circle"></ion-icon>
                   <ion-label color="dark">{{ this.state }}</ion-label>
                 </ion-chip>
-                <ion-chip class="card_label_chip" *ngIf="this.state === 'Pendiente'" color="tertiary">
+                <ion-chip
+                  class="card_label_chip"
+                  *ngIf="this.state === 'Pendiente'"
+                  color="tertiary"
+                >
                   <ion-icon name="time"></ion-icon>
                   <ion-label color="dark">{{ this.state }}</ion-label>
                 </ion-chip>
-                <ion-chip class="card_label_chip" *ngIf="this.state === 'Incompleta'" color="warning">
+                <ion-chip
+                  class="card_label_chip"
+                  *ngIf="this.state === 'Incompleta'"
+                  color="warning"
+                >
                   <ion-icon name="checkmark-circle"></ion-icon>
                   <ion-label color="dark">{{ this.state }}</ion-label>
                 </ion-chip>
-                <ion-chip class="card_label_chip" *ngIf="this.state === 'Cancelada'" color="danger">
+                <ion-chip
+                  class="card_label_chip"
+                  *ngIf="this.state === 'Cancelada'"
+                  color="danger"
+                >
                   <ion-icon name="close-circle"></ion-icon>
                   <ion-label color="dark">{{ this.state }}</ion-label>
                 </ion-chip>
-                <ion-chip *ngIf="this.state === 'Completada' || this.state === 'Completada y Terminada'" color="success">
+                <ion-chip
+                  *ngIf="this.state === 'Completada' || this.state === 'Completada y Terminada'"
+                  color="success"
+                >
                   <ion-icon name="checkmark-circle"></ion-icon>
                   <ion-label color="dark">Completada</ion-label>
                 </ion-chip>
@@ -130,6 +148,18 @@
           [result]="result"
         ></app-result-card>
       </ion-col>
+    </ion-row>
+  </div>
+  <!-- TAB SESIONES -->
+  <div id="sessions" *ngIf="currentTab==='sessions'">
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col>
+        <div>
+          <app-game-session-card></app-game-session-card>
+        </div>
+      </ion-col>
+      <ion-col size="1"></ion-col>
     </ion-row>
   </div>
 </ion-content>
