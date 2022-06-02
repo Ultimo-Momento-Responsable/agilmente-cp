@@ -74,6 +74,10 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  /** tendency **/
+  --umr-color-increment: #009918;
+  --umr-color-decrement: #990000;
 }
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';

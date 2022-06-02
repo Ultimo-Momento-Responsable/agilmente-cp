@@ -6,9 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game-session-card.component.scss'],
 })
 export class GameSessionCardComponent implements OnInit {
-
+  tendency: string;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.tendency = 'increment';
+  }
 
 }

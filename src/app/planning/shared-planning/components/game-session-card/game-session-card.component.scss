@@ -18,19 +18,84 @@
 
         &__game-container {
           &__game {
+            display: flex;
+            align-items: center;
+
             img {
               border-radius: 8px;
               height: 38px;
               width: 38px;
             }
+
+            ion-text {
+              margin-left: 8px;
+            }
           }
 
           &__difficulty {
             width: fit-content;
-            margin: 0 auto;
+            margin: 8px auto 0 auto;
+            text-align: center;
+          }
+        }
+
+        &__sessions-left {
+          &__value {
+            margin-top: 8px;
+            // height: 72px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        &__mgp {
+          &__subtitle {
+            width: 100%;
+            text-align: center;
+          }
+
+          &__value {
+            margin-top: 8px;
+            // height: 72px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
         }
       }
     }
+  }
+
+  .card-title {
+    font-family: "Futura";
+    font-size: 36px;
+    line-height: 36px;
+    margin-bottom: 0;
+  }
+
+  .card-big-number {
+    font-family: "Bariol";
+    font-size: 48px;
+    line-height: 48px;
+    margin-bottom: 0;
+  }
+
+  .increment {
+    color: var(--umr-color-increment);
+  }
+
+  .decrement {
+    color: var(--umr-color-decrement);
+  }
+
+  .card-subtitle {
+    font-family: "Bariol";
+    font-size: 24px;
+    line-height: 24px;
+    margin-bottom: 0;
+    color: var(--ion-color-medium);
   }
 }
