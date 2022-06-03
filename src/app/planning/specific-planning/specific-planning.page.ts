@@ -55,6 +55,7 @@ export class SpecificPlanningPage implements OnInit {
   isClicked: boolean;
   professionalName: string;
   currentTab: string = "summary";
+  uniqueGameList: any[] = [];
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -525,8 +526,10 @@ export class SpecificPlanningPage implements OnInit {
       })
       this.auxStartDate = res.startDate;
       this.auxFinishDate = res.dueDate;
-		this.isLoading = false;
-    this.patientAge = this.calculateAge(this.patientAge);
+      this.patientAge = this.calculateAge(this.patientAge);
+      this.uniqueGameList = this.getUniqueGameName(this.planningList);
+      console.log('Lista de juegos: ', this.planningList)
+      this.isLoading = false;
     })
   }
 
@@ -606,5 +609,19 @@ export class SpecificPlanningPage implements OnInit {
    */
   public calculateAge(birthdate: any): number {
     return moment().diff(birthdate, 'years');
+  }
+
+  public getUniqueGameName(planningList: any[]) {
+    let uniqueGameArray: string[] = [];
+    for (let index = 0; index < planningList.length; index++) {
+      const element = planningList[index].game;
+      if (!uniqueGameArray.includes(element))
+      {
+        uniqueGameArray.push(element);
+      }
+    }
+    uniqueGameArray.sort((a, b) => a.localeCompare(b))
+    console.log('La lista de juegos unicos, ordenados alfabeticamente es: ', uniqueGameArray)
+    return uniqueGameArray
   }
 }

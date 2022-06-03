@@ -49,21 +49,21 @@
         <ion-row>
           <ion-col>
             <ion-card class="card">
-              <ion-title class="card_title">
+              <ion-text class="card_title">
                 Nombre de planificación
-              </ion-title>
+              </ion-text>
               <ion-label class="card_label">
                 {{ this.planningName }}
               </ion-label>
-              <ion-title class="card_title">
+              <ion-text class="card_title">
                 Paciente
-              </ion-title>
+              </ion-text>
               <ion-label class="card_label">
                 {{ this.myForm.value.patient }} ({{this.patientAge}} años)
               </ion-label>
-              <ion-title class="card_title">
+              <ion-text class="card_title">
                 Asignada por
-              </ion-title>
+              </ion-text>
               <ion-label class="card_label">
                 {{ this.myForm.value.professionalName }}
               </ion-label>
@@ -72,9 +72,9 @@
 
           <ion-col>
             <ion-card class="card">
-              <ion-title class="card_title">
+              <ion-text class="card_title">
                 Vigencia
-              </ion-title>
+              </ion-text>
               <ion-label class="card_label">
                 Desde {{ this.myForm.value.startDate }}
                 <br>
@@ -102,13 +102,14 @@
                 </ion-chip>
               </ion-label>
               
-              <ion-title class="card_title">
+              <ion-text class="card_title">
                 Juegos asignados
-              </ion-title>
-              <ion-label class="card_label">
-                Encuentra esta - El hotelero
-                <br>
-                El hotelero 2 - El teto
+              </ion-text>
+              <ion-label class="card_label_gamelist">
+                <span *ngFor="let gameName of this.uniqueGameList; let i = index">
+                  {{ gameName }}
+                  <span *ngIf="i != uniqueGameList.length-1"> - </span>
+                </span>
               </ion-label>
             </ion-card>
           </ion-col>

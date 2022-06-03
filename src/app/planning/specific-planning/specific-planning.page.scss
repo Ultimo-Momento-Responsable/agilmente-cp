@@ -26,9 +26,24 @@
 
 			ion-label {
 				font-size: 20px;
-			}
+			}	
+		}
+
+		&_gamelist {
+			font-size: 24px;
+			line-height: normal;
 		}
 	}
+}
+
+ion-text {
+	font-size: 40px;
+	color: black;
+	font-family: "Futura";
+
+}
+.game_name_margin {
+	margin-top: -16px 
 }
 
 .planning_tab {
@@ -46,7 +61,7 @@ ion-card {
 }
 
 .session-input {
-  font-family: "Bariol"
+	font-family: "Bariol"
 }
 
 .assigned-games {
