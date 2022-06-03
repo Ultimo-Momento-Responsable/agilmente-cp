@@ -58,7 +58,7 @@
               <ion-text class="card_title">
                 Paciente
               </ion-text>
-              <ion-label class="card_label">
+              <ion-label color="primary" [routerLink]="['../../patients', patientId]" role="button" class="card_label">
                 {{ this.myForm.value.patient }} ({{this.patientAge}} años)
               </ion-label>
               <ion-text class="card_title">
@@ -117,7 +117,8 @@
         </ion-row>
       </ion-col>
     </ion-row>
-
+  </ion-content>
+  
   <!-- <ion-row>
     <ion-col size="2"></ion-col>
     <ion-col>
@@ -442,4 +443,4 @@
     </ion-col>
     <ion-col size="2"></ion-col>
   </ion-row> -->
-</ion-content>
+

@@ -528,7 +528,6 @@ export class SpecificPlanningPage implements OnInit {
       this.auxFinishDate = res.dueDate;
       this.patientAge = this.calculateAge(this.patientAge);
       this.uniqueGameList = this.getUniqueGameName(this.planningList);
-      console.log('Lista de juegos: ', this.planningList)
       this.isLoading = false;
     })
   }
@@ -611,6 +610,11 @@ export class SpecificPlanningPage implements OnInit {
     return moment().diff(birthdate, 'years');
   }
 
+  /**
+   * Genera una lista de nombres de juegos unicos dada una planificacion.
+   * @param planningList Planificacion del detalle.
+   * @returns array de nombres de juegos, ordenado alfabeticamente.
+   */
   public getUniqueGameName(planningList: any[]) {
     let uniqueGameArray: string[] = [];
     for (let index = 0; index < planningList.length; index++) {
@@ -621,7 +625,6 @@ export class SpecificPlanningPage implements OnInit {
       }
     }
     uniqueGameArray.sort((a, b) => a.localeCompare(b))
-    console.log('La lista de juegos unicos, ordenados alfabeticamente es: ', uniqueGameArray)
     return uniqueGameArray
   }
 }
