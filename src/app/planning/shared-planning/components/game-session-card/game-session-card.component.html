@@ -12,10 +12,14 @@
               <ion-text class="card-title">Encuentra al Repetido</ion-text>
             </div>
             <div class="gsc__header__container__game-container__difficulty">
-              <div class="gsc__header__container__game-container__difficulty__difficulty">
+              <div
+                class="gsc__header__container__game-container__difficulty__difficulty"
+              >
                 <ion-text class="card-big-number">Fácil</ion-text>
               </div>
-              <div class="gsc__header__container__game-container__difficulty__is-custom">
+              <div
+                class="gsc__header__container__game-container__difficulty__is-custom"
+              >
                 <ion-text class="card-subtitle">Personalizado</ion-text>
               </div>
             </div>
@@ -25,29 +29,119 @@
               <ion-text class="card-title">Partidas restantes</ion-text>
             </div>
             <div class="gsc__header__container__sessions-left__value">
-              <ion-text class="card-big-number" [ngClass]="this.tendency">999</ion-text>
+              <ion-text class="card-big-number">999</ion-text>
             </div>
           </div>
           <div class="gsc__header__container__mgp">
             <div class="gsc__header__container__mgp__title">
-              <ion-text class="card-title">Métrica General de Progreso</ion-text>
+              <ion-text class="card-title"
+                >Métrica General de Progreso</ion-text
+              >
             </div>
             <div class="gsc__header__container__mgp__subtitle">
               <ion-text class="card-subtitle">De esta sesión</ion-text>
             </div>
             <div class="gsc__header__container__mgp__value">
-              <ion-text class="card-big-number" [ngClass]="this.tendency">1896</ion-text>
+              <ion-text class="card-big-number" [ngClass]="this.tendency"
+                >1896</ion-text
+              >
               <ion-text [ngClass]="this.tendency">+75</ion-text>
-              <ion-icon *ngIf="this.tendency === 'increment'" name="arrow-up-circle" class="increment"></ion-icon>
-              <ion-icon *ngIf="this.tendency !== 'increment'" name="arrow-down-circle" class="decrement"></ion-icon>
+              <ion-icon
+                *ngIf="this.tendency === 'increment'"
+                name="arrow-up-circle"
+                class="increment"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="this.tendency !== 'increment'"
+                name="arrow-down-circle"
+                class="decrement"
+              ></ion-icon>
             </div>
           </div>
         </div>
-        
       </ion-item>
-      <ion-item class="gsc__content" slot="content">
-        <div class="gsc__content__params">asd</div>
-        <div class="gsc__content__results">asd</div>
+      <ion-item lines="none" slot="content">
+        <div class="gsc__content">
+          <div class="gsc__content__params">
+            <div class="gsc__content__params__title">
+              <ion-text class="card-title">Parámetros</ion-text>
+            </div>
+            <div class="gsc__content__params__table-container">
+              <ion-list
+                class="gsc__content__params__table-container__table ion-no-padding"
+                lines="none"
+              >
+                <div
+                  class="gsc__content__params__table-container__table__row"
+                  *ngFor="let param of this.params"
+                >
+                  <div
+                    slot="start"
+                    class="gsc__content__params__table-container__table__row__name"
+                  >
+                    <ion-text class="card-text bold">{{ param.name }}</ion-text>
+                  </div>
+                  <div
+                    class="gsc__content__params__table-container__table__row__value"
+                  >
+                    <ion-text class="card-text">{{ param.value }}</ion-text>
+                  </div>
+                  <div
+                    slot="end"
+                    class="gsc__content__params__table-container__table__row__description"
+                  >
+                    <ion-text class="card-text">{{ param.description }}</ion-text>
+                  </div>
+                </div>
+              </ion-list>
+            </div>
+          </div>
+          <div class="gsc__content__results">
+            <div class="gsc__content__results__title">
+              <ion-text class="card-title">Resultados</ion-text>
+            </div>
+            <!-- <div id="stats" *ngIf="currentTab==='stats'">
+              <ion-card class="ion-padding" 
+                *ngIf="this.results.hayUnoRepetido.results.length == 0 
+                && this.results.encuentraAlNuevo.results.length == 0">
+                <ion-text>
+                    <h2>Este paciente no tiene resultados para mostrar.</h2>
+                </ion-text>
+              </ion-card>
+              <div style="margin-top: 2%;">
+                <ngb-accordion #acc="ngbAccordion" animation>
+                  <ngb-panel type="primary" *ngIf="this.results.hayUnoRepetido.results.length > 0">
+                    <ng-template ngbPanelTitle >
+                      <h3 class="result-tab">Encuentra al Repetido</h3>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <app-card-hay-uno-repetido-result 
+                        [results]="this.results.hayUnoRepetido"
+                        *ngIf="this.results && this.results.hayUnoRepetido && this.showResults"
+                      ></app-card-hay-uno-repetido-result>
+                    </ng-template>
+                  </ngb-panel>
+                </ngb-accordion>
+              </div>
+              <div style="margin-top: 1%;">
+                <ngb-accordion #acc="ngbAccordion" animation>
+                  <ngb-panel type="primary" *ngIf="this.results.encuentraAlNuevo.results.length > 0">
+                    <ng-template ngbPanelTitle>
+                      <h3 class="result-tab">Encuentra al Nuevo</h3>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <app-card-encuentra-al-nuevo-result
+                        [results]="this.results.encuentraAlNuevo"
+                        *ngIf="this.results && this.results.encuentraAlNuevo && this.showResults"
+                      ></app-card-encuentra-al-nuevo-result>
+                    </ng-template>
+                  </ngb-panel>
+                </ngb-accordion>
+              </div>
+            </div> -->
+      
+          </div>
+        </div>
       </ion-item>
     </ion-accordion>
   </ion-accordion-group>
