@@ -11,6 +11,7 @@ import { encuentraAlNuevo } from '../shared-planning/constants/difficulty-level'
 import { encuentraAlRepetido } from '../shared-planning/constants/difficulty-level';
 import { memorilla } from '../shared-planning/constants/difficulty-level';
 import { CustomDifficultComponent } from '../shared-planning/components/custom-difficulty/custom-difficulty.component';
+import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
 @Component({
   selector: 'app-new-planning',
@@ -24,6 +25,7 @@ export class NewPlanningPage implements OnInit {
     private patientsApiService: PatientsApiService,
     private gamesApiService: GamesApiService,
     private planningApiService: PlanningApiService,
+    private difficultyService: DifficultyCalcService,
     public modalCtrl: ModalController,
     public alertController: AlertController,
     private router: Router) { }
@@ -275,7 +277,8 @@ export class NewPlanningPage implements OnInit {
       let gamePost = {
         gameId: g.id,
         maxNumberOfSessions: g.hasLimit?g.maxNumberOfSessions:-1,
-        params: undefined
+        params: undefined,
+        difficulty: undefined
       };
       
       let params: any = {};
@@ -287,8 +290,8 @@ export class NewPlanningPage implements OnInit {
         }
       });
       gamePost.params = params;
+      gamePost.difficulty = this.difficultyService.getDifficulty(g);
       gamesPost.push(gamePost);
-
     })
     if (myForm.valid) {
       let jsonPost = {
