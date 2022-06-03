@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 import { ModalController } from '@ionic/angular';
 import moment from 'moment';
@@ -9,9 +9,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './start-finish-date.component.html',
   styleUrls: ['../../../new-planning/new-planning.page.scss'],
 })
-export class StartFinishDateComponent {
+export class StartFinishDateComponent implements OnInit {
   @Output() startPlanningDate = new EventEmitter<string>();
   @Output() finishPlanningDate = new EventEmitter<string>();
+  @Input() startDate = null;
+  @Input() finishDate = null;
+  @Input() disabled = false;
   datesForm: FormGroup = new FormGroup({
     startDate: new FormControl('', Validators.required),
     finishDate: new FormControl('', Validators.required)
@@ -27,7 +30,7 @@ export class StartFinishDateComponent {
     monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
     weeksList: ["D", "L", "M", "X", "J", "V", "S"],
     fromDate: new Date(),
-    inputDate: new Date()
+    inputDate: this.startDate
   };
   datePickerFinish = {
     showTodayButton: false,
@@ -40,10 +43,18 @@ export class StartFinishDateComponent {
     monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
     weeksList: ["D", "L", "M", "X", "J", "V", "S"],
     fromDate: new Date(),
-    inputDate: new Date()
+    inputDate: this.finishDate
   };
-  constructor(public modalCtrl: ModalController) { }
+  constructor(public modalCtrl: ModalController) {}
 
+  ngOnInit(): void {
+    if (this.startDate){
+      this.datesForm.patchValue({"startDate": this.startDate});
+    }
+    if (this.finishDate){
+      this.datesForm.patchValue({"finishDate": this.finishDate});
+    }
+  }
   /**
    * Abre el DatePicker
    */

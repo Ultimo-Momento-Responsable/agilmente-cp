@@ -11,6 +11,7 @@
             <ion-item class="card_date" id="rounded">
               <ion-label class="card_date_stacked" position="stacked" color="primary">¿Cuándo podrá el paciente empezar a jugar?</ion-label>
               <ion-input readonly
+                  [disabled]="disabled"
                   [liIonic4Datepicker]="datePickerStart"
                   formControlName="startDate"
                   (ionChange)="setFinishMinDate()"

@@ -15,14 +15,14 @@ export class AddGamesComponent {
 
   constructor(public modalCtrl: ModalController) { }
   @Input() games: any[];
+  @Input() assignedGames: any [] = [];
+  @Input() planningGames: any [] = [];
   @Output() effectiveGames = new EventEmitter<any[]>();
   @Output() intermediateGames = new EventEmitter<any[]>();
   @Output() nullGames = new EventEmitter();
 
   currentGame: any;
   shouldOpenModal: boolean = true;
-  assignedGames: any [] = [];
-  planningGames: any [] = [];
   gamesSearch: any [] = [];
   isAdding: boolean = true;
   

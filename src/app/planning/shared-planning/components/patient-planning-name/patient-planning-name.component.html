@@ -9,6 +9,7 @@
         <ion-searchbar 
           animated 
           placeholder="Selecciona un paciente" 
+          [disabled]="disabled"
           [(ngModel)]="patient"
           (ionChange)="filterPatient($event)"
           (ionFocus)="patientBlur=false"

@@ -8,11 +8,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class PatientPlanningNameComponent {
 
   @Input() patients: any[];
+  @Input() disabled = false;
+  @Input() patient = "";
+  @Input() planning = "";
   @Output() patientName = new EventEmitter<string>();
   @Output() planningName = new EventEmitter<string>();
 
-  patient = "";
-  planning = "";
+  
   patientBlur = false;
   patientsSearch: any [] = [];
   constructor() { }
@@ -33,11 +35,13 @@ export class PatientPlanningNameComponent {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     } 
     const search = removeAccents(evt.srcElement.value);
-    this.patientsSearch = this.patients.filter((p)=> {
-      if (search && this.patientsSearch){
-        return ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()).normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(search.toLowerCase()) > -1)
-      }
-    })
+    if (this.patients){
+      this.patientsSearch = this.patients.filter((p)=> {
+        if (search && this.patientsSearch){
+          return ((p.firstName.toLowerCase() + " " + p.lastName.toLowerCase()).normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(search.toLowerCase()) > -1)
+        }
+      })
+    }
   }
 
   /**
