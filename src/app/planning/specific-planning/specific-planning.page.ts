@@ -31,6 +31,7 @@ export class SpecificPlanningPage implements OnInit {
   id: number;
   patients: any [];
   patientId: number;
+  patientAge: number;
   patientsSearch: any [];
   datePickerStart: any = {};
   datePickerFinish: any = {};
@@ -51,6 +52,8 @@ export class SpecificPlanningPage implements OnInit {
   isLoading: boolean;
   isClicked: boolean;
   professionalName: string;
+  currentTab: string = "summary";
+  uniqueGameList: any[] = [];
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -182,6 +185,7 @@ export class SpecificPlanningPage implements OnInit {
       this.planningName = res.planningName;
       this.state = res.stateName;
       this.planningList = res.planningList;
+      this.patientAge = res.patientBornDate;
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
         planningName: res.planningName,
@@ -192,7 +196,9 @@ export class SpecificPlanningPage implements OnInit {
       })
       this.auxStartDate = res.startDate;
       this.auxFinishDate = res.dueDate;
-		  this.isLoading = false;
+      this.patientAge = this.calculateAge(this.patientAge);
+      this.uniqueGameList = this.getUniqueGameName(this.planningList);
+      this.isLoading = false;
     })
   }
 
@@ -213,5 +219,32 @@ export class SpecificPlanningPage implements OnInit {
 
   editPlanning(){
     this.router.navigateByUrl("planning/edit-planning/" + this.id)
+  }
+
+  /**
+   * Calcula la edad actual de un paciente.
+   * @param birthdate Fecha de nacimiento del paciente.
+   * @returns Edad en un numero.
+   */
+  public calculateAge(birthdate: any): number {
+    return moment().diff(birthdate, 'years');
+  }
+
+  /**
+   * Genera una lista de nombres de juegos unicos dada una planificacion.
+   * @param planningList Planificacion del detalle.
+   * @returns array de nombres de juegos, ordenado alfabeticamente.
+   */
+  public getUniqueGameName(planningList: any[]) {
+    let uniqueGameArray: string[] = [];
+    for (let index = 0; index < planningList.length; index++) {
+      const element = planningList[index].game;
+      if (!uniqueGameArray.includes(element))
+      {
+        uniqueGameArray.push(element);
+      }
+    }
+    uniqueGameArray.sort((a, b) => a.localeCompare(b))
+    return uniqueGameArray
   }
 }
