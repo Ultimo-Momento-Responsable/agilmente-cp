@@ -2,33 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { PatientsApiService } from '../../patients/shared-patients/services/patients-api/patients-api.service';
 import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
-import { AlertController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import moment from 'moment';
-import { encuentraAlNuevo } from '../shared-planning/constants/difficulty-level';
-import { encuentraAlRepetido } from '../shared-planning/constants/difficulty-level';
-import { memorilla } from '../shared-planning/constants/difficulty-level';
-import { CustomDifficultComponent } from '../shared-planning/components/custom-difficulty/custom-difficulty.component';
-import { DifficultyCalcService } from '../services/difficulty-calc.service';
+
 
 @Component({
-  selector: 'app-new-planning',
-  templateUrl: './new-planning.page.html',
-  styleUrls: ['./new-planning.page.scss'],
+  selector: 'app-edit-planning',
+  templateUrl: './edit-planning.page.html',
+  styleUrls: ['./edit-planning.page.scss'],
 })
-export class NewPlanningPage implements OnInit {
-  
+export class EditPlanningPage implements OnInit {
+
   constructor(
     private patientsApiService: PatientsApiService,
     private gamesApiService: GamesApiService,
     private planningApiService: PlanningApiService,
-    private difficultyService: DifficultyCalcService,
     public modalCtrl: ModalController,
-    public alertController: AlertController,
-    private router: Router) { }
+    private dialogsComponent: DialogsComponent,
+    private route: ActivatedRoute) { }
 
   patients: any [];
+  planningList: any[];
+  id: number;
+  patientId: number;
+  planningName: string;
+  auxGames: any [] = [];
+  auxStartDate: Date;
+  auxFinishDate: Date;
+  state: string;
   patientSelected: boolean = false;
   planningForm: FormGroup;
   games: any [] = [];
@@ -37,6 +40,9 @@ export class NewPlanningPage implements OnInit {
   isClicked: boolean;
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.id = +params['id']; 
+    });
     this.patientsApiService.getActivePatientsListed().subscribe(res=>{
       this.patients = res;
     });
@@ -78,20 +84,82 @@ export class NewPlanningPage implements OnInit {
     this.planningForm = new FormGroup({
       patient: new FormControl('', Validators.required),
       planningName: new FormControl(''),
+      professionalName: new FormControl(''),
       startDate: new FormControl('', Validators.required),
       finishDate: new FormControl('', Validators.required),
       games: new FormControl('', Validators.required)
     });
     this.planningForm.patchValue({"games": null});
+    this.loadPlanning();
   }
 
   /**
-   * llena el paciente traido del componente hijo
-   * @param name nombre del paciente
+   * Obtiene los datos de una planning y precarga los datos
    */
-  fillPatient(name: string) {
-    this.patientSelected = true;
-    this.planningForm.patchValue({"patient": name})
+   loadPlanning(){
+    this.planningApiService.getPlanningById(this.id).subscribe(res => {
+      this.patientId = res.patientId;
+      this.planningName = res.planningName;
+      this.state = res.stateName;
+      this.planningList = res.planningList;
+      this.planningForm.setValue({
+        patient: res.patientFirstName + " " + res.patientLastName,
+        planningName: res.planningName,
+        professionalName: res.professionalFirstName + " " + res.professionalLastName,
+        startDate: res.startDate,
+        finishDate: res.dueDate,
+        games: null
+      });
+      this.auxStartDate = res.startDate;
+      this.auxFinishDate = res.dueDate;
+      this.editPlanning();
+    })
+  }
+
+  /**
+   * Se prepara el formulario para su edición.
+   */
+   editPlanning(){
+    for (let i=0; i<this.planningList.length; i++){
+      this.assignedGames.push(JSON.parse(JSON.stringify(this.games.find(game => game.name == this.planningList[i].game))));
+      let index = 1;
+      this.assignedGames[i].gameParam.forEach(p => {
+        let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);
+        if (planningParam){
+          if (p.param.type==0){
+            if (p.param.id==1){
+              index = 0;
+            }
+          }
+          p.isActive = true;
+          if (!isNaN(parseFloat(planningParam.value)) && isFinite(planningParam.value)){
+            p.value = Math.floor(planningParam.value).toString();
+          }else{
+            if (planningParam.value=="false"){
+              p.value = false;
+            }else if (planningParam.value=="true"){
+              p.value = true;
+            }else{
+              p.value = planningParam.value;
+            }
+          }
+        }
+      });
+      this.assignedGames[i].index = index;
+      this.assignedGames[i].done = true;
+      this.assignedGames[i].accordion = false;
+      if (this.planningList[i].numberOfSession >= 0) {
+        this.assignedGames[i].maxNumberOfSessions = this.planningList[i].numberOfSession;
+        this.assignedGames[i].hasLimit = true;
+      } else {
+        this.assignedGames[i].maxNumberOfSessions = 5;
+        this.assignedGames[i].hasLimit = false
+      }
+      this.assignedGames[i].difficulty = "custom";
+    }
+    this.auxGames = JSON.parse(JSON.stringify(this.assignedGames));
+    this.planningGames = JSON.parse(JSON.stringify(this.assignedGames));
+    this.planningForm.patchValue({"games": null});
   }
 
   /**
@@ -154,30 +222,7 @@ export class NewPlanningPage implements OnInit {
     });
     return exists
   }
-
-  /**
-   * Muestra la alerta.
-   */
-  async presentAlert(subHeader: string, message: string, reset: boolean, css: string) {
-    const alert = await this.alertController.create({
-      message: message,
-      header: 'Cargar Planificación',
-      subHeader: subHeader,
-      cssClass: 'centerh3',
-      buttons: [{
-        text: 'OK',
-        cssClass: css
-      }],
-    });
-
-    await alert.present(); 
-    if (await alert.onDidDismiss()){
-      if (reset){
-        this.router.navigateByUrl('/planning')
-      }
-    }
-  }
-  
+ 
   /**
    * Se formatea y se envía la planificación al back
    */
@@ -194,8 +239,7 @@ export class NewPlanningPage implements OnInit {
       let gamePost = {
         gameId: g.id,
         maxNumberOfSessions: g.hasLimit?g.maxNumberOfSessions:-1,
-        params: undefined,
-        difficulty: undefined
+        params: undefined
       };
       
       let params: any = {};
@@ -207,23 +251,27 @@ export class NewPlanningPage implements OnInit {
         }
       });
       gamePost.params = params;
-      gamePost.difficulty = this.difficultyService.getDifficulty(g);
       gamesPost.push(gamePost);
     })
     if (myForm.valid) {
       let jsonPost = {
         patientId: patientId,
-        planningName: myForm.value.planningName,
         stateId: 1,
         professionalId: window.localStorage.getItem('professionalId'),
+        planningName: myForm.value.planningName,
         startDate: myForm.value.startDate,
         dueDate: myForm.value.finishDate,
         games: gamesPost
       }
-      this.planningApiService.postPlanning(jsonPost).subscribe(res =>{
-        this.presentAlert('¡Planificación creada!','<p>La planificación ha sido registrada correctamente. </p>', true, 'alertSuccess'); 
-      }, (err) => {
-        this.presentAlert('Error','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.', false, 'alertError');
+      this.planningApiService.cancelPlanningById(this.id).subscribe(() => {
+        this.planningApiService.postPlanning(jsonPost).subscribe(() =>{
+          this.dialogsComponent.presentAlert('¡Planificación Editada!',"",'La planificación ha sido editada correctamente.',"",true); 
+        }, () => {
+          this.dialogsComponent.presentAlert('Error',"",'Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"", false);
+          this.isClicked = false;
+        });
+      }, () => {
+        this.dialogsComponent.presentAlert('Error',"",'Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"", false);
         this.isClicked = false;
       });
     };
@@ -248,6 +296,11 @@ export class NewPlanningPage implements OnInit {
     } else {
       this.planningForm.patchValue({"games": null});
     }
-    return !this.planningForm.valid || !this.patientExists()
+    return !this.planningForm.valid 
+    || !this.patientExists() 
+    || (JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames) 
+      && this.planningName==this.planningForm.value.planningName
+      && this.auxFinishDate==this.planningForm.value.finishDate
+      && this.auxStartDate==this.planningForm.value.startDate);
   }
 }

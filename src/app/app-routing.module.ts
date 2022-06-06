@@ -19,6 +19,10 @@ const routes: Routes = [
     canLoad: [GuardGuard]
   },
   {
+    path: 'planning/edit-planning/:id',
+    loadChildren: () => import('./planning/edit-planning/edit-planning.module').then( m => m.EditPlanningPageModule)
+  },
+  {
     path: 'results',
     loadChildren: () => import('./results/results/results.module').then((m) => m.ResultsPageModule),
     canLoad: [GuardGuard]
