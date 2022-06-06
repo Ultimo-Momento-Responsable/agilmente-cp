@@ -607,7 +607,6 @@ export class SpecificPlanningPage implements OnInit {
    * @returns Edad en un numero.
    */
   public calculateAge(birthdate: Date): number {
-    console.log(birthdate)
     return moment().diff(moment(birthdate, 'DD-MM-YYYY'), 'years');
   }
 
