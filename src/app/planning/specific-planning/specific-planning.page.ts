@@ -9,7 +9,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import moment from 'moment';
 import { Location } from '@angular/common';
-import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
 export interface Planning {
   id: number;
