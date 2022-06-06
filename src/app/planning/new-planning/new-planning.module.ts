@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { NewPlanningPageRoutingModule } from './new-planning-routing.module';
-
+import { SharedPlanningModule } from '../shared-planning/shared-planning.module';
 import { NewPlanningPage } from './new-planning.page';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     FormsModule,
+    SharedPlanningModule,
     ReactiveFormsModule,
     IonicModule,
     NewPlanningPageRoutingModule,
