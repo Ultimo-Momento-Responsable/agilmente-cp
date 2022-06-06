@@ -515,7 +515,8 @@ export class SpecificPlanningPage implements OnInit {
       this.planningName = res.planningName;
       this.state = res.stateName;
       this.planningList = res.planningList;
-      this.patientAge = res.patientBornDate;
+      this.patientAge = this.calculateAge(res.patientBornDate);
+      console.log(this.patientAge);
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
         planningName: res.planningName,
@@ -526,7 +527,6 @@ export class SpecificPlanningPage implements OnInit {
       })
       this.auxStartDate = res.startDate;
       this.auxFinishDate = res.dueDate;
-      this.patientAge = this.calculateAge(this.patientAge);
       this.uniqueGameList = this.getUniqueGameName(this.planningList);
       this.isLoading = false;
     })
@@ -606,8 +606,9 @@ export class SpecificPlanningPage implements OnInit {
    * @param birthdate Fecha de nacimiento del paciente.
    * @returns Edad en un numero.
    */
-  public calculateAge(birthdate: any): number {
-    return moment().diff(birthdate, 'years');
+  public calculateAge(birthdate: Date): number {
+    console.log(birthdate)
+    return moment().diff(moment(birthdate, 'DD-MM-YYYY'), 'years');
   }
 
   /**
