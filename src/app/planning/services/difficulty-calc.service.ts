@@ -273,6 +273,10 @@ export class MClassifier {
 export class DifficultyCalcService {
   constructor () {}
 
+  // Obtiene un juego con sus parámteros y selecciona el clasificador adecuado
+  // de acuerdo al nombre del juego recibido
+  // @param Game Juego cargado
+  // @return String Dificultad calculada acorde al clasificador
   getDifficulty(game) {
     switch (game.name) {
       case "Encuentra al Repetido": {
@@ -288,8 +292,8 @@ export class DifficultyCalcService {
   }
 
   // Se le envia una instancia de Encuentra al Repetido y clasifica su dificultad
-  // @param : game Objeto del juego con sus parametros
-  // returns : String de dificultad 
+  // @param Game Objeto del juego con sus parametros
+  // @return String Dificultad de EAR calculado
   useEARclassifier(game) {
     let level : any;
     let maxStimuli : any;
@@ -312,8 +316,8 @@ export class DifficultyCalcService {
   }
 
   // Se le envia una instancia de Encuentra al Nuevo y clasifica su dificultad
-  // @param : game Objeto del juego con sus parametros
-  // returns : String de dificultad
+  // @param Game Objeto del juego con sus parametros
+  // @return String Dificultad de EAN calculado
   useEANclassifier(game) {
     let level : any;
     let variableSize : any;
@@ -332,8 +336,8 @@ export class DifficultyCalcService {
   }
 
   // Se le envia una instancia de Memorilla y clasifica su dificultad
-  // @param : game Objeto del juego con sus parametros
-  // returns : String de dificultad
+  // @param game Objeto del juego con sus parametros
+  // @return String Dificultad de Memorilla calculado
   useMClassifier(game) {
     let level : any;
     let maxStimuli : any;
