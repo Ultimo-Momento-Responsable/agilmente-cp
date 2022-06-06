@@ -15,7 +15,12 @@ const routes: Routes = [
   {
     path: ':id',
     loadChildren: () => import('./specific-planning/specific-planning.module').then( m => m.SpecificPlanningPageModule)
+  },
+  {
+    path: 'edit-planning/:id',
+    loadChildren: () => import('./edit-planning/edit-planning.module').then( m => m.EditPlanningPageModule)
   }
+
 ];
 
 @NgModule({
