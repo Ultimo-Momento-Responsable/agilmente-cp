@@ -5,11 +5,6 @@ import { PlanningApiService } from '../services/planning-api.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import moment from 'moment';
-import { encuentraAlNuevo } from '../shared-planning/constants/difficulty-level';
-import { encuentraAlRepetido } from '../shared-planning/constants/difficulty-level';
-import { memorilla } from '../shared-planning/constants/difficulty-level';
-import { CustomDifficultComponent } from '../shared-planning/components/custom-difficulty/custom-difficulty.component';
 import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
 @Component({
