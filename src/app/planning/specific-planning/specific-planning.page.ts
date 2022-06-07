@@ -210,7 +210,7 @@ export class SpecificPlanningPage implements OnInit {
     '¿Desea cancelar la planificación? Esta acción no puede deshacerse')
     if (confirm) {
       this.planningApiService.cancelPlanningById(this.id).subscribe(res => {
-        this.dialogsComponent.presentAlert('Planificación eliminada',"",'La planificación ha sido eliminada correctamente.',"",true);
+        this.dialogsComponent.presentAlert('Planificación eliminada',"",'La planificación ha sido eliminada correctamente.',"/planning",false);
       }, (err) => {
         this.dialogsComponent.presentAlert('Error',"",'Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"", false);
       });
