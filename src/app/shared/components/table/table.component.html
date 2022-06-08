@@ -1,0 +1,22 @@
+<div>
+  <div>
+    <ion-card class="table">
+      <ion-item-group>
+        <ion-item class="header-row ion-no-padding">
+          <ion-col class="column" *ngFor="let column of this.columns">
+            <ion-text>{{ column | resultTranslate }}</ion-text>
+          </ion-col>
+        </ion-item>
+        <ion-item class="row ion-no-padding" *ngFor="let row of this.page">
+          <ion-col class="column" *ngFor="let column of this.columns">
+            <ion-text>{{ row[column] }}</ion-text>
+          </ion-col>
+        </ion-item>
+      </ion-item-group>
+    </ion-card>
+    </div>
+    <div *ngIf="this.paginated">
+      <ion-button (click)="this.goToPreviousPage()">Atrás</ion-button>
+      <ion-button (click)="this.goToNextPage()">Siguiente</ion-button>
+    </div>
+</div>
