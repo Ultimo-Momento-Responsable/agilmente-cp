@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsApiService } from '../../patients/shared-patients/services/patients-api/patients-api.service';
-import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,8 +33,6 @@ export class SpecificPlanningPage implements OnInit {
   patientId: number;
   patientAge: number;
   patientsSearch: any [];
-  datePickerStart: any = {};
-  datePickerFinish: any = {};
   myForm: FormGroup;
   assignedGames: any [] = [];
   planningGames: any [] = [];
@@ -82,31 +79,6 @@ export class SpecificPlanningPage implements OnInit {
       this.patients = res;
     });
     let i = 0;
-      this.datePickerStart = {
-      showTodayButton: false,
-      closeOnSelect: true,
-      setLabel: 'Ok',
-      closeLabel: 'Cerrar',
-      titleLabel: 'Selecciona una fecha', 
-      dateFormat: 'DD-MM-YYYY',
-      clearButton : false,
-      monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-      weeksList: ["D", "L", "M", "X", "J", "V", "S"],
-      fromDate: new Date(),
-      inputDate: new Date()
-    };
-    this.datePickerFinish = {
-      showTodayButton: false,
-      closeOnSelect: true,
-      setLabel: 'Ok',
-      closeLabel: 'Cerrar',
-      titleLabel: 'Selecciona una fecha', 
-      dateFormat: 'DD-MM-YYYY',
-      clearButton : false,
-      monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-      weeksList: ["D", "L", "M", "X", "J", "V", "S"]
-    };
-
     this.myForm = new FormGroup({
       patient: new FormControl('', Validators.required),
       planningName: new FormControl(''),
@@ -141,27 +113,6 @@ export class SpecificPlanningPage implements OnInit {
    */
    goToSubresults(result: any) {
     this.router.navigateByUrl("results/" + result.game.toLowerCase().replace(/\s/g, '-') + "/" + result.id);
-  }
-
-  /** 
-   * Cambia el valor mínimo que puede tener el datepicker del fin de la planning 
-   */ 
-  setFinishMinDate(){
-    var dateSplit = this.myForm.value.startDate.split('-');
-    let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
-    this.datePickerFinish.fromDate = date;
-    this.datePickerFinish.inputDate = date;
-    this.myForm.patchValue({"finishDate": date})
-    this.myForm.patchValue({"finishDate": moment(date).format('DD-MM-YYYY')})
-  }
-
-  /**
-   * llena el campo del paciente cuando clickeas el que deseas en la lista
-   * @param name nombre del paciente
-   */
-  fillSearchBar(name: string) {
-    this.myForm.patchValue({"patient": name})
-    this.patientsSearch = null
   }
 
   /**
@@ -205,6 +156,9 @@ export class SpecificPlanningPage implements OnInit {
     }
   }  
 
+  /**
+   * Redirige a la página de edición de la planning
+   */
   editPlanning(){
     this.router.navigateByUrl("planning/edit-planning/" + this.id)
   }
