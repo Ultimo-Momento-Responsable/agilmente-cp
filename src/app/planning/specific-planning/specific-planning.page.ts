@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import moment from 'moment';
+import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 
 export interface Planning {
   id: number;
@@ -38,6 +39,7 @@ export class SpecificPlanningPage implements OnInit {
   myForm: FormGroup;
   assignedGames: any [] = [];
   planningGames: any [] = [];
+  results: any [] = [];
   auxGames: any [] = [];
   games: any [] = [];
   gamesSearch: any [];
@@ -57,7 +59,7 @@ export class SpecificPlanningPage implements OnInit {
 
   constructor(
     private patientsApiService: PatientsApiService,
-    private gamesApiService: GamesApiService,
+    private resultsApiService: ResultsApiService,
     private planningApiService: PlanningApiService,
     public modalCtrl: ModalController,
     public alertController: AlertController,
@@ -71,39 +73,16 @@ export class SpecificPlanningPage implements OnInit {
     this.isLoading = true;
     this.route.params.subscribe(params => {
       this.id = +params['id']; 
+      this.resultsApiService.getResultsFromPlanning(this.id).subscribe(res => {
+        this.results = res.content;
+      });
     });
     
     this.patientsApiService.getPatientsListed().subscribe(res=>{
       this.patients = res;
     });
     let i = 0;
-    this.gamesApiService.getGames().subscribe(res=>{
-      res.forEach(g => {
-        let contActivatable = 0;
-        this.games.push(g);
-        this.games[i].gameParam.forEach(p => {
-          p.isActive = false;
-          if (p.param.type == 1) {
-            p.value=false;
-            contActivatable++;
-          }
-          if (p.param.type == 2) {
-            p.value=1;
-            contActivatable++;
-          }
-          if (p.param.type == 3) {
-            p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
-          }
-        });
-        this.games[i].maxNumberOfSessions = 5;
-        this.games[i].hasLimit = false;
-        this.games[i].index = null;
-        this.games[i].done = true;
-        this.games[i].hasActivatable = (contActivatable > 0);
-        i++;
-      });
-    });
-    this.datePickerStart = {
+      this.datePickerStart = {
       showTodayButton: false,
       closeOnSelect: true,
       setLabel: 'Ok',
@@ -153,6 +132,15 @@ export class SpecificPlanningPage implements OnInit {
       }
     });
     return exist
+  }
+
+  /**
+   * Redirige al usuario a la página del detalle
+   * del resultado.
+   * @param id Id del resultado.
+   */
+   goToSubresults(result: any) {
+    this.router.navigateByUrl("results/" + result.game.toLowerCase().replace(/\s/g, '-') + "/" + result.id);
   }
 
   /** 

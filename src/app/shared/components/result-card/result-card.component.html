@@ -1,0 +1,47 @@
+<ion-card button class="card">
+  <ion-row>
+    <!-- Paciente, fecha y hora, estado-->
+    <ion-col size="3" class="container">
+      <p class="titles card__title">{{ this.result.patient }}</p>
+      <p class="card__datetime"> {{ this.result.completeDatetime }}</p>
+      <ion-chip class="card__chips" *ngIf="this.result.canceled === false" style="background: rgba(50, 219, 100, 0.29);">
+        <ion-icon class="card__chips__icon" color="success" name="checkmark-circle"></ion-icon>
+        <ion-label class="card__chips__text">Completo</ion-label>
+      </ion-chip>
+      <ion-chip class="card__chips" *ngIf="this.result.canceled === true" style="background: rgba(245, 61, 61, 0.29);">
+        <ion-icon class="card__chips__icon" name="close-circle"></ion-icon>
+        <ion-label class="card__chips__text">Abandonado</ion-label>
+      </ion-chip>
+    </ion-col>
+    <ion-col>
+      <div class="game_with_icon">
+        <img [src]="getGameIcon(this.result.game)" class="icon"/>
+        <p class="titles card__title">{{ this.result.game }}</p>
+      </div>
+      <div class="game_with_icon" style="margin-top: 40px">
+        <ion-chip class="card__chips" style="background: rgba(50, 219, 100, 0.29);">
+          <ion-icon class="card__chips__icon" color="success" name="checkmark-circle"></ion-icon>
+          <ion-label class="card__chips__text">{{ this.totalSuccesses }} Aciertos</ion-label>
+        </ion-chip>
+        <ion-chip class="card__chips" style="background: rgba(245, 61, 61, 0.29);">
+          <ion-icon class="card__chips__icon" color="danger" name="close-circle"></ion-icon>
+          <ion-label class="card__chips__text">{{ this.totalMistakes }} Errores</ion-label>
+        </ion-chip>
+        <ion-chip class="card__chips" *ngIf="this.streak" style="background: rgba(224, 172, 8, 0.29);">
+          <ion-icon class="card__chips__icon" color="warning" name="flash"></ion-icon>
+          <ion-label class="card__chips__text">{{ this.streak }} Racha</ion-label>
+        </ion-chip>
+      </div>
+    </ion-col>
+    <ion-col size="3">
+      <div class="difficult_score">
+        <p class="titles card__title" style="margin-bottom: 30px !important;">
+          <!-- TO DO DIFICULTAD -->
+        </p>
+        <p class="titles card__title" style="color: rgb(50, 219, 100);">
+          <!-- MGP o SCORE -->
+        </p>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-card>

@@ -16,11 +16,17 @@
         }"
         ></ngx-skeleton-loader>
   </div>
-  <app-result-card
-    *ngFor="let result of this.results"
-    (click)="this.goToSubresults(result)"
-    [result]="result"
-  ></app-result-card>
+  <ion-row>
+    <ion-col size="2"></ion-col>
+    <ion-col> 
+      <app-result-card
+        *ngFor="let result of this.results"
+        (click)="this.goToSubresults(result)"
+        [result]="result"
+      ></app-result-card>
+    </ion-col>
+  </ion-row>
+    
 
   <div *ngIf="(!results || results.length === 0) && skeletonLoading == false">
     <ion-card>
