@@ -6,7 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
 @Component({
   selector: 'app-edit-planning',
@@ -19,6 +19,7 @@ export class EditPlanningPage implements OnInit {
     private patientsApiService: PatientsApiService,
     private gamesApiService: GamesApiService,
     private planningApiService: PlanningApiService,
+    private difficultyService: DifficultyCalcService,
     public modalCtrl: ModalController,
     private dialogsComponent: DialogsComponent,
     private route: ActivatedRoute) { }
@@ -239,7 +240,8 @@ export class EditPlanningPage implements OnInit {
       let gamePost = {
         gameId: g.id,
         maxNumberOfSessions: g.hasLimit?g.maxNumberOfSessions:-1,
-        params: undefined
+        params: undefined,
+        difficulty: undefined
       };
       
       let params: any = {};
@@ -251,6 +253,7 @@ export class EditPlanningPage implements OnInit {
         }
       });
       gamePost.params = params;
+      gamePost.difficulty = this.difficultyService.getDifficulty(g);
       gamesPost.push(gamePost);
     })
     if (myForm.valid) {
