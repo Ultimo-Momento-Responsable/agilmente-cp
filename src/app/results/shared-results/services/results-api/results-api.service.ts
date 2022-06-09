@@ -42,4 +42,16 @@ export class ResultsApiService {
       `http://${environment.ip}:8080/${this.entity}/by-patient/${id}`
     );
   }
+
+  /**
+   * Obtiene una lista de resultados a partir del id
+   * de una planning.
+   * @param id Id de la planning.
+   * @returns Lista de resultados.
+   */
+  getResultsFromPlanning(id: number): Observable<any> {
+    return this.http.get(
+      `http://${environment.ip}:8080/${this.entity}/planning/${id}`
+    );
+  }
 }

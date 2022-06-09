@@ -4,6 +4,7 @@ import { UxDatepickerComponent } from './components/ux-datepicker/ux-datepicker.
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
+import { ResultCardComponent } from './components/result-card/result-card.component';
 import { HayUnoRepetidoResultsGeneralTableComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-general-table/hay-uno-repetido-results-general-table.component';
 import { HayUnoRepetidoResultsPerformanceGraphComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-performance-graph/hay-uno-repetido-results-performance-graph.component';
 import { HayUnoRepetidoResultsTimeGraphComponent } from './components/results/hay-uno-repetido/hay-uno-repetido-results-time-graph/hay-uno-repetido-results-time-graph.component';
@@ -27,6 +28,7 @@ import { PlanningCardComponent } from './components/planning-card/planning-card.
     EncuentraAlNuevoResultsPerformanceGraphComponent,
     EncuentraAlNuevoResultsTimeGraphComponent,
     DialogsComponent,
+    ResultCardComponent,
     PlanningSearchComponent,
     PlanningCardComponent
   ],
@@ -48,7 +50,8 @@ import { PlanningCardComponent } from './components/planning-card/planning-card.
     EncuentraAlNuevoResultsTimeGraphComponent,
     DialogsComponent,
     PlanningSearchComponent,
-    PlanningCardComponent
+    PlanningCardComponent,
+    ResultCardComponent
   ],
   providers: [DialogsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

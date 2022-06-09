@@ -24,5 +24,9 @@ export class ResultCardComponent implements OnInit {
     }
     
   }
-
+  getGameIcon(game) {
+    let gameNameFormatted : string = game.toLowerCase();
+    gameNameFormatted = gameNameFormatted.replace(/\s/g, '_');
+    return( "../../../../../assets/pictures/" + gameNameFormatted + "_icon.png");
+  }
 }
