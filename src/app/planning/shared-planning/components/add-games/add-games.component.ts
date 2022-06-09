@@ -12,9 +12,8 @@ import { CustomDifficultComponent } from '../custom-difficulty/custom-difficulty
   styleUrls: ['../../../new-planning/new-planning.page.scss'],
 })
 export class AddGamesComponent {
-
-  constructor(public modalCtrl: ModalController) { }
   @Input() games: any[];
+  @Input() gamesSearch: any[];
   @Input() assignedGames: any [] = [];
   @Input() planningGames: any [] = [];
   @Output() effectiveGames = new EventEmitter<any[]>();
@@ -23,9 +22,10 @@ export class AddGamesComponent {
 
   currentGame: any;
   shouldOpenModal: boolean = true;
-  gamesSearch: any [] = [];
   isAdding: boolean = true;
-  
+
+  constructor(public modalCtrl: ModalController) {}
+
   /**
    * Descubre que juego esta activo en este momento
    * @param index Índice de la pestaña activa en la página
@@ -215,14 +215,6 @@ export class AddGamesComponent {
       this.assignedGames[j].maxNumberOfSessions = evt.srcElement.value;
     }
     game.maxNumberOfSessions = evt.srcElement.value;
-  }
-
-  /**
-   * Ejecuta una busqueda vacía para traer la lista completa de juegos
-   * al cargar la pagina
-   */
-  ionViewDidEnter() {
-    this.filterGameByString('');
   }
 
   /**
