@@ -31,6 +31,7 @@
           <app-add-games 
             *ngIf="this.planningForm.value.startDate.length != 0"
             [games]="this.games"
+            [gamesSearch]="this.games"
             (nullGames)="this.fillWithNullGames()"
             (effectiveGames)="fillAssignedGames($event)"
             (intermediateGames)="fillPlanningGames($event)">

@@ -34,6 +34,7 @@
         <!-- Juegos de planificación -->
         <app-add-games 
           [games]="this.games"
+          [gamesSearch]="this.games"
           [assignedGames]="this.assignedGames"
           [planningGames]="this.planningGames"
           (nullGames)="this.fillWithNullGames()"
