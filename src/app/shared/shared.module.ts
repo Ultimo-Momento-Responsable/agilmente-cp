@@ -14,6 +14,11 @@ import { EncuentraAlNuevoResultsPerformanceGraphComponent } from './components/r
 import { EncuentraAlNuevoResultsTimeGraphComponent } from './components/results/encuentra-al-nuevo/encuentra-al-nuevo-results-time-graph/encuentra-al-nuevo-results-time-graph.component';
 import { PlanningSearchComponent } from './components/planning-search/planning-search.component';
 import { PlanningCardComponent } from './components/planning-card/planning-card.component';
+import { ResultsTableComponent } from './components/results/results-table/results-table.component';
+import { ResultTranslatePipe } from './pipes/result-translate/result-translate.pipe';
+import { TableComponent } from './components/table/table.component';
+import { GraphComponent } from './components/graph/graph.component';
+import { ResultsGraphComponent } from './components/results/results-graph/results-graph.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +32,15 @@ import { PlanningCardComponent } from './components/planning-card/planning-card.
     EncuentraAlNuevoResultsGeneralTableComponent,
     EncuentraAlNuevoResultsPerformanceGraphComponent,
     EncuentraAlNuevoResultsTimeGraphComponent,
+    ResultsTableComponent,
     DialogsComponent,
     ResultCardComponent,
     PlanningSearchComponent,
-    PlanningCardComponent
+    PlanningCardComponent,
+    ResultTranslatePipe,
+    ResultsGraphComponent,
+    TableComponent,
+    GraphComponent
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
   exports: [
@@ -48,12 +58,17 @@ import { PlanningCardComponent } from './components/planning-card/planning-card.
     EncuentraAlNuevoResultsGeneralTableComponent,
     EncuentraAlNuevoResultsPerformanceGraphComponent,
     EncuentraAlNuevoResultsTimeGraphComponent,
+    ResultsTableComponent,
     DialogsComponent,
     PlanningSearchComponent,
     PlanningCardComponent,
-    ResultCardComponent
+    ResultCardComponent,
+    ResultTranslatePipe,
+    ResultsGraphComponent,
+    TableComponent,
+    GraphComponent
   ],
-  providers: [DialogsComponent],
+  providers: [ResultTranslatePipe,DialogsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {}

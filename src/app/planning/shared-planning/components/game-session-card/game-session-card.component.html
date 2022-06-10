@@ -1,0 +1,118 @@
+<ion-card class="gsc">
+  <ion-accordion-group>
+    <ion-accordion value="game-session">
+      <ion-item class="gsc__header" slot="header">
+        <div class="gsc__header__container">
+          <div class="gsc__header__container__game-container">
+            <div class="gsc__header__container__game-container__game">
+              <img
+                [src]="this.icon"
+                alt="Game Icon"
+              />
+              <ion-text class="card-title">
+                {{ this.gameSession.game }}
+              </ion-text>
+            </div>
+            <!-- COMENTADO PORQUE TODAVÍA NO ESTÁ LA DIFICULTAD -->
+            <!-- <div class="gsc__header__container__game-container__difficulty">
+              <div
+                class="gsc__header__container__game-container__difficulty__difficulty"
+              >
+                <ion-text class="card-big-number">Fácil</ion-text>
+              </div>
+              <div
+                class="gsc__header__container__game-container__difficulty__is-custom"
+              >
+                <ion-text class="card-subtitle">Personalizado</ion-text>
+              </div>
+            </div> -->
+          </div>
+          <div class="gsc__header__container__sessions-left">
+            <div class="gsc__header__container__sessions-left__title">
+              <ion-text class="card-title">Partidas restantes</ion-text>
+            </div>
+            <div class="gsc__header__container__sessions-left__value">
+              <ion-text class="card-big-number">
+                {{ this.gameSession.numberOfSession }}
+              </ion-text>
+            </div>
+          </div>
+          <!-- COMENTADO PORQUE NO TENEMOS MGP -->
+          <div class="gsc__header__container__mgp">
+            <div class="gsc__header__container__mgp__title">
+              <ion-text class="card-title">
+                Métrica General de Progreso
+              </ion-text>
+            </div>
+            <div class="gsc__header__container__mgp__subtitle">
+              <ion-text class="card-subtitle">De esta sesión</ion-text>
+            </div>
+            <div class="gsc__header__container__mgp__value">
+              PROXIMAMENTE
+              <!-- <ion-text class="card-big-number" [ngClass]="this.tendency">
+                1896
+              </ion-text>
+              <ion-text [ngClass]="this.tendency">+75</ion-text>
+              <ion-icon
+                *ngIf="this.tendency === 'increment'"
+                name="arrow-up-circle"
+                class="increment"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="this.tendency !== 'increment'"
+                name="arrow-down-circle"
+                class="decrement"
+              ></ion-icon> -->
+            </div>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item lines="none" slot="content">
+        <div class="gsc__content">
+          <div class="gsc__content__params">
+            <div class="gsc__content__params__title">
+              <ion-text class="card-title">Parámetros</ion-text>
+            </div>
+            <div class="gsc__content__params__table-container">
+              <ion-list
+                class="gsc__content__params__table-container__table ion-no-padding"
+                lines="none"
+              >
+                <div
+                  class="gsc__content__params__table-container__table__row"
+                  *ngFor="let param of this.gameSession.parameters"
+                >
+                  <div
+                    slot="start"
+                    class="gsc__content__params__table-container__table__row__name"
+                  >
+                    <ion-text class="card-text bold">{{ param.spanishName }}</ion-text>
+                  </div>
+                  <div
+                    class="gsc__content__params__table-container__table__row__value"
+                  >
+                    <ion-text class="card-text">{{ param.value }}</ion-text>
+                  </div>
+                  <div
+                    slot="end"
+                    class="gsc__content__params__table-container__table__row__description"
+                  >
+                    <ion-text class="card-text">{{ param.contextualHelp }}</ion-text>
+                  </div>
+                </div>
+              </ion-list>
+            </div>
+          </div>
+          <div class="gsc__content__results" *ngIf="this.results && this.results.length > 0">
+            <div class="gsc__content__results__title">
+              <ion-text class="card-title">Resultados</ion-text>
+            </div>
+            <div class="gsc__content__results__values">
+              <app-game-session-results [gameSession]="this.gameSession" [results]="this.results"></app-game-session-results>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-card>
