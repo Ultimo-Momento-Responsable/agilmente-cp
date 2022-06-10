@@ -47,7 +47,15 @@ export class GameSessionResultsComponent implements OnInit {
         p.value = 'Sí';
       } else if (p.value === "false") {
         p.value = 'No';
+      } else if (typeof p.value === 'boolean') {
+        if (p.value) {
+          p.value = 'Sí';
+        } else {
+          p.value = 'No';
+        }
       }
+
+      return p;
     })
   }
 
