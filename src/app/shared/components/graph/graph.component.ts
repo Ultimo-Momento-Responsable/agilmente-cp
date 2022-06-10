@@ -53,9 +53,12 @@ export class GraphComponent implements AfterViewInit, OnInit {
   graphEl: ElementRef;
   @Input() datasets: Dataset[];
   @Input() pointLabelPrefix: string = 'Partida N°';
+  @Input() unit: string = 'partidas';
+  @Input() isUnitFemale = true;
   @Input() tabs: string[][];
   @Input() hasTabs: boolean = false;
   @Output() clickedPointEvent = new EventEmitter<any>();
+  numberOfPoints: string = 'all';
   isOnlyOneResult: boolean = false;
   selectedTab: number;
   labels: string[];
@@ -65,9 +68,7 @@ export class GraphComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     Chart.register(...registerables);
-    this.labels = this.datasets[0].data.map(
-      (d, i) => `${this.pointLabelPrefix}${i + 1}`
-    );
+    this.getLabels();
     this.fixOnlyOnePointGraph();
 
     if (this.hasTabs) {
@@ -85,13 +86,47 @@ export class GraphComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * Crea los labels para los gráficos.
+   */
+  private getLabels() {
+    if (this.numberOfPoints === 'all' || this.isOnlyOneResult) {
+      this.labels = this.datasets[0].data.map(
+        (d, i) => `${this.pointLabelPrefix}${i + 1}`
+      );
+    } else {
+      const end = this.datasets[0].data.length;
+      const start = end > parseInt(this.numberOfPoints) ? end - parseInt(this.numberOfPoints) : 0;
+      this.labels = [];
+      for(let i = start; i < end; i ++) {
+        this.labels.push(`${this.pointLabelPrefix}${i+1}`);
+      }
+    }
+  }
+
+  /**
+   * Actualiza el gráfico cuandos se cambia de tab.
+   */
   getTab() {
-    this.showDatasets = this.tabs[this.selectedTab].map((t) =>
-      this.datasets.find((d) => d.reference === t)
-    );
+    this.getLabels();
+    this.showDatasets = this.tabs[this.selectedTab].map((t) => {
+      if (this.numberOfPoints === 'all' || this.isOnlyOneResult) {
+        return this.datasets.find((d) => d.reference === t);
+      } else {
+        const end = this.datasets[0].data.length;
+        const start = end > parseInt(this.numberOfPoints) ? end - parseInt(this.numberOfPoints) : 0;
+        const dataset = JSON.parse(JSON.stringify(this.datasets.find((d) => d.reference === t)));
+        dataset.data = dataset.data.slice(start, end);
+        return dataset;
+      }
+    });
     this.createGraph(this.showDatasets);
   }
 
+  /**
+   * Arregla el gráfico para que se vea bien cuando solamente hay 
+   * un resultado.
+   */
   fixOnlyOnePointGraph() {
     if (this.datasets[0].data.length === 1) {
       this.isOnlyOneResult = true;
@@ -102,6 +137,10 @@ export class GraphComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * Crea un gráfico a partir de los datasets disponibles.
+   * @param datasets Conjunto de datos a mostrar.
+   */
   private createGraph(datasets: Dataset[]) {
     if (this.graph) {
       this.graph.destroy();
@@ -115,6 +154,11 @@ export class GraphComponent implements AfterViewInit, OnInit {
     });
   }
 
+  /**
+   * Mapea los datasets a datos que pueda procesar chart.js.
+   * @param dataset Conjunto de datos a mostrar.
+   * @returns Conjunto de datos formateados para chart.js.
+   */
   private mapDatasets(dataset: Dataset): ChartDataset<'line', number[]> {
     return {
       label: dataset.reference,
@@ -143,6 +187,10 @@ export class GraphComponent implements AfterViewInit, OnInit {
     };
   }
 
+  /**
+   * Handler de cuando el usuario hace click en el gráifico.
+   * Emite un evento cuando se hace click en un punto.
+   */
   onChartClick() {
     const point = this.graph.getActiveElements()[0];
     if (point) {

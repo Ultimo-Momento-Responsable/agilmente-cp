@@ -1,6 +1,21 @@
-<ion-card class="graph">
-  <!-- <ion-card-header> {{ this.title }} </ion-card-header> -->
-  <ion-segment *ngIf="this.hasTabs" [(ngModel)]="this.selectedTab" (ionChange)="this.getTab()">
+<ion-card class="graph ion-no-margin">
+  <ion-card-header>
+    <ion-text>Se muestran </ion-text>
+    <ion-text *ngIf="this.isUnitFemale && this.numberOfPoints !== 'all'">las últimas </ion-text>
+    <ion-text *ngIf="!this.isUnitFemale && this.numberOfPoints !== 'all'">los últimos </ion-text>
+    <select [(ngModel)]="this.numberOfPoints" (ngModelChange)="this.getTab()">
+      <option value="all" *ngIf="this.isUnitFemale">todas</option>
+      <option value="all" *ngIf="!this.isUnitFemale">todos</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+    </select>
+    <ion-text *ngIf="this.isUnitFemale && this.numberOfPoints === 'all'"> las</ion-text>
+    <ion-text *ngIf="!this.isUnitFemale && this.numberOfPoints === 'all'"> los</ion-text>
+    <ion-text> {{ this.unit }}.</ion-text>
+  </ion-card-header>
+  <ion-segment *ngIf="this.hasTabs" scrollable="true" [(ngModel)]="this.selectedTab" (ionChange)="this.getTab()">
     <ion-segment-button *ngFor="let tab of this.tabs; index as i" [value]="i" >
       <ion-label class="tab">
         {{ tab }}

@@ -65,7 +65,7 @@ export class ResultsApiService {
    */
   getResultsBySessionId(id: number, gameSession: string): Observable<any> {
     return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/by-gane-session/${gameSession}/${id}`
+      `http://${environment.ip}:8080/${this.entity}/by-game-session/${gameSession}/${id}`
     );
   }
 }
