@@ -7,9 +7,26 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import moment from 'moment';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
+interface Param {
+  id: number;
+  maxLevel: number;
+  name: string;
+  value: string;
+  spanishName: string;
+  unit: string;
+  contextualHelp: string;
+};
+
+interface PlanningItem {
+  gameSessionId: number;
+  game: string;
+  numberOfSession: number;
+  parameters: Param[];
+};
 
 export interface Planning {
   id: number;
+  planningName: string;
   patientId: number;
   patientFirstName: string;
   patientLastName: string;
@@ -17,9 +34,11 @@ export interface Planning {
   professionalFirstName: string;
   professionalLastName: string;
   state: string;
-  startDate: string;
-  dueDate: string;
-  planningList: any[];
+  startDate: Date;
+  dueDate: Date;
+  stateName: string;
+  patientBornDate: number;
+  planningList: PlanningItem[];
 }
 
 @Component({
@@ -43,7 +62,7 @@ export class SpecificPlanningPage implements OnInit {
   isAdding: boolean = false;
   patientBlur=false;
   state: string;
-  planningList: any[];
+  planningList: PlanningItem[];
   isEditing: boolean = false;
   auxStartDate: Date;
   auxFinishDate: Date;
@@ -119,7 +138,7 @@ export class SpecificPlanningPage implements OnInit {
    * Obtiene los datos de una planning y precarga los datos
    */
   loadPlanning(){
-    this.planningApiService.getPlanningById(this.id).subscribe(res => {
+    this.planningApiService.getPlanningById(this.id).subscribe((res: Planning) => {
       this.patientId = res.patientId;
       this.planningName = res.planningName;
       this.state = res.stateName;

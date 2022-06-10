@@ -18,6 +18,7 @@ import { ResultsTableComponent } from './components/results/results-table/result
 import { ResultTranslatePipe } from './pipes/result-translate/result-translate.pipe';
 import { TableComponent } from './components/table/table.component';
 import { GraphComponent } from './components/graph/graph.component';
+import { ResultsGraphComponent } from './components/results/results-graph/results-graph.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { GraphComponent } from './components/graph/graph.component';
     PlanningSearchComponent,
     PlanningCardComponent,
     ResultTranslatePipe,
+    ResultsGraphComponent,
     TableComponent,
     GraphComponent
   ],
@@ -60,11 +62,13 @@ import { GraphComponent } from './components/graph/graph.component';
     DialogsComponent,
     PlanningSearchComponent,
     PlanningCardComponent,
-    ResultCardComponent
+    ResultCardComponent,
+    ResultTranslatePipe,
+    ResultsGraphComponent,
     TableComponent,
     GraphComponent
   ],
-  providers: [DialogsComponent],
+  providers: [ResultTranslatePipe,DialogsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {}

@@ -1,8 +1,8 @@
-<div>
+<div class="results">
   <div>
-    
+    <app-results-graph [results]="this.results" (clickedResultEvent)="this.goToResult($event)"></app-results-graph>
   </div>
   <div>
-    <app-results-table [results]="this.results"></app-results-table>
+    <app-results-table [results]="this.results" (clickedResultEvent)="this.goToResult($event)"></app-results-table>
   </div>
 </div>

@@ -1,3 +1,13 @@
-<p>
-  graph works!
-</p>
+<ion-card class="graph">
+  <!-- <ion-card-header> {{ this.title }} </ion-card-header> -->
+  <ion-segment *ngIf="this.hasTabs" [(ngModel)]="this.selectedTab" (ionChange)="this.getTab()">
+    <ion-segment-button *ngFor="let tab of this.tabs; index as i" [value]="i" >
+      <ion-label class="tab">
+        {{ tab }}
+      </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-card-content>
+    <canvas #lineGraph (click)="this.onChartClick()"></canvas>
+  </ion-card-content>
+</ion-card>

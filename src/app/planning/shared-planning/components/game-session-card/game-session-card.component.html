@@ -6,10 +6,12 @@
           <div class="gsc__header__container__game-container">
             <div class="gsc__header__container__game-container__game">
               <img
-                src="assets/pictures/encuentra_al_nuevo_icon.png"
+                [src]="this.icon"
                 alt="Game Icon"
               />
-              <ion-text class="card-title">Encuentra al Repetido</ion-text>
+              <ion-text class="card-title">
+                {{ this.gameSession.game }}
+              </ion-text>
             </div>
             <div class="gsc__header__container__game-container__difficulty">
               <div
@@ -29,7 +31,9 @@
               <ion-text class="card-title">Partidas restantes</ion-text>
             </div>
             <div class="gsc__header__container__sessions-left__value">
-              <ion-text class="card-big-number">999</ion-text>
+              <ion-text class="card-big-number">
+                {{ this.gameSession.numberOfSession }}
+              </ion-text>
             </div>
           </div>
           <div class="gsc__header__container__mgp">
@@ -73,13 +77,13 @@
               >
                 <div
                   class="gsc__content__params__table-container__table__row"
-                  *ngFor="let param of this.params"
+                  *ngFor="let param of this.gameSession.parameters"
                 >
                   <div
                     slot="start"
                     class="gsc__content__params__table-container__table__row__name"
                   >
-                    <ion-text class="card-text bold">{{ param.name }}</ion-text>
+                    <ion-text class="card-text bold">{{ param.spanishName }}</ion-text>
                   </div>
                   <div
                     class="gsc__content__params__table-container__table__row__value"
@@ -90,18 +94,18 @@
                     slot="end"
                     class="gsc__content__params__table-container__table__row__description"
                   >
-                    <ion-text class="card-text">{{ param.description }}</ion-text>
+                    <ion-text class="card-text">{{ param.contextualHelp }}</ion-text>
                   </div>
                 </div>
               </ion-list>
             </div>
           </div>
-          <div class="gsc__content__results">
+          <div class="gsc__content__results" *ngIf="this.results && this.results.length > 0">
             <div class="gsc__content__results__title">
               <ion-text class="card-title">Resultados</ion-text>
             </div>
             <div class="gsc__content__results__values">
-              <app-game-session-results></app-game-session-results>
+              <app-game-session-results [gameSession]="this.gameSession" [results]="this.results"></app-game-session-results>
             </div>
           </div>
         </div>
