@@ -130,7 +130,7 @@ export class SpecificPlanningPage implements OnInit {
    * del resultado.
    * @param id Id del resultado.
    */
-   goToSubresults(result: any) {
+  goToSubresults(result: any) {
     this.router.navigateByUrl("results/" + result.game.toLowerCase().replace(/\s/g, '-') + "/" + result.id);
   }
 
@@ -144,7 +144,6 @@ export class SpecificPlanningPage implements OnInit {
       this.state = res.stateName;
       this.planningList = res.planningList;
       this.patientAge = this.calculateAge(res.patientBornDate);
-      console.log(this.patientAge);
       this.myForm.setValue({
         patient: res.patientFirstName + " " + res.patientLastName,
         planningName: res.planningName,

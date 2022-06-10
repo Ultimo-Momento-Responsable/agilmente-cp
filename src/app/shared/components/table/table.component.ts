@@ -48,7 +48,7 @@ export class TableComponent implements OnInit {
   goToNextPage() {
     this.currentPage ++;
     this.isFirstPage = false;
-    this.isLastPage = !(this.currentPage <= (this.data.length / this.numberOfRows));
+    this.isLastPage = !(this.currentPage < (this.data.length / this.numberOfRows));
     this.getPage();
   }
 
