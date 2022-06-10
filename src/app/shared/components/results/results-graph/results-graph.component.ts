@@ -50,6 +50,15 @@ export class ResultsGraphComponent implements OnInit {
     this.tabs = this.tabs.filter(tab => !(tab.includes(this.resultTranslate.transform('mistakes')) && tab.length == 1));
   }
 
+  /**
+   * Obtiene un color a partir del alias.
+   * @param alias Alias del color.
+   *  - success
+   *  - danger
+   *  - warning
+   *  - blue
+   * @returns Color.
+   */
   private getColor(alias: string): Color {
     const color = COLORS.find((c) => c.alias === alias);
     return color ? color : COLORS[0];

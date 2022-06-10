@@ -38,6 +38,9 @@ export class GameSessionResultsComponent implements OnInit {
     this.formatParamValues();
   }
 
+  /**
+   * Formatea los parámetros para que se muestren bien.
+   */
   formatParamValues() {
     this.gameSession.parameters.map(p => {
       if (p.value === "true") {
@@ -48,6 +51,9 @@ export class GameSessionResultsComponent implements OnInit {
     })
   }
 
+  /**
+   * Redirige al usuario a un resultado específico.
+   */
   goToResult(id: number) {
     this.navController.navigateForward([`/results/${this.gameRoute}/${id}`]);
   }
