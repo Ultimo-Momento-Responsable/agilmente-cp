@@ -6,7 +6,12 @@
           <ion-text>{{ column | resultTranslate }}</ion-text>
         </ion-col>
       </ion-item>
-      <ion-item class="row ion-no-padding" *ngFor="let row of this.page" button="true" (click)="this.clickedRow(row)">
+      <ion-item
+        class="row ion-no-padding"
+        *ngFor="let row of this.page"
+        button="true"
+        (click)="this.clickedRow(row)"
+      >
         <ion-col class="column" *ngFor="let column of this.columns">
           <ion-text>{{ row[column] }}</ion-text>
         </ion-col>
@@ -14,15 +19,11 @@
     </ion-item-group>
   </ion-card>
   <div class="button-container" *ngIf="this.paginated">
-    <div class="button">
-      <ion-button [disabled]="isFirstPage" (click)="this.goToPreviousPage()">
-        Atrás
-      </ion-button>
-    </div>
-    <div class="button">
-      <ion-button [disabled]="isLastPage" (click)="this.goToNextPage()">
-        Siguiente
-      </ion-button>
-    </div>
+    <ion-button [disabled]="isFirstPage" (click)="this.goToPreviousPage()">
+      Atrás
+    </ion-button>
+    <ion-button [disabled]="isLastPage" (click)="this.goToNextPage()">
+      Siguiente
+    </ion-button>
   </div>
 </div>
