@@ -13,7 +13,8 @@
                 {{ this.gameSession.game }}
               </ion-text>
             </div>
-            <div class="gsc__header__container__game-container__difficulty">
+            <!-- COMENTADO PORQUE TODAVÍA NO ESTÁ LA DIFICULTAD -->
+            <!-- <div class="gsc__header__container__game-container__difficulty">
               <div
                 class="gsc__header__container__game-container__difficulty__difficulty"
               >
@@ -24,7 +25,7 @@
               >
                 <ion-text class="card-subtitle">Personalizado</ion-text>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="gsc__header__container__sessions-left">
             <div class="gsc__header__container__sessions-left__title">
@@ -36,19 +37,21 @@
               </ion-text>
             </div>
           </div>
+          <!-- COMENTADO PORQUE NO TENEMOS MGP -->
           <div class="gsc__header__container__mgp">
             <div class="gsc__header__container__mgp__title">
-              <ion-text class="card-title"
-                >Métrica General de Progreso</ion-text
-              >
+              <ion-text class="card-title">
+                Métrica General de Progreso
+              </ion-text>
             </div>
             <div class="gsc__header__container__mgp__subtitle">
               <ion-text class="card-subtitle">De esta sesión</ion-text>
             </div>
             <div class="gsc__header__container__mgp__value">
-              <ion-text class="card-big-number" [ngClass]="this.tendency"
-                >1896</ion-text
-              >
+              PROXIMAMENTE
+              <!-- <ion-text class="card-big-number" [ngClass]="this.tendency">
+                1896
+              </ion-text>
               <ion-text [ngClass]="this.tendency">+75</ion-text>
               <ion-icon
                 *ngIf="this.tendency === 'increment'"
@@ -59,7 +62,7 @@
                 *ngIf="this.tendency !== 'increment'"
                 name="arrow-down-circle"
                 class="decrement"
-              ></ion-icon>
+              ></ion-icon> -->
             </div>
           </div>
         </div>

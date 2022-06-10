@@ -37,7 +37,7 @@ export interface Planning {
   startDate: Date;
   dueDate: Date;
   stateName: string;
-  patientBornDate: number;
+  patientBornDate: Date;
   planningList: PlanningItem[];
 }
 
