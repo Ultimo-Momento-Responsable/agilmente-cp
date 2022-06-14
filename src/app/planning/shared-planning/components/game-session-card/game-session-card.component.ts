@@ -27,6 +27,7 @@ export class GameSessionCardComponent implements OnInit {
   icon: string;
   results: any[];
   tendency: string;
+  numberOfSessions: string;
 
   constructor(
     private resultsApiService: ResultsApiService
@@ -38,9 +39,20 @@ export class GameSessionCardComponent implements OnInit {
     const gameRoute = game.replace(/\s/g, '-');
     const gameIcon = game.replace(/\s/g, '_');
     this.icon = `assets/pictures/${gameIcon}_icon.png`;
+    this.getNumberOfSessions();
     this.resultsApiService.getResultsBySessionId(this.gameSession.gameSessionId, gameRoute).subscribe((res) => {
       this.results = res;
     });
   }
 
+  /**
+   * Crea un texto para mostrar en caso que las sesiones sean ilimitadas.
+   */
+  getNumberOfSessions() {
+    if (this.gameSession.numberOfSession >= 0) {
+      this.numberOfSessions = this.gameSession.numberOfSession.toString();
+    } else {
+      this.numberOfSessions = 'Sin límite';
+    }
+  }
 }
