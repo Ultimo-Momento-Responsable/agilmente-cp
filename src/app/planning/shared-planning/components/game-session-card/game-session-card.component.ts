@@ -45,6 +45,9 @@ export class GameSessionCardComponent implements OnInit {
     });
   }
 
+  /**
+   * Crea un texto para mostrar en caso que las sesiones sean ilimitadas.
+   */
   getNumberOfSessions() {
     if (this.gameSession.numberOfSession >= 0) {
       this.numberOfSessions = this.gameSession.numberOfSession.toString();
