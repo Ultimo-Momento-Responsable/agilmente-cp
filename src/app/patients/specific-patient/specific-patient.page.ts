@@ -74,7 +74,6 @@ export class SpecificPatientPage implements OnInit {
           comment.isEditing = false;
         })
         this.sortById(this.patient.comments);
-        this.myForm.patchValue(this.patient);
       });
     });
   }
