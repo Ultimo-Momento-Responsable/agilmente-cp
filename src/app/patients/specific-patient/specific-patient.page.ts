@@ -29,15 +29,7 @@ export interface Patient {
 })
 export class SpecificPatientPage implements OnInit {
   @ViewChild(PlanningSearchComponent) pSC: PlanningSearchComponent;
-  myForm: FormGroup = new FormGroup({
-    firstName: new FormControl(),
-    lastName: new FormControl(),
-    bornDate: new FormControl(),
-    telephone: new FormControl(),
-    email: new FormControl(),
-    description: new FormControl(),
-    city: new FormControl(),
-  });
+
   id: any;
   patient: Patient;
   results: any;
@@ -226,14 +218,19 @@ export class SpecificPatientPage implements OnInit {
   /**
    * Desvincula el paciente.
    */
-  unlinkPatient() {
-    this.patient.logged = false;
-    this.patient.loginCode = null;
-    this.patientsApiService
-      .putPatient(this.patient, this.id)
-      .subscribe((res) => {
-        window.location.reload();
+  async unlinkPatient() {
+    const confirm = await this.dialogsComponent.presentAlertConfirm('Desvincular paciente',
+    '¿Desea desvincular a este paciente? Esto no le permitirá utilizar la aplicación móvil.')  
+
+    if (confirm) {
+      this.patient.logged = false;
+      this.patient.loginCode = null;
+      this.patientsApiService.putPatient(this.patient, this.id).subscribe((res) => {
+        this.dialogsComponent.presentAlert('Paciente Desvinculado','','<p>El paciente ha sido desvinculado correctamente.','');
+      }, (err) => {
+          this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','');
       });
+    }
   }
 
   /**
@@ -249,6 +246,9 @@ export class SpecificPatientPage implements OnInit {
     this.patientsApiService
       .putPatient(this.patient, this.id)
       .subscribe((res) => {});
+
+    this.dialogsComponent.presentAlert('¡Código generado!', '',
+    'Muéstrale este código a tu paciente para que pueda ingresar a la app. \n</p><h3>' + code + '</h3>', ''); 
   }
 
 

@@ -3,6 +3,7 @@
 	border-radius: 5px;
 	height: 360px;
 	text-align: center;
+	
 	&_ac {
 		display:flex;
 		justify-content: center;
@@ -39,6 +40,16 @@
         font-family: "Futura";
 		color: black;
 		margin-bottom: -4px;
+	}
+
+	&_desc {
+		font-size: 20px;
+		font-family: "Bariol";
+		margin-bottom: 16px;
+		margin-left: 16px;
+		margin-right: 16px;
+		line-height: normal;
+		word-break: break-all;
 	}
 	
 	&_label {
