@@ -71,7 +71,9 @@ export class SpecificPlanningPage implements OnInit {
   isClicked: boolean;
   professionalName: string;
   currentTab: string = "summary";
-  uniqueGameList: any[] = [];
+  uniqueGameList: any [] = [];
+  selectedOption: string;
+  filteredResults: any [] = []
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -91,6 +93,7 @@ export class SpecificPlanningPage implements OnInit {
       this.id = +params['id']; 
       this.resultsApiService.getResultsFromPlanning(this.id).subscribe(res => {
         this.results = res.content;
+        this.filteredResults = this.results;
       });
     });
     
@@ -206,5 +209,22 @@ export class SpecificPlanningPage implements OnInit {
     }
     uniqueGameArray.sort((a, b) => a.localeCompare(b))
     return uniqueGameArray
+  }
+
+  filterByGame(game: any) {
+    let gameName = game.target.value;
+    if (gameName.toString() == 'Todos') {
+      this.filteredResults = this.results
+    } else {
+      this.filteredResults = this.results.filter(p => p.game.includes(gameName));
+    }
+  }
+
+  filterByState(event: any) {
+    console.log(event.target.value)
+  }
+
+  clearSelection(option: any) {
+    option = null
   }
 }

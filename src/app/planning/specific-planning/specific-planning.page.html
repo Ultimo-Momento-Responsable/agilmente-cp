@@ -139,12 +139,43 @@
     </ion-row>
   </div>
   <!-- TAB RESULTS -->
+  
   <div *ngIf="currentTab=='results'">
+    <div *ngIf="this.results.length == 0" style=text-align:center;>
+      <br>
+      <h2>No se han encontrado resultados para esta planificación.</h2>
+      <h6>Los resultados aparecerán aquí cuando el paciente complete al menos una partida.</h6>
+    </div>
     <ion-row>
       <ion-col sizeXl="1" sizeLg="0" sizeMd="0"></ion-col>
       <ion-col sizeXl="10" sizeLg="12" sizeMd="12">
+        <ion-row *ngIf="this.results.length != 0" class="filter-row">
+          <ion-item>
+            <ion-label position="stacked" color="primary">Filtro por juego:</ion-label>
+            <ion-select
+              interface="popover" 
+              placeholder="Seleccionar juego"
+              value="Todos" 
+              (ionChange)="filterByGame($event)">
+              <ion-select-option [value]="game" *ngFor="let game of uniqueGameList">{{game}}</ion-select-option>
+              <ion-select-option value="Todos">Todos</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" color="primary">Filtro por estado:</ion-label>
+            <ion-select 
+              interface="popover" 
+              placeholder="Seleccione estado"
+              value="Todos" 
+              (ionChange)="filterByState($event)">
+              <ion-select-option value="Completo">Completado</ion-select-option>
+              <ion-select-option value="Abandonado">Abandonado</ion-select-option>
+              <ion-select-option value="Todos">Todos</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
         <app-result-card
-          *ngFor="let result of this.results"
+          *ngFor="let result of this.filteredResults"
           (click)="this.goToSubresults(result)"
           [result]="result"
         ></app-result-card>
