@@ -1,3 +1,84 @@
+.card {
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 5px;
+	height: 360px;
+	text-align: center;
+	
+	&_ac {
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		height: 48px;
+		background: #007CEE;
+
+		&_label {
+			font-size: 24px;
+			font-family: "Bariol";
+			margin-bottom: 0px;
+			line-height: normal;
+			color: #FFFFFF;
+		}
+
+		&_linked {
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			height: 48px;
+			background: #42D77D;
+		}
+		&_unlinked {
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			height: 48px;
+			background: #ED576B;
+		}
+	}
+	
+	&_title {
+		font-size: 40px;
+        font-family: "Futura";
+		color: black;
+		margin-bottom: -4px;
+	}
+
+	&_desc {
+		font-size: 20px;
+		font-family: "Bariol";
+		margin-bottom: 16px;
+		margin-left: 16px;
+		margin-right: 16px;
+		line-height: normal;
+		word-break: break-all;
+	}
+	
+	&_label {
+		font-size: 24px;
+		font-family: "Bariol";
+		margin-bottom: 16px;
+		line-height: normal;
+
+		&_chip {
+			height: 45px;
+			font-size: 20px;
+			border-radius: 24px;
+
+			ion-icon {
+				font-size: 150%;
+			}
+
+			ion-label {
+				font-size: 20px;
+			}	
+		}
+
+		&_gamelist {
+			font-size: 24px;
+			line-height: normal;
+		}
+	}
+}
+
 #rounded{
     border-radius: 10px !important;
     font-size: 0.9em;
