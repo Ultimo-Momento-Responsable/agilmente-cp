@@ -76,17 +76,18 @@ export class CustomDifficultComponent implements OnInit {
         }
 
         if (p.param.name == "Cantidad Máxima de Estímulos") {
-          if (maxLvl < 20) {
-            p.maxValue = maxLvl;
+          let upperBound = maxLvl+3;
+          if (maxLvl < 17) {
+            p.maxValue = upperBound;
           } else {
             p.maxValue = 20;
           }
           
           currentValue = +p.value;
-          if (currentValue > maxLvl) {
-            p.value = maxLvl;
+          if (currentValue > upperBound) {
+            p.value = upperBound;
           }
-          }
+        }
       });
     }
   }
