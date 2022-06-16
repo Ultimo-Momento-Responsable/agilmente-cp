@@ -67,3 +67,13 @@ ion-card {
 .assigned-games {
   font-size: 24px;
 }
+
+.filter-row {
+	width: 100%;
+	justify-content: space-evenly;
+
+	ion-item {
+		width: 27%
+	}
+}
+

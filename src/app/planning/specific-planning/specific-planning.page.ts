@@ -71,7 +71,11 @@ export class SpecificPlanningPage implements OnInit {
   isClicked: boolean;
   professionalName: string;
   currentTab: string = "summary";
-  uniqueGameList: any[] = [];
+  uniqueGameList: any [] = [];
+  selectedOption: string;
+  filteredResults: any [] = [];
+  filteredGame: string = '';
+  filteredState: string = '';
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -91,6 +95,7 @@ export class SpecificPlanningPage implements OnInit {
       this.id = +params['id']; 
       this.resultsApiService.getResultsFromPlanning(this.id).subscribe(res => {
         this.results = res.content;
+        this.filteredResults = JSON.parse(JSON.stringify(this.results))
       });
     });
     
@@ -206,5 +211,47 @@ export class SpecificPlanningPage implements OnInit {
     }
     uniqueGameArray.sort((a, b) => a.localeCompare(b))
     return uniqueGameArray
+  }
+
+  /**
+   * Filtra la lista de resultados segun el juego elegido
+   * @param game Nombre del juego a filtrar (o todos)
+   */
+  filterByGame(game: any) {
+    this.filteredGame = game.target.value;
+    this.filterResults();
+  }
+
+  /**
+   * Filtra la lista de resultados segun si el juego fue abandonado o completado
+   * @param state Nombre del estado a filtrar (o todos)
+   */
+  filterByState(state: any) {
+    this.filteredState = state.target.value
+    this.filterResults();
+  }
+
+  /**
+   * Filtra resultados segun que filtros esten aplicandose actualmente en la tab.
+   * Actualmente recibe el nombre del juego y un booleano para el estado.
+   */
+  filterResults() {
+    if (this.filteredGame != '') { 
+      this.filteredResults = JSON.parse(JSON.stringify(this.results.filter(r =>
+        r.game == this.filteredGame
+      )))
+    } else {
+      this.filteredResults = JSON.parse(JSON.stringify(this.results))
+    }
+
+    if (this.filteredState != '') { 
+      this.filteredResults = JSON.parse(JSON.stringify(this.filteredResults.filter(r =>
+        r.canceled.toString() == this.filteredState
+      )))
+    }
+
+    if (this.filteredGame === '' && this.filteredState === '') {
+      this.filteredResults = JSON.parse(JSON.stringify(this.results))
+    }
   }
 }
