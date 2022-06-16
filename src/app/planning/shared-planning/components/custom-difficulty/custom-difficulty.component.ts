@@ -45,7 +45,6 @@ export class CustomDifficultComponent implements OnInit {
 
     // Define la máxima cantidad de estímulos para Memorilla
     if (p.param.name == "Número de filas" || p.param.name == "Número de columnas") {
-      console.log("Entro al bloque de memorilla")
       let nOfRows = 3;
       let nOfColumns = 3;
       game.gameParam.forEach(p => {
