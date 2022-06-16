@@ -56,7 +56,6 @@ export class EditPatientPage implements OnInit {
     // Obtiene los valores del paciente para rellenar los campos del formulario
     this.patientsApiService.getPatientById(this.id).subscribe(res => {
       this.patient = res
-      console.log(this.patient);
       this.myForm.setValue({
         firstName: this.patient.firstName,
         lastName: this.patient.lastName,
