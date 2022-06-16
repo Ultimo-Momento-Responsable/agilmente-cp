@@ -107,10 +107,11 @@ export class EditPatientPage implements OnInit {
         telephone: myForm.value.telephone,
         email: myForm.value.email,
         id: this.id,
-        isLogged: this.patient.isLogged,
+        logged: this.patient.logged,
         loginCode: this.patient.loginCode
       }
 
+      
       this.patientsApiService.putPatient(patient,this.id).subscribe(res => {
         this.presentAlert('¡Paciente editado!','El paciente ha sido editado correctamente.', true, 'alertSuccess');
       }, (err) => {
