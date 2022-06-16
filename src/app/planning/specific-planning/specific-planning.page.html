@@ -158,7 +158,7 @@
               value="Todos" 
               (ionChange)="filterByGame($event)">
               <ion-select-option [value]="game" *ngFor="let game of uniqueGameList">{{game}}</ion-select-option>
-              <ion-select-option value="Todos">Todos</ion-select-option>
+              <ion-select-option value=''>Todos</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-item>
@@ -168,9 +168,9 @@
               placeholder="Seleccione estado"
               value="Todos" 
               (ionChange)="filterByState($event)">
-              <ion-select-option value="Completo">Completado</ion-select-option>
-              <ion-select-option value="Abandonado">Abandonado</ion-select-option>
-              <ion-select-option value="Todos">Todos</ion-select-option>
+              <ion-select-option value=false>Completo</ion-select-option>
+              <ion-select-option value=true>Abandonado</ion-select-option>
+              <ion-select-option value=''>Todos</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-row>
