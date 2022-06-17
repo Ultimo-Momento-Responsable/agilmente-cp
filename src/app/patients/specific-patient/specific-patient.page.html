@@ -105,8 +105,11 @@
                   <ion-text class="card_title">
                     Descripción
                   </ion-text>
-                  <ion-label class="card_desc">
+                  <ion-label class="card_desc" *ngIf="this.patient?.description">
                     {{this.patient?.description}}
+                  </ion-label>
+                  <ion-label class="card_desc" *ngIf="!this.patient?.description">
+                    Este paciente no tiene descripción.
                   </ion-label>
                 </ion-card>
               </ion-col>
@@ -127,11 +130,14 @@
                   <ion-text class="card_title">
                     Contacto
                   </ion-text>
-                  <ion-label class="card_label">
+                  <ion-label class="card_label" *ngIf="this.patient?.telephone">
                     {{this.patient?.telephone}}
                   </ion-label>
-                  <ion-label class="card_label">
+                  <ion-label class="card_label" *ngIf="this.patient?.email">
                     {{this.patient?.email}}
+                  </ion-label>
+                  <ion-label class="card_label" *ngIf="!this.patient?.email && !this.patient?.telephone">
+                    No hay información de contacto para este paciente.
                   </ion-label>
                 </ion-card>
               </ion-col>

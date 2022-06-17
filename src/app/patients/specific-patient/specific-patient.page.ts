@@ -247,7 +247,7 @@ export class SpecificPatientPage implements OnInit {
       .subscribe((res) => {});
 
     this.dialogsComponent.presentAlert('¡Código generado!', '',
-    'Muéstrale este código a tu paciente para que pueda ingresar a la app. \n</p><h3>' + code + '</h3>', ''); 
+    'Muéstrale este código a tu paciente para que pueda ingresar a la app. \n</p><h3>' + codeString + '</h3>', ''); 
   }
 
 
