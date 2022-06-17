@@ -7,5 +7,6 @@ export const RESULTS_COLUMNS = {
     mistakesPerLevel: "Errores por nivel",
     successesPerLevel: "Aciertos por nivel",
     timePerLevel: "Tiempo en cada nivel",
-    streak: "Racha"
+    streak: "Racha",
+    mgp: "MGP"
 }
