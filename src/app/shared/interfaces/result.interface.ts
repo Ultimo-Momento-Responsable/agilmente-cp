@@ -14,4 +14,5 @@ export interface IResult {
     id: number;
     patient: string;
     params: any[];
+    mgp: number;
 };
