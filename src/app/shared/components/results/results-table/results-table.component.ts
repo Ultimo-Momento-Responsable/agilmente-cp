@@ -38,6 +38,7 @@ export class ResultsTableComponent implements OnInit {
     timePerLevel,
     timeBetweenSuccesses,
     game,
+    mgp,
     ...result
   }) {
     if (mistakesPerLevel) {
