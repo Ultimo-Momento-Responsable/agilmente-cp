@@ -143,7 +143,7 @@
   <div *ngIf="currentTab=='results'">
     <div *ngIf="this.results.length == 0" style=text-align:center;>
       <br>
-      <h2>No se han encontrado resultados para esta planificación.</h2>
+      <h2>No se han encontrado resultados para esta planificación</h2>
       <h6>Los resultados aparecerán aquí cuando el paciente complete al menos una partida.</h6>
     </div>
     <ion-row>
@@ -182,6 +182,11 @@
       </ion-col>
       <ion-col sizeXl="1" sizeLg="0" sizeMd="0"></ion-col>
     </ion-row>
+    <div *ngIf="(this.filteredResults.length == 0 && this.results.length != 0)" style=text-align:center;>
+      <br>
+      <h2>No se han encontrado resultados para la búsqueda</h2>
+      <h6>Prueba modificando los filtros de búsqueda.</h6>
+    </div>
   </div>
   <!-- TAB SESIONES -->
   <div id="sessions" *ngIf="currentTab==='sessions'">
