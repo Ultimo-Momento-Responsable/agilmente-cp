@@ -225,7 +225,6 @@ export class SpecificPatientPage implements OnInit {
       this.patient.logged = false;
       this.patient.loginCode = null;
       this.patientsApiService.putPatient(this.patient, this.id).subscribe((res) => {
-        this.dialogsComponent.presentAlert('Paciente Desvinculado','','<p>El paciente ha sido desvinculado correctamente.','');
       }, (err) => {
           this.dialogsComponent.presentAlert('Error','','Un error ha ocurrido, por favor inténtelo de nuevo más tarde.','');
       });
