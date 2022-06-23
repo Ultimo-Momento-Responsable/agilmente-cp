@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IResult } from 'src/app/shared/interfaces/result.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -40,6 +41,31 @@ export class ResultsApiService {
   getResultsByPatient(id: number): Observable<any> {
     return this.http.get(
       `http://${environment.ip}:8080/${this.entity}/by-patient/${id}`
+    );
+  }
+
+  /**
+   * Obtiene una lista de resultados a partir del id
+   * de una planning.
+   * @param id Id de la planning.
+   * @returns Lista de resultados.
+   */
+  getResultsFromPlanning(id: number): Observable<any> {
+    return this.http.get(
+      `http://${environment.ip}:8080/${this.entity}/planning/${id}`
+    );
+  }
+  
+  /**
+   * Obtiene una lista de resultados a partir del id   
+   * de la sesión y el juego.
+   * @param id Id de la sesión.
+   * @param gameSession Nombre del juego.
+   * @returns Lista de resultados.
+   */
+  getResultsBySessionId(id: number, gameSession: string): Observable<any> {
+    return this.http.get(
+      `http://${environment.ip}:8080/${this.entity}/by-game-session/${gameSession}/${id}`
     );
   }
 }

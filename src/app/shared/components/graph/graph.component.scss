@@ -1,0 +1,15 @@
+.graph {
+  border-radius: 16px;
+  --ion-padding-left: 0;
+
+  ion-card-header {
+    font-family: 'Bariol';
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+
+    select {
+      background-color: white;
+    }
+  }
+}

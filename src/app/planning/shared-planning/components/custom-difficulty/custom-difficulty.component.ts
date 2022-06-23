@@ -42,6 +42,8 @@ export class CustomDifficultComponent implements OnInit {
     if (gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].isActive) {
       gameChanged.gameParam[gameChanged.gameParam.indexOf(p)].value = evt.srcElement.value;
     }
+
+    // Define la máxima cantidad de estímulos para Memorilla
     if (p.param.name == "Número de filas" || p.param.name == "Número de columnas") {
       let nOfRows = 3;
       let nOfColumns = 3;
@@ -60,6 +62,31 @@ export class CustomDifficultComponent implements OnInit {
             p.maxValue = 15;
           }
           p.value=((p.minValue + p.maxValue) / 2).toFixed(0);
+        }
+      });
+    }
+
+    // Define la máxima cantidad de estímulos para EAR
+    if (game.name == "Encuentra al Repetido") {
+      let maxLvl : number = 3;
+      let currentValue : number = 3;
+      game.gameParam.forEach(p => {
+        if (p.param.name == "Nivel Máximo"){
+          maxLvl = +p.value;
+        }
+
+        if (p.param.name == "Cantidad Máxima de Estímulos") {
+          let upperBound = maxLvl+3;
+          if (maxLvl < 17) {
+            p.maxValue = upperBound;
+          } else {
+            p.maxValue = 20;
+          }
+          
+          currentValue = +p.value;
+          if (currentValue > upperBound) {
+            p.value = upperBound;
+          }
         }
       });
     }

@@ -13,19 +13,21 @@
     <ion-col>
       <ion-card class="gamecard">
         <ion-card-header>
-          <ion-row>
-            <ion-col size="1"><ion-img style="width: 64px; height:64px;" [src]=this.gameThumb></ion-img></ion-col>
-            <ion-col>
-              <ion-card-title>{{this.specificGame?.name}}</ion-card-title>
-              <span *ngFor="let cd of specificGame?.cognitiveDomain">
-                <ion-chip class="cd_chips_selected" style="background-color: rgba(45, 211, 111, 1);" *ngIf="cd.name == 'Memoria'" >{{cd.name}}</ion-chip>
-                <ion-chip class="cd_chips_selected" style="background-color: rgba(0, 0, 0, 0.87);" *ngIf="cd.name == 'Funciones ejecutivas'" >{{cd.name}}</ion-chip>
-                <ion-chip class="cd_chips_selected" style="background-color: rgba(127, 57, 251, 1)" *ngIf="cd.name == 'Atención'" >{{cd.name}}</ion-chip>
-                <ion-chip class="cd_chips_selected" style="background-color: rgba(235, 68, 90, 1);" *ngIf="cd.name == 'Visoespacial'" >{{cd.name}}</ion-chip>
-                <ion-chip class="cd_chips_selected" style="background-color: rgba(255, 196, 9, 1);" *ngIf="cd.name == 'Lenguaje'" >{{cd.name}}</ion-chip>
-              </span>
-            </ion-col>
-          </ion-row>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="100%"><ion-img style="width: 64px; height:64px;" [src]=this.gameThumb></ion-img></ion-col>
+              <ion-col>
+                <ion-card-title>{{this.specificGame?.name}}</ion-card-title>
+                <span *ngFor="let cd of specificGame?.cognitiveDomain">
+                  <ion-chip class="cd_chips_selected" style="background-color: rgba(45, 211, 111, 1);" *ngIf="cd.name == 'Memoria'" >{{cd.name}}</ion-chip>
+                  <ion-chip class="cd_chips_selected" style="background-color: rgba(0, 0, 0, 0.87);" *ngIf="cd.name == 'Funciones ejecutivas'" >{{cd.name}}</ion-chip>
+                  <ion-chip class="cd_chips_selected" style="background-color: rgba(127, 57, 251, 1)" *ngIf="cd.name == 'Atención'" >{{cd.name}}</ion-chip>
+                  <ion-chip class="cd_chips_selected" style="background-color: rgba(235, 68, 90, 1);" *ngIf="cd.name == 'Visoespacial'" >{{cd.name}}</ion-chip>
+                  <ion-chip class="cd_chips_selected" style="background-color: rgba(255, 196, 9, 1);" *ngIf="cd.name == 'Lenguaje'" >{{cd.name}}</ion-chip>
+                </span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-card-header>
       
         <ion-card-content>
@@ -38,7 +40,7 @@
       </ion-card>
 
       <div>
-        <ion-slides pager="true" [options]="slideOptions" #Slides>
+        <ion-slides pager="true" #Slides>
           <ion-slide *ngFor="let slide of slideImg"><img [src]="slide.img"></ion-slide>        
         </ion-slides>
         <div style="text-align: center">

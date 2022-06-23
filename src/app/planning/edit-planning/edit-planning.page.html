@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color=primary>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar planificación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col>
+      
+      <form [formGroup]="planningForm" (ngSubmit)="save(planningForm)">
+        <!-- Seleccionar al paciente -->
+        <app-patient-planning-name 
+          [disabled]="true"
+          [patient]="planningForm.value.patient"
+          [planning]="planningName"
+          (planningName)="fillPlanningName($event)">
+        </app-patient-planning-name>
+
+        <!-- Fechas de planificación -->
+        <app-start-finish-date 
+          *ngIf="auxStartDate"
+          [disabled]="this.state!='Pendiente'"
+          [startDate]="auxStartDate"
+          [finishDate]="auxFinishDate"
+          (startPlanningDate)="fillStartDate($event)"
+          (finishPlanningDate)="fillFinishDate($event)">
+        </app-start-finish-date>
+
+        <!-- Juegos de planificación -->
+        <app-add-games 
+          [games]="this.games"
+          [gamesSearch]="this.games"
+          [assignedGames]="this.assignedGames"
+          [planningGames]="this.planningGames"
+          (nullGames)="this.fillWithNullGames()"
+          (effectiveGames)="fillAssignedGames($event)"
+          (intermediateGames)="fillPlanningGames($event)">
+        </app-add-games>
+
+        <ion-button type="submit" 
+          [disabled]="submitDisabled() || isClicked"
+          expand="block">
+          <ion-icon slot="start" name="pencil"></ion-icon>
+          Guardar y terminar
+        </ion-button>
+      </form>
+    </ion-col>
+    <ion-col size="1"></ion-col>
+  </ion-row>
+</ion-content>

@@ -12,211 +12,31 @@
       <ion-col size="1"></ion-col>
       <ion-col>
         
-        <form [formGroup]="myForm" (ngSubmit)="save(myForm)">
+        <form [formGroup]="planningForm" (ngSubmit)="save(planningForm)">
           <!-- Seleccionar al paciente -->
-          <ion-row>
-            <ion-col>
-              <ion-card class="card">
-                <ion-title class="card_title">
-                  Seleccionar un paciente
-                </ion-title>
-                <ion-label class="card_label ion-padding">Selecciona al paciente para el cual quieres crear una planificación:</ion-label>
-                <ion-item lines="none">
-                  <ion-searchbar 
-                    animated 
-                    placeholder="Selecciona un paciente" 
-                    formControlName="patient"
-                    (ionChange)="filterPatient($event)"
-                    (ionFocus)="patientBlur=false"
-                    (ionBlur)="patientBlur=true">
-                  </ion-searchbar>
-                </ion-item>
-                <ion-list lines="none">
-                  <ion-item *ngFor="let p of patientsSearch">
-                    <ion-button fill="clear" class="ion-text-wrap" (click) = "fillSearchBar(p.firstName + ' ' + p.lastName); patientSelected = true;">
-                      <ion-text>
-                        {{ p.firstName }} {{ p.lastName }}
-                      </ion-text>
-                    </ion-button>
-                  </ion-item>
-                </ion-list>
-                <ion-label color="danger" *ngIf="!patientExists() && patientBlur" class="card_label_error">El paciente ingresado no existe</ion-label>
-              </ion-card>
-            </ion-col>
-
-            <ion-col>
-              <ion-card class="card">
-                <ion-title class="card_title">
-                  Nombre de la planificación
-                </ion-title>
-                <ion-label class="card_label ion-padding">Ingresa un nombre único para la planificación:</ion-label>
-                <ion-item class="card_name">
-                  <ion-input formControlName="planningName" placeholder="Nombre de la planificación" type="text"></ion-input>
-                </ion-item>
-              </ion-card>
-            </ion-col>
-          </ion-row>
+          <app-patient-planning-name 
+            [patients]="this.patients"
+            (patientName)="fillPatient($event)"
+            (planningName)="fillPlanningName($event)">
+          </app-patient-planning-name>
 
           <!-- Fechas de planificación -->
-          <ion-row>
-            <ion-col>
-              <ion-card class="card" *ngIf="patientSelected">
-                <ion-title class="card_title">
-                  Seleccionar un período
-                </ion-title>
-                <ion-label class="card_label ion-padding">Selecciona el período de tiempo en el cual el paciente podrá realizar los ejercicios.</ion-label>
-                <ion-row>
-                  <ion-col>
-                    <ion-item class="card_date" id="rounded">
-                      <ion-label class="card_date_stacked" position="stacked" color="primary">¿Cuándo podrá el paciente empezar a jugar?</ion-label>
-                      <ion-input readonly
-                          [liIonic4Datepicker]="datePickerStart"
-                          formControlName="startDate"
-                          (ionChange)="setFinishMinDate()"
-                          placeholder="DD/MM/AAAA">
-                      </ion-input>
-                      <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
-                    </ion-item>
-                  </ion-col>
-                  <ion-col>
-                    <ion-item class="card_date" id="rounded">
-                      <ion-label class="card_date_stacked" position="stacked" color="primary">¿Cuándo el paciente dejará de ver los ejercicios?</ion-label>
-                      <ion-input readonly
-                          [disabled]="this.myForm.value.startDate.length == 0"
-                          [liIonic4Datepicker]="datePickerFinish"
-                          formControlName="finishDate"
-                          placeholder="DD/MM/AAAA">
-                      </ion-input>
-                      <ion-icon name="calendar-outline" slot="end" style="margin-top: 16px;"></ion-icon>
-                    </ion-item>
-                  </ion-col>
-                </ion-row>
-              </ion-card>
-            </ion-col>
-          </ion-row>
+          <app-start-finish-date 
+            *ngIf="patientSelected"
+            (startPlanningDate)="fillStartDate($event)"
+            (finishPlanningDate)="fillFinishDate($event)">
+          </app-start-finish-date>
 
           <!-- Juegos de planificación -->
-          <ion-row>
-            <ion-col>
-              <ion-card class="card" *ngIf="this.myForm.value.startDate.length != 0">
-                <ion-title class="card_title">
-                  Agregar ejercicios
-                </ion-title>
-                <ion-label class="card_label ion-padding">Juegos actualmente asignados:</ion-label>
-                
-                <div id="assignedGames">
-                                    
-                  <!-- Tabs de juegos-->
-              
-                  <ion-item lines="none" class="card_chips">
-                    <ion-label text-wrap class="ion-text-wrap">
-                      <ion-chip outline="true" [color]="checkTab(j) ? 'primary' : ''" *ngFor="let game of planningGames; let j = index" (click)="isAdding = false; switchTab(j);">
-                        <ion-icon name="game-controller"></ion-icon>
-                        <ion-label class="ion-margin">{{ game.name }}</ion-label>
-                      </ion-chip>
-                      <ion-chip outline="true" [color]="isAdding ? 'primary' : 'medium'" (click)="isAdding = true; switchTab(-1);">
-                        <ion-icon name="add-outline"></ion-icon>
-                        <ion-label class="ion-margin">Añadir ejercicio</ion-label>
-                      </ion-chip>
-                    </ion-label>
-                  </ion-item>
-                
-                </div>
+          <app-add-games 
+            *ngIf="this.planningForm.value.startDate.length != 0"
+            [games]="this.games"
+            [gamesSearch]="this.games"
+            (nullGames)="this.fillWithNullGames()"
+            (effectiveGames)="fillAssignedGames($event)"
+            (intermediateGames)="fillPlanningGames($event)">
+          </app-add-games>
 
-                <!-- Buscador de juegos-->
-                <div *ngIf="isAdding">
-                  <ion-label class="card_label ion-padding">Busca un juego o selecciona uno de los que aparecen debajo para agregarlo a la planificación:</ion-label>
-                  <ion-searchbar 
-                    animated 
-                    placeholder="Comienza a escribir aquí..."
-                    autocomplete
-                    autocorrect
-                    (ionInput)="filterGame($event)">
-                  </ion-searchbar>
-                  <ion-card class="gamecard" *ngFor="let g of gamesSearch" (click) = "addGame(g);">
-                    <ion-card-header>
-                      <ion-row>
-                        <ion-col size="3"><ion-img style="width: 64px; height:64px;" [src]=getGameThumb(g)></ion-img></ion-col>
-                      
-                        <ion-col>
-                          <ion-card-title>{{g.name}}</ion-card-title>
-                          <span *ngFor="let cd of g.cognitiveDomain">
-                            <ion-chip class="cd_chips_selected" style="background-color: rgba(45, 211, 111, 1);" *ngIf="cd.name == 'Memoria'" >{{cd.name}}</ion-chip>
-                            <ion-chip class="cd_chips_selected" style="background-color: rgba(0, 0, 0, 0.87);" *ngIf="cd.name == 'Funciones ejecutivas'" >{{cd.name}}</ion-chip>
-                            <ion-chip class="cd_chips_selected" style="background-color: rgba(127, 57, 251, 1)" *ngIf="cd.name == 'Atención'" >{{cd.name}}</ion-chip>
-                            <ion-chip class="cd_chips_selected" style="background-color: rgba(235, 68, 90, 1);" *ngIf="cd.name == 'Visoespacial'" >{{cd.name}}</ion-chip>
-                            <ion-chip class="cd_chips_selected" style="background-color: rgba(255, 196, 9, 1);" *ngIf="cd.name == 'Lenguaje'" >{{cd.name}}</ion-chip>
-                          </span>
-                        </ion-col>
-                      </ion-row>
-                    </ion-card-header>
-                    
-                    <ion-card-content>
-                      <div><ion-label class="gamecard_label">{{g.description}}</ion-label></div>
-                      <div><ion-label color="primary">+ Agregar a la planificación</ion-label></div>
-                    </ion-card-content>
-                  </ion-card>
-                </div>
-
-                <!-- Tarjetas de cada juego-->
-                <ion-card *ngFor="let game of planningGames; let j = index"
-                  style="margin: 0 !important; box-shadow: none ! important;">
-                  <div *ngIf="checkTab(j)">
-                    
-                    <!-- PRESET Dificultad -->
-                    <ion-card class="ion-padding">
-                      <ion-button fill="outline" size="small" color="danger" class="ion-margin" style="--border-radius: 20px;float: right;"
-                              (click)="deleteGame(game); isAdding=true">
-                              <ion-icon name="trash-outline"></ion-icon>
-                      </ion-button>
-                      <ion-title class="card_subtitle ion-padding">Dificultad para {{ game.name }}</ion-title>
-                      <ion-label class="card_label ion-padding">
-                        Selecciona una dificultad
-                      </ion-label>
-                      <ion-select 
-                        class="card_select ion-margin" 
-                        interface="popover" 
-                        placeholder="Dificultad del ejercicio"
-                        [value]="game?.difficulty"
-                        (ionChange)="setDifficulty($event,game,j)"
-                      >
-                        <ion-select-option value="veryEasy">Muy fácil</ion-select-option>
-                        <ion-select-option value="easy">Fácil</ion-select-option>
-                        <ion-select-option value="medium">Intermedia</ion-select-option>
-                        <ion-select-option value="hard">Difícil</ion-select-option>
-                        <ion-select-option value="veryHard">Muy difícil</ion-select-option>
-                        <ion-select-option value="custom">Personalizado</ion-select-option>
-                      </ion-select>
-                      <ion-label class="card_desc">
-                        {{ game?.difficultDescription }}
-                      </ion-label>
-
-                      <ion-item lines="none">
-                        <ion-label class="card_label">¿Repeticiones limitadas?</ion-label>
-                        <ion-toggle checked="{{game.hasLimit}}" (ionChange)="changeLimit(game,j)"></ion-toggle>
-                        <ion-item disabled="{{!game.hasLimit }}">
-                          <ion-label position="stacked">Cantidad</ion-label>
-                          <ion-input disabled="{{!game.hasLimit }}" 
-                            value="{{ game.maxNumberOfSessions }}" 
-                            (ionChange)="changeLimitGamesValue(game,$event,j)" 
-                            type="number" 
-                            min=1 
-                            (ionBlur)="checkMNoSLimit(game)"> 
-                          </ion-input>
-                        </ion-item>
-                      </ion-item>
-                      
-                      <ion-button class="ion-margin" expand="block" fill="clear" (click)="openCustomDifficult(game, j);">
-                        <ion-icon name="pencil" color="primary"></ion-icon>
-                        Personalizar dificultad
-                      </ion-button>
-
-                    </ion-card>
-                  </div>
-                </ion-card>
-              </ion-card>
-            </ion-col>
-          </ion-row>
           <ion-button type="submit" 
             [disabled]="submitDisabled() || isClicked"
             expand="block">

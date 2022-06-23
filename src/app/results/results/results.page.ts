@@ -34,6 +34,6 @@ export class ResultsPage implements OnInit {
   }
 
   formatGameRoute(gameName: string): string {
-    return gameName.toLowerCase().replace(/\s/g, '-');;
+    return gameName.toLowerCase().replace(/\s/g, '-');
   }
 }

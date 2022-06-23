@@ -1,0 +1,6 @@
+<app-table
+  [data]="this.filteredResults"
+  [columns]="this.columns"
+  [paginated]="true"
+  (clickedRowEvent)="this.clickedResult($event)"
+></app-table>

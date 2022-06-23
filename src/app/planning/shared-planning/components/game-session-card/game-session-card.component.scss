@@ -1,0 +1,160 @@
+:host {
+  .gsc {
+    border-radius: 10px;
+
+    ion-accordion.accordion-expanded {
+      width: 100%;
+    }
+
+    &__header {
+      border-radius: 10px 10px 0 0;
+
+      --inner-padding-top: 12px;
+      --inner-padding-bottom: 12px;
+      --inner-padding-left: 16px;
+      --inner-padding-right: 16px;
+
+      &__container {
+        width: 95%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &__game-container {
+          &__game {
+            display: flex;
+            align-items: center;
+            width: 300px;
+
+            img {
+              border-radius: 8px;
+              height: 38px;
+              width: 38px;
+            }
+
+            ion-text {
+              margin-left: 8px;
+            }
+          }
+
+          &__difficulty {
+            width: fit-content;
+            margin: 8px auto 0 auto;
+            text-align: center;
+          }
+        }
+
+        &__sessions-left {
+          &__value {
+            margin-top: 8px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        &__mgp {
+          &__subtitle {
+            width: 100%;
+            text-align: center;
+          }
+
+          &__value {
+            margin-top: 8px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      --inner-padding-top: 12px;
+      --inner-padding-bottom: 12px;
+      --inner-padding-start: 16px;
+      --inner-padding-end: 16px;
+
+      &__params {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        width: 100%;
+
+        &__table-container {
+          &__table {
+            &__row {
+              padding-bottom: 8px;
+              display: flex;
+              flex-direction: row;
+              border-bottom: 1px solid var(--ion-color-light-shade);
+
+              &__name {
+                min-width: 200px;
+                width: 200px;
+              }
+
+              &__value {
+                min-width: 120px;
+                width: 120px;
+              }
+
+              &__description {
+                width: auto;
+              }
+            }
+          }
+        }
+      }
+
+      &__results {
+        width: 100%;
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  .card-title {
+    font-family: "Futura";
+    font-size: 36px;
+    line-height: 36px;
+    margin-bottom: 0;
+  }
+
+  .card-big-number {
+    font-family: "Bariol";
+    font-size: 48px;
+    line-height: 48px;
+    margin-bottom: 0;
+  }
+
+  .increment {
+    color: var(--umr-color-increment);
+  }
+
+  .decrement {
+    color: var(--umr-color-decrement);
+  }
+
+  .card-subtitle {
+    font-family: "Bariol";
+    font-size: 24px;
+    line-height: 24px;
+    margin-bottom: 0;
+    color: var(--ion-color-medium);
+  }
+
+  .card-text {
+    font-family: "Bariol";
+    font-size: 14px;
+  }
+
+  .bold {
+    font-weight: 700;
+  }
+}

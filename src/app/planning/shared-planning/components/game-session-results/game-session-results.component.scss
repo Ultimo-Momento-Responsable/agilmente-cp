@@ -1,0 +1,21 @@
+.results {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
+
+  &__graph {
+    padding-left: 4px;
+    padding-right: 8px;
+    width: 50%;
+    max-width: 50%;
+  }
+
+  &__table {
+    padding-left: 8px;
+    padding-right: 4px;
+    width: 50%;
+    max-width: 50%;
+  }
+}

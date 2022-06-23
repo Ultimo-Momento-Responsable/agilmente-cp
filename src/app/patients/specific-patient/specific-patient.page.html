@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Agilmente - Detalle de Paciente</ion-title>
+    <ion-title>Agilmente - Detalle de {{this.patient?.firstName}} {{this.patient?.lastName}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -32,158 +32,119 @@
           </ion-chip>
         </div>
         <div class="ion-padding-top ion-margin-top">
-          <ion-row>
-            <ion-col size="3">
-              <ion-title> Datos Personales </ion-title>
-            </ion-col>
-            <ion-col size="9">
-              <ion-button
-                [disabled]="this.patient?.enabled == false"
-                style="float: right"
-                color="danger"
-                fill="clear"
-                (click)="this.deletePatient()"
-              >
-                <ion-icon name="trash-outline"></ion-icon>
-                <p class="ion-margin">Eliminar</p>
-              </ion-button>
-              <ion-button
-                [disabled]="this.patient?.enabled == false"
-                style="float: right"
-                fill="clear"
-                [routerLink]="['../../edit-patient',id]"
-                [disabled]="this.patient?.enabled == false"
-              >
-                <ion-icon name="pencil-outline" item-right></ion-icon>
-                <p class="ion-margin">Editar</p>
-              </ion-button>
-              <div
-                *ngIf="this.patient?.loginCode && this.patient?.loginCode?.length==6"
-                style="float: right; margin-right: 5%; margin-top: -0.5%"
-              >
-                <h5>Código de Ingreso: {{this.patient.loginCode}}</h5>
-              </div>
-              <div
-                *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged"
-                style="float: right; margin-right: 5%"
-              >
-                <h5 style="float: right; margin-right: 5%; margin-top: -0.5%">
-                  Paciente Vinculado
-                </h5>
-                <ion-button style="float: right" (click)="this.unlinkPatient()">
-                  <ion-icon name="log-out-outline"></ion-icon>
-                  <p class="ion-margin">Desvincular</p>
-                </ion-button>
-              </div>
-              <div
-                *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged"
-                style="float: right; margin-right: 5%"
-              >
-                <h5 style="float: right; margin-right: 5%; margin-top: -0.5%">
-                  Paciente Desvinculado
-                </h5>
-                <ion-button style="float: right" (click)="this.resetCode()" [disabled]="this.patient?.enabled == false"
-                >
-                  <ion-icon name="log-out-outline"></ion-icon>
-                  <p class="ion-margin">Generar Código</p>
-                </ion-button>
-              </div>
-            </ion-col>
+          <ion-row class="ion-justify-content-end" style="width: 90%;">
+            <ion-button *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged"
+              style="float: right" (click)="this.resetCode()" [disabled]="this.patient?.enabled == false">
+                <ion-icon name="download-outline"></ion-icon>
+                <p class="ion-margin">Generar Código</p>
+            </ion-button>
+            <ion-button *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged"
+            style="align-items: flex-end;" color="danger" (click)="this.unlinkPatient()">
+              <ion-icon name="log-out-outline"></ion-icon>
+              <p class="ion-margin">Desvincular</p>
+            </ion-button>
+            <ion-button
+              [disabled]="this.patient?.enabled == false"
+              style="float: right"
+              fill="clear"
+              [routerLink]="['../../edit-patient',id]"
+              [disabled]="this.patient?.enabled == false"
+            >
+              <ion-icon name="pencil-outline" item-right></ion-icon>
+              <p class="ion-margin">Editar</p>
+            </ion-button>
+            <ion-button
+              [disabled]="this.patient?.enabled == false"
+              style="float: right"
+              color="danger"
+              fill="clear"
+              (click)="this.deletePatient()"
+            >
+              <ion-icon name="trash-outline"></ion-icon>
+              <p class="ion-margin">Eliminar</p>
+            </ion-button>
           </ion-row>
         </div>
-        <form [formGroup]="myForm">
-          <ion-row>
-            <ion-col size="6">
-              <ion-item id="rounded">
-                <ion-label position="stacked" fixed="" color="primary"
-                  >Nombre</ion-label
-                >
-                <ion-input
-                  [disabled]="true"
-                  readonly
-                  formControlName="firstName"
-                  type="text"
-                ></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col size="6">
-              <ion-item id="rounded">
-                <ion-label position="stacked" color="primary"
-                  >Apellido</ion-label
-                >
-                <ion-input
-                  [disabled]="true"
-                  readonly
-                  formControlName="lastName"
-                  type="text"
-                ></ion-input>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="6">
-              <ion-item id="rounded">
-                <ion-label position="stacked" color="primary">Fecha de nacimiento</ion-label>
-                <ion-input
-                  [disabled]="true"
-                  readonly
-                  formControlName="bornDate"
-                ></ion-input>
-                <ion-icon
-                  name="calendar-outline"
-                  slot="end"
-                  style="margin-top: 16px"
-                ></ion-icon>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item id="rounded">
-                <ion-label position="stacked" color="primary">
-                  Localidad
-                </ion-label>
-                <ion-input
-                  formControlName="city"
-                  readonly
-                  [disabled]="true"
-                  type="text"
-                ></ion-input>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size=6>
-              <ion-item id="rounded">
-                <ion-label position="stacked" color="primary">Teléfono</ion-label>
-                <ion-input [disabled]="true" type="text" formControlName="telephone">
-                </ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item id="rounded">
-                <ion-label position="stacked" color="primary">Correo Electrónico</ion-label>
-                <ion-input [disabled]="true" formControlName="email" type="email"></ion-input>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item id="rounded">
-                <ion-label position="stacked" color="primary">
-                  Descripción
-                </ion-label>
-                <ion-textarea
-                  [disabled]="true"
-                  rows="6"
-                  formControlName="description"
-                  type="text"
-                >
-                </ion-textarea>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <br />
-          <br />
-        </form>
+
+        <ion-row>
+          <ion-col size="1"></ion-col>
+          <ion-col>
+          <div *ngIf="this.patient?.loginCode && this.patient?.loginCode?.length==6">
+            <ion-card class="card_ac">
+              <ion-label class="card_ac_label">Código de Ingreso: {{this.patient.loginCode}}</ion-label>
+            </ion-card>
+          </div>
+          <div *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged">
+            <ion-card class="card_ac_linked">
+              <ion-label class="card_ac_label">¡Paciente Vinculado!</ion-label>
+            </ion-card>
+          </div>
+          <div *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged">
+            <ion-card class="card_ac_unlinked">
+              <ion-label class="card_ac_label">Paciente Desvinculado</ion-label>
+            </ion-card>
+            
+          </div>
+          </ion-col>
+          <ion-col size="1"></ion-col>
+        </ion-row>
+        
+        <!-- Tarjetas de paciente -->
+        <ion-row>
+          <ion-col size="1"></ion-col>
+          <ion-col>
+            <ion-row>
+              <ion-col>
+                <ion-card class="card">
+                  <ion-text class="card_title">
+                    Nombre de paciente
+                  </ion-text>
+                  <ion-label class="card_label">
+                    {{this.patient?.firstName}} {{this.patient?.lastName}}
+                  </ion-label>
+                  <ion-text class="card_title">
+                    Descripción
+                  </ion-text>
+                  <ion-label class="card_desc" *ngIf="this.patient?.description">
+                    {{this.patient?.description}}
+                  </ion-label>
+                  <ion-label class="card_desc" *ngIf="!this.patient?.description">
+                    Este paciente no tiene descripción.
+                  </ion-label>
+                </ion-card>
+              </ion-col>
+              <ion-col>
+                <ion-card class="card">
+                  <ion-text class="card_title">
+                    Fecha de Nacimiento
+                  </ion-text>
+                  <ion-label class="card_label">
+                    {{this.patient?.bornDate}}
+                  </ion-label>
+                  <ion-text class="card_title">
+                    Localidad
+                  </ion-text>
+                  <ion-label class="card_label">
+                    {{this.patient?.city}}
+                  </ion-label>
+                  <ion-text class="card_title">
+                    Contacto
+                  </ion-text>
+                  <ion-label class="card_label" *ngIf="this.patient?.telephone">
+                    {{this.patient?.telephone}}
+                  </ion-label>
+                  <ion-label class="card_label" *ngIf="this.patient?.email">
+                    {{this.patient?.email}}
+                  </ion-label>
+                  <ion-label class="card_label" *ngIf="!this.patient?.email && !this.patient?.telephone">
+                    No hay información de contacto para este paciente.
+                  </ion-label>
+                </ion-card>
+              </ion-col>
+              <ion-col size="1"></ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
       </div>
       <!-- TAB DE PLANIFICACIONES -->
       
