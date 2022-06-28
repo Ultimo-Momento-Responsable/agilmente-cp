@@ -266,17 +266,26 @@ export class EditPlanningPage implements OnInit {
         dueDate: myForm.value.finishDate,
         games: gamesPost
       }
-      this.planningApiService.cancelPlanningById(this.id).subscribe(() => {
-        this.planningApiService.postPlanning(jsonPost).subscribe(() =>{
+      if (this.state == "Vigente") {
+        this.planningApiService.editPlanning(jsonPost,this.id).subscribe(()=> {
           this.dialogsComponent.presentAlert('¡Planificación Editada!',"",'La planificación ha sido editada correctamente.',"/planning",false); 
         }, () => {
           this.dialogsComponent.presentAlert('Error',"",'Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"", false);
           this.isClicked = false;
         });
-      }, () => {
-        this.dialogsComponent.presentAlert('Error',"",'Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"", false);
-        this.isClicked = false;
-      });
+      } else {
+        this.planningApiService.cancelPlanningById(this.id).subscribe(() => {
+          this.planningApiService.postPlanning(jsonPost).subscribe(() =>{
+            this.dialogsComponent.presentAlert('¡Planificación Editada!',"",'La planificación ha sido editada correctamente.',"/planning",false); 
+          }, () => {
+            this.dialogsComponent.presentAlert('Error',"",'Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"", false);
+            this.isClicked = false;
+          });
+        }, () => {
+          this.dialogsComponent.presentAlert('Error',"",'Un error ha ocurrido, por favor inténtelo de nuevo más tarde.',"", false);
+          this.isClicked = false;
+        });
+      }
     };
   }
 

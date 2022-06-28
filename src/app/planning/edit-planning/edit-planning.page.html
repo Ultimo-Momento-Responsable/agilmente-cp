@@ -32,7 +32,7 @@
         </app-start-finish-date>
 
         <!-- Juegos de planificación -->
-        <app-add-games 
+        <app-add-games *ngIf="this.state =='Pendiente'" 
           [games]="this.games"
           [gamesSearch]="this.games"
           [assignedGames]="this.assignedGames"
@@ -41,6 +41,12 @@
           (effectiveGames)="fillAssignedGames($event)"
           (intermediateGames)="fillPlanningGames($event)">
         </app-add-games>
+
+        <div *ngIf="this.state =='Vigente'" class="active_planning">
+          <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+          <ion-label color="primary">No se permite la edición de juegos sobre planificaciones vigentes.</ion-label>
+        </div>
+        
 
         <ion-button type="submit" 
           [disabled]="submitDisabled() || isClicked"
