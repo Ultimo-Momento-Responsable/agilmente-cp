@@ -36,11 +36,20 @@ export class PlanningApiService {
 
   /**
    * Guarda una planificación.
-   * @param planning Paciente a guardar
+   * @param planning Planificación a guardar
    * @returns La planificación guardada
    */
-  postPlanning(planning: any): Observable<any> {
+   postPlanning(planning: any): Observable<any> {
     return this.http.post(`http://${environment.ip}:8080/${this.entity}`, planning);
+  }
+
+  /**
+   * Edita una planificación.
+   * @param planning Planificación a editar
+   * @returns La planificación guardada
+   */
+   editPlanning(planning: any, id: number): Observable<any> {
+    return this.http.put(`http://${environment.ip}:8080/${this.entity}/edit/${id}`, planning);
   }
 
   /**
