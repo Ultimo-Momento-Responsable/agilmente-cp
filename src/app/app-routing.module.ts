@@ -23,11 +23,6 @@ const routes: Routes = [
     loadChildren: () => import('./planning/edit-planning/edit-planning.module').then( m => m.EditPlanningPageModule)
   },
   {
-    path: 'results',
-    loadChildren: () => import('./results/results/results.module').then((m) => m.ResultsPageModule),
-    canLoad: [GuardGuard]
-  },
-  {
   path: 'results/:gameRoute/:id',
   loadChildren: () =>
       import('./results/subresults/subresults.module').then(
