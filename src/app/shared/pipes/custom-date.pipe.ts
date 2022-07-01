@@ -28,11 +28,11 @@ export class CustomDatePipe implements PipeTransform {
     const split = date.split(/[\s:-]+/);
     
     const day = parseInt(split[0]);
-    const month = parseInt(split[1]);
+    const month = parseInt(split[1])-1;
     const year = parseInt(split[2]);
     const hour = parseInt(split[3] ? split[3] : "0");
     const minutes = parseInt(split[4] ? split[4] : "0");
-    const seconds = parseInt(split[4] ? split[4] : "0");
+    const seconds = parseInt(split[5] ? split[5] : "0");
 
     return new Date(year, month, day, hour, minutes, seconds);
   }

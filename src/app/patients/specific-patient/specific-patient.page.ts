@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import moment from 'moment';
 import { PlanningApiService } from 'src/app/planning/services/planning-api.service';
+import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
+import { CustomDatePipe } from 'src/app/shared/pipes/custom-date.pipe';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
 export interface Patient {
@@ -43,6 +46,7 @@ export class SpecificPatientPage implements OnInit {
   skeletonLoading = true;
   selectedStates: any[] = [];
   search: string = "";
+  lastResults: any[] = [];
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -50,7 +54,9 @@ export class SpecificPatientPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public alertController: AlertController,
-    private dialogsComponent: DialogsComponent
+    private dialogsComponent: DialogsComponent,
+    private resultsApiService: ResultsApiService,
+    private customDatePipe: CustomDatePipe
   ) {}
 
   ngOnInit() {}
@@ -65,6 +71,7 @@ export class SpecificPatientPage implements OnInit {
           comment.isEditing = false;
         })
         this.sortById(this.patient.comments);
+        this.getLastResults();
       });
     });
   }
@@ -128,7 +135,7 @@ export class SpecificPatientPage implements OnInit {
   /**
    * Agrega un comentario a la caja de comentarios
    */
-   addComment() {
+  addComment() {
     let patientComment = {
       patientId: this.patient.id,
       comment: this.comment,
@@ -255,7 +262,7 @@ export class SpecificPatientPage implements OnInit {
    * de la planificacion.
    * @param planning Id de la planificacion.
    */
-   goToPlanningDetail(planning: any) {
+  goToPlanningDetail(planning: any) {
     this.router.navigateByUrl('/planning/' + planning.planningId)
   }
 
@@ -271,5 +278,31 @@ export class SpecificPatientPage implements OnInit {
       this.filteredPlannings = res.content;
       this.skeletonLoading = false;
     });
+  }
+
+  /**
+   * Obtiene los resultados de todos los juegos de un paciente.
+   * los ordena por la fecha más reciente primero y muestra los 3 primeros resultados.
+   * Adicionalmente calcula cuantos días pasaron desde dicha fecha hasta el momento de la consulta.
+   */
+  getLastResults() {
+    moment.locale('es');
+    this.resultsApiService.getResultsByPatient(this.id).subscribe((res) => {
+      let auxResults: any[] = [];
+      const games = Object.keys(res)
+      games.forEach(game => {
+        const mappedResults = res[game].results.map((r) => {
+          r.game = res[game].gameName
+          r.gameLink = r.game.toLowerCase().replace(/\s/g, '-');
+          r.lastPlayed = moment(this.customDatePipe.parseDate(r.completeDatetime)).fromNow();
+          return r
+        })
+        auxResults = [...auxResults, ...mappedResults]
+      });
+      auxResults = auxResults.sort((a, b) => {
+        return this.customDatePipe.parseDate(b.completeDatetime).getTime() - this.customDatePipe.parseDate(a.completeDatetime).getTime()
+      });
+      this.lastResults = auxResults.splice(0,3);
+    })
   }
 }

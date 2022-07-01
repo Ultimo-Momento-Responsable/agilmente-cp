@@ -145,6 +145,60 @@
             </ion-row>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col size="1"></ion-col>
+          <ion-col>
+            <ion-row>
+              <ion-col>
+                <ion-card class="card">
+                  <ion-text class="card_title">
+                    Actividad Reciente
+                  </ion-text>
+                  <div *ngIf="this.lastResults.length == 0">
+                    <ion-label class="card_label">
+                      Este paciente no tiene actividad reciente.
+                    </ion-label>
+                    <br>
+                    <ion-label class="card_desc">
+                      Los últimos resultados de sus ejercitaciones aparecerán aquí.
+                    </ion-label>
+                  </div>
+                  <div class="card_recent-results">
+                    <div *ngFor="let result of this.lastResults">
+                      <ion-row>
+                        <ion-col size="7">
+                          <ion-text color="primary" [routerLink]="['../../results', result.gameLink, result.id]" role="button" class="card_label">
+                            {{result.game}}
+                          </ion-text>
+                          <br>
+                          <ion-text class="card_recent-results_subtitle">{{result.lastPlayed}}</ion-text>
+                        </ion-col>
+                        <ion-col size="5">
+                          <ion-chip class="card_recent-results_chips" *ngIf="this.result.canceled === false" color="success" style="background: rgba(50, 219, 100, 0.29);">
+                            <ion-icon class="card_recent-results_chips_icon" color="success" name="checkmark-circle"></ion-icon>
+                            <ion-label class="card_recent-results_chips_text">Completo</ion-label>
+                          </ion-chip>
+                          <ion-chip class="card_recent-results_chips ion-color-danger" *ngIf="this.result.canceled === true" color="danger" style="background: rgba(207, 60, 79, 0.29);">
+                            <ion-icon class="card_recent-results_chips_icon" name="close-circle"></ion-icon>
+                            <ion-label class="card_recent-results_chips_text">Abandonado</ion-label>
+                          </ion-chip>
+                        </ion-col>
+                    </ion-row>
+                    </div>
+                  </div>
+                </ion-card>
+              </ion-col>
+              <ion-col>
+                <ion-card class="card">
+                  <ion-text class="card_title">
+                    Planificaciones Vigentes
+                  </ion-text>
+                </ion-card>
+              </ion-col>
+              <ion-col size="1"></ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
       </div>
       <!-- TAB DE PLANIFICACIONES -->
       
