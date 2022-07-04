@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 interface ResultListView {
   id: number;
-  completeDatetime: Date;
+  completeDatetime: string;
   canceled: boolean;
   mistakes: number;
   mistakesPerLevel?: number[];
