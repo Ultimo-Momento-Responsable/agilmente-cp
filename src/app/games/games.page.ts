@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GamesApiService } from 'src/app/games/services/games-api.service';
-import { CognitiveDomainApiService } from '../cognitive-domain/service/cognitive-domain-api.service';
+import { Game, GamesApiService } from 'src/app/games/services/games-api.service';
+import { CognitiveDomain, CognitiveDomainApiService } from '../cognitive-domain/service/cognitive-domain-api.service';
 
 @Component({
   selector: 'app-games',
@@ -8,18 +8,16 @@ import { CognitiveDomainApiService } from '../cognitive-domain/service/cognitive
   styleUrls: ['./games.page.scss'],
 })
 export class GamesPage implements OnInit {
+  games: Game[] = [];
+  skeletonLoading = true;
+  selectedCognitiveDomains: string[] = [];
+  cognitiveDomains: CognitiveDomain[] = [];
 
   constructor(private service: GamesApiService, private cdService: CognitiveDomainApiService) { }
-  games: any[] = [];
-  skeletonLoading = true;
-  selectedCognitiveDomains: any[] = [];
-  cognitiveDomains: any[] = [];
+
   ngOnInit() {
     this.getGames();
-    this.cdService.getCognitiveDomains().subscribe(res => {
-      this.cognitiveDomains = res.content;
-    })
-
+    this.cdService.getCognitiveDomains().subscribe(res => this.cognitiveDomains = res);
   }
 
   /**
