@@ -10,7 +10,7 @@ export interface PlanningOverview {
   stateName: string;
   startDate: string;
   dueDate: string;
-};
+}
 
 export interface PlanningState {
   id: number;
@@ -36,17 +36,17 @@ export class PlanningApiService {
     states: string[],
     patientId: number = null
   ): Observable<PlanningOverview[]> {
-    const params = new HttpParams();
+    let params = new HttpParams();
 
-    if (search.length > 0)
-      params.set('search', search);
+    if (search.length > 0) 
+      params = params.set('search', search);
 
-    if (states.length > 0)
-      params.set('states', states.join(','));
+    if (states.length > 0) 
+      params = params.set('states', states.join(','));
 
-    if (patientId !== null && patientId !== undefined) 
-      params.set('patientId', patientId);
-    
+    if (patientId !== null && patientId !== undefined)
+      params = params.set('patientId', patientId);
+
     return this.http.get<PlanningOverview[]>(
       `http://${environment.ip}:8080/${this.entity}/overview`,
       { params }
@@ -91,7 +91,9 @@ export class PlanningApiService {
    * @returns lista de PlanningState
    */
   getPlanningStates(): Observable<PlanningState[]> {
-    return this.http.get<PlanningState[]>(`http://${environment.ip}:8080/${this.entity}/states`);
+    return this.http.get<PlanningState[]>(
+      `http://${environment.ip}:8080/${this.entity}/states`
+    );
   }
 
   /**

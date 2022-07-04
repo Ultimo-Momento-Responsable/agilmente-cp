@@ -94,7 +94,6 @@ export class PatientsPage implements OnInit {
   private formatPatient(patient: any): Patient {
     const textDate = patient.bornDate.split('-');
     patient.age = PatientsPage.calculateAge(textDate[0], textDate[1], textDate[2]);
-    patient.isEnabled = patient.enabled;
 
     if (patient.description) {
       patient.description = patient.description.substring(0, 45);

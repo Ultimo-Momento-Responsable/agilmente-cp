@@ -6,17 +6,18 @@ export interface Patient {
   id: number;
   firstName: string;
   lastName: string;
-  description: string;
+  description?: string;
   bornDate: string;
   city: string;
   telephone?: string;
   email?: string;
   loginCode?: string;
   comments: Comment[];
-  joinDate: string;
+  joinDate?: string;
   enabled: boolean;
   logged: boolean;
   firstNameLastName: string;
+  age?: number;
 }
 
 interface Comment {

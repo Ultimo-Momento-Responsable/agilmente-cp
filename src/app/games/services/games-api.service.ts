@@ -64,6 +64,6 @@ export class GamesApiService {
    */
   getGamesFilteredByCD(cognitiveDomains: string[]): Observable<Game[]> {
     const params = new HttpParams().set('cognitiveDomains', cognitiveDomains.join(','));
-    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}/cognitiveDomains`, { params });
+    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}`, { params });
   }
 }
