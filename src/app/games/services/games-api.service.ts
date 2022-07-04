@@ -15,8 +15,8 @@ export interface Game {
 
 interface GameParam {
   id: number;
-  maxValue: number;
-  minValue: number;
+  maxValue?: number;
+  minValue?: number;
   paramType2Content: [{
     id: number;
     name: string;
@@ -29,7 +29,7 @@ interface Param {
   name: string;
   className: string;
   type: number;
-  unit: string;
+  unit?: string;
   contextualHelp: string;
 };
 
@@ -64,6 +64,6 @@ export class GamesApiService {
    */
   getGamesFilteredByCD(cognitiveDomains: string[]): Observable<Game[]> {
     const params = new HttpParams().set('cognitiveDomains', cognitiveDomains.join(','));
-    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}/cognitiveDomains`, { params: params });
+    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}/cognitiveDomains`, { params });
   }
 }

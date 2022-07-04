@@ -7,11 +7,12 @@ interface ResultListView {
   completeDatetime: Date;
   canceled: boolean;
   mistakes: number;
-  mistakesPerLevel: number[];
+  mistakesPerLevel?: number[];
   successes: number;
-  successesPerLeve: number[];
+  successesPerLevel?: number[];
   streak: number;
-  timeBetweenSuccesses: number[];
+  timeBetweenSuccesses?: number[];
+  timePerLevel?: number[];
   totalTime: number;
   patient: string;
   game: string;
