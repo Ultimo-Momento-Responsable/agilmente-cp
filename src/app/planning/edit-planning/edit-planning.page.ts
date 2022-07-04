@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientsApiService } from '../../patients/shared-patients/services/patients-api/patients-api.service';
+import { Patient, PatientsApiService } from '../../patients/shared-patients/services/patients-api/patients-api.service';
 import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { ModalController } from '@ionic/angular';
@@ -24,7 +24,7 @@ export class EditPlanningPage implements OnInit {
     private dialogsComponent: DialogsComponent,
     private route: ActivatedRoute) { }
 
-  patients: any [];
+  patients: Patient[];
   planningList: any[];
   id: number;
   patientId: number;
@@ -44,7 +44,7 @@ export class EditPlanningPage implements OnInit {
     this.route.params.subscribe(params => {
       this.id = +params['id']; 
     });
-    this.patientsApiService.getActivePatientsListed().subscribe(res=>{
+    this.patientsApiService.getActivePatients().subscribe(res=>{
       this.patients = res;
     });
     let i = 0;

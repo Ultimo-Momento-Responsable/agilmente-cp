@@ -7,22 +7,7 @@ import { ResultsApiService } from 'src/app/results/shared-results/services/resul
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
 import { CustomDatePipe } from 'src/app/shared/pipes/custom-date.pipe';
-import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
-
-export interface Patient {
-  id: number;
-  firstName: string;
-  lastName: string;
-  description: string;
-  bornDate: Date;
-  city: string;
-  telephone: string,
-  email: string,
-  loginCode: string;
-  logged: boolean;
-  enabled: boolean;
-  comments: any[];
-}
+import { Patient, PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 
 @Component({
   selector: 'app-specific-patient',
@@ -142,7 +127,7 @@ export class SpecificPatientPage implements OnInit {
       professionalFirstName: window.localStorage.getItem('firstName'),
       professionalLastName: window.localStorage.getItem('lastName')
     };
-    this.patientsApiService.addComment(patientComment).subscribe(res => {
+    this.patientsApiService.addComment(patientComment).subscribe(() => {
       this.comment = "";
       this.patientsApiService.getPatientById(this.id).subscribe((res) => {
         this.patient = res;

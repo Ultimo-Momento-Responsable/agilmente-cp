@@ -2,51 +2,95 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+export interface Patient {
+  id: number;
+  firstName: string;
+  lastName: string;
+  description: string;
+  bornDate: string;
+  city: string;
+  telephone?: string;
+  email?: string;
+  loginCode?: string;
+  comments: Comment[];
+  joinDate: string;
+  enabled: boolean;
+  logged: boolean;
+  firstNameLastName: string;
+}
 
+interface Comment {
+  id: number;
+  datetime: string;
+  comment: string;
+  edited: boolean;
+  author: Professional;
+  isEditing?: boolean;
+};
+
+interface Professional {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  password: string;
+  token: string;
+  tokenExpiration: string;
+};
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PatientsApiService {
   entity: string = 'patient';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
-  * Obtiene todos los Pacientes cargados que se encuentren habilitados.
-  * @return Una página de pacientes.
-  */
-   getActivePatientsListed(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listed`);
+   * Obtiene todos los Pacientes cargados que se encuentren habilitados.
+   * @return Una lista de pacientes.
+   */
+  getActivePatients(): Observable<Patient[]> {
+    return this.http.get<Patient[]>(
+      `http://${environment.ip}:8080/${this.entity}/active`
+    );
   }
 
   /**
-  * Obtiene todos los Pacientes cargados, independientemente de si se encuentran habilitados.
-  * @return Una página de pacientes.
-  */
-   getPatientsListed(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/listedAll`);
+   * Obtiene todos los Pacientes cargados, independientemente de si se encuentran habilitados.
+   * @return Una lista de pacientes.
+   */
+  getAll(): Observable<Patient[]> {
+    return this.http.get<Patient[]>(
+      `http://${environment.ip}:8080/${this.entity}`
+    );
   }
 
   /**
    * Obtiene todos los pacientes cargados que coincidan con el campo de busqueda.
    * @param fullName Nombre completo del paciente, ignorando casing.
-   * @returns Una página de pacientes.
+   * @returns Una lista de pacientes.
    */
-  getFilteredPatients(fullName: string = "", all: boolean = false, page: number): Observable<any> {
-    const params = new HttpParams()
-      .set('fullName', fullName)
-      .set('all', all)
-      .set('page', page);
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/`, { params });
+  getFilteredPatients(
+    fullName: string = '',
+    all: boolean = false
+  ): Observable<Patient[]> {
+    const params = new HttpParams().set('fullName', fullName).set('all', all);
+
+    return this.http.get<Patient[]>(
+      `http://${environment.ip}:8080/${this.entity}/`,
+      {
+        params,
+      }
+    );
   }
 
   /**
-  * Obtiene un paciente a partir del id.
-  * @param id Id del paciente.
-  * @returns Observable del paciente.
-  */
-  getPatientById(id: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+   * Obtiene un paciente a partir del id.
+   * @param id Id del paciente.
+   * @returns Observable del paciente.
+   */
+  getPatientById(id: number): Observable<Patient> {
+    return this.http.get<Patient>(`http://${environment.ip}:8080/${this.entity}/${id}`);
   }
 
   /**
@@ -54,18 +98,24 @@ export class PatientsApiService {
    * @param patient Paciente a guardar
    * @returns El paciente guardado
    */
-  postPatient(patient: any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}`, patient);
+  postPatient(patient: Patient): Observable<any> {
+    return this.http.post(
+      `http://${environment.ip}:8080/${this.entity}`,
+      patient
+    );
   }
-  
+
   /**
    * Modifica un paciente
    * @param patient Paciente a modificar
    * @param id El id del paciente
    * @returns El paciente modificado
    */
-  putPatient(patient: any, id: number): Observable<any> {
-    return this.http.put(`http://${environment.ip}:8080/${this.entity}/${id}`, patient);
+  putPatient(patient: Patient, id: number): Observable<any> {
+    return this.http.put(
+      `http://${environment.ip}:8080/${this.entity}/${id}`,
+      patient
+    );
   }
 
   /**
@@ -75,7 +125,10 @@ export class PatientsApiService {
    * @returns El paciente con su estado en "Deshabilitado"
    */
   deletePatient(id: number): Observable<any> {
-    return this.http.put(`http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`, {})
+    return this.http.put(
+      `http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`,
+      {}
+    );
   }
 
   /**
@@ -83,8 +136,11 @@ export class PatientsApiService {
    * @param comment Comentario
    * @returns true o false
    */
-   addComment(comment:any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/comment`, comment);
+  addComment(comment: any): Observable<any> {
+    return this.http.post(
+      `http://${environment.ip}:8080/${this.entity}/comment`,
+      comment
+    );
   }
 
   /**
@@ -92,8 +148,11 @@ export class PatientsApiService {
    * @param comment Comentario
    * @returns true o false
    */
-  editComment(comment:any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/editComment`, comment);
+  editComment(comment: any): Observable<any> {
+    return this.http.post(
+      `http://${environment.ip}:8080/${this.entity}/editComment`,
+      comment
+    );
   }
 
   /**
@@ -101,8 +160,10 @@ export class PatientsApiService {
    * @param comment Comentario
    * @returns true o false
    */
-  deleteComment(patientComment:any): Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/deleteComment`, patientComment);
+  deleteComment(comment: any): Observable<any> {
+    return this.http.post(
+      `http://${environment.ip}:8080/${this.entity}/deleteComment`,
+      comment
+    );
   }
-
 }
