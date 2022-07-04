@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import moment from 'moment';
-import { PlanningApiService } from 'src/app/planning/services/planning-api.service';
+import { PlanningApiService, PlanningOverview, PlanningState } from 'src/app/planning/services/planning-api.service';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
@@ -25,11 +25,11 @@ export class SpecificPatientPage implements OnInit {
   comment: string = "";
   auxComment: any = null;
 
-  plannings: any[];
-  planningStates: any[] = [];
-  filteredPlannings: any[];
+  plannings: PlanningOverview[];
+  filteredPlannings: PlanningOverview[];
+  planningStates: PlanningState[] = [];
   skeletonLoading = true;
-  selectedStates: any[] = [];
+  selectedStates: string[] = [];
   search: string = "";
   lastResults: any[] = [];
 
@@ -78,7 +78,7 @@ export class SpecificPatientPage implements OnInit {
         this.selectedStates.push(this.planningStates[1].name);
       } 
       this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates, this.id).subscribe((res) => {
-        this.plannings = res.content;
+        this.plannings = res;
         this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
         this.skeletonLoading = false;
       });
@@ -260,7 +260,7 @@ export class SpecificPatientPage implements OnInit {
    */
   getPlanningsFiltered(statesToFilter,search){
     this.planningApiService.getPlanningsOverviewFiltered(search,statesToFilter,this.id).subscribe((res) => {
-      this.filteredPlannings = res.content;
+      this.filteredPlannings = res;
       this.skeletonLoading = false;
     });
   }
