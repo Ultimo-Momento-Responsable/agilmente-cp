@@ -71,9 +71,9 @@ export class SpecificPlanningPage implements OnInit {
   isClicked: boolean;
   professionalName: string;
   currentTab: string = "summary";
-  uniqueGameList: any [] = [];
+  uniqueGameList: any[] = [];
   selectedOption: string;
-  filteredResults: any [] = [];
+  filteredResults: any[] = [];
   filteredGame: string = '';
   filteredState: string = '';
 
@@ -94,7 +94,7 @@ export class SpecificPlanningPage implements OnInit {
     this.route.params.subscribe(params => {
       this.id = +params['id']; 
       this.resultsApiService.getResultsFromPlanning(this.id).subscribe(res => {
-        this.results = res.content;
+        this.results = res;
         this.filteredResults = JSON.parse(JSON.stringify(this.results))
       });
     });

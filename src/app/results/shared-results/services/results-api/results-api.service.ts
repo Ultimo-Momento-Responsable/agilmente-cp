@@ -1,25 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IResult } from 'src/app/shared/interfaces/result.interface';
 import { environment } from 'src/environments/environment';
-
+interface ResultListView {
+  id: number;
+  completeDatetime: Date;
+  canceled: boolean;
+  mistakes: number;
+  mistakesPerLevel: number[];
+  successes: number;
+  successesPerLeve: number[];
+  streak: number;
+  timeBetweenSuccesses: number[];
+  totalTime: number;
+  patient: string;
+  game: string;
+  score: number;
+};
 @Injectable({
   providedIn: 'root',
 })
 export class ResultsApiService {
-  entity: string = 'results';
+  entity: string = 'result';
 
   constructor(private http: HttpClient) {}
-
-  /**
-   * Obtiene todos los resultados de todos los juegos
-   * ordenados por fecha de completitud.
-   * @return Una página de resultados.
-   */
-  getResults(): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}`);
-  }
 
   /**
    * Obtiene un resultado a partir del id.
@@ -35,24 +39,24 @@ export class ResultsApiService {
   /**
    * Obtiene una lista de resultados a partir del id
    * del paciente.
-   * @param id Id del paciente.
+   * @param patientId Id del paciente.
    * @returns Lista de resultados.
    */
-  getResultsByPatient(id: number): Observable<any> {
+  getResultsByPatient(patientId: number): Observable<any> {
     return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/by-patient/${id}`
+      `http://${environment.ip}:8080/${this.entity}/by-patient/${patientId}`
     );
   }
 
   /**
    * Obtiene una lista de resultados a partir del id
    * de una planning.
-   * @param id Id de la planning.
+   * @param planningId Id de la planning.
    * @returns Lista de resultados.
    */
-  getResultsFromPlanning(id: number): Observable<any> {
-    return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/planning/${id}`
+  getResultsFromPlanning(planningId: number): Observable<ResultListView[]> {
+    return this.http.get<ResultListView[]>(
+      `http://${environment.ip}:8080/${this.entity}/planning/${planningId}`
     );
   }
   
