@@ -1,9 +1,9 @@
 export interface IResult {
     completeDatetime: Date;
     canceled: boolean;
-    mistakes: 0;
+    mistakes: number;
     mistakesPerLevel: number;
-    successes: 5;
+    successes: number;
     successesPerLevel: number;
     timeBetweenSuccesses: number[];
     totalTime: number;

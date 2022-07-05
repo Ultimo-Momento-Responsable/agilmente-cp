@@ -43,6 +43,7 @@ export class GameSessionCardComponent implements OnInit {
     this.resultsApiService.getResultsBySessionId(this.gameSession.gameSessionId, gameRoute).subscribe((res) => {
       this.results = res;
     });
+    this.formatParamValues();
   }
 
   /**
@@ -54,5 +55,26 @@ export class GameSessionCardComponent implements OnInit {
     } else {
       this.numberOfSessions = 'Sin límite';
     }
+  }
+
+  /**
+   * Formatea los parámetros para que se muestren bien.
+   */
+  private formatParamValues() {
+    this.gameSession.parameters.map(p => {
+      if (p.value === "true") {
+        p.value = 'Sí';
+      } else if (p.value === "false") {
+        p.value = 'No';
+      } else if (typeof p.value === 'boolean') {
+        if (p.value) {
+          p.value = 'Sí';
+        } else {
+          p.value = 'No';
+        }
+      }
+
+      return p;
+    })
   }
 }

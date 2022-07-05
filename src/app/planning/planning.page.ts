@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { PlanningSearchComponent } from '../shared/components/planning-search/planning-search.component';
-import { PlanningApiService } from './services/planning-api.service';
+import { PlanningApiService, PlanningOverview, PlanningState } from './services/planning-api.service';
 
 @Component({
   selector: 'app-planning',
@@ -11,11 +11,11 @@ import { PlanningApiService } from './services/planning-api.service';
 })
 export class PlanningPage implements OnInit {
   @ViewChild(PlanningSearchComponent) pSC: PlanningSearchComponent;
-  plannings: any[];
-  planningStates: any[] = [];
-  filteredPlannings: any[];
+  plannings: PlanningOverview[];
+  filteredPlannings: PlanningOverview[];
+  planningStates: PlanningState[] = [];
   skeletonLoading = true;
-  selectedStates: any[] = [];
+  selectedStates: string[] = [];
   search: string = "";
 
   constructor(
@@ -39,7 +39,7 @@ export class PlanningPage implements OnInit {
         this.selectedStates.push(this.planningStates[1].name);
       } 
       this.planningApiService.getPlanningsOverviewFiltered('',this.selectedStates).subscribe((res) => {
-        this.plannings = res.content;
+        this.plannings = res;
         this.filteredPlannings = JSON.parse(JSON.stringify(this.plannings));
         this.skeletonLoading = false;
       });
@@ -64,7 +64,7 @@ export class PlanningPage implements OnInit {
    */
   getPlanningsFiltered(statesToFilter,search){
     this.planningApiService.getPlanningsOverviewFiltered(search,statesToFilter).subscribe((res) => {
-      this.filteredPlannings = res.content;
+      this.filteredPlannings = res;
       this.skeletonLoading = false;
     });
   }

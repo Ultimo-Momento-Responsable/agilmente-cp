@@ -34,30 +34,7 @@ export class GameSessionResultsComponent implements OnInit {
 
   constructor(private navController: NavController) {}
 
-  ngOnInit() {
-    this.formatParamValues();
-  }
-
-  /**
-   * Formatea los parámetros para que se muestren bien.
-   */
-  formatParamValues() {
-    this.gameSession.parameters.map(p => {
-      if (p.value === "true") {
-        p.value = 'Sí';
-      } else if (p.value === "false") {
-        p.value = 'No';
-      } else if (typeof p.value === 'boolean') {
-        if (p.value) {
-          p.value = 'Sí';
-        } else {
-          p.value = 'No';
-        }
-      }
-
-      return p;
-    })
-  }
+  ngOnInit() { }
 
   /**
    * Redirige al usuario a un resultado específico.

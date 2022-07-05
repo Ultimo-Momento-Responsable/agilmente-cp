@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
+import { Patient, PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-export interface Patient {
-  id: number,
-  firstName: string,
-  lastName: string,
-  description: string,
-  age: number,
-  city: string,
-  isEnabled: boolean
-}
 
 @Component({
   selector: 'app-patients',
@@ -21,11 +11,8 @@ export interface Patient {
 export class PatientsPage implements OnInit {
   isLoadingPage = true;
   hasRegisteredPatients = false;
-  scrollDepthTriggered = false;
-  pageNumber = 0;
   patients: Patient[] = [];
   skeletonLoading = true;
-  scrollPercent = 0;
   searchForm: FormGroup = this.formBuilder.group({
     searchText: [''],
     includeDisabledPatients: [false]
@@ -37,7 +24,6 @@ export class PatientsPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.pageNumber = 0;
     this.filterPatients();
     this.searchForm.valueChanges.subscribe(() => this.filterPatients());
   }
@@ -68,14 +54,10 @@ export class PatientsPage implements OnInit {
    * @param fullName valor para filtrar pacientes.
    */
   getPatientsFiltered(fullName: string) {
-    this.patientsApiService.getFilteredPatients(fullName, this.searchForm.value.includeDisabledPatients,this.pageNumber).subscribe((res) => {
-      if (res.content.length > 0) {
+    this.patientsApiService.getFilteredPatients(fullName, this.searchForm.value.includeDisabledPatients).subscribe((res) => {
+      if (res.length > 0) {
         this.hasRegisteredPatients = true;
-        if (this.pageNumber>0) {
-          this.patients = [...this.patients, ...(res.content.map(this.formatPatient))];
-        } else {
-          this.patients = res.content.map(this.formatPatient);
-        }
+        this.patients = res.map(this.formatPatient);
         this.patients.sort(this.isPatientAlphabeticallyBefore);
       } else {
         this.patients = [];
@@ -112,7 +94,6 @@ export class PatientsPage implements OnInit {
   private formatPatient(patient: any): Patient {
     const textDate = patient.bornDate.split('-');
     patient.age = PatientsPage.calculateAge(textDate[0], textDate[1], textDate[2]);
-    patient.isEnabled = patient.enabled;
 
     if (patient.description) {
       patient.description = patient.description.substring(0, 45);
@@ -125,48 +106,26 @@ export class PatientsPage implements OnInit {
 
   /**
    * Si se ingresa texto en el campo de busqueda de paciente, obtiene los pacientes que posean dicho texto.
-   * @param event Valor ingresado en el campo de busqueda de paciente
    */
   filterPatients() {
     this.skeletonLoading = true;
-    const removeAccents = (str) => {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-    let search = removeAccents(this.searchForm.value.searchText)
+
+    let search = this.removeAccents(this.searchForm.value.searchText)
+
     while (search.substring(0,1) == " ") {
       search = search.substring(1)
     }
-    this.pageNumber=0;
-    this.scrollDepthTriggered = false;
+
     this.getPatientsFiltered(search);
   }
 
   /**
-   * Si existen mas de 20 tarjetas de pacientes, carga una pagina nueva de pacientes.
-   * @param $event Accion de scroll
-   * @returns Una pagina de pacientes siguiente a la actual
+   * Quita los acentos de un string.
+   * @param str String del que se quieren quitar los acentos.
+   * @returns String sin acentos.
    */
-  async logScrolling($event) {
-    // only send the event once
-    if(this.scrollDepthTriggered) {
-      return;
-    }
-    if($event.target.localName != "ion-content") {
-      return;
-    }
-    const scrollElement = await $event.target.getScrollElement();
-    const scrollHeight = scrollElement.scrollHeight - scrollElement.clientHeight;
-    const currentScrollDepth = $event.detail.scrollTop;
-    const targetPercent = 80;
-    let triggerDepth = ((scrollHeight / 100) * targetPercent);
-    if(currentScrollDepth > triggerDepth && this.patients.length % 20 == 0) {
-      if (this.patients.length == (this.pageNumber+1)*20){
-        this.scrollDepthTriggered = true;
-        this.pageNumber++; 
-        this.scrollPercent = currentScrollDepth;
-        this.getPatientsFiltered(this.searchForm.value.searchText);
-      }
-    }
+  private removeAccents(str: string): string {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
   /**

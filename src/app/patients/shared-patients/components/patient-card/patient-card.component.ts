@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Patient } from 'src/app/patients/patients/patients.page';
+import { Patient } from '../../services/patients-api/patients-api.service';
 
 @Component({
   selector: 'app-patient-card',
@@ -14,7 +14,7 @@ export class PatientCardComponent implements OnInit {
   constructor(private navController: NavController) { }
 
   ngOnInit() {
-    if (!this.patient.isEnabled) {
+    if (!this.patient.enabled) {
       this.class = 'disabled';
     }
   }
