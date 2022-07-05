@@ -47,6 +47,8 @@ export class SpecificPatientPage implements OnInit {
   selectedStates: any[] = [];
   search: string = "";
   lastResults: any[] = [];
+  ongoingPlannings: any[] = [];
+  showMorePlannings: boolean = false;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -72,8 +74,10 @@ export class SpecificPatientPage implements OnInit {
         })
         this.sortById(this.patient.comments);
         this.getLastResults();
+        this.getOngoingPlannings();
       });
     });
+    
   }
 
   /**
@@ -81,7 +85,10 @@ export class SpecificPatientPage implements OnInit {
    * de búsqueda establecidos.
    */
   getInitialPlannings() {
-    this.selectedStates = this.pSC.selectedStates;
+    if (this.pSC)
+    {
+      this.selectedStates = this.pSC.selectedStates;
+    }
     if (this.selectedStates.includes("Completada")) {
       this.selectedStates.push("Completada y Terminada");
     }
@@ -303,6 +310,37 @@ export class SpecificPatientPage implements OnInit {
         return this.customDatePipe.parseDate(b.completeDatetime).getTime() - this.customDatePipe.parseDate(a.completeDatetime).getTime()
       });
       this.lastResults = auxResults.splice(0,3);
+    })
+  }
+
+  /**
+   * Cambia a la tab "Planificaciones" llamando los metodos correspondientes.
+   */
+  goToPlannings() {
+    this.getInitialPlannings()
+    this.currentTab = "plannings"
+  }
+
+  /**
+   * Obtiene las planificaciones vigentes del paciente.
+   * muestra los 3 primeros resultados.
+   * formatea los datos para mostrar en la tarjeta de informacion del paciente.
+   */
+  getOngoingPlannings() {
+    this.planningApiService.getPlanningsOverviewFiltered('', ['Vigente'], this.id). subscribe((res) => {
+      let patientPlannings = res.content
+      if (patientPlannings.length != 0) {
+        for (let i = 0; i < 3; i++) {
+          patientPlannings[i].planningName = patientPlannings[i].planningName.substring(0, 32);
+          if (patientPlannings[i].planningName.length == 32) {
+            patientPlannings[i].planningName += '...';
+          }
+        }
+        if (patientPlannings.length >= 3) {
+          this.showMorePlannings = true;
+          this.ongoingPlannings = patientPlannings.splice(0,3)
+        }
+      }
     })
   }
 }
