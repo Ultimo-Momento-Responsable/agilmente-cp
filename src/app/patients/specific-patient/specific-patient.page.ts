@@ -377,7 +377,7 @@ export class SpecificPatientPage implements OnInit {
    */
   getOngoingPlannings() {
     this.planningApiService.getPlanningsOverviewFiltered('', ['Vigente'], this.id). subscribe((res) => {
-      let patientPlannings = res.content
+      let patientPlannings = res
       if (patientPlannings.length != 0) {
         for (let i = 0; i < 3; i++) {
           patientPlannings[i].planningName = patientPlannings[i].planningName.substring(0, 32);
