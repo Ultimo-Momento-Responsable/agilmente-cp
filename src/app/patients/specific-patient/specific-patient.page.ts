@@ -378,8 +378,10 @@ export class SpecificPatientPage implements OnInit {
   getOngoingPlannings() {
     this.planningApiService.getPlanningsOverviewFiltered('', ['Vigente'], this.id). subscribe((res) => {
       let patientPlannings = res
+      this.ongoingPlannings = patientPlannings.splice(0,3)
+      
       if (patientPlannings.length != 0) {
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < patientPlannings.length; i++) {
           patientPlannings[i].planningName = patientPlannings[i].planningName.substring(0, 32);
           if (patientPlannings[i].planningName.length == 32) {
             patientPlannings[i].planningName += '...';
@@ -387,7 +389,6 @@ export class SpecificPatientPage implements OnInit {
         }
         if (patientPlannings.length >= 3) {
           this.showMorePlannings = true;
-          this.ongoingPlannings = patientPlannings.splice(0,3)
         }
       }
     })
