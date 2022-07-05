@@ -13,7 +13,7 @@
       <ion-icon name="information-circle"></ion-icon>
       <ion-label class="patient-tab">Datos Personales</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="plannings" (click)="getInitialPlannings()" layout="icon-start">
+    <ion-segment-button value="plannings" id="plannings" (click)="this.getInitialPlannings()" layout="icon-start">
       <ion-icon name="calendar"></ion-icon>
       <ion-label class="patient-tab">Planificaciones</ion-label>
     </ion-segment-button>
@@ -183,7 +183,7 @@
                             <ion-label class="card_recent-results_chips_text">Abandonado</ion-label>
                           </ion-chip>
                         </ion-col>
-                    </ion-row>
+                      </ion-row>
                     </div>
                   </div>
                 </ion-card>
@@ -193,6 +193,29 @@
                   <ion-text class="card_title">
                     Planificaciones Vigentes
                   </ion-text>
+                  <div *ngIf="this.lastResults.length == 0">
+                    <ion-label class="card_label">
+                      No hay planificaciones vigentes para este paciente
+                    </ion-label>
+                  </div>
+                  <div class="card_ongoing-plannings">
+                    <div *ngFor="let planning of this.ongoingPlannings">
+                      <ion-row>
+                        <ion-col>
+                          <ion-text color="primary" [routerLink]="['../../planning', planning.planningId]" role="button" class="card_label">
+                            {{planning.planningName}}
+                          </ion-text>
+                          <br>
+                          <ion-text class="card_recent-results_subtitle">Desde {{planning.startDate}} hasta {{planning.dueDate}}</ion-text>
+                        </ion-col>
+                      </ion-row>
+                    </div>
+                  </div>
+                  <div *ngIf="this.showMorePlannings == true">
+                    <ion-text color="primary" (click)="goToPlannings()" role="button" class="card_label">
+                      Ver más...
+                    </ion-text>
+                  </div>
                 </ion-card>
               </ion-col>
               <ion-col size="1"></ion-col>
