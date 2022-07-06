@@ -27,7 +27,7 @@
   <div *ngIf="currentTab == 'summary'">
     <ion-row class="ion-justify-content-end" style="width: 90%;">
       <ion-button
-        [disabled]="this.isEditing || this.state=='Cancelada' || this.state=='Completada y Terminada' || this.state=='Incompleta'"
+        [disabled]="this.state=='Cancelada' || this.state=='Completada y Terminada' || this.state=='Incompleta'"
         style="float: right"
         fill="clear"
         (click)="this.editPlanning()">

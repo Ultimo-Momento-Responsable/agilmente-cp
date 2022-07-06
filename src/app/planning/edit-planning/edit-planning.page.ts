@@ -38,7 +38,7 @@ export class EditPlanningPage implements OnInit {
   games: any [] = [];
   assignedGames: any [] = [];
   planningGames: any [] = [];
-  isClicked: boolean;
+  isClicked: boolean= false;
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -121,46 +121,48 @@ export class EditPlanningPage implements OnInit {
    * Se prepara el formulario para su edición.
    */
    editPlanning(){
-    for (let i=0; i<this.planningList.length; i++){
-      this.assignedGames.push(JSON.parse(JSON.stringify(this.games.find(game => game.name == this.planningList[i].game))));
-      let index = 1;
-      this.assignedGames[i].gameParam.forEach(p => {
-        let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);
-        if (planningParam){
-          if (p.param.type==0){
-            if (p.param.id==1){
-              index = 0;
+    if (this.state=="Pendiente"){
+      for (let i=0; i<this.planningList.length; i++){
+        this.assignedGames.push(JSON.parse(JSON.stringify(this.games.find(game => game.name == this.planningList[i].game))));
+        let index = 1;
+        this.assignedGames[i].gameParam.forEach(p => {
+          let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);
+          if (planningParam){
+            if (p.param.type==0){
+              if (p.param.id==1){
+                index = 0;
+              }
             }
-          }
-          p.isActive = true;
-          if (!isNaN(parseFloat(planningParam.value)) && isFinite(planningParam.value)){
-            p.value = Math.floor(planningParam.value).toString();
-          }else{
-            if (planningParam.value=="false"){
-              p.value = false;
-            }else if (planningParam.value=="true"){
-              p.value = true;
+            p.isActive = true;
+            if (!isNaN(parseFloat(planningParam.value)) && isFinite(planningParam.value)){
+              p.value = Math.floor(planningParam.value).toString();
             }else{
-              p.value = planningParam.value;
+              if (planningParam.value=="false"){
+                p.value = false;
+              }else if (planningParam.value=="true"){
+                p.value = true;
+              }else{
+                p.value = planningParam.value;
+              }
             }
           }
+        });
+        this.assignedGames[i].index = index;
+        this.assignedGames[i].done = true;
+        this.assignedGames[i].accordion = false;
+        if (this.planningList[i].numberOfSession >= 0) {
+          this.assignedGames[i].maxNumberOfSessions = this.planningList[i].numberOfSession;
+          this.assignedGames[i].hasLimit = true;
+        } else {
+          this.assignedGames[i].maxNumberOfSessions = 5;
+          this.assignedGames[i].hasLimit = false
         }
-      });
-      this.assignedGames[i].index = index;
-      this.assignedGames[i].done = true;
-      this.assignedGames[i].accordion = false;
-      if (this.planningList[i].numberOfSession >= 0) {
-        this.assignedGames[i].maxNumberOfSessions = this.planningList[i].numberOfSession;
-        this.assignedGames[i].hasLimit = true;
-      } else {
-        this.assignedGames[i].maxNumberOfSessions = 5;
-        this.assignedGames[i].hasLimit = false
+        this.assignedGames[i].difficulty = "custom";
       }
-      this.assignedGames[i].difficulty = "custom";
+      this.auxGames = JSON.parse(JSON.stringify(this.assignedGames));
+      this.planningGames = JSON.parse(JSON.stringify(this.assignedGames));
+      this.planningForm.patchValue({"games": null});
     }
-    this.auxGames = JSON.parse(JSON.stringify(this.assignedGames));
-    this.planningGames = JSON.parse(JSON.stringify(this.assignedGames));
-    this.planningForm.patchValue({"games": null});
   }
 
   /**
@@ -294,20 +296,26 @@ export class EditPlanningPage implements OnInit {
    * @returns true o false según corresponda.
    */
   submitDisabled(){
-    let gamesAreDone = true;
-    if (this.planningGames.length == 0){
-      gamesAreDone = false;
-    }
-    this.planningGames.forEach(g => {
-      if (!g.done){
+    if (this.state=="Pendiente"){
+      let gamesAreDone = true;
+      if (this.planningGames.length == 0){
         gamesAreDone = false;
       }
-    })
-    if (gamesAreDone){
-      this.planningForm.patchValue({"games": "ok"});
+      this.planningGames.forEach(g => {
+        if (!g.done){
+          gamesAreDone = false;
+        }
+      })
+      if (gamesAreDone){
+        this.planningForm.patchValue({"games": "ok"});
+      } else {
+        this.planningForm.patchValue({"games": null});
+      }
     } else {
-      this.planningForm.patchValue({"games": null});
+      this.planningForm.patchValue({"games": "ok"});
     }
+    
+    console.log(this.isClicked)
     return !this.planningForm.valid 
     || !this.patientExists() 
     || (JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames) 
