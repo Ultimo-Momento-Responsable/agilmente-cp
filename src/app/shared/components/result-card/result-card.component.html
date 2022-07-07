@@ -4,11 +4,11 @@
     <ion-col size="3" class="container">
       <p class="titles card__title">{{ this.result.patient }}</p>
       <p class="card__datetime"> {{ this.result.completeDatetime }}</p>
-      <ion-chip class="card__chips" *ngIf="this.result.canceled === false" style="background: rgba(50, 219, 100, 0.29);">
+      <ion-chip class="card__chips" *ngIf="this.result.canceled === false" color="success" style="background: rgba(50, 219, 100, 0.29);">
         <ion-icon class="card__chips__icon" color="success" name="checkmark-circle"></ion-icon>
         <ion-label class="card__chips__text">Completo</ion-label>
       </ion-chip>
-      <ion-chip class="card__chips" *ngIf="this.result.canceled === true" style="background: rgba(245, 61, 61, 0.29);">
+      <ion-chip class="card__chips" *ngIf="this.result.canceled === true" color="danger" style="background: rgba(245, 61, 61, 0.29);">
         <ion-icon class="card__chips__icon" name="close-circle"></ion-icon>
         <ion-label class="card__chips__text">Abandonado</ion-label>
       </ion-chip>

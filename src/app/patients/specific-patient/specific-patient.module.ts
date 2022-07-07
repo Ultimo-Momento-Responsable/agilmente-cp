@@ -7,6 +7,7 @@ import { SpecificPatientPage } from './specific-patient.page';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CustomDatePipe } from 'src/app/shared/pipes/custom-date.pipe';
 
 const routes: Routes = [
   {
@@ -26,5 +27,6 @@ const routes: Routes = [
     SharedModule
   ],
   declarations: [SpecificPatientPage],
+  providers: [CustomDatePipe]
 })
 export class SpecificPatientPageModule {}

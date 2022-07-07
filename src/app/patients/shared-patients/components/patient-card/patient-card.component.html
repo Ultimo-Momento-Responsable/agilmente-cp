@@ -10,7 +10,7 @@
       </ion-col>
       <ion-col size="7">
         <h4 class="name-text">{{patient.lastName}} {{patient.firstName}}</h4>
-        <ion-chip class="ion-no-margin disabled-chip" *ngIf="!this.patient.isEnabled">Paciente deshabilitado</ion-chip>
+        <ion-chip class="ion-no-margin disabled-chip" *ngIf="!this.patient.enabled">Paciente deshabilitado</ion-chip>
       </ion-col>
     </ion-row>
   </ion-card-header>
