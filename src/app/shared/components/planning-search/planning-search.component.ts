@@ -49,8 +49,8 @@ export class PlanningSearchComponent implements OnInit {
    */
    getPlanningsFiltered(search: string) {
     let statesToFilter = this.selectedStates.slice();
-    if (statesToFilter.includes("Completada")) {
-      statesToFilter.push("Completada y Terminada");
+    if (statesToFilter.includes("Vigente")) {
+      statesToFilter.push("Vigente con juegos libres");
     }
     this.search.emit(search);
     this.statesToFilter.emit(statesToFilter);
