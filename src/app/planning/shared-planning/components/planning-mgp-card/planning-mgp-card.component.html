@@ -1,6 +1,61 @@
-<ion-card>
-  MGP
-  <div>
-    <ion-text>{{ this.currentMGP }} + {{ this.currentTendency }}</ion-text>
+<ion-card class="card">
+  <div class="title ion-text-center">
+    <ion-text class="card-title">Métrica General de Progreso</ion-text>
   </div>
+  <div *ngIf="this.currentMGP >= 0; else noMGPValue">
+    <div class="mgp">
+      <div>
+        <ion-text class="card-big-number" [ngClass]="this.tendencyColor">
+          {{ this.currentMGP }}
+        </ion-text>
+      </div>
+      <div class="mgp-tendency" ngbTooltip="Incremento respecto al último MGP." placement="bottom">
+        <div>
+          <ion-text class="card-small-number" [ngClass]="this.tendencyColor">
+            <ion-text *ngIf="this.tendencyColor === 'increment'">+</ion-text>
+            {{ this.currentTendency }}
+          </ion-text>
+        </div>
+        
+        <div class="icon">
+          <ion-icon
+          *ngIf="this.tendencyColor === 'increment'"
+          name="arrow-up-circle"
+          class="increment card-small-number"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="this.tendencyColor !== 'increment'"
+          name="arrow-down-circle"
+          class="decrement card-small-number"
+        ></ion-icon>
+        </div>
+      </div>
+    </div>
+    <div class="ion-text-center">
+      <ion-text class="card-subtitle">
+        De la planificación actual
+      </ion-text>
+    </div>
+    <div class="ion-text-center">
+      <ion-text class="card-warning">
+        Medido en base a los ejercicios realizados al momento
+      </ion-text>
+    </div>
+  </div>
+  <ng-template #noMGPValue>
+    <div>
+      <div class="mgp">
+        <div>
+          <ion-text class="card-big-number" color="medium">
+            --
+          </ion-text>
+        </div>
+      </div>
+      <div class="ion-text-center">
+        <ion-text class="card-subtitle" style="color: var(--ion-color-medium)">
+          No hay datos suficientes para calcular el MGP
+        </ion-text>
+      </div>
+    </div>
+  </ng-template>
 </ion-card>

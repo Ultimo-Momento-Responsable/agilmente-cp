@@ -1,0 +1,73 @@
+.card {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+
+  .title {
+    margin-bottom: 24px;
+  }
+
+  .mgp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .mgp-tendency {
+      display: flex;
+      justify-content: center;
+
+      .icon {
+        margin-left: 2px;
+      }
+    }
+  }
+}
+
+.increment {
+  color: var(--umr-color-increment);
+}
+
+.decrement {
+  color: var(--umr-color-decrement);
+}
+
+.card-title {
+  color: black;
+  font-family: "Futura";
+  font-size: 36px;
+  line-height: 36px;
+  margin-bottom: 0;
+}
+
+.card-subtitle {
+  color: black;
+  font-family: "Bariol";
+  font-size: 24px;
+  line-height: 24px;
+  margin-bottom: 0;
+}
+
+.card-warning {
+  font-family: "Bariol";
+  font-size: 18px;
+  line-height: 18px;
+  margin-bottom: 0;
+  color: var(--ion-color-medium);
+}
+
+.card-big-number {
+  font-family: "Bariol";
+  font-size: 64px;
+  line-height: 64px;
+  margin-bottom: 0;
+}
+
+.card-small-number {
+  font-family: "Bariol";
+  font-size: 24px;
+  line-height: 24px;
+  margin-bottom: 0;
+}

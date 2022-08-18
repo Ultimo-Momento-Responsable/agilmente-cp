@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PlanningItem } from 'src/app/planning/specific-planning/specific-planning.page';
 import { SessionMGPCalculator } from '../../models/session-mgp-calculator.model';
 
 @Component({
@@ -9,12 +8,14 @@ import { SessionMGPCalculator } from '../../models/session-mgp-calculator.model'
 })
 export class PlanningMgpCardComponent implements OnInit {
   @Input() results: any[];
+  tendencyColor: string;
   currentMGP: number;
   currentTendency: number;
   constructor() { }
 
   ngOnInit() {
     this.calculateMGP();
+    this.tendencyColor = this.currentTendency >= 0 ? 'increment' : 'decrement';
   }
 
   /**
