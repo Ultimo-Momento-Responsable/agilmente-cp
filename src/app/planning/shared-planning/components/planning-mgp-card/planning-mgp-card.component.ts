@@ -21,7 +21,7 @@ export class PlanningMgpCardComponent implements OnInit {
    * Calcula el MGP y la tendencia en base a los resultados.
    */
   calculateMGP() {
-    const calculator = new SessionMGPCalculator(this.results.map(r => r.mgp));
+    const calculator = new SessionMGPCalculator(this.results);
     this.currentMGP = calculator.currentMGP();
     this.currentTendency = calculator.currentTendency();
   }
