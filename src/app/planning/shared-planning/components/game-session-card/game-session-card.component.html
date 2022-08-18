@@ -37,7 +37,6 @@
               </ion-text>
             </div>
           </div>
-          <!-- COMENTADO PORQUE NO TENEMOS MGP -->
           <div class="gsc__header__container__mgp">
             <div class="gsc__header__container__mgp__title">
               <ion-text class="card-title">
@@ -47,12 +46,12 @@
             <div class="gsc__header__container__mgp__subtitle">
               <ion-text class="card-subtitle">De esta sesión</ion-text>
             </div>
-            <div class="gsc__header__container__mgp__value">
-              PROXIMAMENTE
-              <!-- <ion-text class="card-big-number" [ngClass]="this.tendency">
-                1896
+            <div *ngIf="this.results && this.sessionMGP >= 0" class="gsc__header__container__mgp__value">
+              <ion-text class="card-big-number" [ngClass]="this.tendency">
+                {{ this.sessionMGP | number:'1.0-0'}}
               </ion-text>
-              <ion-text [ngClass]="this.tendency">+75</ion-text>
+              
+              <ion-text [ngClass]="this.tendency">{{ this.tendencyValue | number:'1.0-0'}}</ion-text>
               <ion-icon
                 *ngIf="this.tendency === 'increment'"
                 name="arrow-up-circle"
@@ -62,8 +61,15 @@
                 *ngIf="this.tendency !== 'increment'"
                 name="arrow-down-circle"
                 class="decrement"
-              ></ion-icon> -->
+              ></ion-icon>
             </div>
+            <ng-template #noMGPFound>
+              <div class="gsc__header__container__mgp__value">
+              <ion-text class="card-big-number">
+                --
+              </ion-text>
+            </div>
+            </ng-template>
           </div>
         </div>
       </ion-item>
