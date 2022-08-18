@@ -5,7 +5,7 @@ export class SessionMGPCalculator {
     /**
      * Esta calculadora solamente está pensada para calcular el MGP
      * de las sesiones y el de las planificaciones (mismo cálculo).
-     * @param mgps Lista de MGPs ordenados por fecha, donde el último
+     * @param mgps Lista de MGPs ordenados por fecha, donde el primer
      * elemento es el más nuevo.
      */
     constructor(private readonly mgps: number[]) {}
@@ -47,7 +47,7 @@ export class SessionMGPCalculator {
 
         this._currentMGP = 1/n * partialSumMGP;
 
-        const previousMGP = 1/(n -1) * (partialSumMGP-this.mgps[n-1]);
+        const previousMGP = 1/(n-1) * (partialSumMGP-this.mgps[0]);
         this._currentTendency = this._currentMGP - previousMGP;
     } 
 }
