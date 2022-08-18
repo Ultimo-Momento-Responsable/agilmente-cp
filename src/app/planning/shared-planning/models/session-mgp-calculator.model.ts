@@ -64,7 +64,10 @@ export class SessionMGPCalculator {
         const partialSumMGP = mgps.reduce((previous, current) => previous + current);
 
         this._currentMGP = 1/n * partialSumMGP;
-
+        if (n === 1) {
+            this._currentTendency = 0;
+            return
+        }
         const previousMGP = 1/(n-1) * (partialSumMGP-mgps[0]);
         this._currentTendency = this._currentMGP - previousMGP;
     } 

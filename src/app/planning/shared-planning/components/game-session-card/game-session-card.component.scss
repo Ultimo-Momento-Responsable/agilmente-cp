@@ -64,8 +64,16 @@
             margin-top: 8px;
             width: 100%;
             display: flex;
-            align-items: center;
+            align-items: baseline;
             justify-content: center;
+
+            &__tendency {
+              font-size: 24px;
+            }
+            &__increment {
+              color: var(--umr-color-increment);
+              font-size: 32px;
+            }
           }
         }
       }
