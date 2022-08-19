@@ -81,15 +81,15 @@ export class SpecificPatientPage implements OnInit {
     {
       this.selectedStates = this.pSC.selectedStates;
     }
-    if (this.selectedStates.includes("Completada")) {
-      this.selectedStates.push("Completada y Terminada");
+    if (this.selectedStates.includes("Vigente")) {
+      this.selectedStates.push("Vigente con juegos libres");
     }
     this.planningApiService.getPlanningStates().subscribe((res) => {
-      res.pop();
       this.planningStates = res;
       if (this.selectedStates.length == 0) {
         this.selectedStates.push(this.planningStates[0].name);
         this.selectedStates.push(this.planningStates[1].name);
+        this.selectedStates.push(this.planningStates[4].name);
       }
       this.planningApiService
         .getPlanningsOverviewFiltered('', this.selectedStates, this.id)
@@ -376,7 +376,7 @@ export class SpecificPatientPage implements OnInit {
    * formatea los datos para mostrar en la tarjeta de informacion del paciente.
    */
   getOngoingPlannings() {
-    this.planningApiService.getPlanningsOverviewFiltered('', ['Vigente'], this.id). subscribe((res) => {
+    this.planningApiService.getPlanningsOverviewFiltered('', ['Vigente', 'Vigente con juegos libres'], this.id). subscribe((res) => {
       let patientPlannings = res
       this.ongoingPlannings = patientPlannings.splice(0,3)
       

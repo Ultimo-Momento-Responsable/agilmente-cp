@@ -13,7 +13,7 @@ export class PlanningCardComponent implements OnInit {
   color: string;
 
   ngOnInit() {
-    if (this.planning.stateName === 'Vigente'){
+    if (this.planning.stateName === 'Vigente' || this.planning.stateName === 'Vigente con juegos libres'){
       this.icon = "play-circle";
       this.color = "primary";
     } else if (this.planning.stateName === 'Pendiente') {
@@ -25,7 +25,7 @@ export class PlanningCardComponent implements OnInit {
     } else if (this.planning.stateName === 'Cancelada') {
       this.icon = "close-circle";
       this.color = "danger";
-    } else if (this.planning.stateName === 'Completada' || this.planning.stateName === 'Completada y Terminada') {
+    } else if (this.planning.stateName === 'Completada') {
       this.icon = "checkmark-circle";
       this.color = "success";
     } 

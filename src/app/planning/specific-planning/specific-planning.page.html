@@ -27,7 +27,7 @@
   <div *ngIf="currentTab == 'summary'">
     <ion-row class="ion-justify-content-end" style="width: 90%;">
       <ion-button
-        [disabled]="this.state=='Cancelada' || this.state=='Completada y Terminada' || this.state=='Incompleta'"
+        [disabled]="this.state=='Cancelada' || this.state=='Completada' || this.state=='Incompleta'"
         style="float: right"
         fill="clear"
         (click)="this.editPlanning()">
@@ -38,7 +38,7 @@
         style="float: right"
         color="danger"
         fill="clear"
-        [disabled]="this.state=='Cancelada' || this.state=='Completada y Terminada' || this.state=='Incompleta'"
+        [disabled]="this.state=='Cancelada' || this.state=='Completada' || this.state=='Incompleta'"
         (click)="this.cancelPlanning()">
         <ion-icon name="trash-outline"></ion-icon>
         <p class="ion-margin">Eliminar</p>
@@ -83,11 +83,11 @@
                 <br />
                 <ion-chip
                   class="card_label_chip"
-                  *ngIf="this.state === 'Vigente'"
+                  *ngIf="this.state === 'Vigente' || this.state === 'Vigente con juegos libres'"
                   color="primary"
                 >
                   <ion-icon name="play-circle"></ion-icon>
-                  <ion-label color="dark">{{ this.state }}</ion-label>
+                  <ion-label color="dark">Vigente</ion-label>
                 </ion-chip>
                 <ion-chip
                   class="card_label_chip"
@@ -114,7 +114,7 @@
                   <ion-label color="dark">{{ this.state }}</ion-label>
                 </ion-chip>
                 <ion-chip
-                  *ngIf="this.state === 'Completada' || this.state === 'Completada y Terminada'"
+                  *ngIf="this.state === 'Completada'"
                   color="success"
                 >
                   <ion-icon name="checkmark-circle"></ion-icon>
