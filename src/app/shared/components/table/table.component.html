@@ -13,7 +13,7 @@
         (click)="this.clickedRow(row)"
       >
         <ion-col class="column" *ngFor="let column of this.columns">
-          <ion-text>{{ row[column] }}</ion-text>
+          <ion-text>{{ row[column] | number:'1.0-2' }}</ion-text>
         </ion-col>
       </ion-item>
     </ion-item-group>

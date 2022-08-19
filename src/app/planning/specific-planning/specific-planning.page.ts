@@ -20,7 +20,7 @@ interface Param {
   contextualHelp: string;
 }
 
-interface PlanningItem {
+export interface PlanningItem {
   gameSessionId: number;
   game: string;
   numberOfSession: number;
@@ -55,7 +55,7 @@ export class SpecificPlanningPage implements OnInit {
   patientId: number;
   patientAge: number;
   myForm: FormGroup;
-  results: any[] = [];
+  results: any[];
   state: string;
   planningList: PlanningItem[];
   auxStartDate: Date;
