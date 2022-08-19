@@ -55,6 +55,7 @@
         }
 
         &__mgp {
+          font-size: 32px;
           &__subtitle {
             width: 100%;
             text-align: center;
@@ -66,13 +67,13 @@
             display: flex;
             align-items: baseline;
             justify-content: center;
-
-            &__tendency {
+            
+            &__arrow {
               font-size: 24px;
             }
+
             &__increment {
               color: var(--umr-color-increment);
-              font-size: 32px;
             }
           }
         }

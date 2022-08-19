@@ -41,16 +41,18 @@
               <ion-text *ngIf="(this.results.length > 0)" [ngClass]="this.tendency" class="gsc__header__container__mgp__value__tendency">
                 {{ this.tendencyValue | number:'1.0-0'}}
               </ion-text>
-              <ion-icon
-                *ngIf="(this.tendency === 'increment' && this.tendencyValue >= 0)"
-                name="arrow-up-circle"
-                class="increment"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="this.tendency !== 'increment'"
-                name="arrow-down-circle"
-                class="decrement"
-              ></ion-icon>
+              <div class="gsc__header__container__mgp__value__arrow">
+                <ion-icon
+                  *ngIf="(this.tendency === 'increment' && this.tendencyValue >= 0)"
+                  name="arrow-up-circle"
+                  class="increment"
+                ></ion-icon>
+                <ion-icon
+                  *ngIf="this.tendency !== 'increment'"
+                  name="arrow-down-circle"
+                  class="decrement"
+                ></ion-icon>
+              </div>
             </div>
             <ng-template #noMGPFound>
               <div class="gsc__header__container__mgp__value">
