@@ -196,7 +196,14 @@
                   <div *ngIf="this.ongoingPlannings.length == 0">
                     <ion-label class="card_label">
                       No hay planificaciones vigentes para este paciente
+                      <br>
+                      ¿Deseas crear una?
+                      <br>
                     </ion-label>
+                    <ion-button [routerLink]="['../../planning/new-planning', this.id]">
+                      <ion-icon name="calendar-clear"></ion-icon>
+                      <p class="ion-margin">Nueva planificacion</p>
+                  </ion-button>
                   </div>
                   <div class="card_ongoing-plannings">
                     <div *ngFor="let planning of this.ongoingPlannings">
@@ -226,6 +233,12 @@
       <!-- TAB DE PLANIFICACIONES -->
       
       <div id="plannings" *ngIf="currentTab==='plannings'">
+        <div class="horizontal-cards ion-padding ion-margin">
+          <ion-button [routerLink]="['../../planning/new-planning', this.id]">
+            <ion-icon name="calendar-clear"></ion-icon>
+            <p class="ion-margin">Nueva planificacion</p>
+          </ion-button>
+        </div>
         <app-planning-search 
           [selectedStates]="this.selectedStates"
           [planningStates]="this.planningStates"

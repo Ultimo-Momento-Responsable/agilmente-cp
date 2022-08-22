@@ -6,7 +6,7 @@ import {
 import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
@@ -23,7 +23,8 @@ export class NewPlanningPage implements OnInit {
     private difficultyService: DifficultyCalcService,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   patients: Patient[];
@@ -33,6 +34,7 @@ export class NewPlanningPage implements OnInit {
   assignedGames: any[] = [];
   planningGames: any[] = [];
   isClicked: boolean;
+  patientId: number;
 
   ngOnInit() {
     this.patientsApiService.getActivePatients().subscribe((res) => {
@@ -82,6 +84,15 @@ export class NewPlanningPage implements OnInit {
       games: new FormControl('', Validators.required),
     });
     this.planningForm.patchValue({ games: null });
+    this.route.params.subscribe((params) => {
+      this.patientId = +params['id'];
+      if (this.patientId) {
+        this.patientsApiService.getPatientById(this.patientId).subscribe((res) => {
+          this.fillPatient(res.firstNameLastName);
+          this.fillPlanningName(`Planificación de ${res.firstNameLastName}`);
+        });
+      }
+    });
   }
 
   /**
