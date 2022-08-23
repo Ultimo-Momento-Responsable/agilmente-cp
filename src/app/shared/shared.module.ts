@@ -19,6 +19,7 @@ import { ResultTranslatePipe } from './pipes/result-translate/result-translate.p
 import { TableComponent } from './components/table/table.component';
 import { GraphComponent } from './components/graph/graph.component';
 import { ResultsGraphComponent } from './components/results/results-graph/results-graph.component';
+import { ElipsisPipe } from './pipes/elipsis/elipsis.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ResultsGraphComponent } from './components/results/results-graph/result
     ResultTranslatePipe,
     ResultsGraphComponent,
     TableComponent,
-    GraphComponent
+    GraphComponent,
+    ElipsisPipe
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
   exports: [
@@ -66,7 +68,8 @@ import { ResultsGraphComponent } from './components/results/results-graph/result
     ResultTranslatePipe,
     ResultsGraphComponent,
     TableComponent,
-    GraphComponent
+    GraphComponent,
+    ElipsisPipe
   ],
   providers: [ResultTranslatePipe,DialogsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
