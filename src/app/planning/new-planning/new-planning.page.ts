@@ -35,6 +35,8 @@ export class NewPlanningPage implements OnInit {
   planningGames: any[] = [];
   isClicked: boolean;
   patientId: number;
+  patient: string;
+  planningName: string;
 
   ngOnInit() {
     this.patientsApiService.getActivePatients().subscribe((res) => {
@@ -88,6 +90,8 @@ export class NewPlanningPage implements OnInit {
       this.patientId = +params['id'];
       if (this.patientId) {
         this.patientsApiService.getPatientById(this.patientId).subscribe((res) => {
+          this.patient = res.firstNameLastName;
+          this.planningName = "Planificacion de " + res.firstNameLastName;
           this.fillPatient(res.firstNameLastName);
           this.fillPlanningName(`Planificación de ${res.firstNameLastName}`);
         });

@@ -15,7 +15,10 @@
         <form [formGroup]="planningForm" (ngSubmit)="save(planningForm)">
           <!-- Seleccionar al paciente -->
           <app-patient-planning-name 
+            [patient]="this.patient"
+            [planning]="this.planningName"
             [patients]="this.patients"
+            [patientsSearch]=""
             (patientName)="fillPatient($event)"
             (planningName)="fillPlanningName($event)">
           </app-patient-planning-name>
