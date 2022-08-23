@@ -24,6 +24,7 @@ export interface PlanningItem {
   gameSessionId: number;
   game: string;
   numberOfSession: number;
+  maxNumberOfSession: number;
   parameters: Param[];
 }
 
@@ -67,6 +68,9 @@ export class SpecificPlanningPage implements OnInit {
   filteredResults: any[] = [];
   filteredGame: string = '';
   filteredState: string = '';
+  totalNOS = 0;
+  leftNOS = 0;
+  daysLeft: any;
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -91,7 +95,6 @@ export class SpecificPlanningPage implements OnInit {
           this.filteredResults = JSON.parse(JSON.stringify(this.results));
         });
     });
-
     this.patientsApiService.getAll().subscribe((res) => {
       this.patients = res;
     });
@@ -144,6 +147,7 @@ export class SpecificPlanningPage implements OnInit {
    * Obtiene los datos de una planning y precarga los datos
    */
   loadPlanning() {
+
     this.planningApiService
       .getPlanningById(this.id)
       .subscribe((res: Planning) => {
@@ -165,6 +169,14 @@ export class SpecificPlanningPage implements OnInit {
         this.auxFinishDate = res.dueDate;
         this.uniqueGameList = this.getUniqueGameName(this.planningList);
         this.isLoading = false;
+        this.planningList.forEach(pl=>{
+          if (pl.maxNumberOfSession>0){
+            this.totalNOS+=pl.maxNumberOfSession;
+            this.leftNOS+=(pl.maxNumberOfSession - pl.numberOfSession);
+          }
+        })
+        moment.locale('es');
+        this.daysLeft = moment(this.auxFinishDate, 'DD-MM-yyyy').fromNow(true)
       });
   }
 

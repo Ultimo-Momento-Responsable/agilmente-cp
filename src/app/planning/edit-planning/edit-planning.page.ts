@@ -314,8 +314,6 @@ export class EditPlanningPage implements OnInit {
     } else {
       this.planningForm.patchValue({"games": "ok"});
     }
-    
-    console.log(this.isClicked)
     return !this.planningForm.valid 
     || !this.patientExists() 
     || (JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames) 
