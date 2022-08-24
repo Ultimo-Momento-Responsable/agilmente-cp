@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: () => import('./new-planning/new-planning.module').then( m => m.NewPlanningPageModule)
   },
   {
+    path: 'new-planning/:id',
+    loadChildren: () => import('./new-planning/new-planning.module').then( m => m.NewPlanningPageModule)
+  },
+  {
     path: ':id',
     loadChildren: () => import('./specific-planning/specific-planning.module').then( m => m.SpecificPlanningPageModule)
   },
