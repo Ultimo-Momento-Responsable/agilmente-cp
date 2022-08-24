@@ -8,10 +8,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddGamesComponent } from './components/add-games/add-games.component';
 import { GameSessionResultsComponent } from './components/game-session-results/game-session-results.component';
 import { PlanningMgpCardComponent } from './components/planning-mgp-card/planning-mgp-card.component';
+import { ProgressGraphComponent } from './components/progress-graph/progress-graph.component';
 
 @NgModule({
   imports: [SharedModule, NgbModule, Ionic4DatepickerModule],
-  declarations: [CustomDifficultComponent, AddGamesComponent, PatientPlanningNameComponent, StartFinishDateComponent, GameSessionResultsComponent, PlanningMgpCardComponent],
-  exports: [SharedModule, CustomDifficultComponent, AddGamesComponent, PatientPlanningNameComponent, StartFinishDateComponent, GameSessionResultsComponent, PlanningMgpCardComponent],
+  declarations: [CustomDifficultComponent, ProgressGraphComponent, AddGamesComponent, PatientPlanningNameComponent, StartFinishDateComponent, GameSessionResultsComponent, PlanningMgpCardComponent],
+  exports: [SharedModule, CustomDifficultComponent, ProgressGraphComponent, AddGamesComponent, PatientPlanningNameComponent, StartFinishDateComponent, GameSessionResultsComponent, PlanningMgpCardComponent],
 })
 export class SharedPlanningModule {}

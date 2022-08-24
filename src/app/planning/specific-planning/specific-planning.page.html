@@ -136,8 +136,25 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-card>
-              Progreso de planificación
+            <ion-card class="card">
+              <ion-text class="card_title">
+                Progreso de planificación
+              </ion-text>
+              <div style="margin-top: 10px;
+                          justify-content: center;
+                          display: flex;">
+                <app-progress-graph *ngIf="totalNOS>0" [text]="(leftNOS/totalNOS) * 100 + '%'" [progress]="(leftNOS/totalNOS) * 100"></app-progress-graph>
+                <app-progress-graph *ngIf="totalNOS<=0" [text]="'--'" [progress]="0"></app-progress-graph>
+              </div>
+              <ion-text *ngIf="totalNOS>0" class="card_label" style="color: black; margin-top: 16px;">
+                {{leftNOS}} de {{totalNOS}} ejercitaciones terminadas
+              </ion-text>
+              <ion-text *ngIf="totalNOS<=0" class="card_label" style="color: black; margin-top: 16px;">
+                Juego libre
+              </ion-text>
+              <ion-label class="card_label">
+                {{ daysLeft }} restantes
+              </ion-label>
             </ion-card>
           </ion-col>
           <ion-col *ngIf="this.results">
