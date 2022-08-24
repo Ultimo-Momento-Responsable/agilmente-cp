@@ -69,7 +69,6 @@ export class SpecificPatientPage implements OnInit {
         this.getOngoingPlannings();
       });
     });
-    
   }
 
   /**
@@ -77,12 +76,11 @@ export class SpecificPatientPage implements OnInit {
    * de búsqueda establecidos.
    */
   getInitialPlannings() {
-    if (this.pSC)
-    {
+    if (this.pSC) {
       this.selectedStates = this.pSC.selectedStates;
     }
-    if (this.selectedStates.includes("Vigente")) {
-      this.selectedStates.push("Vigente con juegos libres");
+    if (this.selectedStates.includes('Vigente')) {
+      this.selectedStates.push('Vigente con juegos libres');
     }
     this.planningApiService.getPlanningStates().subscribe((res) => {
       this.planningStates = res;
@@ -366,31 +364,24 @@ export class SpecificPatientPage implements OnInit {
    * Cambia a la tab "Planificaciones" llamando los metodos correspondientes.
    */
   goToPlannings() {
-    this.getInitialPlannings()
-    this.currentTab = "plannings"
+    this.getInitialPlannings();
+    this.currentTab = 'plannings';
   }
 
   /**
    * Obtiene las planificaciones vigentes del paciente.
-   * muestra los 3 primeros resultados.
-   * formatea los datos para mostrar en la tarjeta de informacion del paciente.
+   * Muestra los 3 primeros resultados.
    */
   getOngoingPlannings() {
-    this.planningApiService.getPlanningsOverviewFiltered('', ['Vigente', 'Vigente con juegos libres'], this.id). subscribe((res) => {
-      let patientPlannings = res
-      this.ongoingPlannings = patientPlannings.splice(0,3)
-      
-      if (patientPlannings.length != 0) {
-        for (let i = 0; i < patientPlannings.length; i++) {
-          patientPlannings[i].planningName = patientPlannings[i].planningName.substring(0, 32);
-          if (patientPlannings[i].planningName.length == 32) {
-            patientPlannings[i].planningName += '...';
-          }
-        }
-        if (patientPlannings.length >= 3) {
-          this.showMorePlannings = true;
-        }
-      }
-    })
+    this.planningApiService
+      .getPlanningsOverviewFiltered(
+        '',
+        ['Vigente', 'Vigente con juegos libres'],
+        this.id
+      )
+      .subscribe((res) => {
+        this.ongoingPlannings = res.slice(0, 3);
+        this.showMorePlannings = res.length > 3;
+      });
   }
 }
