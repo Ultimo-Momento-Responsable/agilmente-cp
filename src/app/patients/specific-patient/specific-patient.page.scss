@@ -134,3 +134,41 @@ ion-input {
     text-transform: capitalize;
     font-size: 16px;
 }
+
+.mgp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mgp-tendency {
+	display: flex;
+	justify-content: center;
+}
+
+.icon {
+	margin-left: 2px;
+}
+.card-big-number {
+	font-family: "Bariol";
+	font-size: 64px;
+	line-height: 64px;
+}
+  
+.card-small-number {
+	font-family: "Bariol";
+	font-size: 24px;
+	line-height: 24px;
+}
+.card-subtitle {
+	color: black;
+	font-family: "Bariol";
+	font-size: 24px;
+	line-height: 24px;
+}
+  
+.card-warning {
+	font-family: "Bariol";
+	font-size: 18px;
+	line-height: 18px;
+	color: var(--ion-color-medium);
+}

@@ -107,4 +107,15 @@ export class PlanningApiService {
       ''
     );
   }
+
+  /**
+   Obtiene una lista de MGPs de las plannings pertenecientes a un paciente
+	 * @param patientId Id del paciente
+	 * @return Lista de MGPs
+   */
+  getPlanningMGPsByPatient(patientId: number): Observable<any> {
+    return this.http.get<PlanningState[]>(
+      `http://${environment.ip}:8080/${this.entity}/mgps/${patientId}`
+    );
+  }
 }

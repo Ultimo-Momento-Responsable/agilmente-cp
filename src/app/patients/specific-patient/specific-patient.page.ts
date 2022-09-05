@@ -7,6 +7,7 @@ import {
   PlanningOverview,
   PlanningState,
 } from 'src/app/planning/services/planning-api.service';
+import { COLORS, Dataset } from '../../shared/components/graph/graph.component';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
@@ -41,6 +42,8 @@ export class SpecificPatientPage implements OnInit {
   lastResults: any[] = [];
   ongoingPlannings: any[] = [];
   showMorePlannings: boolean = false;
+  mGPs: number[] = [];
+  mGPColor: string = '';
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -67,8 +70,19 @@ export class SpecificPatientPage implements OnInit {
         this.sortById(this.patient.comments);
         this.getLastResults();
         this.getOngoingPlannings();
+        this.getPlanningMGPs(this.id);
       });
     });
+  }
+
+  /**
+   Obtiene una lista de MGPs de las plannings pertenecientes a un paciente
+	 * @param patientId Id del paciente
+   */
+  getPlanningMGPs(patientId: any) {
+    this.planningApiService.getPlanningMGPsByPatient(patientId).subscribe(res=>{
+      this.mGPs = res;
+    })
   }
 
   /**
@@ -383,5 +397,53 @@ export class SpecificPatientPage implements OnInit {
         this.ongoingPlannings = res.slice(0, 3);
         this.showMorePlannings = res.length > 3;
       });
+  }
+
+  /**
+   * Calcula el MGP promedio
+   * @param mGPs lista de MGPs
+   * @returns Promedio de MGP del paciente
+   */
+  calculateMGPAverage(mGPs):number {
+    let sum = mGPs.reduce((a, b) => a + b, 0);
+    return (sum/mGPs.length) || 0;
+  }
+
+  /**
+   * Calcula la tendencia y establece el color
+   * @returns tendencia calculada
+   */
+  calculateTendency():number {
+    if (this.mGPs.length<2){
+      return 0;
+    }
+    let previousMGPs = JSON.parse(JSON.stringify(this.mGPs));
+    previousMGPs.pop();
+    let tendency = this.calculateMGPAverage(this.mGPs) - this.calculateMGPAverage(previousMGPs);
+    this.mGPColor = tendency >= 0? '#009918' : '#737373';
+    return tendency
+  }
+
+  /**
+   * Genera una lista con los promedios históricos para generar el gráfico
+   * @param mGPs Lista de MGPs del paciente
+   * @returns Lista de promedios históricos de MGP
+   */
+  listAveragesMGPs(mGPs:number[]):number[] {
+    let avgMGPs = [];
+    let sum = 0;
+    for (let i=0; i<mGPs.length; i++){
+      sum += mGPs[i];
+      i == 0 ? avgMGPs.push(mGPs[i]) : avgMGPs.push(Math.round(sum/(i+1)));
+    }
+    return avgMGPs;
+  }
+
+  generateDataset():Dataset {
+    return {
+      data: this.listAveragesMGPs(this.mGPs),
+      lineColor: COLORS[0],
+      reference: "MGP Promedio",
+    };
   }
 }
