@@ -52,11 +52,14 @@ export class GraphComponent implements AfterViewInit, OnInit {
   @ViewChild('lineGraph')
   graphEl: ElementRef;
   @Input() datasets: Dataset[];
+  @Input() withBorders = true;
   @Input() pointLabelPrefix: string = 'Partida N°';
   @Input() unit: string = 'partidas';
   @Input() isUnitFemale = true;
   @Input() tabs: string[][];
   @Input() hasTabs: boolean = false;
+  @Input() max = null;
+  @Input() min = null;
   @Output() clickedPointEvent = new EventEmitter<any>();
   numberOfPoints: string = 'all';
   isOnlyOneResult: boolean = false;
@@ -151,6 +154,15 @@ export class GraphComponent implements AfterViewInit, OnInit {
         labels: this.labels,
         datasets: datasets.map(this.mapDatasets),
       },
+      options: {
+        scales: {
+          x: {},
+          y: {
+            min: this.min,
+            max: this.max
+          }
+        }
+      }
     });
   }
 

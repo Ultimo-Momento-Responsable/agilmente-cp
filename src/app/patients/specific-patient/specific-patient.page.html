@@ -253,10 +253,12 @@
                       ¿Deseas crear una?
                       </span>
                     </ion-label>
+                    <br>
+                    <br>
                     <ion-button *ngIf="this.patient?.enabled" [routerLink]="['../../planning/new-planning', this.id]">
                       <ion-icon name="calendar-clear"></ion-icon>
                       <p class="ion-margin">Nueva planificacion</p>
-                  </ion-button>
+                    </ion-button>
                   </div>
                   <div class="card_ongoing-plannings">
                     <div *ngFor="let planning of this.ongoingPlannings">
@@ -289,6 +291,70 @@
                       Ver más...
                     </ion-text>
                   </div>
+                </ion-card>
+              </ion-col>
+              <ion-col size="1"></ion-col>
+            </ion-row>
+            <!-- MGP -->
+            <ion-row>
+              <ion-col>
+                <ion-card class="card">
+                  <ion-row>
+                    <ion-col size="6">
+                      <app-graph *ngIf="mGPs.length>0" 
+                        [isUnitFemale]="false" 
+                        [pointLabelPrefix]="'Planificación Nº'" 
+                        [datasets]="[generateDataset()]" 
+                        [unit]="'MGP'"
+                        [withBorders]="false"
+                        [min]="0"
+                        [max]="2500">
+                      </app-graph>
+                    </ion-col>
+                    <ion-col>
+                      <ion-text class="card_title">
+                        Métrica General de Progreso
+                      </ion-text>
+                      <div class="mgp" [style.color]="mGPColor">
+                        <div>
+                          <ion-text class="card-big-number" >
+                            {{ calculateMGPAverage(this.mGPs) | number: '1.0-0' }}
+                          </ion-text>
+                        </div>
+                        <div class="mgp-tendency" ngbTooltip="Incremento respecto al último MGP." placement="bottom">
+                          <div>
+                            <ion-text class="card-small-number">
+                              <ion-text>+</ion-text>
+                              {{ calculateTendency() | number: '1.0-0' }}
+                            </ion-text>
+                          </div>
+                          <div class="icon">
+                            <ion-icon
+                              *ngIf="mGPColor=='#009918'"
+                              name="arrow-up-circle"
+                              class="card-small-number"
+                            ></ion-icon>
+                            <ion-icon
+                              *ngIf="mGPColor=='#737373'"
+                              name="arrow-down-circle"
+                              class="card-small-number"
+                            ></ion-icon>
+                          </div>
+                        </div>
+                        <div class="ion-text-center">
+                          <ion-text class="card-subtitle">
+                            Del paciente
+                          </ion-text>
+                        </div>
+                        <br>
+                        <div class="ion-text-center">
+                          <ion-text class="card-warning">
+                            Medido en base a las planificaciones finalizadas al momento
+                          </ion-text>
+                        </div>
+                      </div>
+                    </ion-col>
+                  </ion-row>
                 </ion-card>
               </ion-col>
               <ion-col size="1"></ion-col>
