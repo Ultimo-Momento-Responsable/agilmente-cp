@@ -7,7 +7,7 @@ import {
   PlanningOverview,
   PlanningState,
 } from 'src/app/planning/services/planning-api.service';
-import { COLORS, Dataset, Color } from '../../shared/components/graph/graph.component';
+import { COLORS, Dataset } from '../../shared/components/graph/graph.component';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
@@ -399,12 +399,20 @@ export class SpecificPatientPage implements OnInit {
       });
   }
 
-
+  /**
+   * Calcula el MGP promedio
+   * @param mGPs lista de MGPs
+   * @returns Promedio de MGP del paciente
+   */
   calculateMGPAverage(mGPs):number {
     let sum = mGPs.reduce((a, b) => a + b, 0);
     return (sum/mGPs.length) || 0;
   }
 
+  /**
+   * Calcula la tendencia y establece el color
+   * @returns tendencia calculada
+   */
   calculateTendency():number {
     if (this.mGPs.length<2){
       return 0;
@@ -416,6 +424,11 @@ export class SpecificPatientPage implements OnInit {
     return tendency
   }
 
+  /**
+   * Genera una lista con los promedios históricos para generar el gráfico
+   * @param mGPs Lista de MGPs del paciente
+   * @returns Lista de promedios históricos de MGP
+   */
   listAveragesMGPs(mGPs:number[]):number[] {
     let avgMGPs = [];
     let sum = 0;
