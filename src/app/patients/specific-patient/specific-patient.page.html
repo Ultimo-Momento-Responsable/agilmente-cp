@@ -324,7 +324,7 @@
                         <div class="mgp-tendency" ngbTooltip="Incremento respecto al último MGP." placement="bottom">
                           <div>
                             <ion-text class="card-small-number">
-                              <ion-text>+</ion-text>
+                              <ion-text *ngIf="mGPColor=='#009918'">+</ion-text>
                               {{ calculateTendency() | number: '1.0-0' }}
                             </ion-text>
                           </div>
