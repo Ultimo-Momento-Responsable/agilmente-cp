@@ -420,7 +420,7 @@ export class SpecificPatientPage implements OnInit {
     let previousMGPs = JSON.parse(JSON.stringify(this.mGPs));
     previousMGPs.pop();
     let tendency = this.calculateMGPAverage(this.mGPs) - this.calculateMGPAverage(previousMGPs);
-    this.mGPColor = tendency >= 0? '#009918' : '#737373';
+    this.mGPColor = tendency >= 0? '#009918' : '#990000';
     return tendency
   }
 

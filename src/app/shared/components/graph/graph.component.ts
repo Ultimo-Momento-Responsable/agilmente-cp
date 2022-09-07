@@ -53,6 +53,7 @@ export class GraphComponent implements AfterViewInit, OnInit {
   graphEl: ElementRef;
   @Input() datasets: Dataset[];
   @Input() withBorders = true;
+  @Input() maxHeight;
   @Input() pointLabelPrefix: string = 'Partida N°';
   @Input() unit: string = 'partidas';
   @Input() isUnitFemale = true;
