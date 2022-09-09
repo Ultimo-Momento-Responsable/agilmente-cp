@@ -23,6 +23,6 @@
     </ion-segment-button>
   </ion-segment>
   <ion-card-content>
-    <canvas #lineGraph (click)="this.onChartClick()"></canvas>
+    <canvas [style.maxHeight]="maxHeight? maxHeight : 'none'" #lineGraph (click)="this.onChartClick()"></canvas>
   </ion-card-content>
 </ion-card>

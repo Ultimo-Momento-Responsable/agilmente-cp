@@ -303,6 +303,7 @@
                     <ion-col size="6">
                       <app-graph *ngIf="mGPs.length>0" 
                         [isUnitFemale]="false" 
+                        [maxHeight]="'235px'"
                         [pointLabelPrefix]="'Planificación Nº'" 
                         [datasets]="[generateDataset()]" 
                         [unit]="'MGP'"
@@ -335,7 +336,7 @@
                               class="card-small-number"
                             ></ion-icon>
                             <ion-icon
-                              *ngIf="mGPColor=='#737373'"
+                              *ngIf="mGPColor=='#990000'"
                               name="arrow-down-circle"
                               class="card-small-number"
                             ></ion-icon>
