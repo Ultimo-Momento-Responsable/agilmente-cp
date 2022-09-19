@@ -3,7 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Agilmente - Detalle de {{this.patient?.firstName}} {{this.patient?.lastName}}</ion-title>
+    <ion-title
+      >Agilmente - Detalle de {{this.patient?.firstName}}
+      {{this.patient?.lastName}}</ion-title
+    >
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +16,12 @@
       <ion-icon name="information-circle"></ion-icon>
       <ion-label class="patient-tab">Datos Personales</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="plannings" id="plannings" (click)="this.getInitialPlannings()" layout="icon-start">
+    <ion-segment-button
+      value="plannings"
+      id="plannings"
+      (click)="this.getInitialPlannings()"
+      layout="icon-start"
+    >
       <ion-icon name="calendar"></ion-icon>
       <ion-label class="patient-tab">Planificaciones</ion-label>
     </ion-segment-button>
@@ -27,19 +35,27 @@
       <!-- TAB DE DATOS PERSONALES -->
       <div id="container" *ngIf="currentTab==='data'">
         <div *ngIf="this.patient?.enabled == false">
-          <ion-chip color='danger'>
+          <ion-chip color="danger">
             <ion-label>Paciente deshabilitado</ion-label>
           </ion-chip>
         </div>
         <div class="ion-padding-top ion-margin-top">
-          <ion-row class="ion-justify-content-end" style="width: 90%;">
-            <ion-button *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged"
-              style="float: right" (click)="this.resetCode()" [disabled]="this.patient?.enabled == false">
-                <ion-icon name="download-outline"></ion-icon>
-                <p class="ion-margin">Generar Código</p>
+          <ion-row class="ion-justify-content-end" style="width: 90%">
+            <ion-button
+              *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged"
+              style="float: right"
+              (click)="this.resetCode()"
+              [disabled]="this.patient?.enabled == false"
+            >
+              <ion-icon name="download-outline"></ion-icon>
+              <p class="ion-margin">Generar Código</p>
             </ion-button>
-            <ion-button *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged"
-            style="align-items: flex-end;" color="danger" (click)="this.unlinkPatient()">
+            <ion-button
+              *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged"
+              style="align-items: flex-end"
+              color="danger"
+              (click)="this.unlinkPatient()"
+            >
               <ion-icon name="log-out-outline"></ion-icon>
               <p class="ion-margin">Desvincular</p>
             </ion-button>
@@ -69,26 +85,37 @@
         <ion-row>
           <ion-col size="1"></ion-col>
           <ion-col>
-          <div *ngIf="this.patient?.loginCode && this.patient?.loginCode?.length==6">
-            <ion-card class="card_ac">
-              <ion-label class="card_ac_label">Código de Ingreso: {{this.patient.loginCode}}</ion-label>
-            </ion-card>
-          </div>
-          <div *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged">
-            <ion-card class="card_ac_linked">
-              <ion-label class="card_ac_label">¡Paciente Vinculado!</ion-label>
-            </ion-card>
-          </div>
-          <div *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged">
-            <ion-card class="card_ac_unlinked">
-              <ion-label class="card_ac_label">Paciente Desvinculado</ion-label>
-            </ion-card>
-            
-          </div>
+            <div
+              *ngIf="this.patient?.loginCode && this.patient?.loginCode?.length==6"
+            >
+              <ion-card class="card_ac">
+                <ion-label class="card_ac_label"
+                  >Código de Ingreso: {{this.patient.loginCode}}</ion-label
+                >
+              </ion-card>
+            </div>
+            <div
+              *ngIf="this.patient?.loginCode?.length!=6 && this.patient?.logged"
+            >
+              <ion-card class="card_ac_linked">
+                <ion-label class="card_ac_label"
+                  >¡Paciente Vinculado!</ion-label
+                >
+              </ion-card>
+            </div>
+            <div
+              *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged"
+            >
+              <ion-card class="card_ac_unlinked">
+                <ion-label class="card_ac_label"
+                  >Paciente Desvinculado</ion-label
+                >
+              </ion-card>
+            </div>
           </ion-col>
           <ion-col size="1"></ion-col>
         </ion-row>
-        
+
         <!-- Tarjetas de paciente -->
         <ion-row>
           <ion-col size="1"></ion-col>
@@ -96,47 +123,46 @@
             <ion-row>
               <ion-col>
                 <ion-card class="card">
-                  <ion-text class="card_title">
-                    Nombre de paciente
-                  </ion-text>
+                  <ion-text class="card_title"> Nombre de paciente </ion-text>
                   <ion-label class="card_label">
                     {{this.patient?.firstName}} {{this.patient?.lastName}}
                   </ion-label>
-                  <ion-text class="card_title">
-                    Descripción
-                  </ion-text>
-                  <ion-label class="card_desc" *ngIf="this.patient?.description">
+                  <ion-text class="card_title"> Descripción </ion-text>
+                  <ion-label
+                    class="card_desc"
+                    *ngIf="this.patient?.description"
+                  >
                     {{this.patient?.description}}
                   </ion-label>
-                  <ion-label class="card_desc" *ngIf="!this.patient?.description">
+                  <ion-label
+                    class="card_desc"
+                    *ngIf="!this.patient?.description"
+                  >
                     Este paciente no tiene descripción.
                   </ion-label>
                 </ion-card>
               </ion-col>
               <ion-col>
                 <ion-card class="card">
-                  <ion-text class="card_title">
-                    Fecha de Nacimiento
-                  </ion-text>
+                  <ion-text class="card_title"> Fecha de Nacimiento </ion-text>
                   <ion-label class="card_label">
                     {{this.patient?.bornDate}}
                   </ion-label>
-                  <ion-text class="card_title">
-                    Localidad
-                  </ion-text>
+                  <ion-text class="card_title"> Localidad </ion-text>
                   <ion-label class="card_label">
                     {{this.patient?.city}}
                   </ion-label>
-                  <ion-text class="card_title">
-                    Contacto
-                  </ion-text>
+                  <ion-text class="card_title"> Contacto </ion-text>
                   <ion-label class="card_label" *ngIf="this.patient?.telephone">
                     {{this.patient?.telephone}}
                   </ion-label>
                   <ion-label class="card_label" *ngIf="this.patient?.email">
                     {{this.patient?.email}}
                   </ion-label>
-                  <ion-label class="card_label" *ngIf="!this.patient?.email && !this.patient?.telephone">
+                  <ion-label
+                    class="card_label"
+                    *ngIf="!this.patient?.email && !this.patient?.telephone"
+                  >
                     No hay información de contacto para este paciente.
                   </ion-label>
                 </ion-card>
@@ -151,36 +177,63 @@
             <ion-row>
               <ion-col>
                 <ion-card class="card">
-                  <ion-text class="card_title">
-                    Actividad Reciente
-                  </ion-text>
+                  <ion-text class="card_title"> Actividad Reciente </ion-text>
                   <div *ngIf="this.lastResults.length == 0">
                     <ion-label class="card_label">
                       Este paciente no tiene actividad reciente.
                     </ion-label>
-                    <br>
+                    <br />
                     <ion-label class="card_desc">
-                      Los últimos resultados de sus ejercitaciones aparecerán aquí.
+                      Los últimos resultados de sus ejercitaciones aparecerán
+                      aquí.
                     </ion-label>
                   </div>
                   <div class="card_recent-results">
                     <div *ngFor="let result of this.lastResults">
                       <ion-row>
                         <ion-col size="7">
-                          <ion-text color="primary" [routerLink]="['../../results', result.gameLink, result.id]" role="button" class="card_label">
+                          <ion-text
+                            color="primary"
+                            [routerLink]="['../../results', result.gameLink, result.id]"
+                            role="button"
+                            class="card_label"
+                          >
                             {{result.game}}
                           </ion-text>
-                          <br>
-                          <ion-text class="card_recent-results_subtitle">{{result.lastPlayed}}</ion-text>
+                          <br />
+                          <ion-text class="card_recent-results_subtitle"
+                            >{{result.lastPlayed}}</ion-text
+                          >
                         </ion-col>
                         <ion-col size="5">
-                          <ion-chip class="card_recent-results_chips" *ngIf="this.result.canceled === false" color="success" style="background: rgba(50, 219, 100, 0.29);">
-                            <ion-icon class="card_recent-results_chips_icon" color="success" name="checkmark-circle"></ion-icon>
-                            <ion-label class="card_recent-results_chips_text">Completo</ion-label>
+                          <ion-chip
+                            class="card_recent-results_chips"
+                            *ngIf="this.result.canceled === false"
+                            color="success"
+                            style="background: rgba(50, 219, 100, 0.29)"
+                          >
+                            <ion-icon
+                              class="card_recent-results_chips_icon"
+                              color="success"
+                              name="checkmark-circle"
+                            ></ion-icon>
+                            <ion-label class="card_recent-results_chips_text"
+                              >Completo</ion-label
+                            >
                           </ion-chip>
-                          <ion-chip class="card_recent-results_chips ion-color-danger" *ngIf="this.result.canceled === true" color="danger" style="background: rgba(207, 60, 79, 0.29);">
-                            <ion-icon class="card_recent-results_chips_icon" name="close-circle"></ion-icon>
-                            <ion-label class="card_recent-results_chips_text">Abandonado</ion-label>
+                          <ion-chip
+                            class="card_recent-results_chips ion-color-danger"
+                            *ngIf="this.result.canceled === true"
+                            color="danger"
+                            style="background: rgba(207, 60, 79, 0.29)"
+                          >
+                            <ion-icon
+                              class="card_recent-results_chips_icon"
+                              name="close-circle"
+                            ></ion-icon>
+                            <ion-label class="card_recent-results_chips_text"
+                              >Abandonado</ion-label
+                            >
                           </ion-chip>
                         </ion-col>
                       </ion-row>
@@ -196,26 +249,113 @@
                   <div *ngIf="this.ongoingPlannings.length == 0">
                     <ion-label class="card_label">
                       No hay planificaciones vigentes para este paciente
+                      <span *ngIf="this.patient?.enabled">
+                      ¿Deseas crear una?
+                      </span>
                     </ion-label>
+                    <br>
+                    <br>
+                    <ion-button *ngIf="this.patient?.enabled" [routerLink]="['../../planning/new-planning', this.id]">
+                      <ion-icon name="calendar-clear"></ion-icon>
+                      <p class="ion-margin">Nueva planificacion</p>
+                    </ion-button>
                   </div>
                   <div class="card_ongoing-plannings">
                     <div *ngFor="let planning of this.ongoingPlannings">
                       <ion-row>
                         <ion-col>
-                          <ion-text color="primary" [routerLink]="['../../planning', planning.planningId]" role="button" class="card_label">
-                            {{planning.planningName}}
+                          <ion-text
+                            color="primary"
+                            [routerLink]="['../../planning', planning.planningId]"
+                            role="button"
+                            class="card_label"
+                          >
+                            {{ planning.planningName | elipsis : 32 }}
                           </ion-text>
-                          <br>
-                          <ion-text class="card_recent-results_subtitle">Desde {{planning.startDate}} hasta {{planning.dueDate}}</ion-text>
+                          <br />
+                          <ion-text class="card_recent-results_subtitle"
+                            >Desde {{planning.startDate}} hasta
+                            {{planning.dueDate}}</ion-text
+                          >
                         </ion-col>
                       </ion-row>
                     </div>
                   </div>
-                  <div *ngIf="this.showMorePlannings == true">
-                    <ion-text color="primary" (click)="goToPlannings()" role="button" class="card_label">
+                  <div *ngIf="this.showMorePlannings">
+                    <ion-text
+                      color="primary"
+                      (click)="goToPlannings()"
+                      role="button"
+                      class="card_label"
+                    >
                       Ver más...
                     </ion-text>
                   </div>
+                </ion-card>
+              </ion-col>
+              <ion-col size="1"></ion-col>
+            </ion-row>
+            <!-- MGP -->
+            <ion-row>
+              <ion-col>
+                <ion-card class="card">
+                  <ion-row>
+                    <ion-col size="6">
+                      <app-graph *ngIf="mGPs.length>0" 
+                        [isUnitFemale]="false" 
+                        [maxHeight]="'235px'"
+                        [pointLabelPrefix]="'Planificación Nº'" 
+                        [datasets]="[generateDataset()]" 
+                        [unit]="'MGP'"
+                        [withBorders]="false"
+                        [min]="0"
+                        [max]="2500">
+                      </app-graph>
+                    </ion-col>
+                    <ion-col>
+                      <ion-text class="card_title">
+                        Métrica General de Progreso
+                      </ion-text>
+                      <div class="mgp" [style.color]="mGPColor">
+                        <div>
+                          <ion-text class="card-big-number" >
+                            {{ calculateMGPAverage(this.mGPs) | number: '1.0-0' }}
+                          </ion-text>
+                        </div>
+                        <div class="mgp-tendency" ngbTooltip="Incremento respecto al último MGP." placement="bottom">
+                          <div>
+                            <ion-text class="card-small-number">
+                              <ion-text *ngIf="mGPColor=='#009918'">+</ion-text>
+                              {{ calculateTendency() | number: '1.0-0' }}
+                            </ion-text>
+                          </div>
+                          <div class="icon">
+                            <ion-icon
+                              *ngIf="mGPColor=='#009918'"
+                              name="arrow-up-circle"
+                              class="card-small-number"
+                            ></ion-icon>
+                            <ion-icon
+                              *ngIf="mGPColor=='#990000'"
+                              name="arrow-down-circle"
+                              class="card-small-number"
+                            ></ion-icon>
+                          </div>
+                        </div>
+                        <div class="ion-text-center">
+                          <ion-text class="card-subtitle">
+                            Del paciente
+                          </ion-text>
+                        </div>
+                        <br>
+                        <div class="ion-text-center">
+                          <ion-text class="card-warning">
+                            Medido en base a las planificaciones finalizadas al momento
+                          </ion-text>
+                        </div>
+                      </div>
+                    </ion-col>
+                  </ion-row>
                 </ion-card>
               </ion-col>
               <ion-col size="1"></ion-col>
@@ -224,27 +364,40 @@
         </ion-row>
       </div>
       <!-- TAB DE PLANIFICACIONES -->
-      
+
       <div id="plannings" *ngIf="currentTab==='plannings'">
+        <div *ngIf="this.patient?.enabled" class="horizontal-cards ion-padding ion-margin">
+          <ion-button [routerLink]="['../../planning/new-planning', this.id]">
+            <ion-icon name="calendar-clear"></ion-icon>
+            <p class="ion-margin">Nueva planificacion</p>
+          </ion-button>
+        </div>
         <app-planning-search 
           [selectedStates]="this.selectedStates"
           [planningStates]="this.planningStates"
           [fromPatient]="true"
-          (skeletonLoading)="this.skeletonLoading = $event" 
+          (skeletonLoading)="this.skeletonLoading = $event"
           (search)="this.search = $event"
-          (statesToFilter)="getPlanningsFiltered($event,this.search)">
+          (statesToFilter)="getPlanningsFiltered($event,this.search)"
+        >
         </app-planning-search>
 
         <div class="horizontal-cards ion-margin">
-          <div *ngIf="this.filteredPlannings?.length == 0 && this.skeletonLoading == false" style=text-align:center;>
-            <br>
+          <div
+            *ngIf="this.filteredPlannings?.length == 0 && this.skeletonLoading == false"
+            style="text-align: center"
+          >
+            <br />
             <h2>No se han encontrado resultados para la búsqueda.</h2>
-            <h6>Prueba con otras palabras clave o modifica los filtros de búsqueda.</h6>
+            <h6>
+              Prueba con otras palabras clave o modifica los filtros de
+              búsqueda.
+            </h6>
           </div>
           <div class="item" *ngIf="this.skeletonLoading == true">
-            <ngx-skeleton-loader 
-                count="10" 
-                [theme]="{
+            <ngx-skeleton-loader
+              count="10"
+              [theme]="{
                     height: '180px',
                     'border-radius': '10px',
                     'margin-right': '20px'
@@ -262,34 +415,50 @@
       <!-- TAB DE DATOS COMENTARIOS -->
       <div id="comments" *ngIf="currentTab==='comments'">
         <ion-row>
-          <ion-col size=1></ion-col>
+          <ion-col size="1"></ion-col>
           <ion-col>
             <ion-label position="stacked" color="primary">
               Nuevo comentario
             </ion-label>
             <ion-textarea
-              class="ion-margin ion-padding" 
-              style="border-width: thin; border-style:groove; border-radius: 5px;"
+              class="ion-margin ion-padding"
+              style="
+                border-width: thin;
+                border-style: groove;
+                border-radius: 5px;
+              "
               rows="3"
               type="text"
-              autoGrow=true
-              maxlength=2999
-              [(ngModel)]="this.comment">
+              autoGrow="true"
+              maxlength="2999"
+              [(ngModel)]="this.comment"
+            >
             </ion-textarea>
-            <ion-button color="primary" style="float: right;" (click)="addComment()" [disabled]="this.comment.length < 2">
+            <ion-button
+              color="primary"
+              style="float: right"
+              (click)="addComment()"
+              [disabled]="this.comment.length < 2"
+            >
               Comentar
             </ion-button>
-            <br> <br> <br>
-            <div *ngFor="let comment of this.patient.comments.slice().reverse()"
-              class="ion-margin" 
-              >
+            <br />
+            <br />
+            <br />
+            <div
+              *ngFor="let comment of this.patient.comments.slice().reverse()"
+              class="ion-margin"
+            >
               <!-- Si se está editando el comentario -->
-              <div *ngIf="comment.isEditing" 
-                class="ion-padding" 
-                style="border-width: thin; 
-                  border-style:groove; 
+              <div
+                *ngIf="comment.isEditing"
+                class="ion-padding"
+                style="
+                  border-width: thin;
+                  border-style: groove;
                   border-radius: 5px;
-                  background-color: rgba(var(--ion-color-primary-rgb), 0.14);"
+                  background-color: rgba(var(--ion-color-primary-rgb), 0.14);
+                "
               >
                 <ion-button
                   shape="round"
@@ -312,20 +481,34 @@
                   <ion-icon name="checkmark-outline"></ion-icon>
                 </ion-button>
                 <ion-label position="stacked" color="primary">
-                  {{comment.author.firstName + " " + comment.author.lastName + "  -  " + comment.datetime}}
+                  {{comment.author.firstName + " " + comment.author.lastName + "
+                  - " + comment.datetime}}
                 </ion-label>
-                <ion-label position="stacked" color="medium" *ngIf="comment.isEditing">
+                <ion-label
+                  position="stacked"
+                  color="medium"
+                  *ngIf="comment.isEditing"
+                >
                   <i>Editando</i>
-                </ion-label> 
-                <ion-textarea autofocus autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment">
+                </ion-label>
+                <ion-textarea
+                  autofocus
+                  autoGrow="true"
+                  type="text"
+                  [value]="comment.comment"
+                  [(ngModel)]="comment.comment"
+                >
                 </ion-textarea>
               </div>
               <!-- Si no se está editando el comentario -->
-              <div *ngIf="!comment.isEditing"
-                class="ion-padding" 
-                style="border-width: thin; 
-                  border-style:groove; 
-                  border-radius: 5px;" 
+              <div
+                *ngIf="!comment.isEditing"
+                class="ion-padding"
+                style="
+                  border-width: thin;
+                  border-style: groove;
+                  border-radius: 5px;
+                "
               >
                 <ion-button
                   shape="round"
@@ -349,17 +532,28 @@
                   <ion-icon name="pencil-outline" item-right></ion-icon>
                 </ion-button>
                 <ion-label position="stacked" color="primary">
-                  {{comment.author.firstName + " " + comment.author.lastName + "  -  " + comment.datetime}}
+                  {{comment.author.firstName + " " + comment.author.lastName + "
+                  - " + comment.datetime}}
                 </ion-label>
-                <ion-label position="stacked" color="medium" *ngIf="comment.edited">
+                <ion-label
+                  position="stacked"
+                  color="medium"
+                  *ngIf="comment.edited"
+                >
                   <i>Mensaje editado</i>
-                </ion-label> 
-                <ion-textarea autoGrow=true type="text" [value]="comment.comment" [(ngModel)]="comment.comment" readonly>
+                </ion-label>
+                <ion-textarea
+                  autoGrow="true"
+                  type="text"
+                  [value]="comment.comment"
+                  [(ngModel)]="comment.comment"
+                  readonly
+                >
                 </ion-textarea>
               </div>
             </div>
           </ion-col>
-          <ion-col size=1></ion-col>
+          <ion-col size="1"></ion-col>
         </ion-row>
       </div>
     </ion-col>

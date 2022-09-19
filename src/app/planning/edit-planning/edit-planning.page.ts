@@ -268,7 +268,7 @@ export class EditPlanningPage implements OnInit {
         dueDate: myForm.value.finishDate,
         games: gamesPost
       }
-      if (this.state == "Vigente") {
+      if (this.state == "Vigente" || this.state == "Vigente con juegos libres") {
         this.planningApiService.editPlanning(jsonPost,this.id).subscribe(()=> {
           this.dialogsComponent.presentAlert('¡Planificación Editada!',"",'La planificación ha sido editada correctamente.',"/planning",false); 
         }, () => {
@@ -314,8 +314,6 @@ export class EditPlanningPage implements OnInit {
     } else {
       this.planningForm.patchValue({"games": "ok"});
     }
-    
-    console.log(this.isClicked)
     return !this.planningForm.valid 
     || !this.patientExists() 
     || (JSON.stringify(this.assignedGames)==JSON.stringify(this.auxGames) 

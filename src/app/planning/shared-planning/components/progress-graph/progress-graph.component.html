@@ -1,0 +1,4 @@
+<div role="progressbar"  aria-valuemin="0" aria-valuemax="100" [style]="'--value:' + progress">
+  <p *ngIf="text !== '--'"> {{progress | number : '1.0-0'}}%</p>
+  <p *ngIf="text === '--'">--</p>
+</div>

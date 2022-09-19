@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
+import { SessionMGPCalculator } from '../../models/session-mgp-calculator.model';
 
 interface Param {
   id: number;
@@ -27,7 +28,10 @@ export class GameSessionCardComponent implements OnInit {
   icon: string;
   results: any[];
   tendency: string;
+  tendencyValue: number;
   numberOfSessions: string;
+  sessionMGP: number;
+  previousMGP: number;
 
   constructor(
     private resultsApiService: ResultsApiService
@@ -42,8 +46,24 @@ export class GameSessionCardComponent implements OnInit {
     this.getNumberOfSessions();
     this.resultsApiService.getResultsBySessionId(this.gameSession.gameSessionId, gameRoute).subscribe((res) => {
       this.results = res;
+      this.calculateMGP();
+      
     });
     this.formatParamValues();
+  }
+
+  /**
+   * Calcula el MGP y la tendencia de cada sesion utilizando todos los resultados registrados.
+   */
+  calculateMGP() {
+    const calculator = new SessionMGPCalculator(this.results.reverse());
+    this.sessionMGP = calculator.currentMGP();
+    this.tendencyValue = calculator.currentTendency();
+    if (this.tendencyValue > -1) {
+      this.tendency = 'increment'
+    } else { 
+      this.tendency = 'decrement'
+    }
   }
 
   /**

@@ -7,6 +7,7 @@ import {
   PlanningOverview,
   PlanningState,
 } from 'src/app/planning/services/planning-api.service';
+import { COLORS, Dataset } from '../../shared/components/graph/graph.component';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
 import { DialogsComponent } from 'src/app/shared/components/dialogs/dialogs.component';
 import { PlanningSearchComponent } from 'src/app/shared/components/planning-search/planning-search.component';
@@ -41,6 +42,8 @@ export class SpecificPatientPage implements OnInit {
   lastResults: any[] = [];
   ongoingPlannings: any[] = [];
   showMorePlannings: boolean = false;
+  mGPs: number[] = [];
+  mGPColor: string = '';
 
   constructor(
     private patientsApiService: PatientsApiService,
@@ -67,9 +70,19 @@ export class SpecificPatientPage implements OnInit {
         this.sortById(this.patient.comments);
         this.getLastResults();
         this.getOngoingPlannings();
+        this.getPlanningMGPs(this.id);
       });
     });
-    
+  }
+
+  /**
+   Obtiene una lista de MGPs de las plannings pertenecientes a un paciente
+	 * @param patientId Id del paciente
+   */
+  getPlanningMGPs(patientId: any) {
+    this.planningApiService.getPlanningMGPsByPatient(patientId).subscribe(res=>{
+      this.mGPs = res;
+    })
   }
 
   /**
@@ -77,19 +90,18 @@ export class SpecificPatientPage implements OnInit {
    * de búsqueda establecidos.
    */
   getInitialPlannings() {
-    if (this.pSC)
-    {
+    if (this.pSC) {
       this.selectedStates = this.pSC.selectedStates;
     }
-    if (this.selectedStates.includes("Completada")) {
-      this.selectedStates.push("Completada y Terminada");
+    if (this.selectedStates.includes('Vigente')) {
+      this.selectedStates.push('Vigente con juegos libres');
     }
     this.planningApiService.getPlanningStates().subscribe((res) => {
-      res.pop();
       this.planningStates = res;
       if (this.selectedStates.length == 0) {
         this.selectedStates.push(this.planningStates[0].name);
         this.selectedStates.push(this.planningStates[1].name);
+        this.selectedStates.push(this.planningStates[4].name);
       }
       this.planningApiService
         .getPlanningsOverviewFiltered('', this.selectedStates, this.id)
@@ -366,31 +378,72 @@ export class SpecificPatientPage implements OnInit {
    * Cambia a la tab "Planificaciones" llamando los metodos correspondientes.
    */
   goToPlannings() {
-    this.getInitialPlannings()
-    this.currentTab = "plannings"
+    this.getInitialPlannings();
+    this.currentTab = 'plannings';
   }
 
   /**
    * Obtiene las planificaciones vigentes del paciente.
-   * muestra los 3 primeros resultados.
-   * formatea los datos para mostrar en la tarjeta de informacion del paciente.
+   * Muestra los 3 primeros resultados.
    */
   getOngoingPlannings() {
-    this.planningApiService.getPlanningsOverviewFiltered('', ['Vigente'], this.id). subscribe((res) => {
-      let patientPlannings = res
-      this.ongoingPlannings = patientPlannings.splice(0,3)
-      
-      if (patientPlannings.length != 0) {
-        for (let i = 0; i < patientPlannings.length; i++) {
-          patientPlannings[i].planningName = patientPlannings[i].planningName.substring(0, 32);
-          if (patientPlannings[i].planningName.length == 32) {
-            patientPlannings[i].planningName += '...';
-          }
-        }
-        if (patientPlannings.length >= 3) {
-          this.showMorePlannings = true;
-        }
-      }
-    })
+    this.planningApiService
+      .getPlanningsOverviewFiltered(
+        '',
+        ['Vigente', 'Vigente con juegos libres'],
+        this.id
+      )
+      .subscribe((res) => {
+        this.ongoingPlannings = res.slice(0, 3);
+        this.showMorePlannings = res.length > 3;
+      });
+  }
+
+  /**
+   * Calcula el MGP promedio
+   * @param mGPs lista de MGPs
+   * @returns Promedio de MGP del paciente
+   */
+  calculateMGPAverage(mGPs):number {
+    let sum = mGPs.reduce((a, b) => a + b, 0);
+    return (sum/mGPs.length) || 0;
+  }
+
+  /**
+   * Calcula la tendencia y establece el color
+   * @returns tendencia calculada
+   */
+  calculateTendency():number {
+    if (this.mGPs.length<2){
+      return 0;
+    }
+    let previousMGPs = JSON.parse(JSON.stringify(this.mGPs));
+    previousMGPs.pop();
+    let tendency = this.calculateMGPAverage(this.mGPs) - this.calculateMGPAverage(previousMGPs);
+    this.mGPColor = tendency >= 0? '#009918' : '#990000';
+    return tendency
+  }
+
+  /**
+   * Genera una lista con los promedios históricos para generar el gráfico
+   * @param mGPs Lista de MGPs del paciente
+   * @returns Lista de promedios históricos de MGP
+   */
+  listAveragesMGPs(mGPs:number[]):number[] {
+    let avgMGPs = [];
+    let sum = 0;
+    for (let i=0; i<mGPs.length; i++){
+      sum += mGPs[i];
+      i == 0 ? avgMGPs.push(mGPs[i]) : avgMGPs.push(Math.round(sum/(i+1)));
+    }
+    return avgMGPs;
+  }
+
+  generateDataset():Dataset {
+    return {
+      data: this.listAveragesMGPs(this.mGPs),
+      lineColor: COLORS[0],
+      reference: "MGP Promedio",
+    };
   }
 }
