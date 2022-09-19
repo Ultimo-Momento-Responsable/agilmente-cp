@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ip: "localhost"
+  ip: "agilmente.tk"
 };
 
 /*
