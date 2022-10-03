@@ -11,6 +11,7 @@ export class TableComponent implements OnInit {
   @Input() showIndex = true;
   @Input() indexColumn = 'Nro. partida';
   @Input() paginated = false;
+  @Input() reversed: boolean = false;
   @Input() numberOfRows = 5;
   @Output() clickedRowEvent = new EventEmitter<any>();
   page: any[];
@@ -22,7 +23,11 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     if (this.showIndex) {
       this.columns.unshift(this.indexColumn);
-      this.data.map((row, i) => {row[this.indexColumn] = i+1; row});
+      if (!this.reversed) {
+        this.data.map((row, i) => {row[this.indexColumn] = i+1; row});
+      } else {
+        this.data.slice(0).reverse().map((row, i) => {row[this.indexColumn] = i+1; row});
+      }
     }
 
     if (this.paginated) {

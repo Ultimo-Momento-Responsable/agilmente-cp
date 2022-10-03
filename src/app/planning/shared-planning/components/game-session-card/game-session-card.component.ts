@@ -47,7 +47,6 @@ export class GameSessionCardComponent implements OnInit {
     this.resultsApiService.getResultsBySessionId(this.gameSession.gameSessionId, gameRoute).subscribe((res) => {
       this.results = res;
       this.calculateMGP();
-      console.log(this.results);
     });
     this.formatParamValues();
   }
