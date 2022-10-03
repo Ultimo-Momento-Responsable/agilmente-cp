@@ -47,7 +47,6 @@ export class GameSessionCardComponent implements OnInit {
     this.resultsApiService.getResultsBySessionId(this.gameSession.gameSessionId, gameRoute).subscribe((res) => {
       this.results = res;
       this.calculateMGP();
-      
     });
     this.formatParamValues();
   }
@@ -56,7 +55,8 @@ export class GameSessionCardComponent implements OnInit {
    * Calcula el MGP y la tendencia de cada sesion utilizando todos los resultados registrados.
    */
   calculateMGP() {
-    const calculator = new SessionMGPCalculator(this.results.reverse());
+    let MGPResults = JSON.parse(JSON.stringify(this.results));
+    const calculator = new SessionMGPCalculator(MGPResults.reverse());
     this.sessionMGP = calculator.currentMGP();
     this.tendencyValue = calculator.currentTendency();
     if (this.tendencyValue > -1) {
