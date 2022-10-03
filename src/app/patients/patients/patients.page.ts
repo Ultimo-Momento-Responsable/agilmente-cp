@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient, PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-patients',
@@ -13,13 +13,13 @@ export class PatientsPage implements OnInit {
   hasRegisteredPatients = false;
   patients: Patient[] = [];
   skeletonLoading = true;
-  searchForm: FormGroup = this.formBuilder.group({
+  searchForm: UntypedFormGroup = this.formBuilder.group({
     searchText: [''],
     includeDisabledPatients: [false]
   });
 
   constructor(private patientsApiService: PatientsApiService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit() {}
 

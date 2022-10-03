@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginService } from "./services/login.service";
 
@@ -9,7 +9,7 @@ import { LoginService } from "./services/login.service";
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   errorLogin: boolean = false;
 
   constructor(
@@ -19,9 +19,9 @@ export class LoginPage implements OnInit {
 
   ngOnInit(){
     this.checkIfLogged()
-    this.myForm = new FormGroup({
-      userName: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+    this.myForm = new UntypedFormGroup({
+      userName: new UntypedFormControl('', Validators.required),
+      password: new UntypedFormControl('', Validators.required)
     });
   }
 

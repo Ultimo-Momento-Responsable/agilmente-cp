@@ -16,25 +16,24 @@ import { PatientsModule } from './patients/patients.module';
 
 registerLocaleData(localeEs, 'es-AR');
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    FormsModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    HttpClientModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    ResultsModule,
-    PatientsModule,
-    SharedModule,
-    RouterModule.forRoot([])
-  ],              
-  exports: [RouterModule],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: LOCALE_ID, useValue: 'es-AR' }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        FormsModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        HttpClientModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        ResultsModule,
+        PatientsModule,
+        SharedModule,
+        RouterModule.forRoot([])
+    ],
+    exports: [RouterModule],
+    providers: [
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        { provide: LOCALE_ID, useValue: 'es-AR' }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
