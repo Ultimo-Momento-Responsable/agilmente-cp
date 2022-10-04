@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CognitiveDomain } from 'src/app/cognitive-domain/service/cognitive-domain-api.service';
+import { HttpHeadersService } from 'src/app/shared/services/http-header.service';
 import { environment } from 'src/environments/environment';
 export interface Game {
   id: number;
@@ -38,14 +39,14 @@ interface Param {
 })
 export class GamesApiService {
   entity: string = 'game';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private httpHeadersService: HttpHeadersService) { }
 
   /**
   * Obtiene todos los juegos cargados.
   * @return una lista de juegos.
   */
   getGames(): Observable<Game[]> {
-    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}`);
+    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}`, { headers: this.httpHeadersService.getHeaders() });
   }
 
   /**
@@ -54,7 +55,7 @@ export class GamesApiService {
   * @returns Observable del juego.
   */
   getGameById(id: number): Observable<Game> {
-    return this.http.get<Game>(`http://${environment.ip}:8080/${this.entity}/${id}`);
+    return this.http.get<Game>(`http://${environment.ip}:8080/${this.entity}/${id}`, { headers: this.httpHeadersService.getHeaders() });
   }
   
   /**
@@ -64,6 +65,6 @@ export class GamesApiService {
    */
   getGamesFilteredByCD(cognitiveDomains: string[]): Observable<Game[]> {
     const params = new HttpParams().set('cognitiveDomains', cognitiveDomains.join(','));
-    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}`, { params });
+    return this.http.get<Game[]>(`http://${environment.ip}:8080/${this.entity}`, { headers: this.httpHeadersService.getHeaders(), params });
   }
 }

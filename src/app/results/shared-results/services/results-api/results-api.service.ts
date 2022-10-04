@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpHeadersService } from 'src/app/shared/services/http-header.service';
 import { environment } from 'src/environments/environment';
 interface ResultListView {
   id: number;
@@ -24,7 +25,7 @@ interface ResultListView {
 export class ResultsApiService {
   entity: string = 'result';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private httpHeadersService: HttpHeadersService) {}
 
   /**
    * Obtiene un resultado a partir del id.
@@ -33,7 +34,7 @@ export class ResultsApiService {
    */
   getResultById(id: number, game: string): Observable<any> {
     return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/${game}/${id}`
+      `http://${environment.ip}:8080/${this.entity}/${game}/${id}`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -45,7 +46,7 @@ export class ResultsApiService {
    */
   getResultsByPatient(patientId: number): Observable<any> {
     return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/by-patient/${patientId}`
+      `http://${environment.ip}:8080/${this.entity}/by-patient/${patientId}`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -57,7 +58,7 @@ export class ResultsApiService {
    */
   getResultsFromPlanning(planningId: number): Observable<ResultListView[]> {
     return this.http.get<ResultListView[]>(
-      `http://${environment.ip}:8080/${this.entity}/planning/${planningId}`
+      `http://${environment.ip}:8080/${this.entity}/planning/${planningId}`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
   
@@ -70,7 +71,7 @@ export class ResultsApiService {
    */
   getResultsBySessionId(id: number, gameSession: string): Observable<any> {
     return this.http.get(
-      `http://${environment.ip}:8080/${this.entity}/by-game-session/${gameSession}/${id}`
+      `http://${environment.ip}:8080/${this.entity}/by-game-session/${gameSession}/${id}`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 }
