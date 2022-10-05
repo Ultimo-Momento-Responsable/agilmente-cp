@@ -50,8 +50,6 @@ export class LoginPage implements OnInit {
       } else {
         this.errorLogin = true;
       }
-      
-      
     });
   }
 

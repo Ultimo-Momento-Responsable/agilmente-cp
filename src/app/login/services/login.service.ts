@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpHeadersService } from 'src/app/shared/services/http-header.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginService {
   entity: string = 'login';
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private httpHeadersService: HttpHeadersService) { }
 
   /**
    * Comprueba con el back si el nombre de usuario y contraseña son correctos
@@ -26,6 +27,6 @@ export class LoginService {
    * @returns devuelve true si el token es correcto y no está vencido de otro modo devuelve false.
    */
   public checkIfLogged(token:string):any {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/token/${token}`)
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/token/${token}`, { headers: this.httpHeadersService.getHeaders() })
   }
 }
