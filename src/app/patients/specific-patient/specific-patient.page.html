@@ -146,7 +146,7 @@
                 <ion-card class="card">
                   <ion-text class="card_title"> Fecha de Nacimiento </ion-text>
                   <ion-label class="card_label">
-                    {{this.patient?.bornDate}}
+                    {{this.patient?.bornDate}} ({{this.calculateAge(this.patient?.bornDate)}} años)
                   </ion-label>
                   <ion-text class="card_title"> Localidad </ion-text>
                   <ion-label class="card_label">
