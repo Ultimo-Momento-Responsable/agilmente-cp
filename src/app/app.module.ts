@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResultsModule } from './results/results.module';
 import { SharedModule } from './shared/shared.module';
 import { PatientsModule } from './patients/patients.module';
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
+import { environment } from 'src/environments/environment';
 
 registerLocaleData(localeEs, 'es-AR');
 @NgModule({
@@ -27,12 +29,14 @@ registerLocaleData(localeEs, 'es-AR');
         ResultsModule,
         PatientsModule,
         SharedModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
+        RecaptchaV3Module
     ],
     exports: [RouterModule],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        { provide: LOCALE_ID, useValue: 'es-AR' }
+        { provide: LOCALE_ID, useValue: 'es-AR' },
+        { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey }
     ],
     bootstrap: [AppComponent]
 })

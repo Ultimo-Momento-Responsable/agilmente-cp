@@ -1,7 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { NgForm, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginService } from "./services/login.service";
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginPage implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private recaptchaV3Service: ReCaptchaV3Service
   ) { }
 
   ngOnInit(){
@@ -43,7 +45,15 @@ export class LoginPage implements OnInit {
           window.localStorage.setItem('firstName', professional.firstName);
           window.localStorage.setItem('lastName', professional.lastName);
           window.localStorage.setItem('professionalId', professional.id);
-          this.router.navigate(["/patients"]);
+          this.recaptchaV3Service.execute('login')
+            .subscribe((token: any) => {
+              console.debug(`Token [${token}] generated`);
+              this.loginService.checkCaptcha(token).subscribe((res) => {
+                console.log(res);
+                // this.router.navigate(["/patients"]);
+              })
+            });
+            
         } else {
           this.errorLogin = true;
         }
@@ -70,4 +80,15 @@ export class LoginPage implements OnInit {
   @HostListener("keyup.enter") onKeyupEnter() {
     this.doLogin();
   }
+
+  public send(form: NgForm): void {
+    console.log('Entro a send de recaptcha')
+    if (form.invalid) {
+      for (const control of Object.keys(form.controls)) {
+        form.controls[control].markAsTouched();
+      }
+      return;
+    }
+  }
+  
 }
