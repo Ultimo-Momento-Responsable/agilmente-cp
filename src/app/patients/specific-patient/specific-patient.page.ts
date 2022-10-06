@@ -400,6 +400,15 @@ export class SpecificPatientPage implements OnInit {
   }
 
   /**
+   * Calcula la edad actual de un paciente.
+   * @param birthdate Fecha de nacimiento del paciente.
+   * @returns Edad en un numero.
+   */
+   public calculateAge(birthdate: string): number {
+    return moment().diff(moment(birthdate, 'DD-MM-YYYY'), 'years');
+  }
+
+  /**
    * Calcula el MGP promedio
    * @param mGPs lista de MGPs
    * @returns Promedio de MGP del paciente
