@@ -56,9 +56,11 @@ export class PatientPlanningNameComponent implements OnInit {
    */
   fillSearchBar(name: string) {
     this.patient = name;
-    this.planning = "Planificacion de " + this.patient;
-    this.patientName.emit(this.patient);
-    this.planningName.emit(this.planning);
+    if (this.patient){
+      this.planning = "Planificacion de " + this.patient;
+      this.patientName.emit(this.patient);
+      this.planningName.emit(this.planning);
+    }
     this.patientsSearch = null;
   }
 
