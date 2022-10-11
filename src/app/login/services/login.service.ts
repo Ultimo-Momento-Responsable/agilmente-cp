@@ -31,6 +31,6 @@ export class LoginService {
   }
 
   public checkCaptcha(token: string):Observable<any> {
-    return this.http.post(`http://${environment.ip}:8080/${this.entity}/loginCaptcha`,token)
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/loginCaptcha`, token, { headers: this.httpHeadersService.getHeaders() })
   }
 }

@@ -35,31 +35,30 @@ export class LoginPage implements OnInit {
    * Realiza el logueo, y chequea que los datos sean correctos.
    */
   doLogin() {
-    this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(res => {
-      // Checkeamos que el usuario sea válido previo a parsear el JSON
-      if (res != "") {
-        
-        const professional = JSON.parse(res);
-        if (professional.token.length > 10){
-          window.localStorage.setItem('token', professional.token);
-          window.localStorage.setItem('firstName', professional.firstName);
-          window.localStorage.setItem('lastName', professional.lastName);
-          window.localStorage.setItem('professionalId', professional.id);
-          this.recaptchaV3Service.execute('login')
-            .subscribe((token: any) => {
-              console.debug(`Token [${token}] generated`);
-              this.loginService.checkCaptcha(token).subscribe((res) => {
-                console.log(res);
-                // this.router.navigate(["/patients"]);
-              })
-            });
-            
-        } else {
-          this.errorLogin = true;
-        }
-      } else {
-        this.errorLogin = true;
-      }
+    this.recaptchaV3Service.execute('login')
+      .subscribe((token: any) => {
+        console.debug(`Token [${token}] generated`);
+        this.loginService.checkCaptcha(token).subscribe((res) => {        
+          if (res) {
+            this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(res => {
+              // Checkeamos que el usuario sea válido previo a parsear el JSON
+              if (res != "") {        
+                const professional = JSON.parse(res);
+                if (professional.token.length > 10){
+                  window.localStorage.setItem('token', professional.token);
+                  window.localStorage.setItem('firstName', professional.firstName);
+                  window.localStorage.setItem('lastName', professional.lastName);
+                  window.localStorage.setItem('professionalId', professional.id);
+                  this.router.navigate(["/patients"]);
+                } else {
+                  this.errorLogin = true;
+                }
+              } else {
+                this.errorLogin = true;
+              }
+          });
+          }
+        })  
     });
   }
 
@@ -79,16 +78,5 @@ export class LoginPage implements OnInit {
   */
   @HostListener("keyup.enter") onKeyupEnter() {
     this.doLogin();
-  }
-
-  public send(form: NgForm): void {
-    console.log('Entro a send de recaptcha')
-    if (form.invalid) {
-      for (const control of Object.keys(form.controls)) {
-        form.controls[control].markAsTouched();
-      }
-      return;
-    }
-  }
-  
+  } 
 }
