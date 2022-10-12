@@ -5,7 +5,7 @@ import { PlanningApiService } from '../services/planning-api.service';
 import { ModalController } from '@ionic/angular';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class EditPlanningPage implements OnInit {
   auxFinishDate: Date;
   state: string;
   patientSelected: boolean = false;
-  planningForm: FormGroup;
+  planningForm: UntypedFormGroup;
   games: any [] = [];
   assignedGames: any [] = [];
   planningGames: any [] = [];
@@ -82,13 +82,13 @@ export class EditPlanningPage implements OnInit {
         i++;
       });
     });
-    this.planningForm = new FormGroup({
-      patient: new FormControl('', Validators.required),
-      planningName: new FormControl(''),
-      professionalName: new FormControl(''),
-      startDate: new FormControl('', Validators.required),
-      finishDate: new FormControl('', Validators.required),
-      games: new FormControl('', Validators.required)
+    this.planningForm = new UntypedFormGroup({
+      patient: new UntypedFormControl('', Validators.required),
+      planningName: new UntypedFormControl(''),
+      professionalName: new UntypedFormControl(''),
+      startDate: new UntypedFormControl('', Validators.required),
+      finishDate: new UntypedFormControl('', Validators.required),
+      games: new UntypedFormControl('', Validators.required)
     });
     this.planningForm.patchValue({"games": null});
     this.loadPlanning();
@@ -229,7 +229,7 @@ export class EditPlanningPage implements OnInit {
   /**
    * Se formatea y se envía la planificación al back
    */
-  save(myForm: FormGroup) {
+  save(myForm: UntypedFormGroup) {
     this.isClicked = true;
     let patientId: number;
     this.patients.forEach(p=>{

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 import { ModalController } from '@ionic/angular';
 import moment from 'moment';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-start-finish-date',
@@ -15,9 +15,9 @@ export class StartFinishDateComponent implements OnInit {
   @Input() startDate = null;
   @Input() finishDate = null;
   @Input() disabled = false;
-  datesForm: FormGroup = new FormGroup({
-    startDate: new FormControl('', Validators.required),
-    finishDate: new FormControl('', Validators.required)
+  datesForm: UntypedFormGroup = new UntypedFormGroup({
+    startDate: new UntypedFormControl('', Validators.required),
+    finishDate: new UntypedFormControl('', Validators.required)
   });
   datePickerStart = {
     showTodayButton: false,

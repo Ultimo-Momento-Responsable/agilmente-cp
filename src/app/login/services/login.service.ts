@@ -29,4 +29,8 @@ export class LoginService {
   public checkIfLogged(token:string):any {
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/token/${token}`, { headers: this.httpHeadersService.getHeaders() })
   }
+
+  public checkCaptcha(token: string):Observable<any> {
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/loginCaptcha`, token)
+  }
 }
