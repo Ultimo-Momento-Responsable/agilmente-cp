@@ -17,7 +17,7 @@ export class LoginService {
    * @param password Contraseña
    * @returns Devuelve un observable que contiene el token, el nombre y el apellido del professional
    */
-  public login(userName:string, password:string):Observable<any> {
+  public login(userName:string, password:string): Observable<any> {
     return this.http.post(`http://${environment.ip}:8080/${this.entity}`,{userName, password},{responseType: 'text'})
   }
 
@@ -26,11 +26,26 @@ export class LoginService {
    * @param token token guardado
    * @returns devuelve true si el token es correcto y no está vencido de otro modo devuelve false.
    */
-  public checkIfLogged(token:string):any {
+  public checkIfLogged(token:string): any {
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/token/${token}`, { headers: this.httpHeadersService.getHeaders() })
   }
 
-  public checkCaptcha(token: string):Observable<any> {
+  /**
+   * Chequea que no sea un robot
+   * @param token token reCaptcha v3
+   * @returns true si es humano, false si es robot
+   */
+  public checkCaptcha(token: string): Observable<any> {
     return this.http.post(`http://${environment.ip}:8080/${this.entity}/loginCaptcha`, token)
+  }
+
+  public changePassword(oldPassword, newPassword): Observable<any> {
+    let professionalId = localStorage.getItem('professionalId')
+    let changePasswordBody = {
+      professionalId: professionalId,
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    };
+    return this.http.post(`http://${environment.ip}:8080/${this.entity}/changePassword`, changePasswordBody, { headers: this.httpHeadersService.getHeaders() })
   }
 }

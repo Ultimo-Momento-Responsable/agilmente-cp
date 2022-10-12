@@ -19,7 +19,7 @@ export class AppComponent {
   lastName: string;
   
   constructor(private router : Router, location: Location) {
-    router.events.subscribe(val => {
+    this.router.events.subscribe(val => {
       if (this.previousRoute=="/login" && this.currentRoute=="/patients"){
         this.previousRoute = "/patients";
         window.location.reload();

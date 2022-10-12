@@ -113,7 +113,8 @@ export class PatientsApiService {
   putPatient(patient: Patient, id: number): Observable<any> {
     return this.http.put(
       `http://${environment.ip}:8080/${this.entity}/frontend/${id}`,
-      patient, { headers: this.httpHeadersService.getHeaders() }
+      patient, 
+      { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -125,7 +126,9 @@ export class PatientsApiService {
    */
   deletePatient(id: number): Observable<any> {
     return this.http.put(
-      `http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`, { headers: this.httpHeadersService.getHeaders() }
+      `http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`, 
+      null,
+      { headers: this.httpHeadersService.getHeaders() }
     );
   }
 

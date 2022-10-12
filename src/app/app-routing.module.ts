@@ -19,6 +19,11 @@ const routes: Routes = [
     canLoad: [GuardGuard]
   },
   {
+    path: 'change-password',
+    loadChildren: () => import('./change-password/change-password.module').then((m) => m.ChangePasswordPageModule),
+    canLoad: [GuardGuard]
+  },
+  {
     path: 'planning/edit-planning/:id',
     loadChildren: () => import('./planning/edit-planning/edit-planning.module').then( m => m.EditPlanningPageModule)
   },
@@ -62,7 +67,12 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '/login'
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./change-password/change-password.module').then( m => m.ChangePasswordPageModule)
   }
+
 ];
 
 @NgModule({

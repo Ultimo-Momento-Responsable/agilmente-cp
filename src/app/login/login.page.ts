@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { NgForm, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { LoginService } from "./services/login.service";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { LoginService } from "../shared/services/login.service";
 import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +37,6 @@ export class LoginPage implements OnInit {
   doLogin() {
     this.recaptchaV3Service.execute('login')
       .subscribe((token: any) => {
-        console.debug(`Token [${token}] generated`);
         this.loginService.checkCaptcha(token).subscribe((res) => {        
           if (res) {
             this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(res => {

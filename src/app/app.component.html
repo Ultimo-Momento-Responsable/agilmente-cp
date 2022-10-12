@@ -28,6 +28,12 @@
           <ion-list>
             <ion-item-divider></ion-item-divider>
             <ion-menu-toggle auto-hide="false">
+              <ion-item routerDirection="root" [routerLink]="['/change-password']" lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon slot="start" name="lock-closed"></ion-icon>
+                <ion-label>Cambiar Contraseña</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="['/logout']" lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon slot="start" name="log-out"></ion-icon>
                 <ion-label>Cerrar Sesión</ion-label>
