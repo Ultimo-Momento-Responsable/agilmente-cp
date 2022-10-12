@@ -63,7 +63,8 @@ export class ResultsTableComponent implements OnInit {
    * Devuelve el id del resultado que se clickeó.
    */
   clickedResult(row: any) {
-    const id = this.results[row['Nro. partida'] - 1].id;
+    let resultTable = JSON.parse(JSON.stringify(this.results));
+    const id = resultTable.reverse()[row['Nro. partida'] - 1].id;
     this.clickedResultEvent.emit(id);
   }
 }
