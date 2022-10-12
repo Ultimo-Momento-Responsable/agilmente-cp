@@ -25,6 +25,11 @@ export class ChangePasswordPage implements OnInit {
     }, { validators: this.checkPasswords });
   }
 
+  /**
+   * Intenta realizar el cambio de contraseña,
+   * si funciona se muestra un cartel y te redirige a la pantalla de pacientes.
+   * si falla te muestra un error
+   */
   changePassword() {
     this.loginService.changePassword(
       this.changePasswordForm.value.oldPassword,
@@ -38,6 +43,11 @@ export class ChangePasswordPage implements OnInit {
       })
   }
 
+  /**
+   * Validator para verificar que las password sean iguales
+   * @param group formgroup
+   * @returns null si son iguales, notSame Error si son distintas
+   */
   checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
     let pass = group.get('newPassword').value;
     let confirmPass = group.get('confirmNewPassword').value
@@ -50,6 +60,9 @@ export class ChangePasswordPage implements OnInit {
       return { notSame: true }
   }
 
+  /**
+   * Verifica los errores en los campos y cambia el label según corresponda
+   */
   checkErrors() {
     if (this.changePasswordForm.hasError('notSame')){
       this.showError = true;

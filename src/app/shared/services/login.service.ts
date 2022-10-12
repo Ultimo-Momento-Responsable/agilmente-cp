@@ -39,6 +39,12 @@ export class LoginService {
     return this.http.post(`http://${environment.ip}:8080/${this.entity}/loginCaptcha`, token)
   }
 
+  /**
+   * Realiza cambio de contraseña
+   * @param oldPassword antigua contraseña
+   * @param newPassword nueva contraseña
+   * @returns true si el cambio fue efectivo, false si falló porque la antigua contraseña no coincide
+   */
   public changePassword(oldPassword, newPassword): Observable<any> {
     let professionalId = localStorage.getItem('professionalId')
     let changePasswordBody = {
