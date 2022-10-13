@@ -29,7 +29,7 @@ export class ResultsGraphComponent implements OnInit {
    * Obtiene y formatea los datos para el gráfico.
    */
   getDatasetsForGraph() {
-    let mappedResults = this.results.map(this.mapResults);
+    const mappedResults = this.results.map(this.mapResults);
     this.filteredResults = Object.keys(mappedResults[0]).map((key) => {
       return {
         data: mappedResults.map((r) => r[key]),
