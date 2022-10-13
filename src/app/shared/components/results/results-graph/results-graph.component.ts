@@ -97,7 +97,8 @@ export class ResultsGraphComponent implements OnInit {
    * Devuelve el id del resultado que se clickeó.
    */
   clickedResult(row: number) {
-    const id = this.results[row].id;
+    let inverseResult = JSON.parse(JSON.stringify(this.results));
+    const id = inverseResult.reverse()[row].id;
     this.clickedResultEvent.emit(id);
   }
 }
