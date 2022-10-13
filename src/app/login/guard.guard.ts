@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginService } from './services/login.service';
+import { LoginService } from '../shared/services/login.service';
 import { NavController } from '@ionic/angular';
 
 @Injectable({
