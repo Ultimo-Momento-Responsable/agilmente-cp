@@ -25,6 +25,13 @@ export class ChangePasswordPage implements OnInit {
     }, { validators: this.checkPasswords });
   }
 
+  ionViewWillEnter() {
+    this.changePasswordForm.reset();
+    this.changePasswordForm.valueChanges.subscribe(()=>{
+      this.checkErrors();
+    })
+  }
+
   /**
    * Intenta realizar el cambio de contraseña,
    * si funciona se muestra un cartel y te redirige a la pantalla de pacientes.
@@ -49,28 +56,34 @@ export class ChangePasswordPage implements OnInit {
    * @returns null si son iguales, notSame Error si son distintas
    */
   checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
-    let pass = group.get('newPassword').value;
-    let confirmPass = group.get('confirmNewPassword').value
-    if (pass === confirmPass || 
-      !group.get('confirmNewPassword').touched ||
-      !group.get('newPassword').touched) {
-        this.showError = false;
-        return null;
+    let pass = group.get('newPassword');
+    let confirmPass = group.get('confirmNewPassword')
+    if (pass.value === confirmPass.value || 
+        !pass.touched ||
+        confirmPass.value=="") {
+      this.showError = false;
+      if (!pass.hasError('minlength') && !confirmPass.hasError('minlength')){
+        pass.setErrors(null);
+        confirmPass.setErrors(null);
       }
-      return { notSame: true }
+      return null;
+    }
+    pass.setErrors({ notSame: true });
+    confirmPass.setErrors({ notSame: true });
+    return { notSame: true }
   }
 
   /**
    * Verifica los errores en los campos y cambia el label según corresponda
    */
   checkErrors() {
-    if (this.changePasswordForm.hasError('notSame')){
-      this.showError = true;
-      this.errorLabel = "Las contraseñas no coinciden";
-    }
     if (this.changePasswordForm.get('newPassword').hasError('minlength') || this.changePasswordForm.get('confirmNewPassword').hasError('minlength')){
       this.showError = true;
       this.errorLabel = "La contraseña debe poseer al menos 8 caracteres";
+    }
+    if (this.changePasswordForm.hasError('notSame')){
+      this.showError = true;
+      this.errorLabel = "Las contraseñas no coinciden";
     }
   }
 }
