@@ -55,6 +55,11 @@ export class LoginService {
     return this.http.post(`http://${environment.ip}:8080/${this.entity}/changePassword`, changePasswordBody, { headers: this.httpHeadersService.getHeaders() })
   }
 
+  /**
+   * Reinicio de contraseña
+   * @param email correo electrónico del profesional
+   * @returns true o false
+   */
   public resetPassword(email: string) {
     return this.http.get(`http://${environment.ip}:8080/${this.entity}/resetPassword/${email}`)
   }

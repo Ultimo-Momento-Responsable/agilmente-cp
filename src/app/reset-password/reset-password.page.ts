@@ -21,6 +21,9 @@ export class ResetPasswordPage implements OnInit {
     });
   }
 
+  /**
+   * metodo para reiniciar contraseña
+   */
   resetPassword(){
     this.loginService.resetPassword(this.resetPasswordForm.value.email).subscribe(res=>{
       if (res) {
