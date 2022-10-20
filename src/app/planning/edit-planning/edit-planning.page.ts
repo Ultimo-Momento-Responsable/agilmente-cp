@@ -65,11 +65,9 @@ export class EditPlanningPage implements OnInit {
     this.editPlanning();
   }
 
-  ionViewWillLeave() {
-    this.games$ = null;
-    this.planning$ = null;
-  }
-
+  /**
+   * Obtiene los juegos desde la API.
+   */
   private getGames() {
     this.games$ = this.gamesApiService.getGames();
     this.games$.subscribe(res=>{
@@ -110,7 +108,7 @@ export class EditPlanningPage implements OnInit {
   }
 
   /**
-   * Obtiene los datos de una planning y precarga los datos
+   * Obtiene los datos de una planning y precarga los datos.
    */
   loadPlanning(){
     this.planning$ = this.planningApiService.getPlanningById(this.id);
@@ -133,7 +131,7 @@ export class EditPlanningPage implements OnInit {
   }
 
   /**
-   * Se prepara el formulario para su edición.
+   * Se prepara el formulario para su edición, una vez se cargaron los datos.
    */
   editPlanning(){
     forkJoin([this.planning$, this.games$]).pipe(delay(100)).subscribe((res) => {
