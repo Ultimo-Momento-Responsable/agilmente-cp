@@ -76,8 +76,11 @@ export class StartFinishDateComponent implements OnInit {
     let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
     this.datePickerFinish.fromDate = date;
     this.datePickerFinish.inputDate = date;
-    this.datesForm.patchValue({'finishDate':moment(date).format('DD-MM-YYYY')});
-    this.sendFinishDate();
+    const startDate = this.parseDate(this.datesForm.value.startDate);
+    const finishDate = this.parseDate(this.datesForm.value.finishDate);
+    if (startDate >= finishDate) {
+      this.datesForm.patchValue({'finishDate':null});
+    }
   }
 
   /**
@@ -85,5 +88,15 @@ export class StartFinishDateComponent implements OnInit {
    */
   sendFinishDate() {
     this.finishPlanningDate.emit(this.datesForm.value.finishDate);
+  }
+
+  /**
+   * Devuelve un objeto Date partiendo de un String como el que se utiliza en los formularios
+   * date: String cadena formato DD-MM-YYYY
+   * returns Date fecha válida
+   */
+  parseDate(date) {
+    const dateSplit = date.split("-");
+    return new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]));
   }
 }
