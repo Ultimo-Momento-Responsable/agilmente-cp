@@ -88,7 +88,8 @@
                   <div
                     class="gsc__content__params__table-container__table__row__value"
                   >
-                    <ion-text class="card-text">{{ param.value }}</ion-text>
+                    <ion-text *ngIf="param.name!='spriteSet'" class="card-text">{{ param.value }}</ion-text>
+                    <ion-text *ngIf="param.name=='spriteSet'" class="card-text" > {{ param.value == '1'? 'Flores': 'Frutas'}}</ion-text>
                   </div>
                   <div
                     slot="end"
