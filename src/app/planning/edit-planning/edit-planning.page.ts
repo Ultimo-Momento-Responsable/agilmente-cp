@@ -5,7 +5,7 @@ import { PlanningApiService } from '../services/planning-api.service';
 import { ModalController } from '@ionic/angular';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import { ActivatedRoute } from '@angular/router';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
 @Component({
@@ -16,6 +16,7 @@ import { DifficultyCalcService } from '../services/difficulty-calc.service';
 export class EditPlanningPage implements OnInit {
 
   constructor(
+    private formBuilder: FormBuilder,
     private patientsApiService: PatientsApiService,
     private gamesApiService: GamesApiService,
     private planningApiService: PlanningApiService,
@@ -34,13 +35,22 @@ export class EditPlanningPage implements OnInit {
   auxFinishDate: Date;
   state: string;
   patientSelected: boolean = false;
-  planningForm: UntypedFormGroup;
+  planningForm: UntypedFormGroup = this.formBuilder.group({
+    patient: ['', Validators.required],
+    planningName: [''],
+    professionalName: [''],
+    startDate: ['', Validators.required],
+    finishDate: ['', Validators.required],
+    games: ['', Validators.required]
+  });
   games: any [] = [];
   assignedGames: any [] = [];
   planningGames: any [] = [];
-  isClicked: boolean= false;
+  isClicked: boolean = false;
+  
+  ngOnInit() {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.route.params.subscribe(params => {
       this.id = +params['id']; 
     });
@@ -81,14 +91,6 @@ export class EditPlanningPage implements OnInit {
         this.games[i].hasActivatable = (contActivatable > 0);
         i++;
       });
-    });
-    this.planningForm = new UntypedFormGroup({
-      patient: new UntypedFormControl('', Validators.required),
-      planningName: new UntypedFormControl(''),
-      professionalName: new UntypedFormControl(''),
-      startDate: new UntypedFormControl('', Validators.required),
-      finishDate: new UntypedFormControl('', Validators.required),
-      games: new UntypedFormControl('', Validators.required)
     });
     this.planningForm.patchValue({"games": null});
     this.loadPlanning();
