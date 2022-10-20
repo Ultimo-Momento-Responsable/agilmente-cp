@@ -45,7 +45,7 @@ export class LoginService {
    * @param newPassword nueva contraseña
    * @returns true si el cambio fue efectivo, false si falló porque la antigua contraseña no coincide
    */
-  public changePassword(oldPassword, newPassword): Observable<any> {
+  public changePassword(oldPassword: string, newPassword: string): Observable<any> {
     let professionalId = localStorage.getItem('professionalId')
     let changePasswordBody = {
       professionalId: professionalId,
@@ -53,5 +53,14 @@ export class LoginService {
       newPassword: newPassword
     };
     return this.http.post(`http://${environment.ip}:8080/${this.entity}/changePassword`, changePasswordBody, { headers: this.httpHeadersService.getHeaders() })
+  }
+
+  /**
+   * Reinicio de contraseña
+   * @param email correo electrónico del profesional
+   * @returns true o false
+   */
+  public resetPassword(email: string) {
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/resetPassword/${email}`)
   }
 }
