@@ -276,7 +276,7 @@ export class EditPlanningPage implements OnInit {
           this.isClicked = false;
         });
       } else {
-        this.planningApiService.cancelPlanningById(this.id).subscribe(() => {
+        this.planningApiService.cancelPlanningById(this.id, true).subscribe(() => {
           this.planningApiService.postPlanning(jsonPost).subscribe(() =>{
             this.dialogsComponent.presentAlert('¡Planificación Editada!',"",'La planificación ha sido editada correctamente.',"/planning",false); 
           }, () => {
