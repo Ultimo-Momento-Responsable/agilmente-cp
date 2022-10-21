@@ -10,7 +10,6 @@ import { Patient } from '../../services/patients-api/patients-api.service';
 export class PatientCardComponent implements OnInit {
   @Input() patient: Patient;
   class: string;
-  logged: boolean;
 
   constructor(private navController: NavController) { }
 
