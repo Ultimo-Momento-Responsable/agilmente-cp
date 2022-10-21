@@ -57,7 +57,13 @@ export class ChangePasswordPage implements OnInit {
    */
   checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
     let pass = group.get('newPassword');
-    let confirmPass = group.get('confirmNewPassword')
+    let confirmPass = group.get('confirmNewPassword');
+    let oldPassword = group.get('oldPassword');
+    if (oldPassword.value === pass.value){
+      pass.setErrors({ sameOldPassword: true });
+      confirmPass.setErrors({ sameOldPassword: true });
+      return { sameOldPassword: true };
+    }
     if (pass.value === confirmPass.value || 
         !pass.touched ||
         confirmPass.value=="") {
@@ -84,6 +90,10 @@ export class ChangePasswordPage implements OnInit {
     if (this.changePasswordForm.hasError('notSame')){
       this.showError = true;
       this.errorLabel = "Las contraseñas no coinciden";
+    }
+    if (this.changePasswordForm.hasError('sameOldPassword')) {
+      this.showError = true;
+      this.errorLabel = "La contraseña nueva no debe ser igual a la antigua";
     }
   }
 }
