@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-patient',
@@ -28,7 +29,8 @@ export class NewPatientPage implements OnInit {
     private patientsApiService: PatientsApiService, 
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router)
+    private router: Router,
+    private titlecasePipe: TitleCasePipe)
   { 
     const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);
@@ -81,8 +83,8 @@ export class NewPatientPage implements OnInit {
     if (myForm.valid) {
       let code = this.createLoginCode()
       let patient: any = {
-        firstName: myForm.value.firstName,
-        lastName: myForm.value.lastName,
+        firstName: this.titlecasePipe.transform(myForm.value.firstName),
+        lastName: this.titlecasePipe.transform(myForm.value.lastName),
         bornDate: myForm.value.birthDate,
         city: myForm.value.city,
         telephone: myForm.value.telephone,

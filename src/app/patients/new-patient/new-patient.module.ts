@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { NewPatientPageRoutingModule } from './new-patient-routing.module';
 import { NewPatientPage } from './new-patient.page';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
+import { TitleCasePipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
     IonicModule,
     NewPatientPageRoutingModule,
   ],
-  declarations: [NewPatientPage]
+  declarations: [NewPatientPage],
+  providers: [TitleCasePipe],
 })
 export class NewPatientPageModule {}

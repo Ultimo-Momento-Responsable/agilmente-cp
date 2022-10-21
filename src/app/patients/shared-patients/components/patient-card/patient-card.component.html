@@ -9,8 +9,12 @@
         </div>
       </ion-col>
       <ion-col size="7">
-        <h4 class="name-text">{{patient.lastName}} {{patient.firstName}}</h4>
+        <h4 class="name-text">{{patient.lastName}}, {{patient.firstName}}</h4>
         <ion-chip class="ion-no-margin disabled-chip" *ngIf="!this.patient.enabled">Paciente deshabilitado</ion-chip>
+        <ion-chip class="ion-no-margin logged" color="success" *ngIf="this.patient.logged">
+          <ion-icon name="phone-portrait"></ion-icon>
+          <ion-label>Paciente vinculado</ion-label>
+        </ion-chip>
       </ion-col>
     </ion-row>
   </ion-card-header>
