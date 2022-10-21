@@ -1,7 +1,11 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     
-    <ion-menu contentId="main-content" type="overlay" color=primary *ngIf="this.currentRoute !== '/login'">
+    <ion-menu contentId="main-content" 
+              type="overlay" 
+              color=primary 
+              *ngIf="this.currentRoute !== '/login' && 
+              this.currentRoute !== '/reset-password'">
       <ion-content >
         <div style="height:100%; background:#ffffff;">
           <ion-list>
