@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient, PatientsApiService } from '../../patients/shared-patients/services/patients-api/patients-api.service';
-import { GamesApiService } from 'src/app/games/services/games-api.service';
+import { Game, GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { ModalController } from '@ionic/angular';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import { ActivatedRoute } from '@angular/router';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { DifficultyCalcService } from '../services/difficulty-calc.service';
+import { forkJoin, Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-planning',
@@ -16,6 +18,7 @@ import { DifficultyCalcService } from '../services/difficulty-calc.service';
 export class EditPlanningPage implements OnInit {
 
   constructor(
+    private formBuilder: FormBuilder,
     private patientsApiService: PatientsApiService,
     private gamesApiService: GamesApiService,
     private planningApiService: PlanningApiService,
@@ -34,21 +37,41 @@ export class EditPlanningPage implements OnInit {
   auxFinishDate: Date;
   state: string;
   patientSelected: boolean = false;
-  planningForm: UntypedFormGroup;
+  planningForm: UntypedFormGroup = this.formBuilder.group({
+    patient: ['', Validators.required],
+    planningName: [''],
+    professionalName: [''],
+    startDate: ['', Validators.required],
+    finishDate: ['', Validators.required],
+    games: ['', Validators.required]
+  });
   games: any [] = [];
   assignedGames: any [] = [];
   planningGames: any [] = [];
-  isClicked: boolean= false;
+  isClicked: boolean = false;
+  private games$: Observable<Game[]>;
+  private planning$: Observable<any>;
+  
+  ngOnInit() {}
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.id = +params['id']; 
-    });
+  ionViewDidEnter() {
+    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.planningForm.patchValue({"games": null});
     this.patientsApiService.getActivePatients().subscribe(res=>{
       this.patients = res;
     });
-    let i = 0;
-    this.gamesApiService.getGames().subscribe(res=>{
+    this.getGames();
+    this.loadPlanning();
+    this.editPlanning();
+  }
+
+  /**
+   * Obtiene los juegos desde la API.
+   */
+  private getGames() {
+    this.games$ = this.gamesApiService.getGames();
+    this.games$.subscribe(res=>{
+      let i = 0;
       res.forEach(g => {
         this.games.push(g);
         let contType0 = 0;
@@ -82,28 +105,19 @@ export class EditPlanningPage implements OnInit {
         i++;
       });
     });
-    this.planningForm = new UntypedFormGroup({
-      patient: new UntypedFormControl('', Validators.required),
-      planningName: new UntypedFormControl(''),
-      professionalName: new UntypedFormControl(''),
-      startDate: new UntypedFormControl('', Validators.required),
-      finishDate: new UntypedFormControl('', Validators.required),
-      games: new UntypedFormControl('', Validators.required)
-    });
-    this.planningForm.patchValue({"games": null});
-    this.loadPlanning();
   }
 
   /**
-   * Obtiene los datos de una planning y precarga los datos
+   * Obtiene los datos de una planning y precarga los datos.
    */
-   loadPlanning(){
-    this.planningApiService.getPlanningById(this.id).subscribe(res => {
+  loadPlanning(){
+    this.planning$ = this.planningApiService.getPlanningById(this.id);
+    this.planning$.subscribe(res => {
       this.patientId = res.patientId;
       this.planningName = res.planningName;
       this.state = res.stateName;
       this.planningList = res.planningList;
-      this.planningForm.setValue({
+      this.planningForm.patchValue({
         patient: res.patientFirstName + " " + res.patientLastName,
         planningName: res.planningName,
         professionalName: res.professionalFirstName + " " + res.professionalLastName,
@@ -113,56 +127,58 @@ export class EditPlanningPage implements OnInit {
       });
       this.auxStartDate = res.startDate;
       this.auxFinishDate = res.dueDate;
-      this.editPlanning();
     })
   }
 
   /**
-   * Se prepara el formulario para su edición.
+   * Se prepara el formulario para su edición, una vez se cargaron los datos.
    */
-   editPlanning(){
-    if (this.state=="Pendiente"){
-      for (let i=0; i<this.planningList.length; i++){
-        this.assignedGames.push(JSON.parse(JSON.stringify(this.games.find(game => game.name == this.planningList[i].game))));
-        let index = 1;
-        this.assignedGames[i].gameParam.forEach(p => {
-          let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);
-          if (planningParam){
-            if (p.param.type==0){
-              if (p.param.id==1){
-                index = 0;
+  editPlanning(){
+    forkJoin([this.planning$, this.games$]).pipe(delay(100)).subscribe((res) => {
+      if (this.state=="Pendiente"){
+        for (let i=0; i<this.planningList.length; i++){
+          const game = this.games.find(game => game.name == this.planningList[i].game);
+          this.assignedGames.push(JSON.parse(JSON.stringify(game)));
+          let index = 1;
+          this.assignedGames[i].gameParam.forEach(p => {
+            let planningParam = this.planningList[i].parameters.find(param => param.spanishName == p.param.name);
+            if (planningParam){
+              if (p.param.type==0){
+                if (p.param.id==1){
+                  index = 0;
+                }
               }
-            }
-            p.isActive = true;
-            if (!isNaN(parseFloat(planningParam.value)) && isFinite(planningParam.value)){
-              p.value = Math.floor(planningParam.value).toString();
-            }else{
-              if (planningParam.value=="false"){
-                p.value = false;
-              }else if (planningParam.value=="true"){
-                p.value = true;
+              p.isActive = true;
+              if (!isNaN(parseFloat(planningParam.value)) && isFinite(planningParam.value)){
+                p.value = Math.floor(planningParam.value).toString();
               }else{
-                p.value = planningParam.value;
+                if (planningParam.value=="false"){
+                  p.value = false;
+                }else if (planningParam.value=="true"){
+                  p.value = true;
+                }else{
+                  p.value = planningParam.value;
+                }
               }
             }
+          });
+          this.assignedGames[i].index = index;
+          this.assignedGames[i].done = true;
+          this.assignedGames[i].accordion = false;
+          if (this.planningList[i].numberOfSession >= 0) {
+            this.assignedGames[i].maxNumberOfSessions = this.planningList[i].numberOfSession;
+            this.assignedGames[i].hasLimit = true;
+          } else {
+            this.assignedGames[i].maxNumberOfSessions = 5;
+            this.assignedGames[i].hasLimit = false
           }
-        });
-        this.assignedGames[i].index = index;
-        this.assignedGames[i].done = true;
-        this.assignedGames[i].accordion = false;
-        if (this.planningList[i].numberOfSession >= 0) {
-          this.assignedGames[i].maxNumberOfSessions = this.planningList[i].numberOfSession;
-          this.assignedGames[i].hasLimit = true;
-        } else {
-          this.assignedGames[i].maxNumberOfSessions = 5;
-          this.assignedGames[i].hasLimit = false
+          this.assignedGames[i].difficulty = "custom";
         }
-        this.assignedGames[i].difficulty = "custom";
+        this.auxGames = JSON.parse(JSON.stringify(this.assignedGames));
+        this.planningGames = JSON.parse(JSON.stringify(this.assignedGames));
+        this.planningForm.patchValue({"games": null});
       }
-      this.auxGames = JSON.parse(JSON.stringify(this.assignedGames));
-      this.planningGames = JSON.parse(JSON.stringify(this.assignedGames));
-      this.planningForm.patchValue({"games": null});
-    }
+    });
   }
 
   /**
