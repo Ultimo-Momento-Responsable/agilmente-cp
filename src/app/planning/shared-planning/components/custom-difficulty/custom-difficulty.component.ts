@@ -36,6 +36,10 @@ export class CustomDifficultComponent implements OnInit {
     });
   }
 
+  changeParamType2(event,p) {
+    p.value=event.target.value+1;
+  }
+
   // Actualiza el valor del Param
   changeParamValue(game,p,evt){
     let gameChanged = this.planningGames[this.planningGames.indexOf(game)];
