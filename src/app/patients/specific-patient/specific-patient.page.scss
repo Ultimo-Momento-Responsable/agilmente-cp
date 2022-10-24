@@ -33,6 +33,13 @@
 			height: 48px;
 			background: #ED576B;
 		}
+		&_disabled {
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			height: 48px;
+			background: #737373
+		}
 	}
 	
 	&_title {

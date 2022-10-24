@@ -34,11 +34,6 @@
     <ion-col>
       <!-- TAB DE DATOS PERSONALES -->
       <div id="container" *ngIf="currentTab==='data'">
-        <div *ngIf="this.patient?.enabled == false">
-          <ion-chip color="danger">
-            <ion-label>Paciente deshabilitado</ion-label>
-          </ion-chip>
-        </div>
         <div class="ion-padding-top ion-margin-top">
           <ion-row class="ion-justify-content-end" style="width: 90%">
             <ion-button
@@ -104,11 +99,18 @@
               </ion-card>
             </div>
             <div
-              *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged"
+              *ngIf="this.patient?.loginCode?.length!=6 && !this.patient?.logged && this.patient?.enabled == true"
             >
               <ion-card class="card_ac_unlinked">
                 <ion-label class="card_ac_label"
                   >Paciente Desvinculado</ion-label
+                >
+              </ion-card>
+            </div>
+            <div *ngIf="this.patient?.enabled == false">
+              <ion-card class="card_ac_disabled">
+                <ion-label class="card_ac_label"
+                  >Paciente Deshabilitado</ion-label
                 >
               </ion-card>
             </div>
@@ -146,7 +148,8 @@
                 <ion-card class="card">
                   <ion-text class="card_title"> Fecha de Nacimiento </ion-text>
                   <ion-label class="card_label">
-                    {{this.patient?.bornDate}} ({{this.calculateAge(this.patient?.bornDate)}} años)
+                    {{this.patient?.bornDate}}
+                    ({{this.calculateAge(this.patient?.bornDate)}} años)
                   </ion-label>
                   <ion-text class="card_title"> Localidad </ion-text>
                   <ion-label class="card_label">
@@ -250,12 +253,15 @@
                     <ion-label class="card_label">
                       No hay planificaciones vigentes para este paciente
                       <span *ngIf="this.patient?.enabled">
-                      ¿Deseas crear una?
+                        ¿Deseas crear una?
                       </span>
                     </ion-label>
-                    <br>
-                    <br>
-                    <ion-button *ngIf="this.patient?.enabled" [routerLink]="['../../planning/new-planning', this.id]">
+                    <br />
+                    <br />
+                    <ion-button
+                      *ngIf="this.patient?.enabled"
+                      [routerLink]="['../../planning/new-planning', this.id]"
+                    >
                       <ion-icon name="calendar-clear"></ion-icon>
                       <p class="ion-margin">Nueva planificacion</p>
                     </ion-button>
@@ -298,18 +304,32 @@
             <!-- MGP -->
             <ion-row>
               <ion-col>
-                <ion-card class="card">
+                <ion-card class="card" *ngIf="mGPs.length == 0">
+                  <ion-text class="card_title">
+                    Métrica General de Progreso
+                  </ion-text>
+                  <ion-label class="card_label">
+                    Este paciente no tiene una Métrica General de Progreso para
+                    mostrar.
+                  </ion-label>
+                  <ion-label class="card_desc">
+                    Al completar una planificación, los resultados aparecerán
+                    aquí.
+                  </ion-label>
+                </ion-card>
+                <ion-card class="card" *ngIf="mGPs.length>0">
                   <ion-row>
                     <ion-col size="6">
-                      <app-graph *ngIf="mGPs.length>0" 
-                        [isUnitFemale]="false" 
+                      <app-graph
+                        [isUnitFemale]="false"
                         [maxHeight]="'235px'"
-                        [pointLabelPrefix]="'Planificación Nº'" 
-                        [datasets]="[generateDataset()]" 
+                        [pointLabelPrefix]="'Planificación Nº'"
+                        [datasets]="[generateDataset()]"
                         [unit]="'MGP'"
                         [withBorders]="false"
                         [min]="0"
-                        [max]="2500">
+                        [max]="2500"
+                      >
                       </app-graph>
                     </ion-col>
                     <ion-col>
@@ -318,11 +338,16 @@
                       </ion-text>
                       <div class="mgp" [style.color]="mGPColor">
                         <div>
-                          <ion-text class="card-big-number" >
-                            {{ calculateMGPAverage(this.mGPs) | number: '1.0-0' }}
+                          <ion-text class="card-big-number">
+                            {{ calculateMGPAverage(this.mGPs) | number: '1.0-0'
+                            }}
                           </ion-text>
                         </div>
-                        <div class="mgp-tendency" ngbTooltip="Incremento respecto al último MGP." placement="bottom">
+                        <div
+                          class="mgp-tendency"
+                          ngbTooltip="Incremento respecto al último MGP."
+                          placement="bottom"
+                        >
                           <div>
                             <ion-text class="card-small-number">
                               <ion-text *ngIf="mGPColor=='#009918'">+</ion-text>
@@ -347,10 +372,11 @@
                             Del paciente
                           </ion-text>
                         </div>
-                        <br>
+                        <br />
                         <div class="ion-text-center">
                           <ion-text class="card-warning">
-                            Medido en base a las planificaciones finalizadas al momento
+                            Medido en base a las planificaciones finalizadas al
+                            momento
                           </ion-text>
                         </div>
                       </div>
@@ -366,13 +392,16 @@
       <!-- TAB DE PLANIFICACIONES -->
 
       <div id="plannings" *ngIf="currentTab==='plannings'">
-        <div *ngIf="this.patient?.enabled" class="horizontal-cards ion-padding ion-margin">
+        <div
+          *ngIf="this.patient?.enabled"
+          class="horizontal-cards ion-padding ion-margin"
+        >
           <ion-button [routerLink]="['../../planning/new-planning', this.id]">
             <ion-icon name="calendar-clear"></ion-icon>
             <p class="ion-margin">Nueva planificacion</p>
           </ion-button>
         </div>
-        <app-planning-search 
+        <app-planning-search
           [selectedStates]="this.selectedStates"
           [planningStates]="this.planningStates"
           [fromPatient]="true"
