@@ -36,6 +36,11 @@ export class CustomDifficultComponent implements OnInit {
     });
   }
 
+  /**
+   * cambia el valor del parametro tipo 2 según la selección del radio button
+   * @param event evento llamado al presionar un radio button
+   * @param p parámetro a actualizar.
+   */
   changeParamType2(event,p) {
     p.value=event.target.value+1;
   }
