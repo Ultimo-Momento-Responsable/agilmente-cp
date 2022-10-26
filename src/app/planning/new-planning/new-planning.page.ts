@@ -91,7 +91,7 @@ export class NewPlanningPage implements OnInit {
       if (this.patientId) {
         this.patientsApiService.getPatientById(this.patientId).subscribe((res) => {
           this.patient = res.firstNameLastName;
-          this.planningName = "Planificacion de " + res.firstNameLastName;
+          this.planningName = "Planificación de " + res.firstNameLastName;
           this.fillPatient(res.firstNameLastName);
           this.fillPlanningName(`Planificación de ${res.firstNameLastName}`);
         });
