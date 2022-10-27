@@ -6,14 +6,15 @@
       </ion-title>
       <ion-label class="card_label ion-padding">Selecciona al paciente para el cual quieres crear una planificación:</ion-label>
       <ion-item lines="none">
-        <ion-searchbar 
-          animated 
+        <ion-searchbar
           placeholder="Selecciona un paciente" 
           [disabled]="disabled"
           [(ngModel)]="patient"
           (ionChange)="filterPatient($event)"
+          (ionInput)="filterPatient($event)"
           (ionFocus)="patientBlur=false"
-          (ionBlur)="patientBlur=true">
+          (ionBlur)="patientBlur=true"
+          [debounce]="10">
         </ion-searchbar>
       </ion-item>
       <ion-list lines="none">
