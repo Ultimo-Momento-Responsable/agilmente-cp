@@ -1,7 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { LoginService } from "./services/login.service";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { LoginService } from "../shared/services/login.service";
+import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,19 +10,20 @@ import { LoginService } from "./services/login.service";
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   errorLogin: boolean = false;
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private recaptchaV3Service: ReCaptchaV3Service
   ) { }
 
   ngOnInit(){
     this.checkIfLogged()
-    this.myForm = new FormGroup({
-      userName: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+    this.myForm = new UntypedFormGroup({
+      userName: new UntypedFormControl('', Validators.required),
+      password: new UntypedFormControl('', Validators.required)
     });
   }
 
@@ -33,25 +35,29 @@ export class LoginPage implements OnInit {
    * Realiza el logueo, y chequea que los datos sean correctos.
    */
   doLogin() {
-    this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(res => {
-      // Checkeamos que el usuario sea válido previo a parsear el JSON
-      if (res != "") {
-        
-        const professional = JSON.parse(res);
-        if (professional.token.length > 10){
-          window.localStorage.setItem('token', professional.token);
-          window.localStorage.setItem('firstName', professional.firstName);
-          window.localStorage.setItem('lastName', professional.lastName);
-          window.localStorage.setItem('professionalId', professional.id);
-          this.router.navigate(["/patients"]);
-        } else {
-          this.errorLogin = true;
-        }
-      } else {
-        this.errorLogin = true;
-      }
-      
-      
+    this.recaptchaV3Service.execute('login')
+      .subscribe((token: any) => {
+        this.loginService.checkCaptcha(token).subscribe((res) => {        
+          if (res) {
+            this.loginService.login(this.myForm.value.userName, this.myForm.value.password).subscribe(res => {
+              // Checkeamos que el usuario sea válido previo a parsear el JSON
+              if (res != "") {        
+                const professional = JSON.parse(res);
+                if (professional.token.length > 10){
+                  window.localStorage.setItem('token', professional.token);
+                  window.localStorage.setItem('firstName', professional.firstName);
+                  window.localStorage.setItem('lastName', professional.lastName);
+                  window.localStorage.setItem('professionalId', professional.id);
+                  this.router.navigate(["/patients"]);
+                } else {
+                  this.errorLogin = true;
+                }
+              } else {
+                this.errorLogin = true;
+              }
+          });
+          }
+        })  
     });
   }
 
@@ -71,5 +77,5 @@ export class LoginPage implements OnInit {
   */
   @HostListener("keyup.enter") onKeyupEnter() {
     this.doLogin();
-  }
+  } 
 }

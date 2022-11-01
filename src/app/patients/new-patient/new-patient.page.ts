@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 import { PatientsApiService } from '../shared-patients/services/patients-api/patients-api.service';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-patient',
@@ -13,7 +14,7 @@ import { PatientsApiService } from '../shared-patients/services/patients-api/pat
 
 export class NewPatientPage implements OnInit {
   
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   minDate: Date;
   maxDate: Date;
   datePickerObj: any = {};
@@ -28,7 +29,8 @@ export class NewPatientPage implements OnInit {
     private patientsApiService: PatientsApiService, 
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    private router: Router)
+    private router: Router,
+    private titlecasePipe: TitleCasePipe)
   { 
     const currentDate = new Date();
     this.minDate = new Date(1900, 0, 1);
@@ -37,14 +39,14 @@ export class NewPatientPage implements OnInit {
 
   ngOnInit() {
     
-    this.myForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      birthDate: new FormControl('', Validators.required),
-      telephone: new FormControl(),
-      email: new FormControl('',Validators.email),
-      description: new FormControl(),
-      city: new FormControl('', Validators.required)
+    this.myForm = new UntypedFormGroup({
+      firstName: new UntypedFormControl('', Validators.required),
+      lastName: new UntypedFormControl('', Validators.required),
+      birthDate: new UntypedFormControl('', Validators.required),
+      telephone: new UntypedFormControl(),
+      email: new UntypedFormControl('',Validators.email),
+      description: new UntypedFormControl(),
+      city: new UntypedFormControl('', Validators.required)
     });
 
     this.datePickerObj = {
@@ -76,13 +78,13 @@ export class NewPatientPage implements OnInit {
   }
 
   // Guarda el Paciente rellenado en el formulario
-  save(myForm: FormGroup) {
+  save(myForm: UntypedFormGroup) {
     this.isClicked = true;
     if (myForm.valid) {
       let code = this.createLoginCode()
       let patient: any = {
-        firstName: myForm.value.firstName,
-        lastName: myForm.value.lastName,
+        firstName: this.titlecasePipe.transform(myForm.value.firstName),
+        lastName: this.titlecasePipe.transform(myForm.value.lastName),
         bornDate: myForm.value.birthDate,
         city: myForm.value.city,
         telephone: myForm.value.telephone,

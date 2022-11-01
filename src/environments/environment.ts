@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  ip: "agilmente.tk"
+  ip: "localhost",
+  recaptcha: {
+    siteKey: '6LeUO1EiAAAAAA5RfZw5Qn5XnNCfxMDJFDFxkJsJ',
+  },
 };
 
 /*

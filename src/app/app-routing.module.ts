@@ -19,6 +19,15 @@ const routes: Routes = [
     canLoad: [GuardGuard]
   },
   {
+    path: 'change-password',
+    loadChildren: () => import('./change-password/change-password.module').then((m) => m.ChangePasswordPageModule),
+    canLoad: [GuardGuard]
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then((m) => m.ResetPasswordPageModule)
+  },
+  {
     path: 'planning/edit-planning/:id',
     loadChildren: () => import('./planning/edit-planning/edit-planning.module').then( m => m.EditPlanningPageModule)
   },
@@ -62,7 +71,17 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '/login'
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   }
+
+
 ];
 
 @NgModule({

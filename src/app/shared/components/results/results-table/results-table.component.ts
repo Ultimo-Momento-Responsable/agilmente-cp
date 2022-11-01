@@ -8,6 +8,7 @@ import { IResult } from 'src/app/shared/interfaces/result.interface';
 })
 export class ResultsTableComponent implements OnInit {
   @Input() results: IResult[];
+  @Input() reversed: boolean = false;
   @Output() clickedResultEvent = new EventEmitter<number>();
   filteredResults: any[];
   columns: string[];
@@ -15,6 +16,9 @@ export class ResultsTableComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    if (this.reversed) {
+      this.results = this.results.reverse();
+    }
     this.getColumnsForTable();
   }
 
@@ -59,7 +63,8 @@ export class ResultsTableComponent implements OnInit {
    * Devuelve el id del resultado que se clickeó.
    */
   clickedResult(row: any) {
-    const id = this.results[row['Nro. partida'] - 1].id;
+    let resultTable = JSON.parse(JSON.stringify(this.results));
+    const id = resultTable.reverse()[row['Nro. partida'] - 1].id;
     this.clickedResultEvent.emit(id);
   }
 }

@@ -6,7 +6,7 @@ import {
 import { PlanningApiService } from '../services/planning-api.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DialogsComponent } from '../../shared/components/dialogs/dialogs.component';
 import moment from 'moment';
 import { ResultsApiService } from 'src/app/results/shared-results/services/results-api/results-api.service';
@@ -55,7 +55,7 @@ export class SpecificPlanningPage implements OnInit {
   patients: Patient[];
   patientId: number;
   patientAge: number;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   results: any[];
   state: string;
   planningList: PlanningItem[];
@@ -99,13 +99,13 @@ export class SpecificPlanningPage implements OnInit {
       this.patients = res;
     });
     let i = 0;
-    this.myForm = new FormGroup({
-      patient: new FormControl('', Validators.required),
-      planningName: new FormControl(''),
-      professionalName: new FormControl(''),
-      startDate: new FormControl('', Validators.required),
-      finishDate: new FormControl('', Validators.required),
-      games: new FormControl('', Validators.required),
+    this.myForm = new UntypedFormGroup({
+      patient: new UntypedFormControl('', Validators.required),
+      planningName: new UntypedFormControl(''),
+      professionalName: new UntypedFormControl(''),
+      startDate: new UntypedFormControl('', Validators.required),
+      finishDate: new UntypedFormControl('', Validators.required),
+      games: new UntypedFormControl('', Validators.required),
     });
     this.myForm.patchValue({ games: null });
 

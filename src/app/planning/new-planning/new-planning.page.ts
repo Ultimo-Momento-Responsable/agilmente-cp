@@ -7,7 +7,7 @@ import { GamesApiService } from 'src/app/games/services/games-api.service';
 import { PlanningApiService } from '../services/planning-api.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DifficultyCalcService } from '../services/difficulty-calc.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class NewPlanningPage implements OnInit {
 
   patients: Patient[];
   patientSelected: boolean = false;
-  planningForm: FormGroup;
+  planningForm: UntypedFormGroup;
   games: any[] = [];
   assignedGames: any[] = [];
   planningGames: any[] = [];
@@ -78,12 +78,12 @@ export class NewPlanningPage implements OnInit {
         i++;
       });
     });
-    this.planningForm = new FormGroup({
-      patient: new FormControl('', Validators.required),
-      planningName: new FormControl(''),
-      startDate: new FormControl('', Validators.required),
-      finishDate: new FormControl('', Validators.required),
-      games: new FormControl('', Validators.required),
+    this.planningForm = new UntypedFormGroup({
+      patient: new UntypedFormControl('', Validators.required),
+      planningName: new UntypedFormControl(''),
+      startDate: new UntypedFormControl('', Validators.required),
+      finishDate: new UntypedFormControl('', Validators.required),
+      games: new UntypedFormControl('', Validators.required),
     });
     this.planningForm.patchValue({ games: null });
     this.route.params.subscribe((params) => {
@@ -91,7 +91,7 @@ export class NewPlanningPage implements OnInit {
       if (this.patientId) {
         this.patientsApiService.getPatientById(this.patientId).subscribe((res) => {
           this.patient = res.firstNameLastName;
-          this.planningName = "Planificacion de " + res.firstNameLastName;
+          this.planningName = "Planificación de " + res.firstNameLastName;
           this.fillPatient(res.firstNameLastName);
           this.fillPlanningName(`Planificación de ${res.firstNameLastName}`);
         });
@@ -205,7 +205,7 @@ export class NewPlanningPage implements OnInit {
   /**
    * Se formatea y se envía la planificación al back
    */
-  save(myForm: FormGroup) {
+  save(myForm: UntypedFormGroup) {
     this.isClicked = true;
     let patientId: number;
     this.patients.forEach((p) => {

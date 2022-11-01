@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-patient-planning-name',
   templateUrl: './patient-planning-name.component.html',
   styleUrls: ['../../../new-planning/new-planning.page.scss'],
 })
-export class PatientPlanningNameComponent {
+export class PatientPlanningNameComponent implements OnInit {
 
   @Input() patients: any[];
   @Input() disabled = false;
@@ -13,11 +13,16 @@ export class PatientPlanningNameComponent {
   @Input() planning = "";
   @Output() patientName = new EventEmitter<string>();
   @Output() planningName = new EventEmitter<string>();
-
-  
   patientBlur = false;
   patientsSearch: any [] = [];
+
   constructor() { }
+
+  ngOnInit(): void {
+    if (this.patient!="") {
+      this.fillSearchBar(this.patient);
+    }
+  }
 
   /**
    * Manda el nuevo nombre de la planning al componente padre.
@@ -51,9 +56,11 @@ export class PatientPlanningNameComponent {
    */
   fillSearchBar(name: string) {
     this.patient = name;
-    this.planning = "Planificacion de " + this.patient;
-    this.patientName.emit(this.patient);
-    this.planningName.emit(this.planning);
+    if (this.patient){
+      this.planning = "Planificación de " + this.patient;
+      this.patientName.emit(this.patient);
+      this.planningName.emit(this.planning);
+    }
     this.patientsSearch = null;
   }
 

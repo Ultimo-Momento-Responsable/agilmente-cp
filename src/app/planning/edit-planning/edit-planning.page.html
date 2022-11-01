@@ -42,7 +42,7 @@
           (intermediateGames)="fillPlanningGames($event)">
         </app-add-games>
 
-        <div *ngIf="this.state =='Vigente'" class="active_planning">
+        <div *ngIf="this.state =='Vigente' || this.state =='Vigente con juegos libres'" class="active_planning">
           <ion-icon name="information-circle-outline" color="primary"></ion-icon>
           <ion-label color="primary">No se permite la edición de juegos sobre planificaciones vigentes.</ion-label>
         </div>

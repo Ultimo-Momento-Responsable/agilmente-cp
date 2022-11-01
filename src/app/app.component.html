@@ -1,7 +1,11 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     
-    <ion-menu contentId="main-content" type="overlay" color=primary *ngIf="this.currentRoute !== '/login'">
+    <ion-menu contentId="main-content" 
+              type="overlay" 
+              color=primary 
+              *ngIf="this.currentRoute !== '/login' && 
+              this.currentRoute !== '/reset-password'">
       <ion-content >
         <div style="height:100%; background:#ffffff;">
           <ion-list>
@@ -27,6 +31,12 @@
         <div style="position: absolute; bottom: 0px; width: 100%;">
           <ion-list>
             <ion-item-divider></ion-item-divider>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item routerDirection="root" [routerLink]="['/change-password']" lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon slot="start" name="lock-closed"></ion-icon>
+                <ion-label>Cambiar Contraseña</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="['/logout']" lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon slot="start" name="log-out"></ion-icon>

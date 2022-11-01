@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpHeadersService } from 'src/app/shared/services/http-header.service';
 import { environment } from 'src/environments/environment';
 export interface Patient {
   id: number;
@@ -44,7 +45,7 @@ interface Professional {
 export class PatientsApiService {
   entity: string = 'patient';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private httpHeadersService: HttpHeadersService) {}
 
   /**
    * Obtiene todos los Pacientes cargados que se encuentren habilitados.
@@ -52,7 +53,7 @@ export class PatientsApiService {
    */
   getActivePatients(): Observable<Patient[]> {
     return this.http.get<Patient[]>(
-      `http://${environment.ip}:8080/${this.entity}/active`
+      `http://${environment.ip}:8080/${this.entity}/active`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -62,7 +63,7 @@ export class PatientsApiService {
    */
   getAll(): Observable<Patient[]> {
     return this.http.get<Patient[]>(
-      `http://${environment.ip}:8080/${this.entity}`
+      `http://${environment.ip}:8080/${this.entity}`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -71,15 +72,12 @@ export class PatientsApiService {
    * @param fullName Nombre completo del paciente, ignorando casing.
    * @returns Una lista de pacientes.
    */
-  getFilteredPatients(
-    fullName: string = '',
-    all: boolean = false
-  ): Observable<Patient[]> {
+  getFilteredPatients(fullName: string = '', all: boolean = false): Observable<Patient[]> {
     const params = new HttpParams().set('fullName', fullName).set('all', all);
-
     return this.http.get<Patient[]>(
       `http://${environment.ip}:8080/${this.entity}/`,
       {
+        headers: this.httpHeadersService.getHeaders(),
         params,
       }
     );
@@ -91,7 +89,7 @@ export class PatientsApiService {
    * @returns Observable del paciente.
    */
   getPatientById(id: number): Observable<Patient> {
-    return this.http.get<Patient>(`http://${environment.ip}:8080/${this.entity}/${id}`);
+    return this.http.get<Patient>(`http://${environment.ip}:8080/${this.entity}/frontend/${id}`, { headers: this.httpHeadersService.getHeaders() });
   }
 
   /**
@@ -102,7 +100,7 @@ export class PatientsApiService {
   postPatient(patient: Patient): Observable<any> {
     return this.http.post(
       `http://${environment.ip}:8080/${this.entity}`,
-      patient
+      patient, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -114,8 +112,9 @@ export class PatientsApiService {
    */
   putPatient(patient: Patient, id: number): Observable<any> {
     return this.http.put(
-      `http://${environment.ip}:8080/${this.entity}/${id}`,
-      patient
+      `http://${environment.ip}:8080/${this.entity}/frontend/${id}`,
+      patient, 
+      { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -127,8 +126,9 @@ export class PatientsApiService {
    */
   deletePatient(id: number): Observable<any> {
     return this.http.put(
-      `http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`,
-      {}
+      `http://${environment.ip}:8080/${this.entity}/deletePatient/${id}`, 
+      null,
+      { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -140,7 +140,7 @@ export class PatientsApiService {
   addComment(comment: any): Observable<any> {
     return this.http.post(
       `http://${environment.ip}:8080/${this.entity}/comment`,
-      comment
+      comment, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -152,7 +152,7 @@ export class PatientsApiService {
   editComment(comment: any): Observable<any> {
     return this.http.post(
       `http://${environment.ip}:8080/${this.entity}/editComment`,
-      comment
+      comment, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -164,7 +164,7 @@ export class PatientsApiService {
   deleteComment(comment: any): Observable<any> {
     return this.http.post(
       `http://${environment.ip}:8080/${this.entity}/deleteComment`,
-      comment
+      comment, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 }

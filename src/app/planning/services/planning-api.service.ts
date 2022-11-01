@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HttpHeadersService } from 'src/app/shared/services/http-header.service';
+
 export interface PlanningOverview {
   planningId: number;
   planningName: string;
@@ -22,7 +24,7 @@ export interface PlanningState {
 })
 export class PlanningApiService {
   entity: string = 'planning';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private httpHeadersService: HttpHeadersService) {}
 
   /**
    * Obtiene todas las planificaciones con los estados provistos y con el filtro de búsqueda.
@@ -31,11 +33,7 @@ export class PlanningApiService {
    * @param patientId id del paciente para filtrar las plannings.
    * @returns Una pagina de planificaciones.
    */
-  getPlanningsOverviewFiltered(
-    search: string,
-    states: string[],
-    patientId: number = null
-  ): Observable<PlanningOverview[]> {
+  getPlanningsOverviewFiltered(search: string, states: string[], patientId: number = null): Observable<PlanningOverview[]> {
     let params = new HttpParams();
 
     if (search.length > 0) 
@@ -48,8 +46,7 @@ export class PlanningApiService {
       params = params.set('patientId', patientId);
 
     return this.http.get<PlanningOverview[]>(
-      `http://${environment.ip}:8080/${this.entity}/overview`,
-      { params }
+      `http://${environment.ip}:8080/${this.entity}/overview`, { params: params, headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -60,8 +57,7 @@ export class PlanningApiService {
    */
   postPlanning(planning: any): Observable<any> {
     return this.http.post(
-      `http://${environment.ip}:8080/${this.entity}`,
-      planning
+      `http://${environment.ip}:8080/${this.entity}`, planning, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -72,8 +68,7 @@ export class PlanningApiService {
    */
   editPlanning(planning: any, id: number): Observable<any> {
     return this.http.put(
-      `http://${environment.ip}:8080/${this.entity}/edit/${id}`,
-      planning
+      `http://${environment.ip}:8080/${this.entity}/edit/${id}`, planning, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -83,7 +78,7 @@ export class PlanningApiService {
    * @returns Un objeto PlanningData
    */
   getPlanningById(id: number): Observable<any> {
-    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`);
+    return this.http.get(`http://${environment.ip}:8080/${this.entity}/${id}`, { headers: this.httpHeadersService.getHeaders() });
   }
 
   /**
@@ -92,7 +87,7 @@ export class PlanningApiService {
    */
   getPlanningStates(): Observable<PlanningState[]> {
     return this.http.get<PlanningState[]>(
-      `http://${environment.ip}:8080/${this.entity}/states`
+      `http://${environment.ip}:8080/${this.entity}/states`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -101,10 +96,9 @@ export class PlanningApiService {
    * @param id ID de la planificación que se quiere cancelar
    * @returns La planificación cancelada
    */
-  cancelPlanningById(id: number): Observable<any> {
+  cancelPlanningById(id: number, edited: boolean = false): Observable<any> {
     return this.http.put(
-      `http://${environment.ip}:8080/${this.entity}/cancel_planning/${id}`,
-      ''
+      `http://${environment.ip}:8080/${this.entity}/cancel_planning/${id}`, edited, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 
@@ -115,7 +109,7 @@ export class PlanningApiService {
    */
   getPlanningMGPsByPatient(patientId: number): Observable<any> {
     return this.http.get<PlanningState[]>(
-      `http://${environment.ip}:8080/${this.entity}/mgps/${patientId}`
+      `http://${environment.ip}:8080/${this.entity}/mgps/${patientId}`, { headers: this.httpHeadersService.getHeaders() }
     );
   }
 }

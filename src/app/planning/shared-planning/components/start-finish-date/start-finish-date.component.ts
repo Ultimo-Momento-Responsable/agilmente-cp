@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Ionic4DatepickerModalComponent } from '@logisticinfotech/ionic4-datepicker';
 import { ModalController } from '@ionic/angular';
 import moment from 'moment';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-start-finish-date',
@@ -15,9 +15,9 @@ export class StartFinishDateComponent implements OnInit {
   @Input() startDate = null;
   @Input() finishDate = null;
   @Input() disabled = false;
-  datesForm: FormGroup = new FormGroup({
-    startDate: new FormControl('', Validators.required),
-    finishDate: new FormControl('', Validators.required)
+  datesForm: UntypedFormGroup = new UntypedFormGroup({
+    startDate: new UntypedFormControl('', Validators.required),
+    finishDate: new UntypedFormControl('', Validators.required)
   });
   datePickerStart = {
     showTodayButton: false,
@@ -76,8 +76,11 @@ export class StartFinishDateComponent implements OnInit {
     let date = new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]) + 1);
     this.datePickerFinish.fromDate = date;
     this.datePickerFinish.inputDate = date;
-    this.datesForm.patchValue({'finishDate':moment(date).format('DD-MM-YYYY')});
-    this.sendFinishDate();
+    const startDate = this.parseDate(this.datesForm.value.startDate);
+    const finishDate = this.parseDate(this.datesForm.value.finishDate);
+    if (startDate >= finishDate) {
+      this.datesForm.patchValue({'finishDate':null});
+    }
   }
 
   /**
@@ -85,5 +88,15 @@ export class StartFinishDateComponent implements OnInit {
    */
   sendFinishDate() {
     this.finishPlanningDate.emit(this.datesForm.value.finishDate);
+  }
+
+  /**
+   * Devuelve un objeto Date partiendo de un String como el que se utiliza en los formularios
+   * date: String cadena formato DD-MM-YYYY
+   * returns Date fecha válida
+   */
+  parseDate(date) {
+    const dateSplit = date.split("-");
+    return new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]));
   }
 }
