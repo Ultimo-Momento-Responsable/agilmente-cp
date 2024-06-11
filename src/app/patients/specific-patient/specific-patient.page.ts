@@ -280,7 +280,7 @@ export class SpecificPatientPage implements OnInit {
     if (confirm) {
       this.patient.logged = false;
       this.patient.loginCode = null;
-      this.patientsApiService.putPatient(this.patient, this.id).subscribe(
+      this.patientsApiService.logoutPatient(this.id).subscribe(
         (res) => {},
         (err) => {
           this.dialogsComponent.presentAlert(

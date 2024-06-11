@@ -119,6 +119,20 @@ export class PatientsApiService {
   }
 
   /**
+   * Modifica un paciente
+   * @param patient Paciente a modificar
+   * @param id El id del paciente
+   * @returns El paciente modificado
+   */
+  logoutPatient(id: number): Observable<any> {
+    return this.http.put(
+      `http://${environment.ip}:8080/${this.entity}/logout/${id}`,
+      null,
+      { headers: this.httpHeadersService.getHeaders() }
+    );
+  }
+
+  /**
    * Deshabilita un paciente, cambiando su estado a "Deshabilitado".
    * @param patient Paciente a eliminar
    * @param id El id del paciente
