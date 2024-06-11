@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ionic serve",
     "build": "ionic build --prod",
-    "deploy": "ionic serve --host=0.0.0.0 --port=80",
+    "deploy": "ionic serve --host=0.0.0.0 --port=80 --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
