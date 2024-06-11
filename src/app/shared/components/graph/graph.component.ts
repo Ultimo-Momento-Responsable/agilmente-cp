@@ -83,11 +83,7 @@ export class GraphComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    if (this.hasTabs) {
-      this.getTab();
-    } else {
-      this.createGraph(this.showDatasets);
-    }
+    this.setTabFormat()
   }
 
   /**
@@ -124,8 +120,27 @@ export class GraphComponent implements AfterViewInit, OnInit {
         return dataset;
       }
     });
+    console.log(this.showDatasets)
     this.createGraph(this.showDatasets);
   }
+
+  getSingleTab() {
+    this.getLabels();
+    this.showDatasets = this.showDatasets.map((t) => {
+      if (this.numberOfPoints === 'all' || this.isOnlyOneResult) {
+        return this.datasets.find((d) => d.reference === t.reference);
+      } else {
+        const end = this.datasets[0].data.length;
+        const start = end > parseInt(this.numberOfPoints) ? end - parseInt(this.numberOfPoints) : 0;
+        const dataset = JSON.parse(JSON.stringify(this.datasets.find((d) => d.reference === t.reference)));
+        dataset.data = dataset.data.slice(start, end);
+        return dataset;
+      }
+    });
+    console.log('FINAL DATASETS: ', this.showDatasets)
+    this.createGraph(this.showDatasets);
+  }
+
 
   /**
    * Arregla el gráfico para que se vea bien cuando solamente hay 
@@ -212,6 +227,14 @@ export class GraphComponent implements AfterViewInit, OnInit {
       } else {
         this.clickedPointEvent.emit(point.index);
       }
+    }
+  }
+
+  setTabFormat() {
+    if (this.hasTabs) {
+      this.getTab();
+    } else {
+      this.getSingleTab();
     }
   }
 }

@@ -153,8 +153,11 @@
               <ion-text *ngIf="totalNOS<=0" class="card_label" style="color: black; margin-top: 16px;">
                 Juego libre
               </ion-text>
-              <ion-label class="card_label">
+              <ion-label class="card_label" *ngIf="this.state === 'Vigente' || this.state === 'Vigente con juegos libres'">
                 {{ daysLeft }} restantes
+              </ion-label>
+              <ion-label class="card_label" *ngIf="!(this.state === 'Vigente' || this.state === 'Vigente con juegos libres')">
+                Planificación finalizada
               </ion-label>
             </ion-card>
           </ion-col>
