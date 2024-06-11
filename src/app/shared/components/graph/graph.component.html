@@ -3,7 +3,7 @@
     <ion-text>Se muestran </ion-text>
     <ion-text *ngIf="this.isUnitFemale && this.numberOfPoints !== 'all'">las últimas </ion-text>
     <ion-text *ngIf="!this.isUnitFemale && this.numberOfPoints !== 'all'">los últimos </ion-text>
-    <select [(ngModel)]="this.numberOfPoints" (ngModelChange)="this.getTab()">
+    <select [(ngModel)]="this.numberOfPoints" (ngModelChange)="this.setTabFormat()">
       <option value="all" *ngIf="this.isUnitFemale">todas</option>
       <option value="all" *ngIf="!this.isUnitFemale">todos</option>
       <option value="5">5</option>
