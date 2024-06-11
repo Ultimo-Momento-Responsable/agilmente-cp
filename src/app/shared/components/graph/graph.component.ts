@@ -120,7 +120,6 @@ export class GraphComponent implements AfterViewInit, OnInit {
         return dataset;
       }
     });
-    console.log(this.showDatasets)
     this.createGraph(this.showDatasets);
   }
 
@@ -137,7 +136,6 @@ export class GraphComponent implements AfterViewInit, OnInit {
         return dataset;
       }
     });
-    console.log('FINAL DATASETS: ', this.showDatasets)
     this.createGraph(this.showDatasets);
   }
 
