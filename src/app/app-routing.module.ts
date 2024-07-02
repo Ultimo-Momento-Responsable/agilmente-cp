@@ -69,19 +69,13 @@ const routes: Routes = [
     canLoad: [GuardGuard]
   },
   {
+    path: 'play',
+    loadChildren: () => import('./play/play.module').then( m => m.PlayPageModule)
+  },
+  {
     path: '**',
     redirectTo: '/login'
-  },
-  {
-    path: 'change-password',
-    loadChildren: () => import('./change-password/change-password.module').then( m => m.ChangePasswordPageModule)
-  },
-  {
-    path: 'reset-password',
-    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   }
-
-
 ];
 
 @NgModule({
