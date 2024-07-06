@@ -10,3 +10,14 @@
     text-decoration: underline;
     text-decoration-color: #488aff;
 }
+.patient-cta-col {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    .patient-cta {
+        width: 80%;
+        ion-button{
+            font-size: 16pt;
+        }
+    }
+}

@@ -69,19 +69,21 @@ const routes: Routes = [
     canLoad: [GuardGuard]
   },
   {
-    path: '**',
-    redirectTo: '/login'
-  },
-  {
     path: 'change-password',
     loadChildren: () => import('./change-password/change-password.module').then( m => m.ChangePasswordPageModule)
   },
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
-  }
-
-
+  },
+  {
+    path: 'ejercicios',
+    children: []
+  },
+  {
+    path: '**',
+    redirectTo: '/login'
+  },
 ];
 
 @NgModule({

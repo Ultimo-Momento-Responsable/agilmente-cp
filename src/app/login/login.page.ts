@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private recaptchaV3Service: ReCaptchaV3Service
+    private recaptchaV3Service: ReCaptchaV3Service,
   ) { }
 
   ngOnInit(){
@@ -28,7 +28,14 @@ export class LoginPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    
+    const settingsJson = window.localStorage.getItem('settings');
+    if (settingsJson) {
+      const settings = JSON.parse(settingsJson);
+
+      if (settings.Login.isLogged) {
+        window.location.href = '/ejercicios';
+      }
+    }
   }
 
   /**
