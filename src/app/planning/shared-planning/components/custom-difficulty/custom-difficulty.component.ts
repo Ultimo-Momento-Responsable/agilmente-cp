@@ -53,17 +53,17 @@ export class CustomDifficultComponent implements OnInit {
     }
 
     // Define la máxima cantidad de estímulos para Memorilla
-    if (p.param.name == "Número de filas" || p.param.name == "Número de columnas") {
+    if (p.param.name.toLowerCase() == "número de filas" || p.param.name.toLowerCase() == "número de columnas") {
       let nOfRows = 3;
       let nOfColumns = 3;
       game.gameParam.forEach(p => {
-        if (p.param.name == "Número de filas"){
+        if (p.param.name.toLowerCase() == "número de filas"){
           nOfRows = p.value;
         }
-        if (p.param.name == "Número de columnas"){
+        if (p.param.name.toLowerCase() == "número de columnas"){
           nOfColumns = p.value;
         }
-        if (p.param.name == "Cantidad Máxima de Estímulos") {
+        if (p.param.name.toLowerCase() == "cantidad máxima de estímulos") {
           let maxValue = Math.round((nOfColumns*nOfRows)/2)
           if (maxValue < 15){
             p.maxValue = maxValue;
